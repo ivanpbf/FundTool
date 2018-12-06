@@ -19,65 +19,40 @@ namespace FundTool
     // is implicitly per-document!
     public class MyCommands
     {
-        // The CommandMethod attribute can be applied to any public  member 
-        // function of any public class.
-        // The function should take no arguments and return nothing.
-        // If the method is an intance member then the enclosing class is 
-        // intantiated for each document. If the member is a static member then
-        // the enclosing class is NOT intantiated.
-        //
-        // NOTE: CommandMethod has overloads where you can provide helpid and
-        // context menu.
+        [CommandMethod("FundToolDirecta")]
+        public static void GetInputFromWpfForm(){
+            bool? oked = false;
+            object input1 = null;
+            object input2 = null;
 
-        // Modal Command with localized name
-        [CommandMethod("MyGroup", "MyCommand", "MyCommandLocal", CommandFlags.Modal)]
-        public void MyCommand() // This method can have any name
-        {
-            // Put your command code here
-            Document doc = Application.DocumentManager.MdiActiveDocument;
-            Editor ed;
-            if (doc != null)
-            {
-                ed = doc.Editor;
-                ed.WriteMessage("Hello, this is your first command.");
+            System.Windows.Window win = new MyWindow();
 
+            oked = Application.ShowModalWindow(win);
+
+            if (oked.HasValue && oked.Value){
+              input1 = win.Property1;
+                input2 = win.Property2;
+                // DO something based in inputs
             }
         }
 
-        // Modal Command with pickfirst selection
-        [CommandMethod("MyGroup", "MyPickFirst", "MyPickFirstLocal", CommandFlags.Modal | CommandFlags.UsePickSet)]
-        public void MyPickFirst() // This method can have any name
-        {
-            PromptSelectionResult result = Application.DocumentManager.MdiActiveDocument.Editor.GetSelection();
-            if (result.Status == PromptStatus.OK)
-            {
-                // There are selected entities
-                // Put your command using pickfirst set code here
+        /*[CommandMethod("InputFromWinForm")]
+        public static void GetInputFromWinForm(){
+            var oked = false;
+            object intp1 = null;
+            object input2 = null;
+            using (var dlg = new MyWinForm()){
+                var res = Application.ShowModalDialog(dlg);
+                if (res == System.Windows.Forms.DialogResult.OK){
+                    oked = true;
+                    input1 = dlg.Property1;
+                    input2 = dlg.Property2;
+                }
             }
-            else
-            {
-                // There are no selected entities
-                // Put your command code here
-            }
-        }
+            if (oked){
+                //Do sothing
+            }*/
 
-        // Application Session Command with localized name
-        [CommandMethod("MyGroup", "MySessionCmd", "MySessionCmdLocal", CommandFlags.Modal | CommandFlags.Session)]
-        public void MySessionCmd() // This method can have any name
-        {
-            // Put your command code here
-        }
-
-        // LispFunction is similar to CommandMethod but it creates a lisp 
-        // callable function. Many return types are supported not just string
-        // or integer.
-        [LispFunction("MyLispFunction", "MyLispFunctionLocal")]
-        public int MyLispFunction(ResultBuffer args) // This method can have any name
-        {
-            // Put your command code here
-
-            // Return a value to the AutoCAD Lisp Interpreter
-            return 1;
         }
 
     }
