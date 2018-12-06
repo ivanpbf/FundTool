@@ -72,14 +72,22 @@
     <!--AME Reference End-->
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Directas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Directas.xaml.cs">
+      <DependentUpon>Directas.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FundTool.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -20,18 +20,18 @@ namespace FundTool
     public class MyCommands
     {
         [CommandMethod("FundToolDirecta")]
-        public static void GetInputFromWpfForm(){
+        public static void GetInputFromWpfForm() {
             bool? oked = false;
-            object input1 = null;
-            object input2 = null;
+            /*object input1 = null;
+            object input2 = null;*/
 
-            System.Windows.Window win = new MyWindow();
+            System.Windows.Window win = new Directas();
 
             oked = Application.ShowModalWindow(win);
 
-            if (oked.HasValue && oked.Value){
-              input1 = win.Property1;
-                input2 = win.Property2;
+            if (oked.HasValue && oked.Value) {
+                /* input1 = win.Property1;
+                   input2 = win.Property2;*/
                 // DO something based in inputs
             }
         }
@@ -53,8 +53,6 @@ namespace FundTool
                 //Do sothing
             }*/
 
-        }
-
     }
 
-}
+}   
