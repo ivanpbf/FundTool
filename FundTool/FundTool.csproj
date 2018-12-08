@@ -83,6 +83,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Indirectas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Directas.xaml.cs">
@@ -92,6 +96,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>FundTool.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Indirectas.xaml.cs">
+      <DependentUpon>Indirectas.xaml</DependentUpon>
     </Compile>
     <Compile Include="myPlugin.cs" />
     <Compile Include="FundTool.cs" />
