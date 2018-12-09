@@ -7,16 +7,22 @@
         mc:Ignorable="d"
         Title="Directas" Height="450" Width="800">
     <Grid Background="#D3D3D3">
-        <DockPanel HorizontalAlignment="Left" Height="130" LastChildFill="False" Margin="10,10,0,0" VerticalAlignment="Top" Width="263" Background="AntiqueWhite">
+        <Grid HorizontalAlignment="Left" Height="130" Margin="10,10,0,0" VerticalAlignment="Top" Width="263" Background="AntiqueWhite">
             <Label Content="Materiales"/>
-        </DockPanel>
-        <Label Content="Resistencia del Concreto:" HorizontalAlignment="Left" Margin="10,38,0,0" VerticalAlignment="Top" Width="143"/>
-        <TextBox x:Name="ResistenciaConcreto" HorizontalAlignment="Left" Height="23" Margin="153,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="45" PreviewTextInput="NumericOnly" TextChanged="ResistenciaDelConcreto"/>
-        <Label Content="kg/cm²" HorizontalAlignment="Left" Margin="203,38,0,0" VerticalAlignment="Top"/>
-        <Label Content="Resistencia del Acero:&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,69,0,0" VerticalAlignment="Top" Width="133" Height="27"/>
-        <TextBox x:Name="ResistenciaAcero" HorizontalAlignment="Left" Height="23" Margin="153,73,0,0" TextWrapping="Wrap" Text="&#xD;&#xA;" VerticalAlignment="Top" Width="45" PreviewTextInput="NumericOnly" TextChanged="ResistenciaDelAcero"/>
-        <Label Content="kg/cm²" HorizontalAlignment="Left" Margin="203,70,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="Aceptarm" Content="Aceptar" HorizontalAlignment="Left" Margin="145,102,0,0" VerticalAlignment="Top" Width="53" Click="AceptarMateriales"/>
-        <Button x:Name="Cancelarm" Content="Cancelar" HorizontalAlignment="Left" Margin="218,102,0,0" VerticalAlignment="Top" Width="55" Click="CancelarMateriales"/>
+            <Label Content="Resistencia del Concreto:" HorizontalAlignment="Left" Margin="1,23,0,0" VerticalAlignment="Top" Width="143"/>
+            <TextBox x:Name="ResistenciaConcreto" HorizontalAlignment="Left" Height="23" Margin="144,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="45" PreviewTextInput="NumericOnly"/>
+            <Label Content="kg/cm²" HorizontalAlignment="Left" Margin="194,23,0,0" VerticalAlignment="Top"/>
+            <Label Content="Resistencia del Acero:&#xA;" HorizontalAlignment="Left" Margin="1,54,0,0" VerticalAlignment="Top" Width="133" Height="27"/>
+            <TextBox x:Name="ResistenciaAcero" HorizontalAlignment="Left" Height="23" Margin="144,58,0,0" TextWrapping="Wrap" Text="&#xA;" VerticalAlignment="Top" Width="45" PreviewTextInput="NumericOnly"/>
+            <Label Content="kg/cm²" HorizontalAlignment="Left" Margin="194,55,0,0" VerticalAlignment="Top"/>
+            <Button x:Name="Aceptarm" Content="Aceptar" HorizontalAlignment="Left" Margin="136,93,0,0" VerticalAlignment="Top" Width="53" Click="AceptarMateriales"/>
+            <Button x:Name="Cancelarm" Content="Cancelar" HorizontalAlignment="Left" Margin="198,93,0,0" VerticalAlignment="Top" Width="55" Click="CancelarMateriales"/>
+        </Grid>
+        <Grid x:Name="datosdelsuelo" HorizontalAlignment="Left" Height="234" Margin="291,10,0,0" VerticalAlignment="Top" Width="491" Background="AntiqueWhite">
+            <Label Content="Datos del Suelo" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Content="Tipo de Falla" HorizontalAlignment="Left" Margin="390,-1,0,0" VerticalAlignment="Top"/>
+            <RadioButton x:Name="FallaL" Content="Falla Local" HorizontalAlignment="Left" Margin="397,25,0,0" VerticalAlignment="Top" GroupName="TipoDeFalla" IsChecked="True"/>
+            <RadioButton x:Name="FallaG" Content="Falla General" HorizontalAlignment="Left" Margin="397,46,0,0" VerticalAlignment="Top" GroupName="TipoDeFalla"/>
+        </Grid>
     </Grid>
 </Window>

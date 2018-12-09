@@ -25,14 +25,7 @@ namespace FundTool
         public Directas()
         {
             InitializeComponent();
-        }
-
-        private void ResistenciaDelConcreto(object sender, TextChangedEventArgs e)
-        {
-        }
-
-        private void ResistenciaDelAcero(object sender, TextChangedEventArgs e)
-        {
+            this.datosdelsuelo.Visibility = Visibility.Collapsed;
         }
 
         private void NumericOnly(object sender, TextCompositionEventArgs e)
@@ -42,19 +35,25 @@ namespace FundTool
 
         private void AceptarMateriales(object sender, RoutedEventArgs e)
         {
-            if (String.IsNullOrEmpty(this.ResistenciaAcero.Text) || String.IsNullOrEmpty(this.ResistenciaConcreto.Text))
-            {
-                MessageBox.Show("Alguno de los datos no fue ingresado correctamente o estan vacios");
-            }
-            else
+            if (!String.IsNullOrEmpty(this.ResistenciaConcreto.Text) && !String.IsNullOrEmpty(this.ResistenciaAcero.Text))
             {
                 this.resistenciaAcero = Int32.Parse(this.ResistenciaAcero.Text);
-                this.resistenciaConcreto = Int32.Parse(this.ResistenciaAcero.Text);
-                this.ResistenciaAcero.IsEnabled = false;
+                this.resistenciaConcreto = Int32.Parse(this.ResistenciaConcreto.Text);
+                /*this.ResistenciaAcero.IsEnabled = false;
                 this.ResistenciaConcreto.IsEnabled = false;
                 this.Cancelarm.IsEnabled = false;
-                this.Aceptarm.IsEnabled = false;
+                this.Aceptarm.IsEnabled = false;*/
+                this.datosdelsuelo.Visibility = Visibility.Visible;
             }
+            else if (String.IsNullOrEmpty(this.ResistenciaConcreto.Text))
+            {
+                MessageBox.Show("Introduzca la Resistencia del Concreto");
+            }
+            else if (String.IsNullOrEmpty(this.ResistenciaAcero.Text))
+            {
+                MessageBox.Show("Introduzca la Resistencia del Acero");
+            }
+       
         }
 
         private void CancelarMateriales(object sender, RoutedEventArgs e)
