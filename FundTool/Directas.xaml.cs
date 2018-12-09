@@ -21,11 +21,23 @@ namespace FundTool
     {
         public int? resistenciaAcero;
         public int? resistenciaConcreto;
+        public int? anguloFriccion;
+        public int? cohesion;
+        public int? pesoEspecifico;
+        public int? empotramientoDF;
+        public String falla;
+        public Boolean nivelFreatico;
+        public int? cotaNivelFreatico;
+        public Boolean datosEnsayoSPT;
+        public int? profundidadEstudioSuelos;
+        public int? asentamiento;
+
 
         public Directas()
         {
             InitializeComponent();
             this.datosdelsuelo.Visibility = Visibility.Collapsed;
+            this.DatosDelEnsayoSPTGranulares.Visibility = Visibility.Collapsed;
         }
 
         private void NumericOnly(object sender, TextCompositionEventArgs e)
@@ -48,10 +60,12 @@ namespace FundTool
             else if (String.IsNullOrEmpty(this.ResistenciaConcreto.Text))
             {
                 MessageBox.Show("Introduzca la Resistencia del Concreto");
+                return;
             }
             else if (String.IsNullOrEmpty(this.ResistenciaAcero.Text))
             {
                 MessageBox.Show("Introduzca la Resistencia del Acero");
+                return;
             }
        
         }
@@ -59,6 +73,64 @@ namespace FundTool
         private void CancelarMateriales(object sender, RoutedEventArgs e)
         {
             this.Close(); //cierra la ventana
+        }
+
+        private void IntroducirSPT_Checked(object sender, RoutedEventArgs e)
+        {
+            this.DatosDelEnsayoSPTGranulares.Visibility = Visibility.Visible;
+        }
+
+
+        private void IntrodujoDatosSuelo(object sender, RoutedEventArgs e)
+        {
+            if (!String.IsNullOrEmpty(this.AnguloFriccion.Text) && !String.IsNullOrEmpty(this.Cohesion.Text) && !String.IsNullOrEmpty(this.PesoEspecifico.Text)
+                && !String.IsNullOrEmpty(this.EmpotramientoDF.Text))
+            {
+                this.anguloFriccion = Int32.Parse(this.AnguloFriccion.Text);
+                this.cohesion = Int32.Parse(this.Cohesion.Text);
+                this.pesoEspecifico = Int32.Parse(this.PesoEspecifico.Text);
+                this.empotramientoDF = Int32.Parse(this.EmpotramientoDF.Text);
+                if ((Boolean)this.FallaL.IsChecked)
+                {
+                    this.falla = "local";
+                }
+                else
+                {
+                    this.falla = "general";
+                }
+                if ((Boolean)this.SiNF.IsChecked)
+                {
+                    if (!String.IsNullOrEmpty(this.CotaNF.Text))
+                    {
+                        this.cotaNivelFreatico = Int32.Parse(this.CotaNF.Text);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Introduzca la Cota de Nivel Freatico");
+                        return;
+                    }
+                }
+                if ((Boolean)this.IntroducirSPT.IsChecked)
+                {
+                    if(!String.IsNullOrEmpty(this.ProfundidadEstudioSuelos.Text) && !String.IsNullOrEmpty(this.Asentamiento.Text))
+                    {
+                        this.profundidadEstudioSuelos = Int32.Parse(this.ProfundidadEstudioSuelos.Text);
+                        this.asentamiento = Int32.Parse(this.Asentamiento.Text);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Introduzca los Datos del Ensayo S.P.T.");
+                        return;
+                    }
+                }
+                MessageBox.Show("Datos hasta ahora: "+this.resistenciaAcero+ this.resistenciaConcreto + this.anguloFriccion+ this.cohesion + this.pesoEspecifico +
+                    this.empotramientoDF + this.falla + this.cotaNivelFreatico + this.profundidadEstudioSuelos + this.asentamiento);
+            }
+            else
+            {
+                MessageBox.Show("Introduzca los Datos del Suelo");
+                return;
+            }
         }
     }
 }
