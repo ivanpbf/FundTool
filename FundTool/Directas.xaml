@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FundTool"
         mc:Ignorable="d"
-        Title="Directas" Height="450" Width="800">
+        Title="FundTool - Directas" Height="450" Width="800">
     <Grid Background="#D3D3D3">
         <Grid HorizontalAlignment="Left" Height="130" Margin="10,10,0,0" VerticalAlignment="Top" Width="263" Background="AntiqueWhite">
             <Label Content="Materiales"/>
