@@ -20,9 +20,12 @@ namespace FundTool
     public partial class Indirectas : Window
     {
         public String tipoDeSuelo;
+        public int? resistenciaAcero;
+        public int? resistenciaConcreto;
         public Indirectas()
         {
             InitializeComponent();
+            this.TipoDeSuelo.Visibility = Visibility.Collapsed;
             this.GranularGrid.Visibility = Visibility.Collapsed;
 
         }
@@ -35,6 +38,32 @@ namespace FundTool
         private void NumericOnly(object sender, TextCompositionEventArgs e)
         {
             e.Handled = new System.Text.RegularExpressions.Regex("[^0-9]+").IsMatch(e.Text);
+        }
+
+        private void AceptarMateriales(object sender, RoutedEventArgs e)
+        {
+            if (!String.IsNullOrEmpty(this.ResistenciaConcreto.Text) && !String.IsNullOrEmpty(this.ResistenciaAcero.Text))
+            {
+                this.resistenciaAcero = Int32.Parse(this.ResistenciaAcero.Text);
+                this.resistenciaConcreto = Int32.Parse(this.ResistenciaConcreto.Text);
+                this.TipoDeSuelo.Visibility = Visibility.Visible;
+            }
+            else if (String.IsNullOrEmpty(this.ResistenciaConcreto.Text))
+            {
+                MessageBox.Show("Introduzca la Resistencia del Concreto");
+                return;
+            }
+            else if (String.IsNullOrEmpty(this.ResistenciaAcero.Text))
+            {
+                MessageBox.Show("Introduzca la Resistencia del Acero");
+                return;
+            }
+
+        }
+
+        private void CancelarMateriales(object sender, RoutedEventArgs e)
+        {
+            this.Close(); //cierra la ventana
         }
 
         private void AceptarSuelo(object sender, RoutedEventArgs e)

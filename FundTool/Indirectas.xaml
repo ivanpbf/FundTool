@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:FundTool"
         mc:Ignorable="d"
         Title="Indirectas" Height="450" Width="800">
-    <Grid Background="#D3D3D3">
-        <Grid HorizontalAlignment="Left" Height="142" Margin="10,10,0,0" VerticalAlignment="Top" Width="170" Background="AntiqueWhite">
+    <Grid Background="#D3D3D3" Margin="0,0,-127,0">
+        <Grid x:Name="TipoDeSuelo" HorizontalAlignment="Left" Height="142" Margin="10,145,0,0" VerticalAlignment="Top" Width="167" Background="AntiqueWhite">
             <Label Content="Tipo de Suelo:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
             <RadioButton x:Name="Granular" Content="Suelo Granular" HorizontalAlignment="Left" Margin="10,38,0,0" VerticalAlignment="Top" GroupName="TipoDeSuelo" RenderTransformOrigin="0.319,0.562"/>
             <RadioButton x:Name="Cohesivo" Content="Suelo Cohesivo" HorizontalAlignment="Left" Margin="10,59,0,0" VerticalAlignment="Top" GroupName="TipoDeSuelo"/>
@@ -15,7 +15,7 @@
             <Button x:Name="Siguientes" Content="Siguiente" HorizontalAlignment="Left" Margin="40,110,0,0" VerticalAlignment="Top" Width="53" Click="AceptarSuelo"/>
             <Button x:Name="Cancelars" Content="Cancelar" HorizontalAlignment="Left" Margin="102,110,0,0" VerticalAlignment="Top" Width="55" Click="CancelarSuelo"/>
         </Grid>
-        <Grid x:Name="GranularGrid" HorizontalAlignment="Left" Height="351" Margin="202,10,0,0" VerticalAlignment="Top" Width="580" Background="AntiqueWhite">
+        <Grid x:Name="GranularGrid" HorizontalAlignment="Left" Height="351" Margin="278,10,0,0" VerticalAlignment="Top" Width="580" Background="AntiqueWhite">
             <Label Content="Datos Generales" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
             <Label Content="Datos del Pilote" HorizontalAlignment="Left" Margin="23,36,0,0" VerticalAlignment="Top"/>
             <Label Content="Solicitaciones" HorizontalAlignment="Left" Margin="348,36,0,0" VerticalAlignment="Top"/>
@@ -48,10 +48,22 @@
             <TextBox x:Name="CargaActuante" HorizontalAlignment="Left" Height="21" Margin="461,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly"/>
             <TextBox x:Name="MomentoX" HorizontalAlignment="Left" Height="21" Margin="461,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly"/>
             <TextBox x:Name="MomentoY" HorizontalAlignment="Left" Height="21" Margin="461,119,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly"/>
+            <Label Content="Suelo Granular" HorizontalAlignment="Left" Margin="224,10,0,0" VerticalAlignment="Top"/>
         </Grid>
         <Grid x:Name="CohesivoGrid" HorizontalAlignment="Left" Height="351" Margin="202,10,0,0" VerticalAlignment="Top" Width="580" Background="AntiqueWhite" Visibility="Collapsed">
         </Grid>
         <Grid x:Name="GranularCohesivoGrid" HorizontalAlignment="Left" Height="351" Margin="202,10,0,0" VerticalAlignment="Top" Width="580" Background="AntiqueWhite" Visibility="Collapsed">
+        </Grid>
+        <Grid x:Name="Materiales" HorizontalAlignment="Left" Height="130" Margin="10,10,0,0" VerticalAlignment="Top" Width="263" Background="AntiqueWhite">
+            <Label Content="Materiales" Margin="0,0,198,107"/>
+            <Label Content="Resistencia del Concreto:" HorizontalAlignment="Left" Margin="1,23,0,0" VerticalAlignment="Top" Width="143"/>
+            <TextBox x:Name="ResistenciaConcreto" HorizontalAlignment="Left" Height="23" Margin="144,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="45" PreviewTextInput="NumericOnly"/>
+            <Label Content="kg/cm²" HorizontalAlignment="Left" Margin="194,23,0,0" VerticalAlignment="Top"/>
+            <Label Content="Resistencia del Acero:&#xA;" HorizontalAlignment="Left" Margin="1,54,0,0" VerticalAlignment="Top" Width="133" Height="27"/>
+            <TextBox x:Name="ResistenciaAcero" HorizontalAlignment="Left" Height="23" Margin="144,58,0,0" TextWrapping="Wrap" Text="&#xA;" VerticalAlignment="Top" Width="45" PreviewTextInput="NumericOnly"/>
+            <Label Content="kg/cm²" HorizontalAlignment="Left" Margin="194,55,0,0" VerticalAlignment="Top"/>
+            <Button x:Name="Aceptarm" Content="Aceptar" HorizontalAlignment="Left" Margin="136,93,0,0" VerticalAlignment="Top" Width="53" Click="AceptarMateriales"/>
+            <Button x:Name="Cancelarm" Content="Cancelar" HorizontalAlignment="Left" Margin="198,93,0,0" VerticalAlignment="Top" Width="55" Click="CancelarMateriales"/>
         </Grid>
     </Grid>
 </Window>
