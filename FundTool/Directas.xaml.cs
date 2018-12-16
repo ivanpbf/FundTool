@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Microsoft.VisualBasic;
 
 namespace FundTool
 {
@@ -19,6 +21,10 @@ namespace FundTool
     /// </summary>
     public partial class Directas : Window
     {
+        public class MetroGolpe{
+            public int Metro { get; set; }
+            public int NumeroDeGolpes { get; set; }
+        }
         public int? resistenciaAcero;
         public int? resistenciaConcreto;
         public int? anguloFriccion;
@@ -31,6 +37,7 @@ namespace FundTool
         public Boolean datosEnsayoSPT;
         public int? profundidadEstudioSuelos;
         public int? asentamiento;
+        public List<MetroGolpe> golpesSuelo;
 
 
         public Directas()
@@ -38,6 +45,8 @@ namespace FundTool
             InitializeComponent();
             this.datosdelsuelo.Visibility = Visibility.Collapsed;
             this.DatosDelEnsayoSPTGranulares.Visibility = Visibility.Collapsed;
+            this.golpesSuelo = new List<MetroGolpe>();
+
         }
 
         private void NumericOnly(object sender, TextCompositionEventArgs e)
@@ -77,7 +86,14 @@ namespace FundTool
 
         private void IntroducirSPT_Checked(object sender, RoutedEventArgs e)
         {
-            this.DatosDelEnsayoSPTGranulares.Visibility = Visibility.Visible;
+            if ((Boolean)IntroducirSPT.IsChecked)
+            {
+                this.DatosDelEnsayoSPTGranulares.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                this.DatosDelEnsayoSPTGranulares.Visibility = Visibility.Collapsed;
+            }
         }
 
 
@@ -114,7 +130,6 @@ namespace FundTool
                 {
                     if(!String.IsNullOrEmpty(this.ProfundidadEstudioSuelos.Text) && !String.IsNullOrEmpty(this.Asentamiento.Text))
                     {
-                        this.profundidadEstudioSuelos = Int32.Parse(this.ProfundidadEstudioSuelos.Text);
                         this.asentamiento = Int32.Parse(this.Asentamiento.Text);
                     }
                     else
@@ -131,6 +146,27 @@ namespace FundTool
                 MessageBox.Show("Introduzca los Datos del Suelo");
                 return;
             }
+        }
+
+        private void AgregarMetroyGolpe(object sender, RoutedEventArgs e)
+        {
+            String nuevo = Interaction.InputBox("Metro "+(this.golpesSuelo.Count+1), "Agregar Golpe");
+            bool esNumero = Microsoft.VisualBasic.Information.IsNumeric(nuevo);
+            if (esNumero){
+                MetroGolpe nuevom = new MetroGolpe(){ Metro = this.golpesSuelo.Count + 1, NumeroDeGolpes = Int32.Parse(nuevo) };
+                this.golpesSuelo.Add(nuevom);
+                this.ProfundidadEstudioSuelos.Text = this.golpesSuelo.Count.ToString();
+                this.profundidadEstudioSuelos = this.golpesSuelo.Count;
+                ObservableCollection<MetroGolpe> obsCollection = new ObservableCollection<MetroGolpe>(this.golpesSuelo);
+                DataGridGolpes.DataContext = obsCollection;
+
+            }
+            else
+            {
+                MessageBox.Show("Introduzca un valor numerico");
+                return;
+            }
+
         }
     }
 }
