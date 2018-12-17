@@ -25,6 +25,18 @@ namespace FundTool
             public int Metro { get; set; }
             public int NumeroDeGolpes { get; set; }
         }
+        public class Solicitacion
+        {
+            public int Numero { get; set; }
+            public String Nombre { get; set; }
+            public int CoordEjeX { get; set; }
+            public int CoordEjeY { get; set; }
+            public int Carga { get; set; }
+            public int MtoEnEjeX { get; set; }
+            public int MtoEnEjeY { get; set; }
+            public int FBasalX { get; set; }
+            public int FBasalY { get; set; }
+        }
         public int? resistenciaAcero;
         public int? resistenciaConcreto;
         public int? anguloFriccion;
@@ -38,6 +50,7 @@ namespace FundTool
         public int? profundidadEstudioSuelos;
         public int? asentamiento;
         public List<MetroGolpe> golpesSuelo;
+        public List<Solicitacion> solicitaciones;
 
 
         public Directas()
@@ -45,6 +58,7 @@ namespace FundTool
             InitializeComponent();
             this.datosdelsuelo.Visibility = Visibility.Collapsed;
             this.DatosDelEnsayoSPTGranulares.Visibility = Visibility.Collapsed;
+            this.SolicitacionesGrid.Visibility = Visibility.Collapsed;
             this.golpesSuelo = new List<MetroGolpe>();
 
         }
@@ -159,7 +173,7 @@ namespace FundTool
                 this.profundidadEstudioSuelos = this.golpesSuelo.Count;
                 ObservableCollection<MetroGolpe> obsCollection = new ObservableCollection<MetroGolpe>(this.golpesSuelo);
                 DataGridGolpes.DataContext = obsCollection;
-
+                this.SolicitacionesGrid.Visibility = Visibility.Visible;
             }
             else
             {
@@ -167,6 +181,21 @@ namespace FundTool
                 return;
             }
 
+        }
+
+        private void IntroducirApoyos(object sender, RoutedEventArgs e)
+        {
+            if (!String.IsNullOrEmpty(this.NroApoyos.Text) && !this.NroApoyos.Text.Equals("0"))
+            {
+                int numerodeApoyos = Int32.Parse(this.NroApoyos.Text);
+                solicitaciones = new List<Solicitacion>();
+
+            }
+            else
+            {
+                MessageBox.Show("Introduzca un numero de Apoyos mayor a 0");
+                return;
+            }
         }
     }
 }

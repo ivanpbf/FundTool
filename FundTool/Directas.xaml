@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FundTool"
         mc:Ignorable="d"
-        Title="FundTool - Directas" Height="450" Width="800">
+        Title="FundTool - Directas" Height="719" Width="800">
     <Grid Background="#D3D3D3">
         <Grid HorizontalAlignment="Left" Height="130" Margin="10,10,0,0" VerticalAlignment="Top" Width="263" Background="AntiqueWhite">
             <Label Content="Materiales" Margin="0,0,198,107"/>
@@ -42,7 +42,7 @@
             <Label Content="Cota del Nivel Freatico:" HorizontalAlignment="Left" Margin="11,196,0,0" VerticalAlignment="Top"/>
             <TextBox x:Name="CotaNF" HorizontalAlignment="Left" Height="23" Margin="140,199,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="37" IsEnabled="{Binding ElementName=SiNF, Path=IsChecked}" PreviewTextInput="NumericOnly"/>
             <Label Content="m" HorizontalAlignment="Left" Margin="173,199,0,0" VerticalAlignment="Top"/>
-            <CheckBox x:Name="IntroducirSPT" Content="Introducir los Datos del Ensayo S.P.T.&#xD;&#xA;Para Suelos Granulares" HorizontalAlignment="Left" Margin="256,98,0,0" VerticalAlignment="Top" Checked="IntroducirSPT_Checked"/>
+            <CheckBox x:Name="IntroducirSPT" Content="Introducir los Datos del Ensayo S.P.T.&#xD;&#xA;Para Suelos Granulares" HorizontalAlignment="Left" Margin="256,98,0,0" VerticalAlignment="Top" Checked="IntroducirSPT_Checked" Unchecked="IntroducirSPT_Checked"/>
             <Grid x:Name="DatosDelEnsayoSPTGranulares" HorizontalAlignment="Left" Height="200" Margin="225,130,0,0" VerticalAlignment="Top" Width="269" Background="#e1d3c1">
                 <Label Content="Profundidad del Estudio de Suelos:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,31,0,0"/>
                 <TextBox x:Name="ProfundidadEstudioSuelos" HorizontalAlignment="Left" Height="23" Margin="194,34,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="36" RenderTransformOrigin="0.583,0.435" IsEnabled="False"/>
@@ -54,6 +54,13 @@
                 <DataGrid x:Name="DataGridGolpes" HorizontalAlignment="Left" Height="122" Margin="7,68,0,0" VerticalAlignment="Top" Width="172" IsReadOnly="True" ItemsSource="{Binding}"/>
             </Grid>
             <Button x:Name="SiguienteDatosSuelo" Content="Siguiente" HorizontalAlignment="Left" Margin="392,335,0,0" VerticalAlignment="Top" Width="75" Click="IntrodujoDatosSuelo" RenderTransformOrigin="0.533,0.773"/>
+        </Grid>
+        <Grid x:Name="SolicitacionesGrid" HorizontalAlignment="Left" Height="287" Margin="10,392,0,0" VerticalAlignment="Top" Width="772" Background="AntiqueWhite">
+            <Label Content="Solicitaciones" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+            <Label Content="Numero de Apoyo:" HorizontalAlignment="Left" Margin="234,10,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="NroApoyos" HorizontalAlignment="Left" Height="23" Margin="345,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" PreviewTextInput="NumericOnly"/>
+            <Button Content="Introducir Apoyos" HorizontalAlignment="Left" Margin="400,14,0,0" VerticalAlignment="Top" Width="144" Click="IntroducirApoyos"/>
+            <DataGrid x:Name="DataGridSolicitaciones" HorizontalAlignment="Left" Height="156" Margin="10,41,0,0" VerticalAlignment="Top" Width="752" ItemsSource="{Binding}"/>
         </Grid>
     </Grid>
 </Window>
