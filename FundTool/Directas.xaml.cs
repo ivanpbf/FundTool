@@ -152,8 +152,7 @@ namespace FundTool
                         return;
                     }
                 }
-                MessageBox.Show("Datos hasta ahora: "+this.resistenciaAcero+ this.resistenciaConcreto + this.anguloFriccion+ this.cohesion + this.pesoEspecifico +
-                    this.empotramientoDF + this.falla + this.cotaNivelFreatico + this.profundidadEstudioSuelos + this.asentamiento);
+                this.SolicitacionesGrid.Visibility = Visibility.Visible;
             }
             else
             {
@@ -173,7 +172,6 @@ namespace FundTool
                 this.profundidadEstudioSuelos = this.golpesSuelo.Count;
                 ObservableCollection<MetroGolpe> obsCollection = new ObservableCollection<MetroGolpe>(this.golpesSuelo);
                 DataGridGolpes.DataContext = obsCollection;
-                this.SolicitacionesGrid.Visibility = Visibility.Visible;
             }
             else
             {
@@ -187,15 +185,45 @@ namespace FundTool
         {
             if (!String.IsNullOrEmpty(this.NroApoyos.Text) && !this.NroApoyos.Text.Equals("0"))
             {
-                int numerodeApoyos = Int32.Parse(this.NroApoyos.Text);
+                int numero = Int32.Parse(this.NroApoyos.Text);
                 solicitaciones = new List<Solicitacion>();
-
+                for(int i = 0; i < numero; i++)
+                {
+                    Solicitacion solicitacionnueva = new Solicitacion();
+                    Solicitacion aux = solicitacionnueva;
+                    aux.Numero = i+1;
+                    Boolean introdujoNombre = false;
+                    do
+                    {
+                        String nombre = Interaction.InputBox("Solicitacion " + (i + 1), "Agregar Solicitacion");
+                        if(nombre != "")
+                        {
+                            aux.Nombre = nombre;
+                            introdujoNombre = true;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Introduzca un valor");
+                        }
+                    } while (introdujoNombre == false);
+                    this.solicitaciones.Add(aux);
+                }
+                ObservableCollection<Solicitacion> obsCollection = new ObservableCollection<Solicitacion>(this.solicitaciones);
+                DataGridSolicitaciones.DataContext = obsCollection;
+                DataGridSolicitaciones.Columns[0].IsReadOnly = true;
+                DataGridSolicitaciones.Columns[1].IsReadOnly = true;
+                AceptarValoresSolicitaciones.IsEnabled = true;
             }
             else
             {
                 MessageBox.Show("Introduzca un numero de Apoyos mayor a 0");
                 return;
             }
+
+        }
+
+        private void IntroducirDatosSolicitaciones(object sender, RoutedEventArgs e)
+        {
         }
     }
 }
