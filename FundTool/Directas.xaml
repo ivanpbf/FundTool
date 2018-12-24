@@ -18,7 +18,7 @@
             <Button x:Name="Aceptarm" Content="Aceptar" HorizontalAlignment="Left" Margin="136,93,0,0" VerticalAlignment="Top" Width="53" Click="AceptarMateriales"/>
             <Button x:Name="Cancelarm" Content="Cancelar" HorizontalAlignment="Left" Margin="198,93,0,0" VerticalAlignment="Top" Width="55" Click="CancelarMateriales"/>
         </Grid>
-        <Grid x:Name="datosdelsuelo" HorizontalAlignment="Left" Height="367" Margin="278,10,0,0" VerticalAlignment="Top" Width="504" Background="AntiqueWhite">
+        <Grid x:Name="datosdelsuelo" Height="367" Margin="278,10,0,0" VerticalAlignment="Top" Background="AntiqueWhite" HorizontalAlignment="Left" Width="504">
             <Label Content="Datos del Suelo" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <Label Content="Tipo de Falla" HorizontalAlignment="Left" Margin="390,-1,0,0" VerticalAlignment="Top"/>
             <RadioButton x:Name="FallaL" Content="Falla Local" HorizontalAlignment="Left" Margin="397,25,0,0" VerticalAlignment="Top" GroupName="TipoDeFalla" IsChecked="True"/>
@@ -55,12 +55,12 @@
             </Grid>
             <Button x:Name="SiguienteDatosSuelo" Content="Siguiente" HorizontalAlignment="Left" Margin="392,335,0,0" VerticalAlignment="Top" Width="75" Click="IntrodujoDatosSuelo" RenderTransformOrigin="0.533,0.773"/>
         </Grid>
-        <Grid x:Name="SolicitacionesGrid" HorizontalAlignment="Left" Height="237" Margin="10,392,0,0" VerticalAlignment="Top" Width="772" Background="AntiqueWhite">
+        <Grid x:Name="SolicitacionesGrid" Height="237" Margin="10,392,0,0" VerticalAlignment="Top" Background="AntiqueWhite" HorizontalAlignment="Left" Width="772">
             <Label Content="Solicitaciones" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
             <Label Content="Numero de Apoyo:" HorizontalAlignment="Left" Margin="234,10,0,0" VerticalAlignment="Top"/>
             <TextBox x:Name="NroApoyos" HorizontalAlignment="Left" Height="23" Margin="345,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" PreviewTextInput="NumericOnly"/>
             <Button Content="Introducir Apoyos" HorizontalAlignment="Left" Margin="400,14,0,0" VerticalAlignment="Top" Width="144" Click="IntroducirApoyos"/>
-            <DataGrid x:Name="DataGridSolicitaciones" HorizontalAlignment="Left" Height="156" Margin="10,41,0,0" VerticalAlignment="Top" Width="752" ItemsSource="{Binding}" CanUserAddRows="false" PreviewTextInput="NumericOnly"/>
+            <DataGrid x:Name="DataGridSolicitaciones" Height="156" Margin="10,41,0,0" VerticalAlignment="Top" ItemsSource="{Binding}" CanUserAddRows="false" PreviewTextInput="NumericOnly" HorizontalAlignment="Left" Width="752"/>
             <Button x:Name="AceptarValoresSolicitaciones" Content="Aceptar Valores" HorizontalAlignment="Left" Margin="633,205,0,0" VerticalAlignment="Top" Width="107" Click="IntroducirDatosSolicitaciones" IsEnabled="False"/>
         </Grid>
     </Grid>

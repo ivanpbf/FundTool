@@ -231,18 +231,27 @@ namespace FundTool
 
         private void IntroducirDatosSolicitaciones(object sender, RoutedEventArgs e)
         {
-            List<Solicitacion> aux = this.DataGridSolicitaciones.DataContext as List<Solicitacion>;
             for(int i = 0; i < this.solicitaciones.Count; i++)
             {
-                Solicitacion sol = new Solicitacion();
-                sol = aux[i+1];
-                this.solicitaciones[i + 1].Carga = (Int32)sol.Carga;
-                this.solicitaciones[i + 1].CoordEjeX = (Int32)sol.CoordEjeX;
-                this.solicitaciones[i + 1].CoordEjeY = (Int32)sol.CoordEjeY;
-                this.solicitaciones[i + 1].MtoEnEjeX = (Int32)sol.MtoEnEjeX;
-                this.solicitaciones[i + 1].MtoEnEjeY = (Int32)sol.MtoEnEjeY;
-                this.solicitaciones[i + 1].FBasalX = (Int32)sol.FBasalX;
-                this.solicitaciones[i + 1].FBasalY = (Int32)sol.FBasalY;
+                TextBlock coordx = DataGridSolicitaciones.Columns[2].GetCellContent(DataGridSolicitaciones.Items[i]) as TextBlock;
+                TextBlock coordy = DataGridSolicitaciones.Columns[3].GetCellContent(DataGridSolicitaciones.Items[i]) as TextBlock;
+                TextBlock carga = DataGridSolicitaciones.Columns[4].GetCellContent(DataGridSolicitaciones.Items[i]) as TextBlock;
+                TextBlock mtoejex = DataGridSolicitaciones.Columns[5].GetCellContent(DataGridSolicitaciones.Items[i]) as TextBlock;
+                TextBlock mtoejey = DataGridSolicitaciones.Columns[6].GetCellContent(DataGridSolicitaciones.Items[i]) as TextBlock;
+                TextBlock fbasalx = DataGridSolicitaciones.Columns[7].GetCellContent(DataGridSolicitaciones.Items[i]) as TextBlock;
+                TextBlock fbasaly = DataGridSolicitaciones.Columns[8].GetCellContent(DataGridSolicitaciones.Items[i]) as TextBlock;
+                if (coordx == null || coordy == null || carga == null || mtoejex == null || mtoejey == null || fbasalx == null || fbasaly == null)
+                {
+                    MessageBox.Show("Alguno de los valores esta vacio, por favor introduzca un numero");
+                    return;
+                }
+                this.solicitaciones[i].Carga = Int32.Parse(carga.Text);
+                this.solicitaciones[i].CoordEjeX = Int32.Parse(coordx.Text);
+                this.solicitaciones[i].CoordEjeY = Int32.Parse(coordy.Text);
+                this.solicitaciones[i].MtoEnEjeX = Int32.Parse(mtoejex.Text);
+                this.solicitaciones[i].MtoEnEjeY = Int32.Parse(mtoejey.Text);
+                this.solicitaciones[i].FBasalX = Int32.Parse(fbasalx.Text);
+                this.solicitaciones[i].FBasalY = Int32.Parse(fbasaly.Text);
             }
         }
     }
