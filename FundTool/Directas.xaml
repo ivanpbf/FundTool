@@ -60,7 +60,7 @@
             <Label Content="Numero de Apoyo:" HorizontalAlignment="Left" Margin="234,10,0,0" VerticalAlignment="Top"/>
             <TextBox x:Name="NroApoyos" HorizontalAlignment="Left" Height="23" Margin="345,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" PreviewTextInput="NumericOnly"/>
             <Button Content="Introducir Apoyos" HorizontalAlignment="Left" Margin="400,14,0,0" VerticalAlignment="Top" Width="144" Click="IntroducirApoyos"/>
-            <DataGrid x:Name="DataGridSolicitaciones" HorizontalAlignment="Left" Height="156" Margin="119,41,0,0" VerticalAlignment="Top" Width="534" ItemsSource="{Binding}" CanUserAddRows="false" PreviewTextInput="NumericOnly"/>
+            <DataGrid x:Name="DataGridSolicitaciones" HorizontalAlignment="Left" Height="156" Margin="10,41,0,0" VerticalAlignment="Top" Width="752" ItemsSource="{Binding}" CanUserAddRows="false" PreviewTextInput="NumericOnly"/>
             <Button x:Name="AceptarValoresSolicitaciones" Content="Aceptar Valores" HorizontalAlignment="Left" Margin="633,205,0,0" VerticalAlignment="Top" Width="107" Click="IntroducirDatosSolicitaciones" IsEnabled="False"/>
         </Grid>
     </Grid>

@@ -212,6 +212,13 @@ namespace FundTool
                 DataGridSolicitaciones.DataContext = obsCollection;
                 DataGridSolicitaciones.Columns[0].IsReadOnly = true;
                 DataGridSolicitaciones.Columns[1].IsReadOnly = true;
+                DataGridSolicitaciones.Columns[2].Header = "Coord. En el eje X (m)";
+                DataGridSolicitaciones.Columns[3].Header = "Coord. En el eje Y (m)";
+                DataGridSolicitaciones.Columns[4].Header = "Carga (Ton)";
+                DataGridSolicitaciones.Columns[5].Header = "Mto. en Eje X (Ton-m";
+                DataGridSolicitaciones.Columns[6].Header = "Mto. en Eje Y (Ton-m";
+                DataGridSolicitaciones.Columns[7].Header = "F. Basal X (ton)";
+                DataGridSolicitaciones.Columns[8].Header = "F. Basal Y (Ton)";
                 AceptarValoresSolicitaciones.IsEnabled = true;
             }
             else
@@ -224,6 +231,19 @@ namespace FundTool
 
         private void IntroducirDatosSolicitaciones(object sender, RoutedEventArgs e)
         {
+            List<Solicitacion> aux = this.DataGridSolicitaciones.DataContext as List<Solicitacion>;
+            for(int i = 0; i < this.solicitaciones.Count; i++)
+            {
+                Solicitacion sol = new Solicitacion();
+                sol = aux[i+1];
+                this.solicitaciones[i + 1].Carga = (Int32)sol.Carga;
+                this.solicitaciones[i + 1].CoordEjeX = (Int32)sol.CoordEjeX;
+                this.solicitaciones[i + 1].CoordEjeY = (Int32)sol.CoordEjeY;
+                this.solicitaciones[i + 1].MtoEnEjeX = (Int32)sol.MtoEnEjeX;
+                this.solicitaciones[i + 1].MtoEnEjeY = (Int32)sol.MtoEnEjeY;
+                this.solicitaciones[i + 1].FBasalX = (Int32)sol.FBasalX;
+                this.solicitaciones[i + 1].FBasalY = (Int32)sol.FBasalY;
+            }
         }
     }
 }
