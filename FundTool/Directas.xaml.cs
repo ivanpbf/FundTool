@@ -51,6 +51,7 @@ namespace FundTool
         public int? asentamiento;
         public List<MetroGolpe> golpesSuelo;
         public List<Solicitacion> solicitaciones;
+        public int? cantidadFundaciones;
 
 
         public Directas()
@@ -59,6 +60,8 @@ namespace FundTool
             this.datosdelsuelo.Visibility = Visibility.Collapsed;
             this.DatosDelEnsayoSPTGranulares.Visibility = Visibility.Collapsed;
             this.SolicitacionesGrid.Visibility = Visibility.Collapsed;
+            this.GridCantidad.Visibility = Visibility.Collapsed;
+            this.GridFinal.Visibility = Visibility.Collapsed;
             this.golpesSuelo = new List<MetroGolpe>();
 
         }
@@ -74,10 +77,6 @@ namespace FundTool
             {
                 this.resistenciaAcero = Int32.Parse(this.ResistenciaAcero.Text);
                 this.resistenciaConcreto = Int32.Parse(this.ResistenciaConcreto.Text);
-                /*this.ResistenciaAcero.IsEnabled = false;
-                this.ResistenciaConcreto.IsEnabled = false;
-                this.Cancelarm.IsEnabled = false;
-                this.Aceptarm.IsEnabled = false;*/
                 this.datosdelsuelo.Visibility = Visibility.Visible;
             }
             else if (String.IsNullOrEmpty(this.ResistenciaConcreto.Text))
@@ -152,7 +151,7 @@ namespace FundTool
                         return;
                     }
                 }
-                this.SolicitacionesGrid.Visibility = Visibility.Visible;
+                this.GridCantidad.Visibility = Visibility.Visible;
             }
             else
             {
@@ -252,7 +251,38 @@ namespace FundTool
                 this.solicitaciones[i].MtoEnEjeY = Int32.Parse(mtoejey.Text);
                 this.solicitaciones[i].FBasalX = Int32.Parse(fbasalx.Text);
                 this.solicitaciones[i].FBasalY = Int32.Parse(fbasaly.Text);
+                this.GridFinal.Visibility = Visibility.Visible;
             }
         }
+
+        private void IntrodujoCantidadFundaciones(object sender, RoutedEventArgs e)
+        {
+            String texto = ListaCantidad.SelectedItem.ToString();
+            if(texto.StartsWith("1"))
+            {
+                String completo = texto.Substring(0, 1);
+                int cantidad = Int32.Parse(completo);
+                this.cantidadFundaciones = cantidad;
+                this.CuantasFundaciones.Text = this.cantidadFundaciones.ToString();
+                this.SolicitacionesGrid.Visibility = Visibility.Visible;
+                return;
+            }
+            else
+            {
+                char num = texto[0];
+                int cantidad = (int)Char.GetNumericValue(num);
+                this.cantidadFundaciones = cantidad;
+                this.CuantasFundaciones.Text = this.cantidadFundaciones.ToString();
+                this.SolicitacionesGrid.Visibility = Visibility.Visible;
+                return;
+            }
+        }
+
+        private void CompletarDirectas(object sender, RoutedEventArgs e)
+        {
+            //aqui hara lo siguiente que seria generar otra ventana y dar resultados?
+            //tal vez
+        }
+
     }
 }
