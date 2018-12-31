@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Microsoft.VisualBasic;
 
 namespace FundTool
 {
@@ -19,9 +21,28 @@ namespace FundTool
     /// </summary>
     public partial class Indirectas : Window
     {
+        public class MetroGolpe
+        {
+            public int Metro { get; set; }
+            public int NumeroDeGolpes { get; set; }
+        }
         public String tipoDeSuelo;
         public int? resistenciaAcero;
         public int? resistenciaConcreto;
+        public List<MetroGolpe> golpesSuelo;
+        public int? profundidadEstudioSuelos;
+        public int? diametroInicial;
+        public int? longitudPilote;
+        public int? longitudRelleno;
+        public int? coefFriccionSuelo;
+        public int? coefFriccionRelleno;
+        public int? porcentajeAcero;
+        public int? numeroPilotes;
+        public int? cargaActuante;
+        public int? momentoX;
+        public int? momentoY;
+
+
         public Indirectas()
         {
             InitializeComponent();
@@ -101,6 +122,57 @@ namespace FundTool
                 this.Cohesivo.IsEnabled = false;
                 this.GranularCohesivo.IsEnabled = false;
                 this.Siguientes.IsEnabled = false;
+                return;
+            }
+        }
+
+        private void AgregarMetroyGolpeGranular(object sender, RoutedEventArgs e)
+        {
+            String nuevo = Interaction.InputBox("Metro " + (this.golpesSuelo.Count + 1), "Agregar Golpe");
+            bool esNumero = Microsoft.VisualBasic.Information.IsNumeric(nuevo);
+            if (esNumero)
+            {
+                MetroGolpe nuevom = new MetroGolpe() { Metro = this.golpesSuelo.Count + 1, NumeroDeGolpes = Int32.Parse(nuevo) };
+                this.golpesSuelo.Add(nuevom);
+                this.ProfundidadEstudioSuelosG.Text = this.golpesSuelo.Count.ToString();
+                this.profundidadEstudioSuelos = this.golpesSuelo.Count;
+                ObservableCollection<MetroGolpe> obsCollection = new ObservableCollection<MetroGolpe>(this.golpesSuelo);
+                DataGridGolpes.DataContext = obsCollection;
+            }
+            else
+            {
+                MessageBox.Show("Introduzca un valor numerico");
+                return;
+            }
+
+        }
+
+        private void IntrodujoDatosSueloGranular(object sender, RoutedEventArgs e)
+        {
+            if (!String.IsNullOrEmpty(this.DiametroInicialG.Text) && !String.IsNullOrEmpty(this.LongitudPiloteG.Text) && !String.IsNullOrEmpty(this.CoefFriccionSueloG.Text) &&
+                  !String.IsNullOrEmpty(this.CoefFriccionRellenoG.Text) && !String.IsNullOrEmpty(this.PorcentajeAceroG.Text) && !String.IsNullOrEmpty(this.CargaActuanteG.Text)
+                  && !String.IsNullOrEmpty(this.ProfundidadEstudioSuelosG.Text))
+            {
+                this.diametroInicial = Int32.Parse(this.DiametroInicialG.Text);
+                this.longitudPilote = Int32.Parse(this.LongitudPiloteG.Text);
+                this.longitudRelleno = Int32.Parse(this.LongitudRellenoG.Text);
+                this.coefFriccionSuelo = Int32.Parse(this.CoefFriccionSueloG.Text);
+                this.coefFriccionRelleno = Int32.Parse(this.CoefFriccionRellenoG.Text);
+                this.porcentajeAcero = Int32.Parse(this.PorcentajeAceroG.Text);
+                String texto = ListaNumerosG.SelectedItem.ToString();
+                char num = texto[0];
+                int cantidad = (int)Char.GetNumericValue(num);
+                this.numeroPilotes = cantidad;
+                this.cargaActuante = Int32.Parse(this.CargaActuanteG.Text);
+                this.momentoX = Int32.Parse(this.MomentoXG.Text);
+                this.momentoY = Int32.Parse(this.MomentoYG.Text);
+                /*Luego
+                 * Hara algo relacionado con todo lo que pidio, primero terminar las de los otros suelos
+                 al parecer Granular usa Meyerhof*/
+            }
+            else
+            {
+                MessageBox.Show("Alguno de los datos importantes esta vacio");
                 return;
             }
         }
