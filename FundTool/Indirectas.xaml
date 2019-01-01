@@ -15,7 +15,7 @@
             <Button x:Name="Siguientes" Content="Siguiente" HorizontalAlignment="Left" Margin="128,110,0,0" VerticalAlignment="Top" Width="53" Click="AceptarSuelo"/>
             <Button x:Name="Cancelars" Content="Cancelar" HorizontalAlignment="Left" Margin="198,110,0,0" VerticalAlignment="Top" Width="55" Click="CancelarSuelo"/>
         </Grid>
-        <Grid x:Name="GranularGrid" HorizontalAlignment="Left" Height="377" Margin="278,10,0,0" VerticalAlignment="Top" Width="504" Background="AntiqueWhite">
+        <Grid x:Name="GranularGrid" HorizontalAlignment="Left" Height="377" Margin="278,10,0,0" VerticalAlignment="Top" Width="504" Background="AntiqueWhite" Visibility="Collapsed">
             <Label Content="Datos Generales" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
             <Label Content="Datos del Pilote" HorizontalAlignment="Left" Margin="23,36,0,0" VerticalAlignment="Top"/>
             <Label Content="Solicitaciones" HorizontalAlignment="Left" Margin="312,36,0,0" VerticalAlignment="Top"/>
@@ -42,26 +42,119 @@
             <Label Content="m" HorizontalAlignment="Left" Margin="185,119,0,0" VerticalAlignment="Top"/>
             <Label Content="kg/cm²" HorizontalAlignment="Left" Margin="185,157,0,0" VerticalAlignment="Top"/>
             <Label Content="%" HorizontalAlignment="Left" Margin="185,223,0,0" VerticalAlignment="Top"/>
-            <Label Content="Carga Actuante:" HorizontalAlignment="Left" Margin="331,62,0,0" VerticalAlignment="Top"/>
-            <Label Content="Momento Alrededor de X:" HorizontalAlignment="Left" Margin="277,88,0,0" VerticalAlignment="Top"/>
-            <Label Content="Momento Alrededor de Y:" HorizontalAlignment="Left" Margin="277,114,0,0" VerticalAlignment="Top"/>
-            <TextBox x:Name="CargaActuanteG" HorizontalAlignment="Left" Height="21" Margin="429,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly"/>
-            <TextBox x:Name="MomentoXG" HorizontalAlignment="Left" Height="21" Margin="429,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly"/>
-            <TextBox x:Name="MomentoYG" HorizontalAlignment="Left" Height="21" Margin="429,119,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly"/>
+            <Label Content="Carga Actuante:" HorizontalAlignment="Left" Margin="293,62,0,0" VerticalAlignment="Top"/>
+            <Label Content="Momento Alrededor de X:" HorizontalAlignment="Left" Margin="239,88,0,0" VerticalAlignment="Top"/>
+            <Label Content="Momento Alrededor de Y:" HorizontalAlignment="Left" Margin="239,114,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="CargaActuanteG" HorizontalAlignment="Left" Height="21" Margin="391,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly"/>
+            <TextBox x:Name="MomentoXG" HorizontalAlignment="Left" Height="21" Margin="391,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly"/>
+            <TextBox x:Name="MomentoYG" HorizontalAlignment="Left" Height="21" Margin="391,119,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly"/>
             <Label Content="Suelo Granular" HorizontalAlignment="Left" Margin="224,10,0,0" VerticalAlignment="Top"/>
             <Label Content="Profundidad del Estudio de Suelos:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="246,179,0,0"/>
             <TextBox x:Name="ProfundidadEstudioSuelosG" HorizontalAlignment="Left" Height="23" Margin="440,182,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="36" RenderTransformOrigin="0.583,0.435" IsEnabled="False"/>
             <Label Content="m" HorizontalAlignment="Left" Margin="481,182,0,0" VerticalAlignment="Top"/>
             <Button Content="Agregar &#xA;Metro &#xA;y Golpes" HorizontalAlignment="Left" Margin="430,223,0,0" VerticalAlignment="Top" Width="64" Height="62" Click="AgregarMetroyGolpeGranular"/>
-            <DataGrid x:Name="DataGridGolpes" HorizontalAlignment="Left" Height="122" Margin="253,216,0,0" VerticalAlignment="Top" Width="172" IsReadOnly="True" ItemsSource="{Binding}"/>
-            <Button x:Name="SiguienteDatosSuelo" Content="Siguiente" HorizontalAlignment="Left" Margin="419,347,0,0" VerticalAlignment="Top" Width="75" Click="IntrodujoDatosSueloGranular" RenderTransformOrigin="0.533,0.773"/>
+            <DataGrid x:Name="DataGridGolpesG" HorizontalAlignment="Left" Height="122" Margin="253,216,0,0" VerticalAlignment="Top" Width="172" IsReadOnly="True" ItemsSource="{Binding}"/>
+            <Button x:Name="SiguienteDatosSueloG" Content="Siguiente" HorizontalAlignment="Left" Margin="419,347,0,0" VerticalAlignment="Top" Width="75" Click="IntrodujoDatosSueloGranular" RenderTransformOrigin="0.533,0.773"/>
             <Label Content="Coef. de Friccion&#xD;&#xA; Relleno:" HorizontalAlignment="Left" Margin="15,182,0,0" VerticalAlignment="Top"/>
             <TextBox x:Name="CoefFriccionRellenoG" HorizontalAlignment="Left" Height="23" Margin="131,189,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly"/>
             <Label Content="kg/cm²" HorizontalAlignment="Left" Margin="185,188,0,0" VerticalAlignment="Top"/>
+            <Label Content="Datos del Ensayo SPT" HorizontalAlignment="Left" Margin="286,157,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.203,0.5"/>
+            <Label Content="ton" HorizontalAlignment="Left" Margin="445,64,0,0" VerticalAlignment="Top"/>
+            <Label Content="ton-m" HorizontalAlignment="Left" Margin="445,93,0,0" VerticalAlignment="Top"/>
+            <Label Content="ton-m" HorizontalAlignment="Left" Margin="445,114,0,0" VerticalAlignment="Top"/>
         </Grid>
-        <Grid x:Name="CohesivoGrid" HorizontalAlignment="Left" Height="351" Margin="202,10,0,0" VerticalAlignment="Top" Width="580" Background="AntiqueWhite" Visibility="Collapsed">
+        <Grid x:Name="CohesivoGrid" HorizontalAlignment="Left" Height="342" Margin="278,10,0,0" VerticalAlignment="Top" Width="504" Background="AntiqueWhite" Visibility="Collapsed">
+            <Label Content="Datos Generales" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+            <Label Content="Datos del Pilote" HorizontalAlignment="Left" Margin="23,36,0,0" VerticalAlignment="Top"/>
+            <Label Content="Solicitaciones" HorizontalAlignment="Left" Margin="312,36,0,0" VerticalAlignment="Top"/>
+            <Label Content="Diametro Inicial:" HorizontalAlignment="Left" Margin="23,67,0,0" VerticalAlignment="Top"/>
+            <Label Content="Longitud Pilote:" HorizontalAlignment="Left" Margin="23,93,0,0" VerticalAlignment="Top"/>
+            <Label Content="Longitud Relleno:" HorizontalAlignment="Left" Margin="23,119,0,0" VerticalAlignment="Top"/>
+            <Label Content="Porcentaje de Acero:" HorizontalAlignment="Left" Margin="7,150,0,0" VerticalAlignment="Top"/>
+            <Label Content="Numero de Pilotes:" HorizontalAlignment="Left" Margin="15,183,0,0" VerticalAlignment="Top"/>
+            <ListBox x:Name="ListaNumerosC" HorizontalAlignment="Left" Height="28" Margin="131,181,0,0" VerticalAlignment="Top" Width="49">
+                <ListBoxItem IsSelected="True" Content="1"/>
+                <ListBoxItem Content="2"/>
+                <ListBoxItem Content="3"/>
+                <ListBoxItem Content="4"/>
+                <ListBoxItem Content="5"/>
+            </ListBox>
+            <TextBox x:Name="DiametroInicialC" HorizontalAlignment="Left" Height="23" Margin="131,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly"/>
+            <TextBox x:Name="LongitudPiloteC" HorizontalAlignment="Left" Height="23" Margin="131,96,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly"/>
+            <TextBox x:Name="LongitudRellenoC" HorizontalAlignment="Left" Height="21" Margin="131,124,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly"/>
+            <TextBox x:Name="PorcentajeAceroC" HorizontalAlignment="Left" Height="23" Margin="131,151,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly"/>
+            <Label Content="cm" HorizontalAlignment="Left" Margin="185,67,0,0" VerticalAlignment="Top"/>
+            <Label Content="m" HorizontalAlignment="Left" Margin="185,93,0,0" VerticalAlignment="Top"/>
+            <Label Content="m" HorizontalAlignment="Left" Margin="185,119,0,0" VerticalAlignment="Top"/>
+            <Label Content="%" HorizontalAlignment="Left" Margin="185,150,0,0" VerticalAlignment="Top"/>
+            <Label Content="Carga Actuante:" HorizontalAlignment="Left" Margin="295,62,0,0" VerticalAlignment="Top"/>
+            <Label Content="Momento Alrededor de X:" HorizontalAlignment="Left" Margin="241,88,0,0" VerticalAlignment="Top"/>
+            <Label Content="Momento Alrededor de Y:" HorizontalAlignment="Left" Margin="241,114,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="CargaActuanteC" HorizontalAlignment="Left" Height="21" Margin="393,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly"/>
+            <TextBox x:Name="MomentoXC" HorizontalAlignment="Left" Height="21" Margin="393,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly"/>
+            <TextBox x:Name="MomentoYC" HorizontalAlignment="Left" Height="21" Margin="393,119,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly"/>
+            <Label Content="Suelo Cohesivo" HorizontalAlignment="Left" Margin="224,10,0,0" VerticalAlignment="Top"/>
+            <Label Content="Datos del Suelo" HorizontalAlignment="Left" Margin="310,141,0,0" VerticalAlignment="Top"/>
+            <Label Content="Cohesion Prom. En Fuste:" HorizontalAlignment="Left" Margin="222,172,0,0" VerticalAlignment="Top"/>
+            <Label Content="Cohesion en Punta:" HorizontalAlignment="Left" Margin="254,198,0,0" VerticalAlignment="Top"/>
+            <Label Content="Factor de Adherencia:" HorizontalAlignment="Left" Margin="241,228,0,0" VerticalAlignment="Top"/>
+            <Label Content="Coef. De Friccion Suelo Competente:" HorizontalAlignment="Left" Margin="163,254,0,0" VerticalAlignment="Top"/>
+            <Label Content="Coef. De Friccion del Relleno:" HorizontalAlignment="Left" Margin="202,285,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="CohesionFusteC" HorizontalAlignment="Left" Height="23" Margin="371,175,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly"/>
+            <TextBox x:Name="CohesionPuntaC" HorizontalAlignment="Left" Height="23" Margin="371,203,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly"/>
+            <TextBox x:Name="FactorAdherenciaC" HorizontalAlignment="Left" Height="23" Margin="371,231,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly"/>
+            <TextBox x:Name="CoefFriccionSueloC" HorizontalAlignment="Left" Height="23" Margin="371,259,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly"/>
+            <TextBox x:Name="CoefFriccionRellenoC" HorizontalAlignment="Left" Height="23" Margin="371,288,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly"/>
+            <Label Content="kg/cm²" HorizontalAlignment="Left" Margin="425,175,0,0" VerticalAlignment="Top"/>
+            <Label Content="kg/cm²" HorizontalAlignment="Left" Margin="425,200,0,0" VerticalAlignment="Top"/>
+            <Label Content="kg/cm²" HorizontalAlignment="Left" Margin="425,254,0,0" VerticalAlignment="Top"/>
+            <Label Content="kg/cm²" HorizontalAlignment="Left" Margin="425,285,0,0" VerticalAlignment="Top"/>
+            <Label Content="ton" HorizontalAlignment="Left" Margin="447,64,0,0" VerticalAlignment="Top"/>
+            <Label Content="ton-m" HorizontalAlignment="Left" Margin="447,93,0,0" VerticalAlignment="Top"/>
+            <Label Content="ton-m" HorizontalAlignment="Left" Margin="447,114,0,0" VerticalAlignment="Top"/>
+            <Button x:Name="SiguienteDatosSueloC" Content="Siguiente" HorizontalAlignment="Left" Margin="415,316,0,0" VerticalAlignment="Top" Width="75" Click="IntrodujoDatosSueloCohesivo" RenderTransformOrigin="0.533,0.773"/>
         </Grid>
-        <Grid x:Name="GranularCohesivoGrid" HorizontalAlignment="Left" Height="351" Margin="202,10,0,0" VerticalAlignment="Top" Width="580" Background="AntiqueWhite" Visibility="Collapsed">
+        <Grid x:Name="GranularCohesivoGrid" HorizontalAlignment="Left" Height="377" Margin="278,10,0,0" VerticalAlignment="Top" Width="504" Background="AntiqueWhite">
+            <Label Content="Datos Generales" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+            <Label Content="Datos del Pilote" HorizontalAlignment="Left" Margin="23,36,0,0" VerticalAlignment="Top"/>
+            <Label Content="Solicitaciones" HorizontalAlignment="Left" Margin="312,36,0,0" VerticalAlignment="Top"/>
+            <Label Content="Diametro Inicial:" HorizontalAlignment="Left" Margin="23,67,0,0" VerticalAlignment="Top"/>
+            <Label Content="Longitud Pilote:" HorizontalAlignment="Left" Margin="23,93,0,0" VerticalAlignment="Top"/>
+            <Label Content="Longitud Relleno:" HorizontalAlignment="Left" Margin="23,119,0,0" VerticalAlignment="Top"/>
+            <Label Content="Coef. de Friccion &#xD;&#xA;Suelo Competente:" HorizontalAlignment="Left" Margin="15,145,0,0" VerticalAlignment="Top"/>
+            <Label Content="Porcentaje de Acero:" HorizontalAlignment="Left" Margin="7,223,0,0" VerticalAlignment="Top"/>
+            <Label Content="Numero de Pilotes:" HorizontalAlignment="Left" Margin="15,256,0,0" VerticalAlignment="Top"/>
+            <ListBox x:Name="ListaNumerosGC" HorizontalAlignment="Left" Height="28" Margin="131,254,0,0" VerticalAlignment="Top" Width="49">
+                <ListBoxItem IsSelected="True" Content="1"/>
+                <ListBoxItem Content="2"/>
+                <ListBoxItem Content="3"/>
+                <ListBoxItem Content="4"/>
+                <ListBoxItem Content="5"/>
+            </ListBox>
+            <TextBox x:Name="DiametroInicialGC" HorizontalAlignment="Left" Height="23" Margin="131,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly"/>
+            <TextBox x:Name="LongitudPiloteGC" HorizontalAlignment="Left" Height="23" Margin="131,96,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly"/>
+            <TextBox x:Name="LongitudRellenoGC" HorizontalAlignment="Left" Height="21" Margin="131,124,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly"/>
+            <TextBox x:Name="CoefFriccionSueloGC" HorizontalAlignment="Left" Height="33" Margin="131,150,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly"/>
+            <TextBox x:Name="PorcentajeAceroGC" HorizontalAlignment="Left" Height="23" Margin="131,224,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly"/>
+            <Label Content="cm" HorizontalAlignment="Left" Margin="185,67,0,0" VerticalAlignment="Top"/>
+            <Label Content="m" HorizontalAlignment="Left" Margin="185,93,0,0" VerticalAlignment="Top"/>
+            <Label Content="m" HorizontalAlignment="Left" Margin="185,119,0,0" VerticalAlignment="Top"/>
+            <Label Content="kg/cm²" HorizontalAlignment="Left" Margin="185,157,0,0" VerticalAlignment="Top"/>
+            <Label Content="%" HorizontalAlignment="Left" Margin="185,223,0,0" VerticalAlignment="Top"/>
+            <Label Content="Carga Actuante:" HorizontalAlignment="Left" Margin="293,62,0,0" VerticalAlignment="Top"/>
+            <Label Content="Momento Alrededor de X:" HorizontalAlignment="Left" Margin="239,88,0,0" VerticalAlignment="Top"/>
+            <Label Content="Momento Alrededor de Y:" HorizontalAlignment="Left" Margin="239,114,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="CargaActuanteGC" HorizontalAlignment="Left" Height="21" Margin="391,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly"/>
+            <TextBox x:Name="MomentoXGC" HorizontalAlignment="Left" Height="21" Margin="391,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly"/>
+            <TextBox x:Name="MomentoYGC" HorizontalAlignment="Left" Height="21" Margin="391,119,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly"/>
+            <Label Content="Suelo Granular-Cohesivo" HorizontalAlignment="Left" Margin="224,10,0,0" VerticalAlignment="Top"/>
+            <Button x:Name="SiguienteDatosSueloGC" Content="Siguiente" HorizontalAlignment="Left" Margin="419,347,0,0" VerticalAlignment="Top" Width="75" Click="IntrodujoDatosSueloGranularCohesivo" RenderTransformOrigin="0.533,0.773"/>
+            <Label Content="Coef. de Friccion&#xD;&#xA; Relleno:" HorizontalAlignment="Left" Margin="15,182,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="CoefFriccionRellenoGC" HorizontalAlignment="Left" Height="23" Margin="131,189,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly"/>
+            <Label Content="kg/cm²" HorizontalAlignment="Left" Margin="185,188,0,0" VerticalAlignment="Top"/>
+            <Label Content="ton" HorizontalAlignment="Left" Margin="445,64,0,0" VerticalAlignment="Top"/>
+            <Label Content="ton-m" HorizontalAlignment="Left" Margin="445,93,0,0" VerticalAlignment="Top"/>
+            <Label Content="ton-m" HorizontalAlignment="Left" Margin="445,114,0,0" VerticalAlignment="Top"/>
         </Grid>
         <Grid x:Name="Materiales" HorizontalAlignment="Left" Height="130" Margin="10,10,0,0" VerticalAlignment="Top" Width="263" Background="AntiqueWhite">
             <Label Content="Materiales" Margin="0,0,198,107"/>

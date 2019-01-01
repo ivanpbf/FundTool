@@ -41,6 +41,9 @@ namespace FundTool
         public int? cargaActuante;
         public int? momentoX;
         public int? momentoY;
+        public int? cohesionFuste;
+        public int? cohesionPunta;
+        public int? factorAdherencia;
 
 
         public Indirectas()
@@ -137,7 +140,7 @@ namespace FundTool
                 this.ProfundidadEstudioSuelosG.Text = this.golpesSuelo.Count.ToString();
                 this.profundidadEstudioSuelos = this.golpesSuelo.Count;
                 ObservableCollection<MetroGolpe> obsCollection = new ObservableCollection<MetroGolpe>(this.golpesSuelo);
-                DataGridGolpes.DataContext = obsCollection;
+                DataGridGolpesG.DataContext = obsCollection;
             }
             else
             {
@@ -169,6 +172,39 @@ namespace FundTool
                 /*Luego
                  * Hara algo relacionado con todo lo que pidio, primero terminar las de los otros suelos
                  al parecer Granular usa Meyerhof*/
+            }
+            else
+            {
+                MessageBox.Show("Alguno de los datos importantes esta vacio");
+                return;
+            }
+        }
+
+        private void IntrodujoDatosSueloCohesivo(object sender, RoutedEventArgs e)
+        {
+            if (!String.IsNullOrEmpty(this.DiametroInicialC.Text) && !String.IsNullOrEmpty(this.LongitudPiloteC.Text) && !String.IsNullOrEmpty(this.CoefFriccionSueloC.Text) &&
+                  !String.IsNullOrEmpty(this.CoefFriccionRellenoC.Text) && !String.IsNullOrEmpty(this.PorcentajeAceroC.Text) && !String.IsNullOrEmpty(this.CargaActuanteC.Text)
+                  && !String.IsNullOrEmpty(this.CohesionFusteC.Text) && !String.IsNullOrEmpty(this.CohesionPuntaC.Text) && !String.IsNullOrEmpty(this.FactorAdherenciaC.Text))
+            {
+                this.diametroInicial = Int32.Parse(this.DiametroInicialC.Text);
+                this.longitudPilote = Int32.Parse(this.LongitudPiloteC.Text);
+                this.longitudRelleno = Int32.Parse(this.LongitudRellenoC.Text);
+                this.coefFriccionSuelo = Int32.Parse(this.CoefFriccionSueloC.Text);
+                this.coefFriccionRelleno = Int32.Parse(this.CoefFriccionRellenoC.Text);
+                this.porcentajeAcero = Int32.Parse(this.PorcentajeAceroC.Text);
+                String texto = ListaNumerosG.SelectedItem.ToString();
+                char num = texto[0];
+                int cantidad = (int)Char.GetNumericValue(num);
+                this.numeroPilotes = cantidad;
+                this.cargaActuante = Int32.Parse(this.CargaActuanteC.Text);
+                this.momentoX = Int32.Parse(this.MomentoXC.Text);
+                this.momentoY = Int32.Parse(this.MomentoYC.Text);
+                this.cohesionFuste = Int32.Parse(this.CohesionFusteC.Text);
+                this.cohesionPunta = Int32.Parse(this.CohesionPuntaC.Text);
+                this.factorAdherencia = Int32.Parse(this.FactorAdherenciaC.Text);
+                /*Luego
+                 * Hara algo relacionado con todo lo que pidio, primero terminar las de los otros suelos
+                 al parecer cohesion usa skempton?*/
             }
             else
             {
