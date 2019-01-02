@@ -26,6 +26,14 @@ namespace FundTool
             public int Metro { get; set; }
             public int NumeroDeGolpes { get; set; }
         }
+        public class Estrato
+        {
+            public String Nombre { get; set; }
+            public String Espesor { get; set; }
+            public int Angulo { get; set; }
+            public int Cohesion { get; set; }
+            public int Peso { get; set; }
+        }
         public String tipoDeSuelo;
         public int? resistenciaAcero;
         public int? resistenciaConcreto;
@@ -44,6 +52,7 @@ namespace FundTool
         public int? cohesionFuste;
         public int? cohesionPunta;
         public int? factorAdherencia;
+        public List<Estrato> estratos;
 
 
         public Indirectas()
@@ -211,6 +220,72 @@ namespace FundTool
                 MessageBox.Show("Alguno de los datos importantes esta vacio");
                 return;
             }
+        }
+
+        private void IntroducirEstratos(object sender, RoutedEventArgs e)
+        {
+            if (!String.IsNullOrEmpty(this.NroEstratos.Text) && !this.NroEstratos.Text.Equals("0"))
+            {
+                int numero = Int32.Parse(this.NroEstratos.Text);
+                estratos = new List<Estrato>();
+                for (int i = 0; i < numero; i++)
+                {
+                    Estrato estratonuevo = new Estrato();
+                    Estrato aux = estratonuevo;
+                    aux.Nombre = "E-" + (i + 1);
+                    this.estratos.Add(aux);
+                }
+                Estrato punta = new Estrato();
+                punta.Nombre = "Punta";
+                punta.Espesor = "Punta";
+                ObservableCollection<Estrato> obsCollection = new ObservableCollection<Estrato>(this.estratos);
+                DataGridEstratos.DataContext = obsCollection;
+                DataGridEstratos.Columns[0].IsReadOnly = true;
+                DataGridEstratos.Columns[1].Header = "Espesor (m)";
+                DataGridEstratos.Columns[2].Header = "Angulo de Friccion";
+                DataGridEstratos.Columns[3].Header = "Cohesion (Ton/m²)";
+                DataGridEstratos.Columns[4].Header = "Peso Unitario (Ton/m²)";
+                AceptarValoresEstratos.IsEnabled = true;
+            }
+            else
+            {
+                MessageBox.Show("Introduzca un numero de Apoyos mayor a 0");
+                return;
+            }
+
+        }
+
+        private void IntroducirDatosEstratos(object sender, RoutedEventArgs e)
+        {
+            for (int i = 0; i < this.estratos.Count; i++)
+            {
+                TextBlock espesor = DataGridEstratos.Columns[1].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
+                TextBlock angulo = DataGridEstratos.Columns[2].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
+                TextBlock cohesion = DataGridEstratos.Columns[3].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
+                TextBlock peso = DataGridEstratos.Columns[4].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
+                if (espesor == null || angulo == null || cohesion == null || peso == null)
+                {
+                    MessageBox.Show("Alguno de los valores esta vacio, por favor introduzca un numero");
+                    return;
+                }
+                if (this.estratos[i].Nombre == "Punta")
+                {
+                    this.estratos[i].Espesor = "Punta";
+                }
+                else
+                {
+                    this.estratos[i].Espesor = espesor.Text;
+                }
+                this.estratos[i].Angulo = Int32.Parse(angulo.Text);
+                this.estratos[i].Cohesion = Int32.Parse(cohesion.Text);
+                this.estratos[i].Peso = Int32.Parse(peso.Text);
+                this.SiguienteDatosSueloGC.IsEnabled = true;
+            }
+        }
+
+        private void IntrodujoDatosSueloGranularCohesivo(object sender, RoutedEventArgs e)
+        {
+            //falta esto
         }
     }
 
