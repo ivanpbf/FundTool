@@ -186,7 +186,7 @@ namespace FundTool
             {
                 int numero = Int32.Parse(this.NroApoyos.Text);
                 solicitaciones = new List<Solicitacion>();
-                for(int i = 0; i < numero; i++)
+                for (int i = 0; i < numero; i++)
                 {
                     Solicitacion solicitacionnueva = new Solicitacion();
                     Solicitacion aux = solicitacionnueva;
@@ -202,7 +202,7 @@ namespace FundTool
                         }
                         else
                         {
-                            MessageBox.Show("Introduzca un valor");
+                            return;
                         }
                     } while (introdujoNombre == false);
                     this.solicitaciones.Add(aux);

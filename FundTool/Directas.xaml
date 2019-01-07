@@ -9,7 +9,7 @@
     <ScrollViewer HorizontalScrollBarVisibility="Auto">
         <Grid Background="#D3D3D3" Height="694">
             <Grid HorizontalAlignment="Left" Height="130" Margin="10,10,0,0" VerticalAlignment="Top" Width="263" Background="AntiqueWhite">
-                <Label Content="Materiales" Margin="0,0,198,107"/>
+                <Label Content="Materiales" Margin="0,0,191,107" FontWeight="Bold"/>
                 <Label Content="Resistencia del Concreto:" HorizontalAlignment="Left" Margin="1,23,0,0" VerticalAlignment="Top" Width="143"/>
                 <TextBox x:Name="ResistenciaConcreto" HorizontalAlignment="Left" Height="23" Margin="144,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="45" PreviewTextInput="NumericOnly"/>
                 <Label Content="kg/cm²" HorizontalAlignment="Left" Margin="194,23,0,0" VerticalAlignment="Top"/>
@@ -20,8 +20,8 @@
                 <Button x:Name="Cancelarm" Content="Cancelar" HorizontalAlignment="Left" Margin="198,93,0,0" VerticalAlignment="Top" Width="55" Click="CancelarMateriales"/>
             </Grid>
             <Grid x:Name="datosdelsuelo" Height="367" Margin="278,10,0,0" VerticalAlignment="Top" Background="AntiqueWhite" HorizontalAlignment="Left" Width="504">
-                <Label Content="Datos del Suelo" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                <Label Content="Tipo de Falla" HorizontalAlignment="Left" Margin="390,-1,0,0" VerticalAlignment="Top"/>
+                <Label Content="Datos del Suelo" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold"/>
+                <Label Content="Tipo de Falla" HorizontalAlignment="Left" Margin="390,-1,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
                 <RadioButton x:Name="FallaL" Content="Falla Local" HorizontalAlignment="Left" Margin="397,25,0,0" VerticalAlignment="Top" GroupName="TipoDeFalla" IsChecked="True"/>
                 <RadioButton x:Name="FallaG" Content="Falla General" HorizontalAlignment="Left" Margin="397,46,0,0" VerticalAlignment="Top" GroupName="TipoDeFalla"/>
                 <TextBox x:Name="Cohesion" HorizontalAlignment="Left" Height="23" Margin="128,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly"/>
@@ -37,13 +37,13 @@
                 <Label Content="Ton/m³" HorizontalAlignment="Left" Margin="182,80,0,0" VerticalAlignment="Top"/>
                 <Label Content="m" HorizontalAlignment="Left" Margin="182,108,0,0" VerticalAlignment="Top"/>
                 <Rectangle Fill="AntiqueWhite" HorizontalAlignment="Left" Height="85" Margin="10,144,0,0" Stroke="Black" VerticalAlignment="Top" Width="191"/>
-                <Label Content="Existe Nivel Freatico:" HorizontalAlignment="Left" Margin="11,139,0,0" VerticalAlignment="Top"/>
+                <Label Content="Existe Nivel Freatico:" HorizontalAlignment="Left" Margin="11,139,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
                 <RadioButton x:Name="SiNF" Content="Si" HorizontalAlignment="Left" Margin="134,144,0,0" VerticalAlignment="Top" GroupName="ExisteNF"/>
                 <RadioButton x:Name="NoNF" Content="No" HorizontalAlignment="Left" Margin="134,165,0,0" VerticalAlignment="Top" GroupName="ExisteNF" IsChecked="True"/>
                 <Label Content="Cota del Nivel Freatico:" HorizontalAlignment="Left" Margin="11,196,0,0" VerticalAlignment="Top"/>
                 <TextBox x:Name="CotaNF" HorizontalAlignment="Left" Height="23" Margin="140,199,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="37" IsEnabled="{Binding ElementName=SiNF, Path=IsChecked}" PreviewTextInput="NumericOnly"/>
                 <Label Content="m" HorizontalAlignment="Left" Margin="173,199,0,0" VerticalAlignment="Top"/>
-                <CheckBox x:Name="IntroducirSPT" Content="Introducir los Datos del Ensayo S.P.T.&#xD;&#xA;Para Suelos Granulares" HorizontalAlignment="Left" Margin="256,98,0,0" VerticalAlignment="Top" Checked="IntroducirSPT_Checked" Unchecked="IntroducirSPT_Checked"/>
+                <CheckBox x:Name="IntroducirSPT" FontWeight="Bold" Content="Introducir los Datos del Ensayo S.P.T.&#xD;&#xA;Para Suelos Granulares" HorizontalAlignment="Left" Margin="256,98,0,0" VerticalAlignment="Top" Checked="IntroducirSPT_Checked" Unchecked="IntroducirSPT_Checked"/>
                 <Grid x:Name="DatosDelEnsayoSPTGranulares" HorizontalAlignment="Left" Height="200" Margin="225,130,0,0" VerticalAlignment="Top" Width="269" Background="#e1d3c1">
                     <Label Content="Profundidad del Estudio de Suelos:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,31,0,0"/>
                     <TextBox x:Name="ProfundidadEstudioSuelos" HorizontalAlignment="Left" Height="23" Margin="194,34,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="36" RenderTransformOrigin="0.583,0.435" IsEnabled="False"/>
@@ -57,7 +57,7 @@
                 <Button x:Name="SiguienteDatosSuelo" Content="Siguiente" HorizontalAlignment="Left" Margin="392,335,0,0" VerticalAlignment="Top" Width="75" Click="IntrodujoDatosSuelo" RenderTransformOrigin="0.533,0.773"/>
             </Grid>
             <Grid x:Name="SolicitacionesGrid" Height="237" Margin="10,382,0,0" VerticalAlignment="Top" Background="AntiqueWhite" HorizontalAlignment="Left" Width="772">
-                <Label Content="Solicitaciones" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                <Label Content="Solicitaciones" FontWeight="Bold" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
                 <Label Content="Numero de Apoyo:" HorizontalAlignment="Left" Margin="234,10,0,0" VerticalAlignment="Top"/>
                 <TextBox x:Name="NroApoyos" HorizontalAlignment="Left" Height="23" Margin="345,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" PreviewTextInput="NumericOnly"/>
                 <Button Content="Introducir Apoyos" HorizontalAlignment="Left" Margin="400,14,0,0" VerticalAlignment="Top" Width="144" Click="IntroducirApoyos"/>
@@ -65,7 +65,7 @@
                 <Button x:Name="AceptarValoresSolicitaciones" Content="Aceptar Valores" HorizontalAlignment="Left" Margin="633,205,0,0" VerticalAlignment="Top" Width="107" Click="IntroducirDatosSolicitaciones" IsEnabled="False"/>
             </Grid>
             <Grid x:Name="GridCantidad" HorizontalAlignment="Left" Height="232" Margin="10,145,0,0" VerticalAlignment="Top" Width="263" Background="AntiqueWhite">
-                <Label Content="Cantidad de Fundaciones:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                <Label Content="Cantidad de Fundaciones:" HorizontalAlignment="Left" Margin="1,10,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
                 <ListBox x:Name="ListaCantidad" HorizontalAlignment="Left" Height="160" Margin="156,19,0,0" VerticalAlignment="Top" Width="69">
                     <ListBoxItem IsSelected="True">1 x 1</ListBoxItem>
                     <ListBoxItem>2 x 2</ListBoxItem>
@@ -89,7 +89,7 @@
                 <TextBox x:Name="CuantasFundaciones" HorizontalAlignment="Left" Height="23" Margin="87,199,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="36" RenderTransformOrigin="0.583,0.435" IsEnabled="False"/>
             </Grid>
             <Grid x:Name="GridFinal" HorizontalAlignment="Left" Height="60" Margin="10,624,0,0" VerticalAlignment="Top" Width="762" Background="AntiqueWhite">
-                <Button Content="Aceptar y Continuar" HorizontalAlignment="Left" Margin="317,21,0,0" VerticalAlignment="Top" Width="127" Click="CompletarDirectas" RenderTransformOrigin="0.874,0.7"/>
+                <Button Content="Aceptar y Continuar" FontWeight="Bold" HorizontalAlignment="Left" Margin="317,21,0,0" VerticalAlignment="Top" Width="127" Click="CompletarDirectas" RenderTransformOrigin="0.874,0.7"/>
             </Grid>
         </Grid>
     </ScrollViewer>

@@ -52,6 +52,9 @@ namespace FundTool
         public int? cohesionFuste;
         public int? cohesionPunta;
         public int? factorAdherencia;
+        public int? numeroEstratos;
+        public int? coefFriccion;
+        public int? cantidadFundaciones;
         public List<Estrato> estratos;
 
 
@@ -60,12 +63,20 @@ namespace FundTool
             InitializeComponent();
             this.TipoDeSuelo.Visibility = Visibility.Collapsed;
             this.GranularGrid.Visibility = Visibility.Collapsed;
+            this.GridCantidad.Visibility = Visibility.Collapsed;
+            this.golpesSuelo = new List<MetroGolpe>();
 
         }
 
         private void CancelarSuelo(object sender, RoutedEventArgs e)
         {
-            this.Close(); //cierra la ventana
+            this.CohesivoGrid.Visibility = Visibility.Collapsed;
+            this.GranularGrid.Visibility = Visibility.Collapsed;
+            this.GranularCohesivoGrid.Visibility = Visibility.Collapsed;
+            this.Granular.IsEnabled = true;
+            this.Cohesivo.IsEnabled = true;
+            this.GranularCohesivo.IsEnabled = true;
+            this.Siguientes.IsEnabled = true;
         }
 
         private void NumericOnly(object sender, TextCompositionEventArgs e)
@@ -181,6 +192,7 @@ namespace FundTool
                 /*Luego
                  * Hara algo relacionado con todo lo que pidio, primero terminar las de los otros suelos
                  al parecer Granular usa Meyerhof*/
+                this.GridCantidad.Visibility = Visibility.Visible;
             }
             else
             {
@@ -214,6 +226,8 @@ namespace FundTool
                 /*Luego
                  * Hara algo relacionado con todo lo que pidio, primero terminar las de los otros suelos
                  al parecer cohesion usa skempton?*/
+                this.GridCantidad.Visibility = Visibility.Visible;
+
             }
             else
             {
@@ -227,6 +241,7 @@ namespace FundTool
             if (!String.IsNullOrEmpty(this.NroEstratos.Text) && !this.NroEstratos.Text.Equals("0"))
             {
                 int numero = Int32.Parse(this.NroEstratos.Text);
+                this.numeroEstratos = numero;
                 estratos = new List<Estrato>();
                 for (int i = 0; i < numero; i++)
                 {
@@ -285,8 +300,58 @@ namespace FundTool
 
         private void IntrodujoDatosSueloGranularCohesivo(object sender, RoutedEventArgs e)
         {
-            //falta esto
-        }
-    }
+            if (!String.IsNullOrEmpty(this.DiametroInicialGC.Text) && !String.IsNullOrEmpty(this.LongitudPiloteGC.Text) && !String.IsNullOrEmpty(this.LongitudRellenoGC.Text) &&
+                !String.IsNullOrEmpty(this.CoefFriccionSueloGC.Text) && !String.IsNullOrEmpty(this.CoefFriccionGC.Text) && !String.IsNullOrEmpty(this.PorcentajeAceroGC.Text)
+                && !String.IsNullOrEmpty(this.CargaActuanteGC.Text))
+            {
+                this.diametroInicial = Int32.Parse(this.DiametroInicialGC.Text);
+                this.longitudPilote = Int32.Parse(this.LongitudPiloteGC.Text);
+                this.longitudRelleno = Int32.Parse(this.LongitudRellenoGC.Text);
+                this.coefFriccion = Int32.Parse(this.CoefFriccionGC.Text);
+                this.coefFriccionSuelo = Int32.Parse(this.CoefFriccionSueloGC.Text);
+                this.porcentajeAcero = Int32.Parse(this.PorcentajeAceroGC.Text);
+                String texto = ListaNumerosGC.SelectedItem.ToString();
+                char num = texto[0];
+                int cantidad = (int)Char.GetNumericValue(num);
+                this.numeroPilotes = cantidad;
+                this.cargaActuante = Int32.Parse(this.CargaActuanteGC.Text);
+                this.momentoX = Int32.Parse(this.MomentoXGC.Text);
+                this.momentoY = Int32.Parse(this.MomentoYGC.Text);
+                /*Luego
+                 * Hara algo relacionado con todo lo que pidio, primero terminar las de los otros suelos
+                 al parecer cohesion usa caquot-kerisel*/
+                this.GridCantidad.Visibility = Visibility.Visible;
 
+            }
+            else
+            {
+                MessageBox.Show("Alguno de los datos importantes esta vacio");
+                return;
+            }
+        }
+
+        private void IntrodujoCantidadFundaciones(object sender, RoutedEventArgs e)
+        {
+            String texto = ListaCantidad.SelectedItem.ToString();
+            if (texto.StartsWith("1"))
+            {
+                String completo = texto.Substring(0, 1);
+                int cantidad = Int32.Parse(completo);
+                this.cantidadFundaciones = cantidad;
+                this.CuantasFundaciones.Text = this.cantidadFundaciones.ToString();
+                //luego lo siguiente
+                return;
+            }
+            else
+            {
+                char num = texto[0];
+                int cantidad = (int)Char.GetNumericValue(num);
+                this.cantidadFundaciones = cantidad;
+                this.CuantasFundaciones.Text = this.cantidadFundaciones.ToString();
+                //luego lo siguiente
+                return;
+            }
+        }
+
+    }
 }
