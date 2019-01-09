@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,7 +26,7 @@ namespace FundTool
             public int Metro { get; set; }
             public int NumeroDeGolpes { get; set; }
         }
-        public class Solicitacion
+        public class Apoyo
         {
             public int Numero { get; set; }
             public String Nombre { get; set; }
@@ -50,7 +51,7 @@ namespace FundTool
         public int? profundidadEstudioSuelos;
         public int? asentamiento;
         public List<MetroGolpe> golpesSuelo;
-        public List<Solicitacion> solicitaciones;
+        public List<Apoyo> apoyos;
         public int? cantidadFundaciones;
 
 
@@ -68,7 +69,14 @@ namespace FundTool
 
         private void NumericOnly(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = new System.Text.RegularExpressions.Regex("[^0-9]+").IsMatch(e.Text);
+            Regex regex = new Regex("^[0-9]");
+            e.Handled = !regex.IsMatch((sender as TextBox).Text.Insert((sender as TextBox).SelectionStart, e.Text));
+        }
+
+        private void NumericOnlyDecimal(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("^[.][0-9]+$|^[0-9]*[.]{0,1}[0-9]*$");
+            e.Handled = !regex.IsMatch((sender as TextBox).Text.Insert((sender as TextBox).SelectionStart, e.Text));
         }
 
         private void AceptarMateriales(object sender, RoutedEventArgs e)
@@ -185,16 +193,16 @@ namespace FundTool
             if (!String.IsNullOrEmpty(this.NroApoyos.Text) && !this.NroApoyos.Text.Equals("0"))
             {
                 int numero = Int32.Parse(this.NroApoyos.Text);
-                solicitaciones = new List<Solicitacion>();
+                apoyos = new List<Apoyo>();
                 for (int i = 0; i < numero; i++)
                 {
-                    Solicitacion solicitacionnueva = new Solicitacion();
-                    Solicitacion aux = solicitacionnueva;
+                    Apoyo solicitacionnueva = new Apoyo();
+                    Apoyo aux = solicitacionnueva;
                     aux.Numero = i+1;
                     Boolean introdujoNombre = false;
                     do
                     {
-                        String nombre = Interaction.InputBox("Solicitacion " + (i + 1), "Agregar Solicitacion");
+                        String nombre = Interaction.InputBox("Nombre de Solicitacion " + (i + 1), "Agregar Nombre de Solicitaciones");
                         if(nombre != "")
                         {
                             aux.Nombre = nombre;
@@ -205,9 +213,9 @@ namespace FundTool
                             return;
                         }
                     } while (introdujoNombre == false);
-                    this.solicitaciones.Add(aux);
+                    this.apoyos.Add(aux);
                 }
-                ObservableCollection<Solicitacion> obsCollection = new ObservableCollection<Solicitacion>(this.solicitaciones);
+                ObservableCollection<Apoyo> obsCollection = new ObservableCollection<Apoyo>(this.apoyos);
                 DataGridSolicitaciones.DataContext = obsCollection;
                 DataGridSolicitaciones.Columns[0].IsReadOnly = true;
                 DataGridSolicitaciones.Columns[1].IsReadOnly = true;
@@ -230,7 +238,7 @@ namespace FundTool
 
         private void IntroducirDatosSolicitaciones(object sender, RoutedEventArgs e)
         {
-            for(int i = 0; i < this.solicitaciones.Count; i++)
+            for(int i = 0; i < this.apoyos.Count; i++)
             {
                 TextBlock coordx = DataGridSolicitaciones.Columns[2].GetCellContent(DataGridSolicitaciones.Items[i]) as TextBlock;
                 TextBlock coordy = DataGridSolicitaciones.Columns[3].GetCellContent(DataGridSolicitaciones.Items[i]) as TextBlock;
@@ -244,38 +252,26 @@ namespace FundTool
                     MessageBox.Show("Alguno de los valores esta vacio, por favor introduzca un numero");
                     return;
                 }
-                this.solicitaciones[i].Carga = Int32.Parse(carga.Text);
-                this.solicitaciones[i].CoordEjeX = Int32.Parse(coordx.Text);
-                this.solicitaciones[i].CoordEjeY = Int32.Parse(coordy.Text);
-                this.solicitaciones[i].MtoEnEjeX = Int32.Parse(mtoejex.Text);
-                this.solicitaciones[i].MtoEnEjeY = Int32.Parse(mtoejey.Text);
-                this.solicitaciones[i].FBasalX = Int32.Parse(fbasalx.Text);
-                this.solicitaciones[i].FBasalY = Int32.Parse(fbasaly.Text);
+                this.apoyos[i].Carga = Int32.Parse(carga.Text);
+                this.apoyos[i].CoordEjeX = Int32.Parse(coordx.Text);
+                this.apoyos[i].CoordEjeY = Int32.Parse(coordy.Text);
+                this.apoyos[i].MtoEnEjeX = Int32.Parse(mtoejex.Text);
+                this.apoyos[i].MtoEnEjeY = Int32.Parse(mtoejey.Text);
+                this.apoyos[i].FBasalX = Int32.Parse(fbasalx.Text);
+                this.apoyos[i].FBasalY = Int32.Parse(fbasaly.Text);
                 this.GridFinal.Visibility = Visibility.Visible;
             }
         }
 
         private void IntrodujoCantidadFundaciones(object sender, RoutedEventArgs e)
         {
-            String texto = ListaCantidad.SelectedItem.ToString();
-            if(texto.StartsWith("1"))
-            {
-                String completo = texto.Substring(0, 1);
-                int cantidad = Int32.Parse(completo);
-                this.cantidadFundaciones = cantidad;
-                this.CuantasFundaciones.Text = this.cantidadFundaciones.ToString();
-                this.SolicitacionesGrid.Visibility = Visibility.Visible;
-                return;
-            }
-            else
-            {
-                char num = texto[0];
-                int cantidad = (int)Char.GetNumericValue(num);
-                this.cantidadFundaciones = cantidad;
-                this.CuantasFundaciones.Text = this.cantidadFundaciones.ToString();
-                this.SolicitacionesGrid.Visibility = Visibility.Visible;
-                return;
-            }
+            int posicion = ListaCantidad.SelectedIndex;
+            int cantidad = posicion + 1;
+            this.cantidadFundaciones = cantidad;
+            this.CuantasFundaciones.Text = cantidad.ToString();
+            this.SolicitacionesGrid.Visibility = Visibility.Visible;
+            //luego lo siguiente
+            return;
         }
 
         private void CompletarDirectas(object sender, RoutedEventArgs e)

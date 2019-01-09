@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,10 +27,23 @@ namespace FundTool
             public int Metro { get; set; }
             public int NumeroDeGolpes { get; set; }
         }
+        public class Apoyo
+        {
+            public int Numero { get; set; }
+            public String Nombre { get; set; }
+            public int CoordEjeX { get; set; }
+            public int CoordEjeY { get; set; }
+            public int Carga { get; set; }
+            public int MtoEnEjeX { get; set; }
+            public int MtoEnEjeY { get; set; }
+            public int FBasalX { get; set; }
+            public int FBasalY { get; set; }
+        }
         public class Estrato
         {
             public String Nombre { get; set; }
             public String Espesor { get; set; }
+            public String Descripcion { get; set; }
             public int Angulo { get; set; }
             public int Cohesion { get; set; }
             public int Peso { get; set; }
@@ -44,7 +58,7 @@ namespace FundTool
         public int? longitudRelleno;
         public int? coefFriccionSuelo;
         public int? coefFriccionRelleno;
-        public int? porcentajeAcero;
+        public long? porcentajeAcero;
         public int? numeroPilotes;
         public int? cargaActuante;
         public int? momentoX;
@@ -55,6 +69,7 @@ namespace FundTool
         public int? numeroEstratos;
         public int? coefFriccion;
         public int? cantidadFundaciones;
+        public List<Apoyo> apoyos;
         public List<Estrato> estratos;
 
 
@@ -64,6 +79,8 @@ namespace FundTool
             this.TipoDeSuelo.Visibility = Visibility.Collapsed;
             this.GranularGrid.Visibility = Visibility.Collapsed;
             this.GridCantidad.Visibility = Visibility.Collapsed;
+            this.SolicitacionesGrid.Visibility = Visibility.Collapsed;
+            this.GridFinal.Visibility = Visibility.Collapsed;
             this.golpesSuelo = new List<MetroGolpe>();
 
         }
@@ -81,8 +98,16 @@ namespace FundTool
 
         private void NumericOnly(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = new System.Text.RegularExpressions.Regex("[^0-9]+").IsMatch(e.Text);
+            Regex regex = new Regex("^[0-9]");
+            e.Handled = !regex.IsMatch((sender as TextBox).Text.Insert((sender as TextBox).SelectionStart, e.Text));
         }
+
+        private void NumericOnlyDecimal(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("^[.][0-9]+$|^[0-9]*[.]{0,1}[0-9]*$");
+            e.Handled = !regex.IsMatch((sender as TextBox).Text.Insert((sender as TextBox).SelectionStart, e.Text));
+        }
+
 
         private void AceptarMateriales(object sender, RoutedEventArgs e)
         {
@@ -170,6 +195,81 @@ namespace FundTool
 
         }
 
+        private void IntroducirApoyos(object sender, RoutedEventArgs e)
+        {
+            if (!String.IsNullOrEmpty(this.NroApoyos.Text) && !this.NroApoyos.Text.Equals("0"))
+            {
+                int numero = Int32.Parse(this.NroApoyos.Text);
+                apoyos = new List<Apoyo>();
+                for (int i = 0; i < numero; i++)
+                {
+                    Apoyo solicitacionnueva = new Apoyo();
+                    Apoyo aux = solicitacionnueva;
+                    aux.Numero = i + 1;
+                    Boolean introdujoNombre = false;
+                    do
+                    {
+                        String nombre = Interaction.InputBox("Nombre de Solicitacion " + (i + 1), "Agregar Nombre de Solicitaciones");
+                        if (nombre != "")
+                        {
+                            aux.Nombre = nombre;
+                            introdujoNombre = true;
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    } while (introdujoNombre == false);
+                    this.apoyos.Add(aux);
+                }
+                ObservableCollection<Apoyo> obsCollection = new ObservableCollection<Apoyo>(this.apoyos);
+                DataGridSolicitaciones.DataContext = obsCollection;
+                DataGridSolicitaciones.Columns[0].IsReadOnly = true;
+                DataGridSolicitaciones.Columns[1].IsReadOnly = true;
+                DataGridSolicitaciones.Columns[2].Header = "Coord. En el eje X (m)";
+                DataGridSolicitaciones.Columns[3].Header = "Coord. En el eje Y (m)";
+                DataGridSolicitaciones.Columns[4].Header = "Carga (Ton)";
+                DataGridSolicitaciones.Columns[5].Header = "Mto. en Eje X (Ton-m";
+                DataGridSolicitaciones.Columns[6].Header = "Mto. en Eje Y (Ton-m";
+                DataGridSolicitaciones.Columns[7].Header = "F. Basal X (ton)";
+                DataGridSolicitaciones.Columns[8].Header = "F. Basal Y (Ton)";
+                AceptarValoresSolicitaciones.IsEnabled = true;
+            }
+            else
+            {
+                MessageBox.Show("Introduzca un numero de Apoyos mayor a 0");
+                return;
+            }
+
+        }
+
+        private void IntroducirDatosSolicitaciones(object sender, RoutedEventArgs e)
+        {
+            for (int i = 0; i < this.apoyos.Count; i++)
+            {
+                TextBlock coordx = DataGridSolicitaciones.Columns[2].GetCellContent(DataGridSolicitaciones.Items[i]) as TextBlock;
+                TextBlock coordy = DataGridSolicitaciones.Columns[3].GetCellContent(DataGridSolicitaciones.Items[i]) as TextBlock;
+                TextBlock carga = DataGridSolicitaciones.Columns[4].GetCellContent(DataGridSolicitaciones.Items[i]) as TextBlock;
+                TextBlock mtoejex = DataGridSolicitaciones.Columns[5].GetCellContent(DataGridSolicitaciones.Items[i]) as TextBlock;
+                TextBlock mtoejey = DataGridSolicitaciones.Columns[6].GetCellContent(DataGridSolicitaciones.Items[i]) as TextBlock;
+                TextBlock fbasalx = DataGridSolicitaciones.Columns[7].GetCellContent(DataGridSolicitaciones.Items[i]) as TextBlock;
+                TextBlock fbasaly = DataGridSolicitaciones.Columns[8].GetCellContent(DataGridSolicitaciones.Items[i]) as TextBlock;
+                if (coordx == null || coordy == null || carga == null || mtoejex == null || mtoejey == null || fbasalx == null || fbasaly == null)
+                {
+                    MessageBox.Show("Alguno de los valores esta vacio, por favor introduzca un numero");
+                    return;
+                }
+                this.apoyos[i].Carga = Int32.Parse(carga.Text);
+                this.apoyos[i].CoordEjeX = Int32.Parse(coordx.Text);
+                this.apoyos[i].CoordEjeY = Int32.Parse(coordy.Text);
+                this.apoyos[i].MtoEnEjeX = Int32.Parse(mtoejex.Text);
+                this.apoyos[i].MtoEnEjeY = Int32.Parse(mtoejey.Text);
+                this.apoyos[i].FBasalX = Int32.Parse(fbasalx.Text);
+                this.apoyos[i].FBasalY = Int32.Parse(fbasaly.Text);
+                this.GridFinal.Visibility = Visibility.Visible;
+            }
+        }
+
         private void IntrodujoDatosSueloGranular(object sender, RoutedEventArgs e)
         {
             if (!String.IsNullOrEmpty(this.DiametroInicialG.Text) && !String.IsNullOrEmpty(this.LongitudPiloteG.Text) && !String.IsNullOrEmpty(this.CoefFriccionSueloG.Text) &&
@@ -181,7 +281,7 @@ namespace FundTool
                 this.longitudRelleno = Int32.Parse(this.LongitudRellenoG.Text);
                 this.coefFriccionSuelo = Int32.Parse(this.CoefFriccionSueloG.Text);
                 this.coefFriccionRelleno = Int32.Parse(this.CoefFriccionRellenoG.Text);
-                this.porcentajeAcero = Int32.Parse(this.PorcentajeAceroG.Text);
+                this.porcentajeAcero = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.PorcentajeAceroG.Text)));
                 String texto = ListaNumerosG.SelectedItem.ToString();
                 char num = texto[0];
                 int cantidad = (int)Char.GetNumericValue(num);
@@ -212,7 +312,7 @@ namespace FundTool
                 this.longitudRelleno = Int32.Parse(this.LongitudRellenoC.Text);
                 this.coefFriccionSuelo = Int32.Parse(this.CoefFriccionSueloC.Text);
                 this.coefFriccionRelleno = Int32.Parse(this.CoefFriccionRellenoC.Text);
-                this.porcentajeAcero = Int32.Parse(this.PorcentajeAceroC.Text);
+                this.porcentajeAcero = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.PorcentajeAceroC.Text)));
                 String texto = ListaNumerosG.SelectedItem.ToString();
                 char num = texto[0];
                 int cantidad = (int)Char.GetNumericValue(num);
@@ -248,18 +348,21 @@ namespace FundTool
                     Estrato estratonuevo = new Estrato();
                     Estrato aux = estratonuevo;
                     aux.Nombre = "E-" + (i + 1);
+                    aux.Espesor = "0";
                     this.estratos.Add(aux);
                 }
                 Estrato punta = new Estrato();
                 punta.Nombre = "Punta";
                 punta.Espesor = "Punta";
+                this.estratos.Add(punta);
                 ObservableCollection<Estrato> obsCollection = new ObservableCollection<Estrato>(this.estratos);
                 DataGridEstratos.DataContext = obsCollection;
                 DataGridEstratos.Columns[0].IsReadOnly = true;
                 DataGridEstratos.Columns[1].Header = "Espesor (m)";
-                DataGridEstratos.Columns[2].Header = "Angulo de Friccion";
-                DataGridEstratos.Columns[3].Header = "Cohesion (Ton/m²)";
-                DataGridEstratos.Columns[4].Header = "Peso Unitario (Ton/m²)";
+                DataGridEstratos.Columns[2].Header = "Descripcion";
+                DataGridEstratos.Columns[3].Header = "Angulo de Friccion";
+                DataGridEstratos.Columns[4].Header = "Cohesion (Ton/m²)";
+                DataGridEstratos.Columns[5].Header = "Peso Unitario (Ton/m²)";
                 AceptarValoresEstratos.IsEnabled = true;
             }
             else
@@ -275,9 +378,10 @@ namespace FundTool
             for (int i = 0; i < this.estratos.Count; i++)
             {
                 TextBlock espesor = DataGridEstratos.Columns[1].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
-                TextBlock angulo = DataGridEstratos.Columns[2].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
-                TextBlock cohesion = DataGridEstratos.Columns[3].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
-                TextBlock peso = DataGridEstratos.Columns[4].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
+                TextBlock descripcion = DataGridEstratos.Columns[2].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
+                TextBlock angulo = DataGridEstratos.Columns[3].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
+                TextBlock cohesion = DataGridEstratos.Columns[4].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
+                TextBlock peso = DataGridEstratos.Columns[5].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
                 if (espesor == null || angulo == null || cohesion == null || peso == null)
                 {
                     MessageBox.Show("Alguno de los valores esta vacio, por favor introduzca un numero");
@@ -285,7 +389,10 @@ namespace FundTool
                 }
                 if (this.estratos[i].Nombre == "Punta")
                 {
-                    this.estratos[i].Espesor = "Punta";
+                    if (String.IsNullOrEmpty(espesor.Text))
+                    {
+                        this.estratos[i].Espesor = "Punta";
+                    }
                 }
                 else
                 {
@@ -309,7 +416,7 @@ namespace FundTool
                 this.longitudRelleno = Int32.Parse(this.LongitudRellenoGC.Text);
                 this.coefFriccion = Int32.Parse(this.CoefFriccionGC.Text);
                 this.coefFriccionSuelo = Int32.Parse(this.CoefFriccionSueloGC.Text);
-                this.porcentajeAcero = Int32.Parse(this.PorcentajeAceroGC.Text);
+                this.porcentajeAcero = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.PorcentajeAceroGC.Text)));
                 String texto = ListaNumerosGC.SelectedItem.ToString();
                 char num = texto[0];
                 int cantidad = (int)Char.GetNumericValue(num);
@@ -332,25 +439,19 @@ namespace FundTool
 
         private void IntrodujoCantidadFundaciones(object sender, RoutedEventArgs e)
         {
-            String texto = ListaCantidad.SelectedItem.ToString();
-            if (texto.StartsWith("1"))
-            {
-                String completo = texto.Substring(0, 1);
-                int cantidad = Int32.Parse(completo);
-                this.cantidadFundaciones = cantidad;
-                this.CuantasFundaciones.Text = this.cantidadFundaciones.ToString();
-                //luego lo siguiente
-                return;
-            }
-            else
-            {
-                char num = texto[0];
-                int cantidad = (int)Char.GetNumericValue(num);
-                this.cantidadFundaciones = cantidad;
-                this.CuantasFundaciones.Text = this.cantidadFundaciones.ToString();
-                //luego lo siguiente
-                return;
-            }
+            int posicion = ListaCantidad.SelectedIndex;
+            int cantidad = posicion + 1;
+            this.cantidadFundaciones = cantidad;
+            this.CuantasFundaciones.Text = cantidad.ToString();
+            this.SolicitacionesGrid.Visibility = Visibility.Visible;
+            //luego lo siguiente
+            return;
+        }
+
+        private void CompletarIndirectas(object sender, RoutedEventArgs e)
+        {
+            //aqui hara lo siguiente que seria generar otra ventana y dar resultados? dependiendo del metodo a usar del tipo de suelo
+            //tal vez
         }
 
     }
