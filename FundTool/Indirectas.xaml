@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FundTool"
         mc:Ignorable="d"
-        Title="Indirectas" Height="450" Width="800">
-    <Grid Background="#D3D3D3" Margin="0,0,2,-421">
+        Title="FundTool - Indirectas" Height="893" Width="800">
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="0,0,0,-1">
+    <Grid Background="#D3D3D3" Margin="0,0,2,0">
         <Grid x:Name="TipoDeSuelo" HorizontalAlignment="Left" Height="142" Margin="10,145,0,0" VerticalAlignment="Top" Width="263" Background="AntiqueWhite">
             <Label Content="Tipo de Suelo:" FontWeight="Bold" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
             <RadioButton x:Name="Granular" Content="Suelo Granular" HorizontalAlignment="Left" Margin="10,38,0,0" VerticalAlignment="Top" GroupName="TipoDeSuelo" RenderTransformOrigin="0.319,0.562"/>
@@ -201,16 +202,48 @@
             <Button Content="Siguiente" HorizontalAlignment="Left" Margin="178,202,0,0" VerticalAlignment="Top" Width="75" Click="IntrodujoCantidadFundaciones"/>
             <TextBox x:Name="CuantasFundaciones" HorizontalAlignment="Left" Height="23" Margin="87,199,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="36" RenderTransformOrigin="0.583,0.435" IsEnabled="False"/>
         </Grid>
-        <Grid x:Name="SolicitacionesGrid" Height="237" Margin="10,529,0,0" VerticalAlignment="Top" Background="AntiqueWhite" HorizontalAlignment="Left" Width="772">
-            <Label Content="Solicitaciones" FontWeight="Bold" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-            <Label Content="Numero de Apoyo:" HorizontalAlignment="Left" Margin="234,10,0,0" VerticalAlignment="Top"/>
-            <TextBox x:Name="NroApoyos" HorizontalAlignment="Left" Height="23" Margin="345,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" PreviewTextInput="NumericOnly"/>
-            <Button Content="Introducir Apoyos" HorizontalAlignment="Left" Margin="400,14,0,0" VerticalAlignment="Top" Width="144" Click="IntroducirApoyos"/>
-            <DataGrid x:Name="DataGridSolicitaciones" Height="156" Margin="10,41,0,0" VerticalAlignment="Top" ItemsSource="{Binding}" CanUserAddRows="false" PreviewTextInput="NumericOnly" HorizontalAlignment="Left" Width="752"/>
-            <Button x:Name="AceptarValoresSolicitaciones" Content="Aceptar Valores" HorizontalAlignment="Left" Margin="633,205,0,0" VerticalAlignment="Top" Width="107" Click="IntroducirDatosSolicitaciones" IsEnabled="False"/>
-        </Grid>
-        <Grid x:Name="GridFinal" HorizontalAlignment="Left" Height="60" Margin="10,771,0,0" VerticalAlignment="Top" Width="770" Background="AntiqueWhite">
+        <Grid x:Name="GridFinal" HorizontalAlignment="Left" Height="60" Margin="10,794,0,0" VerticalAlignment="Top" Width="770" Background="AntiqueWhite">
             <Button Content="Aceptar y Continuar" FontWeight="Bold" HorizontalAlignment="Left" Margin="322,21,0,0" VerticalAlignment="Top" Width="127" Click="CompletarIndirectas" RenderTransformOrigin="0.874,0.7"/>
         </Grid>
+        <Grid x:Name="SolicitacionesGrid" Height="260" Margin="10,529,8,0" VerticalAlignment="Top" Background="AntiqueWhite">
+            <Label Content="Solicitaciones" FontWeight="Bold" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+            <Label Content="Numero de Apoyos en X:" HorizontalAlignment="Left" Margin="10,39,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="NroApoyosX" HorizontalAlignment="Left" Height="23" Margin="153,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" PreviewTextInput="NumericOnly" TextAlignment="Center"/>
+            <Button Content="Introducir Apoyos" HorizontalAlignment="Left" Margin="28,119,0,0" VerticalAlignment="Top" Width="144" Click="IntroducirApoyos"/>
+            <Button x:Name="AceptarValoresSolicitaciones" Content="Siguiente" HorizontalAlignment="Left" Margin="45,230,0,0" VerticalAlignment="Top" Width="107" Click="IntroducirDatosSolicitaciones" IsEnabled="False"/>
+            <Label Content="Numero de Apoyos en Y:" HorizontalAlignment="Left" Margin="10,77,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="NroApoyosY" HorizontalAlignment="Left" Height="23" Margin="153,80,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" PreviewTextInput="NumericOnly" TextAlignment="Center"/>
+            <Grid x:Name="GridApoyos" HorizontalAlignment="Left" Height="213" Margin="212,12,0,0" VerticalAlignment="Top" Width="321" Background="White"/>
+            <TextBox x:Name="ApoyosTotales" HorizontalAlignment="Left" Height="23" Margin="153,155,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" IsEnabled="False" TextAlignment="Center"/>
+            <Label Content="Apoyos totales:" HorizontalAlignment="Left" Margin="10,152,0,0" VerticalAlignment="Top"/>
+            <Button x:Name="ModificarDatosBoton" Content="Modificar Datos" HorizontalAlignment="Left" Margin="616,230,0,0" VerticalAlignment="Top" Width="93" Click="IntroducirDatosApoyo" IsEnabled="False"/>
+            <Label Content="Numero:" HorizontalAlignment="Left" Margin="557,21,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.411,0.615"/>
+            <TextBox x:Name="NumeroApoyo" HorizontalAlignment="Left" Height="23" Margin="613,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32" IsEnabled="False" TextAlignment="Center"/>
+            <Label Content="Nombre:" HorizontalAlignment="Left" Margin="655,23,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="NombreApoyo" HorizontalAlignment="Left" Height="23" Margin="710,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32" TextAlignment="Center"/>
+            <Label Content="Coordenada en eje X:" HorizontalAlignment="Left" Margin="557,77,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="CoordXApoyo" HorizontalAlignment="Left" Height="23" Margin="685,80,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32" TextAlignment="Center" PreviewTextInput="NumericOnly"/>
+            <Label Content="m" HorizontalAlignment="Left" Margin="722,77,0,0" VerticalAlignment="Top"/>
+            <Label Content="Coordenada en eje Y:" HorizontalAlignment="Left" Margin="557,103,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="CoordYApoyo" HorizontalAlignment="Left" Height="23" Margin="685,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32" TextAlignment="Center" PreviewTextInput="NumericOnly"/>
+            <Label Content="m" HorizontalAlignment="Left" Margin="722,103,0,0" VerticalAlignment="Top"/>
+            <Label Content="Carga:" HorizontalAlignment="Left" Margin="639,51,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="CargaApoyo" HorizontalAlignment="Left" Height="23" Margin="685,54,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32" TextAlignment="Center" PreviewTextInput="NumericOnly"/>
+            <Label Content="Ton" HorizontalAlignment="Left" Margin="719,51,0,0" VerticalAlignment="Top"/>
+            <Label Content="Mto. en Eje X:" HorizontalAlignment="Left" Margin="595,132,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="MtoEjeXApoyo" HorizontalAlignment="Left" Height="23" Margin="685,132,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32" TextAlignment="Center" PreviewTextInput="NumericOnly"/>
+            <Label Content="Ton-m" HorizontalAlignment="Left" Margin="719,129,0,0" VerticalAlignment="Top"/>
+            <Label Content="Mto. en Eje Y:" HorizontalAlignment="Left" Margin="595,158,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="MtoEjeYApoyo" HorizontalAlignment="Left" Height="23" Margin="685,158,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32" TextAlignment="Center" PreviewTextInput="NumericOnly"/>
+            <Label Content="Ton-m" HorizontalAlignment="Left" Margin="719,155,0,0" VerticalAlignment="Top"/>
+            <Label Content="F. Basal:" HorizontalAlignment="Left" Margin="544,184,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.726,0.462"/>
+            <TextBox x:Name="FBasalXApoyo" HorizontalAlignment="Left" Height="23" Margin="616,187,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32" TextAlignment="Center" PreviewTextInput="NumericOnly"/>
+            <Label Content="Ton" HorizontalAlignment="Left" Margin="648,184,0,0" VerticalAlignment="Top"/>
+            <Label Content="X:" HorizontalAlignment="Left" Margin="597,184,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="FBasalYApoyo" HorizontalAlignment="Left" Height="23" Margin="701,187,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32" TextAlignment="Center" PreviewTextInput="NumericOnly"/>
+            <Label Content="Ton" HorizontalAlignment="Left" Margin="733,184,0,0" VerticalAlignment="Top"/>
+            <Label Content="Y:" HorizontalAlignment="Left" Margin="682,184,0,0" VerticalAlignment="Top"/>
+        </Grid>
     </Grid>
+    </ScrollViewer>
 </Window>

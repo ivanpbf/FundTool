@@ -245,50 +245,6 @@ namespace FundTool
                 ModificarDatosBoton.IsEnabled = true;
                 AceptarValoresSolicitaciones.IsEnabled = true;
             }
-            /* Codigo viejo 
-            if (!String.IsNullOrEmpty(this.NroApoyos.Text) && !this.NroApoyos.Text.Equals("0"))
-            {
-                int numero = Int32.Parse(this.NroApoyos.Text);
-                apoyos = new List<Apoyo>();
-                for (int i = 0; i < numero; i++)
-                {
-                    Apoyo solicitacionnueva = new Apoyo();
-                    Apoyo aux = solicitacionnueva;
-                    aux.Numero = i+1;
-                    Boolean introdujoNombre = false;
-                    do
-                    {
-                        String nombre = Interaction.InputBox("Nombre de Solicitacion " + (i + 1), "Agregar Nombre de Solicitaciones");
-                        if(nombre != "")
-                        {
-                            aux.Nombre = nombre;
-                            introdujoNombre = true;
-                        }
-                        else
-                        {
-                            return;
-                        }
-                    } while (introdujoNombre == false);
-                    this.apoyos.Add(aux);
-                }
-                ObservableCollection<Apoyo> obsCollection = new ObservableCollection<Apoyo>(this.apoyos);
-                DataGridSolicitaciones.DataContext = obsCollection;
-                DataGridSolicitaciones.Columns[0].IsReadOnly = true;
-                DataGridSolicitaciones.Columns[1].IsReadOnly = true;
-                DataGridSolicitaciones.Columns[2].Header = "Coord. En el eje X (m)";
-                DataGridSolicitaciones.Columns[3].Header = "Coord. En el eje Y (m)";
-                DataGridSolicitaciones.Columns[4].Header = "Carga (Ton)";
-                DataGridSolicitaciones.Columns[5].Header = "Mto. en Eje X (Ton-m";
-                DataGridSolicitaciones.Columns[6].Header = "Mto. en Eje Y (Ton-m";
-                DataGridSolicitaciones.Columns[7].Header = "F. Basal X (ton)";
-                DataGridSolicitaciones.Columns[8].Header = "F. Basal Y (Ton)";
-                AceptarValoresSolicitaciones.IsEnabled = true;
-            }
-            else
-            {
-                MessageBox.Show("Introduzca un numero de Apoyos mayor a 0");
-                return;
-            }*/
             else
             {
                 MessageBox.Show("Introduzca un numero de Apoyos mayor a 0");
@@ -337,30 +293,6 @@ namespace FundTool
         private void IntroducirDatosSolicitaciones(object sender, RoutedEventArgs e)
         {
             this.GridFinal.Visibility = Visibility.Visible;
-            /* Codigo viejo
-            for(int i = 0; i < this.apoyos.Count; i++)
-            {
-                TextBlock coordx = DataGridSolicitaciones.Columns[2].GetCellContent(DataGridSolicitaciones.Items[i]) as TextBlock;
-                TextBlock coordy = DataGridSolicitaciones.Columns[3].GetCellContent(DataGridSolicitaciones.Items[i]) as TextBlock;
-                TextBlock carga = DataGridSolicitaciones.Columns[4].GetCellContent(DataGridSolicitaciones.Items[i]) as TextBlock;
-                TextBlock mtoejex = DataGridSolicitaciones.Columns[5].GetCellContent(DataGridSolicitaciones.Items[i]) as TextBlock;
-                TextBlock mtoejey = DataGridSolicitaciones.Columns[6].GetCellContent(DataGridSolicitaciones.Items[i]) as TextBlock;
-                TextBlock fbasalx = DataGridSolicitaciones.Columns[7].GetCellContent(DataGridSolicitaciones.Items[i]) as TextBlock;
-                TextBlock fbasaly = DataGridSolicitaciones.Columns[8].GetCellContent(DataGridSolicitaciones.Items[i]) as TextBlock;
-                if (coordx == null || coordy == null || carga == null || mtoejex == null || mtoejey == null || fbasalx == null || fbasaly == null)
-                {
-                    MessageBox.Show("Alguno de los valores esta vacio, por favor introduzca un numero");
-                    return;
-                }
-                this.apoyos[i].Carga = Int32.Parse(carga.Text);
-                this.apoyos[i].CoordEjeX = Int32.Parse(coordx.Text);
-                this.apoyos[i].CoordEjeY = Int32.Parse(coordy.Text);
-                this.apoyos[i].MtoEnEjeX = Int32.Parse(mtoejex.Text);
-                this.apoyos[i].MtoEnEjeY = Int32.Parse(mtoejey.Text);
-                this.apoyos[i].FBasalX = Int32.Parse(fbasalx.Text);
-                this.apoyos[i].FBasalY = Int32.Parse(fbasaly.Text);
-                this.GridFinal.Visibility = Visibility.Visible;
-            }*/
         }
 
         private void IntrodujoCantidadFundaciones(object sender, RoutedEventArgs e)
