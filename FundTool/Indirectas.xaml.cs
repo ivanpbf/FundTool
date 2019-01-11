@@ -440,8 +440,9 @@ namespace FundTool
         private void IntrodujoCantidadFundaciones(object sender, RoutedEventArgs e)
         {
             int posicion = ListaCantidad.SelectedIndex;
-            int cantidad = posicion + 1;
-            this.cantidadFundaciones = cantidad;
+            int cuanto = posicion + 1;
+            int cantidad = cuanto * cuanto;
+            this.cantidadFundaciones = cantidad*cantidad;
             this.CuantasFundaciones.Text = cantidad.ToString();
             this.SolicitacionesGrid.Visibility = Visibility.Visible;
             //luego lo siguiente

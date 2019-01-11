@@ -190,6 +190,62 @@ namespace FundTool
 
         private void IntroducirApoyos(object sender, RoutedEventArgs e)
         {
+            if (!String.IsNullOrEmpty(this.NroApoyosX.Text) && !this.NroApoyosX.Text.Equals("0") && !String.IsNullOrEmpty(this.NroApoyosY.Text) && !this.NroApoyosY.Text.Equals("0"))
+            {
+                this.GridApoyos.Children.Clear();
+                this.GridApoyos.RowDefinitions.Clear();
+                this.GridApoyos.ColumnDefinitions.Clear();
+                int numerox = Int32.Parse(this.NroApoyosX.Text);
+                int numeroy = Int32.Parse(this.NroApoyosY.Text);
+                int totales = numerox * numeroy;
+                //agregando apoyos
+                apoyos = new List<Apoyo>();
+                for (int i = 0; i < totales; i++)
+                {
+                    Apoyo apoyonuevo = new Apoyo();
+                    apoyonuevo.Numero = i + 1;
+                    apoyonuevo.Carga = 0;
+                    apoyonuevo.CoordEjeX = 0;
+                    apoyonuevo.CoordEjeY = 0;
+                    apoyonuevo.MtoEnEjeX = 0;
+                    apoyonuevo.MtoEnEjeY = 0;
+                    apoyonuevo.FBasalX = 0;
+                    apoyonuevo.FBasalY = 0;
+                    apoyonuevo.Nombre = apoyonuevo.Numero.ToString();
+                    apoyos.Add(apoyonuevo);
+                }
+                this.ApoyosTotales.Text = apoyos.Count().ToString();
+                //agregando columnas
+                for (int i = 0; i < numerox; i++)
+                {
+                    ColumnDefinition gridcol = new ColumnDefinition();
+                    GridApoyos.ColumnDefinitions.Add(gridcol);
+                }
+                //agregando filas
+                for (int i = 0; i < numeroy; i++)
+                {
+                    RowDefinition gridro = new RowDefinition();
+                    GridApoyos.RowDefinitions.Add(gridro);
+                }
+                //agregando botones
+                int aux = 1;
+                for (int j = 0; j < numeroy; j++)
+                {
+                    for (int i = 0; i < numerox; i++)
+                    {
+                        Button boton = new Button();
+                        boton.Content = aux.ToString();
+                        boton.Click += new RoutedEventHandler(this.BuscarApoyo);
+                        Grid.SetRow(boton, j);
+                        Grid.SetColumn(boton, i);
+                        GridApoyos.Children.Add(boton);
+                        aux++;
+                    }
+                }
+                ModificarDatosBoton.IsEnabled = true;
+                AceptarValoresSolicitaciones.IsEnabled = true;
+            }
+            /* Codigo viejo 
             if (!String.IsNullOrEmpty(this.NroApoyos.Text) && !this.NroApoyos.Text.Equals("0"))
             {
                 int numero = Int32.Parse(this.NroApoyos.Text);
@@ -232,12 +288,56 @@ namespace FundTool
             {
                 MessageBox.Show("Introduzca un numero de Apoyos mayor a 0");
                 return;
+            }*/
+            else
+            {
+                MessageBox.Show("Introduzca un numero de Apoyos mayor a 0");
+                return;
             }
+        }
 
+        private void BuscarApoyo(object sender, RoutedEventArgs e)
+        {
+            Button elboton = (Button)sender;
+            int numero = Int32.Parse((String)elboton.Content);
+            this.NombreApoyo.Text = this.apoyos[numero-1].Nombre;
+            this.CargaApoyo.Text = this.apoyos[numero-1].Carga.ToString();
+            this.NumeroApoyo.Text = this.apoyos[numero-1].Numero.ToString();
+            this.CoordXApoyo.Text = this.apoyos[numero-1].CoordEjeX.ToString();
+            this.CoordYApoyo.Text = this.apoyos[numero-1].CoordEjeY.ToString();
+            this.MtoEjeXApoyo.Text = this.apoyos[numero-1].MtoEnEjeX.ToString();
+            this.MtoEjeYApoyo.Text = this.apoyos[numero-1].MtoEnEjeY.ToString();
+            this.FBasalXApoyo.Text = this.apoyos[numero-1].FBasalX.ToString();
+            this.FBasalYApoyo.Text = this.apoyos[numero-1].FBasalY.ToString();
+        }
+
+        private void IntroducirDatosApoyo(object sender, RoutedEventArgs e)
+        {
+            if (!String.IsNullOrEmpty(this.NombreApoyo.Text) && !String.IsNullOrEmpty(this.CargaApoyo.Text) && !String.IsNullOrEmpty(this.CoordXApoyo.Text) && !String.IsNullOrEmpty(this.CoordYApoyo.Text)
+                && !String.IsNullOrEmpty(this.MtoEjeXApoyo.Text) && !String.IsNullOrEmpty(this.MtoEjeYApoyo.Text) && !String.IsNullOrEmpty(this.FBasalXApoyo.Text) && !String.IsNullOrEmpty(this.FBasalYApoyo.Text))
+            {
+                int numero = Int32.Parse(this.NumeroApoyo.Text);
+                this.apoyos[numero - 1].Nombre = this.NombreApoyo.Text;
+                this.apoyos[numero - 1].Carga = Int32.Parse(this.CargaApoyo.Text);
+                this.apoyos[numero - 1].CoordEjeX = Int32.Parse(this.CoordXApoyo.Text);
+                this.apoyos[numero - 1].CoordEjeY = Int32.Parse(this.CoordYApoyo.Text);
+                this.apoyos[numero - 1].MtoEnEjeX = Int32.Parse(this.MtoEjeXApoyo.Text);
+                this.apoyos[numero - 1].MtoEnEjeY = Int32.Parse(this.MtoEjeYApoyo.Text);
+                this.apoyos[numero - 1].FBasalX = Int32.Parse(this.FBasalXApoyo.Text);
+                this.apoyos[numero - 1].FBasalY = Int32.Parse(this.FBasalYApoyo.Text);
+                MessageBox.Show("Se introdujeron los datos correctamente.");
+            }
+            else
+            {
+                MessageBox.Show("Alguno de los valores esta vacio, por favor llene los datos.");
+                return;
+            }
         }
 
         private void IntroducirDatosSolicitaciones(object sender, RoutedEventArgs e)
         {
+            this.GridFinal.Visibility = Visibility.Visible;
+            /* Codigo viejo
             for(int i = 0; i < this.apoyos.Count; i++)
             {
                 TextBlock coordx = DataGridSolicitaciones.Columns[2].GetCellContent(DataGridSolicitaciones.Items[i]) as TextBlock;
@@ -260,13 +360,14 @@ namespace FundTool
                 this.apoyos[i].FBasalX = Int32.Parse(fbasalx.Text);
                 this.apoyos[i].FBasalY = Int32.Parse(fbasaly.Text);
                 this.GridFinal.Visibility = Visibility.Visible;
-            }
+            }*/
         }
 
         private void IntrodujoCantidadFundaciones(object sender, RoutedEventArgs e)
         {
             int posicion = ListaCantidad.SelectedIndex;
-            int cantidad = posicion + 1;
+            int cuanto = posicion + 1;
+            int cantidad = cuanto * cuanto;
             this.cantidadFundaciones = cantidad;
             this.CuantasFundaciones.Text = cantidad.ToString();
             this.SolicitacionesGrid.Visibility = Visibility.Visible;
@@ -280,5 +381,6 @@ namespace FundTool
             //tal vez
         }
 
+        
     }
 }
