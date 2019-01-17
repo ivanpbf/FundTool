@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FundTool"
         mc:Ignorable="d"
-        Title="FundTool - Indirectas" Height="787" Width="800">
+        Title="FundTool - Indirectas" Height="720" Width="800">
     <ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="0,0,0,-1">
-        <Grid Background="#D3D3D3" Height="743">
+        <Grid Background="#D3D3D3" Height="680">
             <Grid x:Name="TipoDeSuelo" HorizontalAlignment="Left" Height="142" Margin="10,145,0,0" VerticalAlignment="Top" Width="263" Background="AntiqueWhite">
                 <Label Content="Tipo de Suelo:" FontWeight="Bold" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
                 <RadioButton x:Name="Granular" Content="Suelo Granular" HorizontalAlignment="Left" Margin="10,38,0,0" VerticalAlignment="Top" GroupName="TipoDeSuelo" RenderTransformOrigin="0.319,0.562"/>
@@ -149,10 +149,10 @@
                 <Button x:Name="Aceptarm" Content="Aceptar" HorizontalAlignment="Left" Margin="136,93,0,0" VerticalAlignment="Top" Width="53" Click="AceptarMateriales"/>
                 <Button x:Name="Cancelarm" Content="Cancelar" HorizontalAlignment="Left" Margin="198,93,0,0" VerticalAlignment="Top" Width="55" Click="CancelarMateriales"/>
             </Grid>
-            <Grid x:Name="GridFinal" HorizontalAlignment="Left" Height="60" Margin="4,679,0,0" VerticalAlignment="Top" Width="770" Background="AntiqueWhite">
+            <Grid x:Name="GridFinal" HorizontalAlignment="Left" Height="60" Margin="2,595,0,0" VerticalAlignment="Top" Width="773" Background="AntiqueWhite">
                 <Button Content="Aceptar y Continuar" FontWeight="Bold" HorizontalAlignment="Left" Margin="322,21,0,0" VerticalAlignment="Top" Width="127" Click="CompletarIndirectas" RenderTransformOrigin="0.874,0.7"/>
             </Grid>
-            <Grid x:Name="SolicitacionesGrid" Height="269" Margin="-6,405,0,0" VerticalAlignment="Top" Background="AntiqueWhite">
+            <Grid x:Name="SolicitacionesGrid" Height="269" Margin="2,321,0,0" VerticalAlignment="Top" Background="AntiqueWhite">
                 <Label Content="Solicitaciones" FontWeight="Bold" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
                 <Label Content="Numero de Apoyos en X:" HorizontalAlignment="Left" Margin="10,39,0,0" VerticalAlignment="Top"/>
                 <TextBox x:Name="NroApoyosX" HorizontalAlignment="Left" Height="23" Margin="153,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" PreviewTextInput="NumericOnly" TextAlignment="Center"/>
