@@ -53,22 +53,19 @@ namespace FundTool
         public int? resistenciaConcreto;
         public List<MetroGolpe> golpesSuelo;
         public int? profundidadEstudioSuelos;
-        public int? diametroInicial;
         public int? longitudPilote;
         public int? longitudRelleno;
         public int? coefFriccionSuelo;
         public int? coefFriccionRelleno;
         public long? porcentajeAcero;
         public int? numeroPilotes;
-        public int? cargaActuante;
-        public int? momentoX;
-        public int? momentoY;
         public int? cohesionFuste;
         public int? cohesionPunta;
         public int? factorAdherencia;
         public int? numeroEstratos;
         public int? coefFriccion;
         public int? cantidadFundaciones;
+        public Boolean introdujoGolpes;
         public List<Apoyo> apoyos;
         public List<Estrato> estratos;
 
@@ -78,7 +75,6 @@ namespace FundTool
             InitializeComponent();
             this.TipoDeSuelo.Visibility = Visibility.Collapsed;
             this.GranularGrid.Visibility = Visibility.Collapsed;
-            this.GridCantidad.Visibility = Visibility.Collapsed;
             this.SolicitacionesGrid.Visibility = Visibility.Collapsed;
             this.GridFinal.Visibility = Visibility.Collapsed;
             this.golpesSuelo = new List<MetroGolpe>();
@@ -174,25 +170,47 @@ namespace FundTool
             }
         }
 
-        private void AgregarMetroyGolpeGranular(object sender, RoutedEventArgs e)
+        private void AgregarMetroyGolpe(object sender, RoutedEventArgs e)
         {
-            String nuevo = Interaction.InputBox("Metro " + (this.golpesSuelo.Count + 1), "Agregar Golpe");
-            bool esNumero = Microsoft.VisualBasic.Information.IsNumeric(nuevo);
-            if (esNumero)
+            if (!String.IsNullOrEmpty(this.ProfundidadEstudioSuelosG.Text) && !this.ProfundidadEstudioSuelosG.Text.Equals(0))
             {
-                MetroGolpe nuevom = new MetroGolpe() { Metro = this.golpesSuelo.Count + 1, NumeroDeGolpes = Int32.Parse(nuevo) };
-                this.golpesSuelo.Add(nuevom);
-                this.ProfundidadEstudioSuelosG.Text = this.golpesSuelo.Count.ToString();
-                this.profundidadEstudioSuelos = this.golpesSuelo.Count;
+                int num = Int32.Parse(this.ProfundidadEstudioSuelosG.Text);
+                this.golpesSuelo = new List<MetroGolpe>();
+                for (int i = 0; i < num; i++)
+                {
+                    MetroGolpe nuevom = new MetroGolpe() { Metro = i + 1, NumeroDeGolpes = 0 };
+                    this.golpesSuelo.Add(nuevom);
+                }
                 ObservableCollection<MetroGolpe> obsCollection = new ObservableCollection<MetroGolpe>(this.golpesSuelo);
-                DataGridGolpesG.DataContext = obsCollection;
+                this.profundidadEstudioSuelos = this.golpesSuelo.Count;
+                DataGridGolpes.DataContext = obsCollection;
+                DataGridGolpes.Columns[0].IsReadOnly = true;
+                DataGridGolpes.Columns[1].Header = "Numero de Golpes";
+                DataGridGolpes.CanUserAddRows = false;
+                this.AceptarMetroGolpes.IsEnabled = true;
+                this.introdujoGolpes = false;
             }
             else
             {
-                MessageBox.Show("Introduzca un valor numerico");
+                MessageBox.Show("Introduzca un Valor");
                 return;
             }
+        }
 
+        private void AceptarMetroYGolpe(object sender, RoutedEventArgs e)
+        {
+            for (int i = 0; i < this.golpesSuelo.Count; i++)
+            {
+                TextBlock golpe = DataGridGolpes.Columns[1].GetCellContent(DataGridGolpes.Items[i]) as TextBlock;
+                if (golpe == null)
+                {
+                    MessageBox.Show("Alguno de los valores esta vacio, por favor introduzca un numero");
+                    return;
+                }
+                this.golpesSuelo[i].NumeroDeGolpes = Int32.Parse(golpe.Text);
+            }
+            MessageBox.Show("Se aceptaron los valores correctamente");
+            this.introdujoGolpes = true;
         }
 
         private void IntroducirApoyos(object sender, RoutedEventArgs e)
@@ -304,11 +322,10 @@ namespace FundTool
 
         private void IntrodujoDatosSueloGranular(object sender, RoutedEventArgs e)
         {
-            if (!String.IsNullOrEmpty(this.DiametroInicialG.Text) && !String.IsNullOrEmpty(this.LongitudPiloteG.Text) && !String.IsNullOrEmpty(this.CoefFriccionSueloG.Text) &&
-                  !String.IsNullOrEmpty(this.CoefFriccionRellenoG.Text) && !String.IsNullOrEmpty(this.PorcentajeAceroG.Text) && !String.IsNullOrEmpty(this.CargaActuanteG.Text)
-                  && !String.IsNullOrEmpty(this.ProfundidadEstudioSuelosG.Text))
+            if (!String.IsNullOrEmpty(this.LongitudPiloteG.Text) && !String.IsNullOrEmpty(this.CoefFriccionSueloG.Text) &&
+                  !String.IsNullOrEmpty(this.CoefFriccionRellenoG.Text) && !String.IsNullOrEmpty(this.PorcentajeAceroG.Text)
+                  && !String.IsNullOrEmpty(this.ProfundidadEstudioSuelosG.Text) && this.introdujoGolpes)
             {
-                this.diametroInicial = Int32.Parse(this.DiametroInicialG.Text);
                 this.longitudPilote = Int32.Parse(this.LongitudPiloteG.Text);
                 this.longitudRelleno = Int32.Parse(this.LongitudRellenoG.Text);
                 this.coefFriccionSuelo = Int32.Parse(this.CoefFriccionSueloG.Text);
@@ -318,13 +335,10 @@ namespace FundTool
                 char num = texto[0];
                 int cantidad = (int)Char.GetNumericValue(num);
                 this.numeroPilotes = cantidad;
-                this.cargaActuante = Int32.Parse(this.CargaActuanteG.Text);
-                this.momentoX = Int32.Parse(this.MomentoXG.Text);
-                this.momentoY = Int32.Parse(this.MomentoYG.Text);
                 /*Luego
                  * Hara algo relacionado con todo lo que pidio, primero terminar las de los otros suelos
                  al parecer Granular usa Meyerhof*/
-                this.GridCantidad.Visibility = Visibility.Visible;
+                this.SolicitacionesGrid.Visibility = Visibility.Visible;
             }
             else
             {
@@ -335,11 +349,10 @@ namespace FundTool
 
         private void IntrodujoDatosSueloCohesivo(object sender, RoutedEventArgs e)
         {
-            if (!String.IsNullOrEmpty(this.DiametroInicialC.Text) && !String.IsNullOrEmpty(this.LongitudPiloteC.Text) && !String.IsNullOrEmpty(this.CoefFriccionSueloC.Text) &&
-                  !String.IsNullOrEmpty(this.CoefFriccionRellenoC.Text) && !String.IsNullOrEmpty(this.PorcentajeAceroC.Text) && !String.IsNullOrEmpty(this.CargaActuanteC.Text)
+            if (!String.IsNullOrEmpty(this.LongitudPiloteC.Text) && !String.IsNullOrEmpty(this.CoefFriccionSueloC.Text) &&
+                  !String.IsNullOrEmpty(this.CoefFriccionRellenoC.Text) && !String.IsNullOrEmpty(this.PorcentajeAceroC.Text)
                   && !String.IsNullOrEmpty(this.CohesionFusteC.Text) && !String.IsNullOrEmpty(this.CohesionPuntaC.Text) && !String.IsNullOrEmpty(this.FactorAdherenciaC.Text))
             {
-                this.diametroInicial = Int32.Parse(this.DiametroInicialC.Text);
                 this.longitudPilote = Int32.Parse(this.LongitudPiloteC.Text);
                 this.longitudRelleno = Int32.Parse(this.LongitudRellenoC.Text);
                 this.coefFriccionSuelo = Int32.Parse(this.CoefFriccionSueloC.Text);
@@ -349,16 +362,13 @@ namespace FundTool
                 char num = texto[0];
                 int cantidad = (int)Char.GetNumericValue(num);
                 this.numeroPilotes = cantidad;
-                this.cargaActuante = Int32.Parse(this.CargaActuanteC.Text);
-                this.momentoX = Int32.Parse(this.MomentoXC.Text);
-                this.momentoY = Int32.Parse(this.MomentoYC.Text);
                 this.cohesionFuste = Int32.Parse(this.CohesionFusteC.Text);
                 this.cohesionPunta = Int32.Parse(this.CohesionPuntaC.Text);
                 this.factorAdherencia = Int32.Parse(this.FactorAdherenciaC.Text);
                 /*Luego
                  * Hara algo relacionado con todo lo que pidio, primero terminar las de los otros suelos
                  al parecer cohesion usa skempton?*/
-                this.GridCantidad.Visibility = Visibility.Visible;
+                this.SolicitacionesGrid.Visibility = Visibility.Visible;
 
             }
             else
@@ -439,11 +449,10 @@ namespace FundTool
 
         private void IntrodujoDatosSueloGranularCohesivo(object sender, RoutedEventArgs e)
         {
-            if (!String.IsNullOrEmpty(this.DiametroInicialGC.Text) && !String.IsNullOrEmpty(this.LongitudPiloteGC.Text) && !String.IsNullOrEmpty(this.LongitudRellenoGC.Text) &&
-                !String.IsNullOrEmpty(this.CoefFriccionSueloGC.Text) && !String.IsNullOrEmpty(this.CoefFriccionGC.Text) && !String.IsNullOrEmpty(this.PorcentajeAceroGC.Text)
-                && !String.IsNullOrEmpty(this.CargaActuanteGC.Text))
+            if (!String.IsNullOrEmpty(this.LongitudPiloteGC.Text) && !String.IsNullOrEmpty(this.LongitudRellenoGC.Text) &&
+                !String.IsNullOrEmpty(this.CoefFriccionSueloGC.Text) && !String.IsNullOrEmpty(this.CoefFriccionGC.Text)
+                && !String.IsNullOrEmpty(this.PorcentajeAceroGC.Text))
             {
-                this.diametroInicial = Int32.Parse(this.DiametroInicialGC.Text);
                 this.longitudPilote = Int32.Parse(this.LongitudPiloteGC.Text);
                 this.longitudRelleno = Int32.Parse(this.LongitudRellenoGC.Text);
                 this.coefFriccion = Int32.Parse(this.CoefFriccionGC.Text);
@@ -453,13 +462,10 @@ namespace FundTool
                 char num = texto[0];
                 int cantidad = (int)Char.GetNumericValue(num);
                 this.numeroPilotes = cantidad;
-                this.cargaActuante = Int32.Parse(this.CargaActuanteGC.Text);
-                this.momentoX = Int32.Parse(this.MomentoXGC.Text);
-                this.momentoY = Int32.Parse(this.MomentoYGC.Text);
                 /*Luego
                  * Hara algo relacionado con todo lo que pidio, primero terminar las de los otros suelos
                  al parecer cohesion usa caquot-kerisel*/
-                this.GridCantidad.Visibility = Visibility.Visible;
+                this.SolicitacionesGrid.Visibility = Visibility.Visible;
 
             }
             else
@@ -469,17 +475,6 @@ namespace FundTool
             }
         }
 
-        private void IntrodujoCantidadFundaciones(object sender, RoutedEventArgs e)
-        {
-            int posicion = ListaCantidad.SelectedIndex;
-            int cuanto = posicion + 1;
-            int cantidad = cuanto * cuanto;
-            this.cantidadFundaciones = cantidad*cantidad;
-            this.CuantasFundaciones.Text = cantidad.ToString();
-            this.SolicitacionesGrid.Visibility = Visibility.Visible;
-            //luego lo siguiente
-            return;
-        }
 
         private void CompletarIndirectas(object sender, RoutedEventArgs e)
         {
