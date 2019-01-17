@@ -50,9 +50,9 @@ namespace FundTool
         public Boolean datosEnsayoSPT;
         public int? profundidadEstudioSuelos;
         public int? asentamiento;
+        public Boolean introdujoGolpes;
         public List<MetroGolpe> golpesSuelo;
         public List<Apoyo> apoyos;
-        public int? cantidadFundaciones;
 
 
         public Directas()
@@ -61,7 +61,6 @@ namespace FundTool
             this.datosdelsuelo.Visibility = Visibility.Collapsed;
             this.DatosDelEnsayoSPTGranulares.Visibility = Visibility.Collapsed;
             this.SolicitacionesGrid.Visibility = Visibility.Collapsed;
-            this.GridCantidad.Visibility = Visibility.Collapsed;
             this.GridFinal.Visibility = Visibility.Collapsed;
             this.golpesSuelo = new List<MetroGolpe>();
 
@@ -149,7 +148,7 @@ namespace FundTool
                 }
                 if ((Boolean)this.IntroducirSPT.IsChecked)
                 {
-                    if(!String.IsNullOrEmpty(this.ProfundidadEstudioSuelos.Text) && !String.IsNullOrEmpty(this.Asentamiento.Text))
+                    if(!String.IsNullOrEmpty(this.ProfundidadEstudioSuelos.Text) && !String.IsNullOrEmpty(this.Asentamiento.Text) && this.introdujoGolpes)
                     {
                         this.asentamiento = Int32.Parse(this.Asentamiento.Text);
                     }
@@ -159,7 +158,7 @@ namespace FundTool
                         return;
                     }
                 }
-                this.GridCantidad.Visibility = Visibility.Visible;
+                this.SolicitacionesGrid.Visibility = Visibility.Visible;
             }
             else
             {
@@ -170,22 +169,45 @@ namespace FundTool
 
         private void AgregarMetroyGolpe(object sender, RoutedEventArgs e)
         {
-            String nuevo = Interaction.InputBox("Metro "+(this.golpesSuelo.Count+1), "Agregar Golpe");
-            bool esNumero = Microsoft.VisualBasic.Information.IsNumeric(nuevo);
-            if (esNumero){
-                MetroGolpe nuevom = new MetroGolpe(){ Metro = this.golpesSuelo.Count + 1, NumeroDeGolpes = Int32.Parse(nuevo) };
-                this.golpesSuelo.Add(nuevom);
-                this.ProfundidadEstudioSuelos.Text = this.golpesSuelo.Count.ToString();
-                this.profundidadEstudioSuelos = this.golpesSuelo.Count;
+             if(!String.IsNullOrEmpty(this.ProfundidadEstudioSuelos.Text) && !this.ProfundidadEstudioSuelos.Text.Equals(0))
+            {
+                int num = Int32.Parse(this.ProfundidadEstudioSuelos.Text);
+                this.golpesSuelo = new List<MetroGolpe>();
+                for (int i = 0; i < num; i++)
+                {
+                    MetroGolpe nuevom = new MetroGolpe() { Metro = i + 1, NumeroDeGolpes = 0 };
+                    this.golpesSuelo.Add(nuevom);
+                }
                 ObservableCollection<MetroGolpe> obsCollection = new ObservableCollection<MetroGolpe>(this.golpesSuelo);
+                this.profundidadEstudioSuelos = this.golpesSuelo.Count;
                 DataGridGolpes.DataContext = obsCollection;
+                DataGridGolpes.Columns[0].IsReadOnly = true;
+                DataGridGolpes.Columns[1].Header = "Numero de Golpes";
+                DataGridGolpes.CanUserAddRows = false;
+                this.AceptarMetroGolpes.IsEnabled = true;
+                this.introdujoGolpes = false;
             }
             else
             {
-                MessageBox.Show("Introduzca un valor numerico");
+                MessageBox.Show("Introduzca un Valor");
                 return;
             }
+        }
 
+        private void AceptarMetroYGolpe(object sender, RoutedEventArgs e)
+        {
+            for (int i = 0; i < this.golpesSuelo.Count; i++)
+            {
+                TextBlock golpe = DataGridGolpes.Columns[1].GetCellContent(DataGridGolpes.Items[i]) as TextBlock;
+                if(golpe == null)
+                {
+                    MessageBox.Show("Alguno de los valores esta vacio, por favor introduzca un numero");
+                    return;
+                }
+                this.golpesSuelo[i].NumeroDeGolpes = Int32.Parse(golpe.Text);
+            }
+            MessageBox.Show("Se aceptaron los valores correctamente");
+            this.introdujoGolpes = true;
         }
 
         private void IntroducirApoyos(object sender, RoutedEventArgs e)
@@ -295,17 +317,6 @@ namespace FundTool
             this.GridFinal.Visibility = Visibility.Visible;
         }
 
-        private void IntrodujoCantidadFundaciones(object sender, RoutedEventArgs e)
-        {
-            int posicion = ListaCantidad.SelectedIndex;
-            int cuanto = posicion + 1;
-            int cantidad = cuanto * cuanto;
-            this.cantidadFundaciones = cantidad;
-            this.CuantasFundaciones.Text = cantidad.ToString();
-            this.SolicitacionesGrid.Visibility = Visibility.Visible;
-            //luego lo siguiente
-            return;
-        }
 
         private void CompletarDirectas(object sender, RoutedEventArgs e)
         {
