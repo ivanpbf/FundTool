@@ -27,8 +27,19 @@ namespace FundTool
             public int Metro { get; set; }
             public int NumeroDeGolpes { get; set; }
         }
+        public class Pilote
+        {
+            public long Diametro { get; set; }
+            public long Longitud { get; set; }
+            public long AreaCabillas { get; set; }
+            public long EspesorCabezal { get; set; }
+            public long EspaciamientoCabillas { get; set; }
+            public long DimensionesCabezal { get; set; }
+        }
         public class Apoyo
         {
+            public long EspaciamientoEntrePilotes { get; set; }
+            public List<Pilote> Pilotes { get; set; }
             public int Numero { get; set; }
             public String Nombre { get; set; }
             public int CoordEjeX { get; set; }
@@ -50,11 +61,13 @@ namespace FundTool
         }
         public String tipoDeSuelo;
         public int? resistenciaAcero;
+        public long? nsptpunta;
         public int? resistenciaConcreto;
+        public List<int> diametrosComerciales = new List<int> { 55, 65, 80, 90, 100, 110, 120, 130, 140, 150 }; // centimetros
         public List<MetroGolpe> golpesSuelo;
         public int? profundidadEstudioSuelos;
         public int? longitudPilote;
-        public int? longitudRelleno;
+        public int? espesorRelleno;
         public int? coefFriccionSuelo;
         public int? coefFriccionRelleno;
         public long? porcentajeAcero;
@@ -94,16 +107,9 @@ namespace FundTool
 
         private void NumericOnly(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new Regex("^[0-9]");
-            e.Handled = !regex.IsMatch((sender as TextBox).Text.Insert((sender as TextBox).SelectionStart, e.Text));
-        }
-
-        private void NumericOnlyDecimal(object sender, TextCompositionEventArgs e)
-        {
             Regex regex = new Regex("^[.][0-9]+$|^[0-9]*[.]{0,1}[0-9]*$");
             e.Handled = !regex.IsMatch((sender as TextBox).Text.Insert((sender as TextBox).SelectionStart, e.Text));
         }
-
 
         private void AceptarMateriales(object sender, RoutedEventArgs e)
         {
@@ -241,30 +247,45 @@ namespace FundTool
                 }
                 this.ApoyosTotales.Text = apoyos.Count().ToString();
                 //agregando columnas
-                for (int i = 0; i < numerox; i++)
+                for (int i = 0; i < (numerox * 2) - 1; i++)
                 {
                     ColumnDefinition gridcol = new ColumnDefinition();
                     GridApoyos.ColumnDefinitions.Add(gridcol);
                 }
                 //agregando filas
-                for (int i = 0; i < numeroy; i++)
+                for (int i = 0; i < (numeroy * 2) - 1; i++)
                 {
                     RowDefinition gridro = new RowDefinition();
                     GridApoyos.RowDefinitions.Add(gridro);
                 }
                 //agregando botones
                 int aux = 1;
-                for (int j = 0; j < numeroy; j++)
+                for (int j = 0; j < (numeroy * 2) - 1; j++)
                 {
-                    for (int i = 0; i < numerox; i++)
+                    for (int i = 0; i < (numerox * 2) - 1; i++)
                     {
                         Button boton = new Button();
-                        boton.Content = aux.ToString();
-                        boton.Click += new RoutedEventHandler(this.BuscarApoyo);
+                        boton.Content = "";
+                        if (j % 2 != 0)
+                        {
+                            boton.IsEnabled = false;
+                        }
+                        else
+                        {
+                            if (i % 2 != 0)
+                            {
+                                boton.IsEnabled = false;
+                            }
+                            else
+                            {
+                                boton.Content = aux.ToString();
+                                boton.Click += new RoutedEventHandler(this.BuscarApoyo);
+                                aux++;
+                            }
+                        }
                         Grid.SetRow(boton, j);
                         Grid.SetColumn(boton, i);
                         GridApoyos.Children.Add(boton);
-                        aux++;
                     }
                 }
                 ModificarDatosBoton.IsEnabled = true;
@@ -306,6 +327,7 @@ namespace FundTool
                 this.apoyos[numero - 1].MtoEnEjeY = Int32.Parse(this.MtoEjeYApoyo.Text);
                 this.apoyos[numero - 1].FBasalX = Int32.Parse(this.FBasalXApoyo.Text);
                 this.apoyos[numero - 1].FBasalY = Int32.Parse(this.FBasalYApoyo.Text);
+                //cambiar el nombre del boton
                 MessageBox.Show("Se introdujeron los datos correctamente.");
             }
             else
@@ -324,20 +346,18 @@ namespace FundTool
         {
             if (!String.IsNullOrEmpty(this.LongitudPiloteG.Text) && !String.IsNullOrEmpty(this.CoefFriccionSueloG.Text) &&
                   !String.IsNullOrEmpty(this.CoefFriccionRellenoG.Text) && !String.IsNullOrEmpty(this.PorcentajeAceroG.Text)
-                  && !String.IsNullOrEmpty(this.ProfundidadEstudioSuelosG.Text) && this.introdujoGolpes)
+                  && !String.IsNullOrEmpty(this.ProfundidadEstudioSuelosG.Text) && this.introdujoGolpes && !String.IsNullOrEmpty(this.NSPTPunta.Text))
             {
                 this.longitudPilote = Int32.Parse(this.LongitudPiloteG.Text);
-                this.longitudRelleno = Int32.Parse(this.LongitudRellenoG.Text);
+                this.espesorRelleno = Int32.Parse(this.LongitudRellenoG.Text);
                 this.coefFriccionSuelo = Int32.Parse(this.CoefFriccionSueloG.Text);
                 this.coefFriccionRelleno = Int32.Parse(this.CoefFriccionRellenoG.Text);
                 this.porcentajeAcero = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.PorcentajeAceroG.Text)));
+                this.nsptpunta = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.NSPTPunta.Text)));
                 String texto = ListaNumerosG.SelectedItem.ToString();
                 char num = texto[0];
                 int cantidad = (int)Char.GetNumericValue(num);
                 this.numeroPilotes = cantidad;
-                /*Luego
-                 * Hara algo relacionado con todo lo que pidio, primero terminar las de los otros suelos
-                 al parecer Granular usa Meyerhof*/
                 this.SolicitacionesGrid.Visibility = Visibility.Visible;
             }
             else
@@ -354,7 +374,7 @@ namespace FundTool
                   && !String.IsNullOrEmpty(this.CohesionFusteC.Text) && !String.IsNullOrEmpty(this.CohesionPuntaC.Text) && !String.IsNullOrEmpty(this.FactorAdherenciaC.Text))
             {
                 this.longitudPilote = Int32.Parse(this.LongitudPiloteC.Text);
-                this.longitudRelleno = Int32.Parse(this.LongitudRellenoC.Text);
+                this.espesorRelleno = Int32.Parse(this.LongitudRellenoC.Text);
                 this.coefFriccionSuelo = Int32.Parse(this.CoefFriccionSueloC.Text);
                 this.coefFriccionRelleno = Int32.Parse(this.CoefFriccionRellenoC.Text);
                 this.porcentajeAcero = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.PorcentajeAceroC.Text)));
@@ -365,9 +385,6 @@ namespace FundTool
                 this.cohesionFuste = Int32.Parse(this.CohesionFusteC.Text);
                 this.cohesionPunta = Int32.Parse(this.CohesionPuntaC.Text);
                 this.factorAdherencia = Int32.Parse(this.FactorAdherenciaC.Text);
-                /*Luego
-                 * Hara algo relacionado con todo lo que pidio, primero terminar las de los otros suelos
-                 al parecer cohesion usa skempton?*/
                 this.SolicitacionesGrid.Visibility = Visibility.Visible;
 
             }
@@ -454,7 +471,7 @@ namespace FundTool
                 && !String.IsNullOrEmpty(this.PorcentajeAceroGC.Text))
             {
                 this.longitudPilote = Int32.Parse(this.LongitudPiloteGC.Text);
-                this.longitudRelleno = Int32.Parse(this.LongitudRellenoGC.Text);
+                this.espesorRelleno = Int32.Parse(this.LongitudRellenoGC.Text);
                 this.coefFriccion = Int32.Parse(this.CoefFriccionGC.Text);
                 this.coefFriccionSuelo = Int32.Parse(this.CoefFriccionSueloGC.Text);
                 this.porcentajeAcero = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.PorcentajeAceroGC.Text)));
@@ -462,9 +479,6 @@ namespace FundTool
                 char num = texto[0];
                 int cantidad = (int)Char.GetNumericValue(num);
                 this.numeroPilotes = cantidad;
-                /*Luego
-                 * Hara algo relacionado con todo lo que pidio, primero terminar las de los otros suelos
-                 al parecer cohesion usa caquot-kerisel*/
                 this.SolicitacionesGrid.Visibility = Visibility.Visible;
 
             }
@@ -478,9 +492,53 @@ namespace FundTool
 
         private void CompletarIndirectas(object sender, RoutedEventArgs e)
         {
-            //aqui hara lo siguiente que seria generar otra ventana y dar resultados? dependiendo del metodo a usar del tipo de suelo
-            //tal vez
+            if(this.tipoDeSuelo == "Granular")
+            {
+                //sacar nsptfuste
+                long nsptfuste = new long();
+                nsptfuste = 0;
+                for (int i = 1; i <= this.golpesSuelo.Count; i++)
+                {
+                    int numero = this.golpesSuelo[i-1].NumeroDeGolpes;
+                    nsptfuste = numero + nsptfuste;
+                }
+                nsptfuste = nsptfuste / this.golpesSuelo.Count;
+                //calcular el diametro comercialde pilotes del apoyo
+                for (int i = 0; i < this.apoyos.Count; i++)
+                {
+                    this.apoyos[i].Pilotes = new List<Pilote>();
+                    int numeropilotes = new int();
+                    double qadmisible = new double();
+                    qadmisible = 0;
+                    numeropilotes = 1;
+                    Boolean qadmisiblemayor = false;
+                    for(int j = 0; j < diametrosComerciales.Count; j++)
+                    {
+                        diametrosComerciales[j] = diametrosComerciales[j]/100;
+                        double areapunta = (3.14159265358979) + Math.Pow((diametrosComerciales[j] / 2), 2);
+                        double areafuste = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)this.longitudPilote;
+                        double friccionnegativa = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)this.espesorRelleno * 0.3;
+                        qadmisible = ((4 / 3) * (double)this.nsptpunta * (areapunta)) + ((4 / 600) * (double)nsptfuste * (areafuste)) - friccionnegativa;
+                        double areaAceroLongitudinal = (double)this.porcentajeAcero * areapunta;
+                        double qestructural = 0.225*(((double)this.resistenciaConcreto * (areapunta)) + ((double)this.resistenciaAcero)*areaAceroLongitudinal);
+                        if(qadmisible >= this.apoyos[i].Carga)
+                        {
+                            qadmisiblemayor = true;
+                        }
+                        if (!qadmisiblemayor && j==diametrosComerciales.Count()-1) //PENDIENTEPUTO
+                        {
+                            j = 0;
+                            numeropilotes++;
+                        }
+                    }
+                    MessageBox.Show("qadmisible " + qadmisible + " cargaapoyo " + this.apoyos[i].Carga + " numeropilotes " + numeropilotes);
+                }
+            }
         }
 
+        private void Granular_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

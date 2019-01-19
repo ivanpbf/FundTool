@@ -84,10 +84,10 @@
                 <TextBox x:Name="CargaApoyo" HorizontalAlignment="Left" Height="23" Margin="683,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32" TextAlignment="Center" PreviewTextInput="NumericOnly"/>
                 <Label Content="Ton" HorizontalAlignment="Left" Margin="717,42,0,0" VerticalAlignment="Top"/>
                 <Label Content="Momento en Eje X:" HorizontalAlignment="Left" Margin="565,123,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="MtoEjeXApoyo" HorizontalAlignment="Left" Height="23" Margin="683,123,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32" TextAlignment="Center" PreviewTextInput="NumericOnly"/>
+                <TextBox x:Name="MtoEjeXApoyo" HorizontalAlignment="Left" Height="23" Margin="683,123,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32" TextAlignment="Center" PreviewTextInput="NumericNegativeDecimal"/>
                 <Label Content="Ton-m" HorizontalAlignment="Left" Margin="717,120,0,0" VerticalAlignment="Top"/>
                 <Label Content="Momento en Eje Y:" HorizontalAlignment="Left" Margin="565,149,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="MtoEjeYApoyo" HorizontalAlignment="Left" Height="23" Margin="683,149,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32" TextAlignment="Center" PreviewTextInput="NumericOnly"/>
+                <TextBox x:Name="MtoEjeYApoyo" HorizontalAlignment="Left" Height="23" Margin="683,149,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32" TextAlignment="Center" PreviewTextInput="NumericNegativeDecimal"/>
                 <Label Content="Ton-m" HorizontalAlignment="Left" Margin="717,146,0,0" VerticalAlignment="Top"/>
                 <TextBox x:Name="FBasalXApoyo" HorizontalAlignment="Left" Height="23" Margin="683,177,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32" TextAlignment="Center" PreviewTextInput="NumericOnly"/>
                 <Label Content="Ton" HorizontalAlignment="Left" Margin="717,175,0,0" VerticalAlignment="Top"/>

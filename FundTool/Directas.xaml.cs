@@ -30,26 +30,26 @@ namespace FundTool
         {
             public int Numero { get; set; }
             public String Nombre { get; set; }
-            public int CoordEjeX { get; set; }
-            public int CoordEjeY { get; set; }
-            public int Carga { get; set; }
-            public int MtoEnEjeX { get; set; }
-            public int MtoEnEjeY { get; set; }
-            public int FBasalX { get; set; }
-            public int FBasalY { get; set; }
+            public long CoordEjeX { get; set; }
+            public long CoordEjeY { get; set; }
+            public long Carga { get; set; }
+            public long MtoEnEjeX { get; set; }
+            public long MtoEnEjeY { get; set; }
+            public long FBasalX { get; set; }
+            public long FBasalY { get; set; }
         }
-        public int? resistenciaAcero;
-        public int? resistenciaConcreto;
-        public int? anguloFriccion;
-        public int? cohesion;
-        public int? pesoEspecifico;
-        public int? empotramientoDF;
+        public long? resistenciaAcero;
+        public long? resistenciaConcreto;
+        public long? anguloFriccion;
+        public long? cohesion;
+        public long? pesoEspecifico;
+        public long? empotramientoDF;
         public String falla;
         public Boolean nivelFreatico;
-        public int? cotaNivelFreatico;
+        public long? cotaNivelFreatico;
         public Boolean datosEnsayoSPT;
-        public int? profundidadEstudioSuelos;
-        public int? asentamiento;
+        public long? profundidadEstudioSuelos;
+        public long? asentamiento;
         public Boolean introdujoGolpes;
         public List<MetroGolpe> golpesSuelo;
         public List<Apoyo> apoyos;
@@ -68,13 +68,13 @@ namespace FundTool
 
         private void NumericOnly(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new Regex("^[0-9]");
+            Regex regex = new Regex("^[.][0-9]+$|^[0-9]*[.]{0,1}[0-9]*$");
             e.Handled = !regex.IsMatch((sender as TextBox).Text.Insert((sender as TextBox).SelectionStart, e.Text));
         }
 
-        private void NumericOnlyDecimal(object sender, TextCompositionEventArgs e)
+        private void NumericNegativeDecimal(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new Regex("^[.][0-9]+$|^[0-9]*[.]{0,1}[0-9]*$");
+            Regex regex = new Regex(@"^[-]?\d+(?:\.\d{0,2})?$");
             e.Handled = !regex.IsMatch((sender as TextBox).Text.Insert((sender as TextBox).SelectionStart, e.Text));
         }
 
@@ -82,8 +82,8 @@ namespace FundTool
         {
             if (!String.IsNullOrEmpty(this.ResistenciaConcreto.Text) && !String.IsNullOrEmpty(this.ResistenciaAcero.Text))
             {
-                this.resistenciaAcero = Int32.Parse(this.ResistenciaAcero.Text);
-                this.resistenciaConcreto = Int32.Parse(this.ResistenciaConcreto.Text);
+                this.resistenciaAcero = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.ResistenciaAcero.Text)));
+                this.resistenciaConcreto = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.ResistenciaConcreto.Text)));
                 this.datosdelsuelo.Visibility = Visibility.Visible;
             }
             else if (String.IsNullOrEmpty(this.ResistenciaConcreto.Text))
@@ -122,10 +122,10 @@ namespace FundTool
             if (!String.IsNullOrEmpty(this.AnguloFriccion.Text) && !String.IsNullOrEmpty(this.Cohesion.Text) && !String.IsNullOrEmpty(this.PesoEspecifico.Text)
                 && !String.IsNullOrEmpty(this.EmpotramientoDF.Text))
             {
-                this.anguloFriccion = Int32.Parse(this.AnguloFriccion.Text);
-                this.cohesion = Int32.Parse(this.Cohesion.Text);
-                this.pesoEspecifico = Int32.Parse(this.PesoEspecifico.Text);
-                this.empotramientoDF = Int32.Parse(this.EmpotramientoDF.Text);
+                this.anguloFriccion = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.AnguloFriccion.Text)));
+                this.cohesion = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.Cohesion.Text)));
+                this.pesoEspecifico = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.PesoEspecifico.Text)));
+                this.empotramientoDF = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.EmpotramientoDF.Text)));
                 if ((Boolean)this.FallaL.IsChecked)
                 {
                     this.falla = "local";
@@ -138,7 +138,7 @@ namespace FundTool
                 {
                     if (!String.IsNullOrEmpty(this.CotaNF.Text))
                     {
-                        this.cotaNivelFreatico = Int32.Parse(this.CotaNF.Text);
+                        this.cotaNivelFreatico = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.CotaNF.Text)));
                     }
                     else
                     {
@@ -150,7 +150,7 @@ namespace FundTool
                 {
                     if(!String.IsNullOrEmpty(this.ProfundidadEstudioSuelos.Text) && !String.IsNullOrEmpty(this.Asentamiento.Text) && this.introdujoGolpes)
                     {
-                        this.asentamiento = Int32.Parse(this.Asentamiento.Text);
+                        this.asentamiento = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.Asentamiento.Text)));
                     }
                     else
                     {
@@ -238,30 +238,45 @@ namespace FundTool
                 }
                 this.ApoyosTotales.Text = apoyos.Count().ToString();
                 //agregando columnas
-                for (int i = 0; i < numerox; i++)
+                for (int i = 0; i < (numerox*2)-1; i++)
                 {
                     ColumnDefinition gridcol = new ColumnDefinition();
                     GridApoyos.ColumnDefinitions.Add(gridcol);
                 }
                 //agregando filas
-                for (int i = 0; i < numeroy; i++)
+                for (int i = 0; i < (numeroy*2)-1; i++)
                 {
                     RowDefinition gridro = new RowDefinition();
                     GridApoyos.RowDefinitions.Add(gridro);
                 }
                 //agregando botones
                 int aux = 1;
-                for (int j = 0; j < numeroy; j++)
+                for (int j = 0; j < (numeroy*2)-1; j++)
                 {
-                    for (int i = 0; i < numerox; i++)
+                    for (int i = 0; i < (numerox*2)-1; i++)
                     {
                         Button boton = new Button();
-                        boton.Content = aux.ToString();
-                        boton.Click += new RoutedEventHandler(this.BuscarApoyo);
+                        boton.Content = "";
+                        if (j % 2 != 0)
+                        {
+                            boton.IsEnabled = false;
+                        }
+                        else
+                        {
+                            if (i % 2 != 0)
+                            {
+                                boton.IsEnabled = false;
+                            }
+                            else
+                            {
+                                boton.Content = aux.ToString();
+                                boton.Click += new RoutedEventHandler(this.BuscarApoyo);
+                                aux++;
+                            }
+                        }  
                         Grid.SetRow(boton, j);
                         Grid.SetColumn(boton, i);
                         GridApoyos.Children.Add(boton);
-                        aux++;
                     }
                 }
                 ModificarDatosBoton.IsEnabled = true;
