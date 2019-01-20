@@ -354,10 +354,6 @@ namespace FundTool
                 this.coefFriccionRelleno = Int32.Parse(this.CoefFriccionRellenoG.Text);
                 this.porcentajeAcero = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.PorcentajeAceroG.Text)));
                 this.nsptpunta = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.NSPTPunta.Text)));
-                String texto = ListaNumerosG.SelectedItem.ToString();
-                char num = texto[0];
-                int cantidad = (int)Char.GetNumericValue(num);
-                this.numeroPilotes = cantidad;
                 this.SolicitacionesGrid.Visibility = Visibility.Visible;
             }
             else
@@ -378,10 +374,6 @@ namespace FundTool
                 this.coefFriccionSuelo = Int32.Parse(this.CoefFriccionSueloC.Text);
                 this.coefFriccionRelleno = Int32.Parse(this.CoefFriccionRellenoC.Text);
                 this.porcentajeAcero = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.PorcentajeAceroC.Text)));
-                String texto = ListaNumerosG.SelectedItem.ToString();
-                char num = texto[0];
-                int cantidad = (int)Char.GetNumericValue(num);
-                this.numeroPilotes = cantidad;
                 this.cohesionFuste = Int32.Parse(this.CohesionFusteC.Text);
                 this.cohesionPunta = Int32.Parse(this.CohesionPuntaC.Text);
                 this.factorAdherencia = Int32.Parse(this.FactorAdherenciaC.Text);
@@ -475,10 +467,6 @@ namespace FundTool
                 this.coefFriccion = Int32.Parse(this.CoefFriccionGC.Text);
                 this.coefFriccionSuelo = Int32.Parse(this.CoefFriccionSueloGC.Text);
                 this.porcentajeAcero = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.PorcentajeAceroGC.Text)));
-                String texto = ListaNumerosGC.SelectedItem.ToString();
-                char num = texto[0];
-                int cantidad = (int)Char.GetNumericValue(num);
-                this.numeroPilotes = cantidad;
                 this.SolicitacionesGrid.Visibility = Visibility.Visible;
 
             }
@@ -508,30 +496,31 @@ namespace FundTool
                 {
                     this.apoyos[i].Pilotes = new List<Pilote>();
                     int numeropilotes = new int();
+                    //List<Pilote> pilotesdelapoyo = new List<Pilote>(); todavia no
                     double qadmisible = new double();
                     qadmisible = 0;
                     numeropilotes = 1;
-                    Boolean qadmisiblemayor = false;
-                    for(int j = 0; j < diametrosComerciales.Count; j++)
+                    for (int j = 0; j < diametrosComerciales.Count; j++)
                     {
-                        diametrosComerciales[j] = diametrosComerciales[j]/100;
                         double areapunta = (3.14159265358979) + Math.Pow((diametrosComerciales[j] / 2), 2);
                         double areafuste = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)this.longitudPilote;
                         double friccionnegativa = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)this.espesorRelleno * 0.3;
                         qadmisible = ((4 / 3) * (double)this.nsptpunta * (areapunta)) + ((4 / 600) * (double)nsptfuste * (areafuste)) - friccionnegativa;
                         double areaAceroLongitudinal = (double)this.porcentajeAcero * areapunta;
-                        double qestructural = 0.225*(((double)this.resistenciaConcreto * (areapunta)) + ((double)this.resistenciaAcero)*areaAceroLongitudinal);
-                        if(qadmisible >= this.apoyos[i].Carga)
+                        double qestructural = 0.225 * (((double)this.resistenciaConcreto * (areapunta)) + ((double)this.resistenciaAcero) * areaAceroLongitudinal);
+                        qadmisible = qadmisible / 1000; //convirtiendo a toneladas
+                        qadmisible = qadmisible * numeropilotes;
+                        if (qadmisible >= this.apoyos[i].Carga) //esto no sucede porque la carga de los apoyos es mayor
                         {
-                            qadmisiblemayor = true;
+                            break;
                         }
-                        if (!qadmisiblemayor && j==diametrosComerciales.Count()-1) //PENDIENTEPUTO
+                        else if (j == (diametrosComerciales.Count() - 1))
                         {
                             j = 0;
-                            numeropilotes++;
-                        }
+                            numeropilotes= numeropilotes+1;
+                        }  
                     }
-                    MessageBox.Show("qadmisible " + qadmisible + " cargaapoyo " + this.apoyos[i].Carga + " numeropilotes " + numeropilotes);
+                    MessageBox.Show("apoyo: "+this.apoyos[i].Nombre+" qadmisible " + qadmisible + " carga del apoyo " + this.apoyos[i].Carga + " numeropilotes " + numeropilotes);
                 }
             }
         }
