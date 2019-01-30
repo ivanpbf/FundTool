@@ -80,6 +80,10 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Cabillas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Directas.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -90,6 +94,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cabillas.xaml.cs">
+      <DependentUpon>Cabillas.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Directas.xaml.cs">
       <DependentUpon>Directas.xaml</DependentUpon>
     </Compile>
