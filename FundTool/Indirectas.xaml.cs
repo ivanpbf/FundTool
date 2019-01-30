@@ -213,18 +213,17 @@ namespace FundTool
 
         private void AceptarMetroYGolpe(object sender, RoutedEventArgs e)
         {
-            for (int i = 0; i < this.golpesSuelo.Count(); i++)
+            ObservableCollection<MetroGolpe> obs = new ObservableCollection<MetroGolpe>();
+            obs = this.DataGridGolpes.ItemsSource as ObservableCollection<MetroGolpe>;
+            this.golpesSuelo = obs.ToList();
+            for(int i = 0; i < this.golpesSuelo.Count(); i++)
             {
-                TextBlock golpe = new TextBlock();
-                golpe = this.DataGridGolpes.Columns[1].GetCellContent(DataGridGolpes.Items[i]) as TextBlock;
-                if (golpe == null)
+                if(this.golpesSuelo[i].NumeroDeGolpes >= 30)
                 {
-                    MessageBox.Show("Alguno de los valores esta vacio, por favor introduzca un numero");
-                    return;
+                    this.golpesSuelo[i].NumeroDeGolpes = 30;
                 }
-                this.golpesSuelo[i].NumeroDeGolpes = Int32.Parse(golpe.Text);
             }
-            MessageBox.Show("Se aceptaron los valores correctamente");
+            MessageBox.Show("Se aceptaron los valores correctamente, valores mayores de 30 se tomaran como 30");
             this.SiguienteDatosSueloG.IsEnabled = true;
             this.introdujoGolpes = true;
         }
@@ -673,11 +672,12 @@ namespace FundTool
                     opcionesDeAceroLongitudinal.Add(numeroCabillas);
                 }
                 bool? oked = false;
-                System.Windows.Window win = new Cabillas();
+                System.Windows.Window win = new Cabillas(opcionesDeAceroLongitudinal);
                 oked = Autodesk.AutoCAD.ApplicationServices.Application.ShowModalWindow(win);
 
                 if (oked.HasValue && oked.Value)
                 {
+                    
                     /* input1 = win.Property1;
                        input2 = win.Property2;*/
                     // DO something based in inputs

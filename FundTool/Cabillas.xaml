@@ -9,7 +9,7 @@
     <Grid Margin="0,0,0,91">
         <Grid HorizontalAlignment="Left" Height="356" Margin="1,0,0,-90" VerticalAlignment="Top" Width="791" Background="AntiqueWhite">
             <Label Content="Elija la opcion de su preferencia." HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-            <DataGrid HorizontalAlignment="Left" Height="257" Margin="10,41,0,0" VerticalAlignment="Top" Width="771"/>
+            <DataGrid x:Name="DataGridOpciones" HorizontalAlignment="Left" Height="257" Margin="10,41,0,0" VerticalAlignment="Top" Width="771"/>
         </Grid>
 
     </Grid>
