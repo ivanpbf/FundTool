@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,36 +20,49 @@ namespace FundTool
     /// </summary>
     public partial class Cabillas : Window
     {
+        public class Opcion
+        {
+            public double SeccionTeorica { get; set; }
+            public String DiametroTeorico { get; set; }
+            public double AceroApoyo { get; set; }
+            public int OpcionDeAcero { get; set; }
+        }
+        List<Opcion> tabla;
+        List<String> diametrosTeoricos = new List<string> { "3/8", "1/2", "5/8", "3/4", "7/8", "1", "1.3/8" };
         List<int> opcionesDeAceroLongitudinal;
-        public Cabillas(List<int> Opciones)
+        String nombreApoyo;
+        double aceroLongitudinalApoyo;
+        int numeroApoyo;
+        public List<double> seccionTeorica;
+
+        public Cabillas(List<int> Opciones, String nombreApoyo, double aceroLongitudinalApoyo, int Numero, List<double> secteor)
         {
             InitializeComponent();
             this.opcionesDeAceroLongitudinal = Opciones;
+            this.nombreApoyo = nombreApoyo;
+            this.aceroLongitudinalApoyo = aceroLongitudinalApoyo;
+            this.numeroApoyo = Numero;
+            this.NombreApoyo.Text = this.nombreApoyo;
+            this.NumeroApoyo.Text = this.numeroApoyo.ToString();
+            this.seccionTeorica = secteor;
             IniciarGrid();
         }
 
         public void IniciarGrid()
         {
-            DataGridTextColumn diametroTeorico = new DataGridTextColumn();
-            diametroTeorico.Header = "Diametro Teorico";
-            this.DataGridOpciones.Columns.Add(diametroTeorico);
-            DataGridTextColumn areaAcero = new DataGridTextColumn();
-            areaAcero.Header = "Area de Acero (total)";
-            this.DataGridOpciones.Columns.Add(areaAcero);
-            DataGridTextColumn nCabillas = new DataGridTextColumn();
-            nCabillas.Header = "Numero de Cabillas";
-            this.DataGridOpciones.Columns.Add(nCabillas);
+            this.tabla = new List<Opcion>();
+            for (int i = 0; i < this.opcionesDeAceroLongitudinal.Count(); i++)
+            {
+                Opcion op = new Opcion();
+                Opcion aux = op;
+                aux.SeccionTeorica = this.seccionTeorica[i];
+                aux.DiametroTeorico = this.diametrosTeoricos[i];
+                aux.AceroApoyo = this.aceroLongitudinalApoyo;
+                aux.OpcionDeAcero = this.opcionesDeAceroLongitudinal[i];
+                this.tabla.Add(aux);
+            }
+            this.GridOpciones.ItemsSource = tabla;
 
-
-
-            ObservableCollection<int> obsCollection = new ObservableCollection<int>(opcionesDeAceroLongitudinal);
-                DataGridEstratos.DataContext = obsCollection;
-                DataGridEstratos.Columns[0].IsReadOnly = true;
-                DataGridEstratos.Columns[1].Header = "Espesor (m)";
-                DataGridEstratos.Columns[2].Header = "Descripcion";
-                DataGridEstratos.Columns[3].Header = "Angulo de Friccion";
-                DataGridEstratos.Columns[4].Header = "Cohesion (Ton/m²)";
-                DataGridEstratos.Columns[5].Header = "Peso Unitario (Ton/m²)";
         }
     }
 }
