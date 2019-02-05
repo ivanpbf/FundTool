@@ -54,6 +54,7 @@ namespace FundTool
             public double EspesorCabezal { get; set; }
             public double EspaciamientoCabillasApoyo { get; set; }
             public double DimensionesCabezal { get; set; }
+            public double DiametroPilotes { get; set; }
             public double AceroLongitudinal { get; set; } //lo coloco aqui porque todos los pilotes de un apoyo tendran la misma 
         }
         public class Estrato
@@ -367,6 +368,7 @@ namespace FundTool
                 this.coefFriccionSuelo =Convert.ToDouble(this.CoefFriccionSueloG.Text);
                 this.coefFriccionRelleno = Convert.ToDouble(this.CoefFriccionRellenoG.Text);
                 this.porcentajeAcero = Convert.ToDouble(this.PorcentajeAceroG.Text);
+                this.porcentajeAcero = this.porcentajeAcero / 100;
                 this.nsptpunta =Convert.ToDouble(this.NSPTPunta.Text);
                 this.SolicitacionesGrid.Visibility = Visibility.Visible;
             }
@@ -388,6 +390,7 @@ namespace FundTool
                 this.coefFriccionSuelo = Convert.ToDouble(this.CoefFriccionSueloC.Text);
                 this.coefFriccionRelleno = Convert.ToDouble(this.CoefFriccionRellenoC.Text);
                 this.porcentajeAcero = Convert.ToDouble(this.PorcentajeAceroC.Text);
+                this.porcentajeAcero = this.porcentajeAcero / 100;
                 this.cohesionFuste = Convert.ToDouble(this.CohesionFusteC.Text);
                 this.cohesionPunta = Convert.ToDouble(this.CohesionPuntaC.Text);
                 this.factorAdherencia = Convert.ToDouble(this.FactorAdherenciaC.Text);
@@ -462,6 +465,7 @@ namespace FundTool
                 this.coefFriccion = Convert.ToDouble(this.CoefFriccionGC.Text);
                 this.coefFriccionSuelo = Convert.ToDouble(this.CoefFriccionSueloGC.Text);
                 this.porcentajeAcero = Convert.ToDouble(this.PorcentajeAceroGC.Text);
+                this.porcentajeAcero = this.porcentajeAcero / 100;
                 this.SolicitacionesGrid.Visibility = Visibility.Visible;
             }
             else
@@ -504,19 +508,18 @@ namespace FundTool
                     for (int j = 0; j < diametrosComerciales.Count; j++)
                     {
                         nuevos.Diametro = this.diametrosComerciales[j];
-                        double areapunta = (3.14159265358979) + Math.Pow((diametrosComerciales[j] / 2), 2);
+                        double areapunta = (3.14159265358979) * Math.Pow((diametrosComerciales[j] / 2), 2);
                         double areafuste = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)this.longitudPilote;
                         double friccionnegativa = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)this.espesorRelleno * 0.3;
                         qadmisible = ((4 / 3) * (double)this.nsptpunta * (areapunta)) + ((4 / 600) * (double)nsptfuste * (areafuste)) - friccionnegativa;
                         areaAceroLongitudinal = (double)this.porcentajeAcero * areapunta;
-                        qestructural = 0.225 * (((double)this.resistenciaConcreto * (areapunta)) + ((double)this.resistenciaAcero) * areaAceroLongitudinal);
+                        qestructural = ((((double)this.resistenciaConcreto * (areapunta)) + (((double)this.resistenciaAcero) * areaAceroLongitudinal))) * 0.225;
                         qadmisible = qadmisible / 1000; //convirtiendo a toneladas
                         qadmisible = qadmisible * numeropilotes;
                         qestructural = qestructural / 1000; //convirtiendo a toneladas
                         qestructural = qestructural * numeropilotes;
                         //convertimos diametro a metros:
-                        //OJO QUE EL DIAMETRO NO SEA SIEMPRE 150, REVISAR
-                        double aux = nuevos.Diametro / 100;
+                        double aux = this.diametrosComerciales[j]/100;
                         if (qadmisible < qestructural)
                         {
                             ausar = qadmisible;
@@ -538,6 +541,7 @@ namespace FundTool
                                 }
                                 else
                                 {
+                                    this.apoyos[i].DiametroPilotes = this.diametrosComerciales[j];
                                     break;
                                 }
                             }
@@ -556,7 +560,7 @@ namespace FundTool
                     this.apoyos[i].Qestructural = qestructural;
                     this.apoyos[i].AceroLongitudinal = areaAceroLongitudinal;
                     //pendiente de los diametros comerciales
-                    MessageBox.Show("apoyo: " + this.apoyos[i].Nombre + " Numero de pilotes " + this.apoyos[i].Pilotes.Count() + " Qadmisible " + qadmisible + " Qestructural " + qestructural + " carga del apoyo " + this.apoyos[i].Carga);
+                    MessageBox.Show("apoyo: " + this.apoyos[i].Nombre + " Numero de pilotes " + this.apoyos[i].Pilotes.Count() + " Qadmisible " + qadmisible + " Qestructural " + qestructural + " carga del apoyo " + this.apoyos[i].Carga + " diametro "+this.apoyos[i].DiametroPilotes);
                 }
                 ///falta
             }
@@ -612,7 +616,7 @@ namespace FundTool
                         r4 = (cohesionPromedio / (Math.Tan(anguloPromedio))) * (s2 - 1);
                         double s5primado = 3; //OJOOOOOOOOOOOOOOOOOOOOOOOOOOOOO NO ESSSSSSSSS 3
                         r5 = cohesionPromedio * (4 * longitudEfectiva) * (s5primado / (nuevos.Diametro / 100));
-                        double areapunta = (3.14159265358979) + Math.Pow((diametrosComerciales[j] / 2), 2);
+                        double areapunta = (3.14159265358979) * Math.Pow((diametrosComerciales[j] / 2), 2);
                         double areafuste = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)this.longitudPilote;
                         double friccionnegativa = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)this.espesorRelleno * 0.3;
                         areaAceroLongitudinal = (double)this.porcentajeAcero * areapunta;
@@ -646,6 +650,7 @@ namespace FundTool
                                 }
                                 else
                                 {
+                                    this.apoyos[i].DiametroPilotes = this.diametrosComerciales[j];
                                     break;
                                 }
                             }
