@@ -28,7 +28,7 @@ namespace FundTool
             public int OpcionDeAcero { get; set; }
         }
         List<Opcion> tabla;
-        List<String> diametrosTeoricos = new List<string> { "3/8", "1/2", "5/8", "3/4", "7/8", "1", "1.3/8" };
+        List<String> diametrosTeoricos = new List<string> { "5/8", "3/4", "7/8", "1", "1.3/8" };
         List<int> opcionesDeAceroLongitudinal;
         String nombreApoyo;
         double aceroLongitudinalApoyo;
@@ -62,6 +62,14 @@ namespace FundTool
                 this.tabla.Add(aux);
             }
             this.GridOpciones.ItemsSource = tabla;
+            this.GridOpciones.Columns[0].Header = "Seccion Teorica [cm²]";
+            this.GridOpciones.Columns[1].Header = "Diametro Teorico [pulgadas]";
+            this.GridOpciones.Columns[2].Header = "Area de Acero (Total)";
+            this.GridOpciones.Columns[3].Header = "# de Cabillas";
+        }
+
+        private void AceptarSeleccion(object sender, RoutedEventArgs e)
+        {
 
         }
     }

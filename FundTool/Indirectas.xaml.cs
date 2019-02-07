@@ -71,13 +71,12 @@ namespace FundTool
         public double? nsptpunta;
         public int? resistenciaConcreto;
         public List<int> diametrosComerciales = new List<int> { 55, 65, 80, 90, 100, 110, 120, 130, 140, 150 }; // centimetros
-        public List<double> seccionTeorica = new List<double> { 0.7133, 1.2667, 1.9806, 2.8502, 3.8777, 5.0670, 10.0717 };
+        public List<double> seccionTeorica = new List<double> { 1.9806, 2.8502, 3.8777, 5.0670, 10.0717 };
         public List<MetroGolpe> golpesSuelo;
         public double? profundidadEstudioSuelos;
         public double? longitudPilote;
         public double? espesorRelleno;
         public double? longitudEfectiva;
-        public double? coefFriccionSuelo;
         public double? coefFriccionRelleno;
         public double? porcentajeAcero;
         public int? numeroPilotes;
@@ -105,11 +104,9 @@ namespace FundTool
 
         private void CancelarSuelo(object sender, RoutedEventArgs e)
         {
-            this.CohesivoGrid.Visibility = Visibility.Collapsed;
             this.GranularGrid.Visibility = Visibility.Collapsed;
             this.GranularCohesivoGrid.Visibility = Visibility.Collapsed;
             this.Granular.IsEnabled = true;
-            this.Cohesivo.IsEnabled = true;
             this.GranularCohesivo.IsEnabled = true;
             this.Siguientes.IsEnabled = true;
         }
@@ -148,7 +145,7 @@ namespace FundTool
 
         private void AceptarSuelo(object sender, RoutedEventArgs e)
         {
-            if (!(Boolean)this.Granular.IsChecked && !(Boolean)this.Cohesivo.IsChecked && !(Boolean)this.GranularCohesivo.IsChecked)
+            if (!(Boolean)this.Granular.IsChecked && !(Boolean)this.GranularCohesivo.IsChecked)
             {
                 MessageBox.Show("Por favor elija un tipo de suelo.");
                 return;
@@ -158,17 +155,6 @@ namespace FundTool
                 this.tipoDeSuelo = "Granular";
                 this.GranularGrid.Visibility = Visibility.Visible;
                 this.Granular.IsEnabled = false;
-                this.Cohesivo.IsEnabled = false;
-                this.GranularCohesivo.IsEnabled = false;
-                this.Siguientes.IsEnabled = false;
-                return;
-            }
-            else if ((Boolean)this.Cohesivo.IsChecked)
-            {
-                this.tipoDeSuelo = "Cohesivo";
-                this.CohesivoGrid.Visibility = Visibility.Visible;
-                this.Granular.IsEnabled = false;
-                this.Cohesivo.IsEnabled = false;
                 this.GranularCohesivo.IsEnabled = false;
                 this.Siguientes.IsEnabled = false;
                 return;
@@ -178,7 +164,6 @@ namespace FundTool
                 this.tipoDeSuelo = "GranularCohesivo";
                 this.GranularCohesivoGrid.Visibility = Visibility.Visible;
                 this.Granular.IsEnabled = false;
-                this.Cohesivo.IsEnabled = false;
                 this.GranularCohesivo.IsEnabled = false;
                 this.Siguientes.IsEnabled = false;
                 return;
@@ -217,14 +202,7 @@ namespace FundTool
             ObservableCollection<MetroGolpe> obs = new ObservableCollection<MetroGolpe>();
             obs = this.DataGridGolpes.ItemsSource as ObservableCollection<MetroGolpe>;
             this.golpesSuelo = obs.ToList();
-            for(int i = 0; i < this.golpesSuelo.Count(); i++)
-            {
-                if(this.golpesSuelo[i].NumeroDeGolpes >= 30)
-                {
-                    this.golpesSuelo[i].NumeroDeGolpes = 30;
-                }
-            }
-            MessageBox.Show("Se aceptaron los valores correctamente, valores mayores de 30 se tomaran como 30");
+            MessageBox.Show("Se aceptaron los valores correctamente");
             this.SiguienteDatosSueloG.IsEnabled = true;
             this.introdujoGolpes = true;
         }
@@ -354,8 +332,7 @@ namespace FundTool
 
         private void IntrodujoDatosSueloGranular(object sender, RoutedEventArgs e)
         {
-            if (!String.IsNullOrEmpty(this.LongitudPiloteG.Text) && !String.IsNullOrEmpty(this.CoefFriccionSueloG.Text) &&
-                  !String.IsNullOrEmpty(this.CoefFriccionRellenoG.Text) && !String.IsNullOrEmpty(this.PorcentajeAceroG.Text)
+            if (!String.IsNullOrEmpty(this.LongitudPiloteG.Text) && !String.IsNullOrEmpty(this.CoefFriccionRellenoG.Text) && !String.IsNullOrEmpty(this.PorcentajeAceroG.Text)
                   && !String.IsNullOrEmpty(this.ProfundidadEstudioSuelosG.Text) && this.introdujoGolpes && !String.IsNullOrEmpty(this.NSPTPunta.Text))
             {
                 if(Int32.Parse(this.LongitudRellenoG.Text) > Int32.Parse(this.ProfundidadEstudioSuelosG.Text))
@@ -365,37 +342,11 @@ namespace FundTool
                 }
                 this.longitudPilote =Convert.ToDouble(this.LongitudPiloteG.Text);
                 this.espesorRelleno = Convert.ToDouble(this.LongitudRellenoG.Text);
-                this.coefFriccionSuelo =Convert.ToDouble(this.CoefFriccionSueloG.Text);
                 this.coefFriccionRelleno = Convert.ToDouble(this.CoefFriccionRellenoG.Text);
                 this.porcentajeAcero = Convert.ToDouble(this.PorcentajeAceroG.Text);
                 this.porcentajeAcero = this.porcentajeAcero / 100;
                 this.nsptpunta =Convert.ToDouble(this.NSPTPunta.Text);
                 this.SolicitacionesGrid.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                MessageBox.Show("Alguno de los datos importantes esta vacio");
-                return;
-            }
-        }
-
-        private void IntrodujoDatosSueloCohesivo(object sender, RoutedEventArgs e)
-        {
-            if (!String.IsNullOrEmpty(this.LongitudPiloteC.Text) && !String.IsNullOrEmpty(this.CoefFriccionSueloC.Text) &&
-                  !String.IsNullOrEmpty(this.CoefFriccionRellenoC.Text) && !String.IsNullOrEmpty(this.PorcentajeAceroC.Text)
-                  && !String.IsNullOrEmpty(this.CohesionFusteC.Text) && !String.IsNullOrEmpty(this.CohesionPuntaC.Text) && !String.IsNullOrEmpty(this.FactorAdherenciaC.Text))
-            {
-                this.longitudPilote = Convert.ToDouble(this.LongitudPiloteC.Text);
-                this.espesorRelleno = Convert.ToDouble(this.LongitudRellenoC.Text);
-                this.coefFriccionSuelo = Convert.ToDouble(this.CoefFriccionSueloC.Text);
-                this.coefFriccionRelleno = Convert.ToDouble(this.CoefFriccionRellenoC.Text);
-                this.porcentajeAcero = Convert.ToDouble(this.PorcentajeAceroC.Text);
-                this.porcentajeAcero = this.porcentajeAcero / 100;
-                this.cohesionFuste = Convert.ToDouble(this.CohesionFusteC.Text);
-                this.cohesionPunta = Convert.ToDouble(this.CohesionPuntaC.Text);
-                this.factorAdherencia = Convert.ToDouble(this.FactorAdherenciaC.Text);
-                this.SolicitacionesGrid.Visibility = Visibility.Visible;
-
             }
             else
             {
@@ -457,13 +408,11 @@ namespace FundTool
         private void IntrodujoDatosSueloGranularCohesivo(object sender, RoutedEventArgs e)
         {
             if (!String.IsNullOrEmpty(this.LongitudPiloteGC.Text) && !String.IsNullOrEmpty(this.LongitudRellenoGC.Text) &&
-                !String.IsNullOrEmpty(this.CoefFriccionSueloGC.Text) && !String.IsNullOrEmpty(this.CoefFriccionGC.Text)
-                && !String.IsNullOrEmpty(this.PorcentajeAceroGC.Text))
+                 !String.IsNullOrEmpty(this.CoefFriccionGC.Text) && !String.IsNullOrEmpty(this.PorcentajeAceroGC.Text))
             {
                 this.longitudPilote = Convert.ToDouble(this.LongitudPiloteGC.Text);
                 this.espesorRelleno = Convert.ToDouble(this.LongitudRellenoGC.Text);
                 this.coefFriccion = Convert.ToDouble(this.CoefFriccionGC.Text);
-                this.coefFriccionSuelo = Convert.ToDouble(this.CoefFriccionSueloGC.Text);
                 this.porcentajeAcero = Convert.ToDouble(this.PorcentajeAceroGC.Text);
                 this.porcentajeAcero = this.porcentajeAcero / 100;
                 this.SolicitacionesGrid.Visibility = Visibility.Visible;
@@ -492,6 +441,11 @@ namespace FundTool
                     nsptfuste = numero + nsptfuste;
                 }
                 nsptfuste = nsptfuste / this.golpesSuelo.Count;
+                //si el promedio es mayor a 30, se toma 30
+                if (nsptfuste > 30)
+                {
+                    nsptfuste = 30;
+                }
                 //calcular el diametro comercial y Q de pilotes del apoyo
                 for (int i = 0; i < this.apoyos.Count; i++)
                 {
@@ -515,9 +469,8 @@ namespace FundTool
                         areaAceroLongitudinal = (double)this.porcentajeAcero * areapunta;
                         qestructural = ((((double)this.resistenciaConcreto * (areapunta)) + (((double)this.resistenciaAcero) * areaAceroLongitudinal))) * 0.225;
                         qadmisible = qadmisible / 1000; //convirtiendo a toneladas
-                        qadmisible = qadmisible * numeropilotes;
+                        qadmisible = qadmisible * numeropilotes; //sin contar eficiencia de grupo
                         qestructural = qestructural / 1000; //convirtiendo a toneladas
-                        qestructural = qestructural * numeropilotes;
                         //convertimos diametro a metros:
                         double aux = this.diametrosComerciales[j]/100;
                         if (qadmisible < qestructural)
@@ -625,7 +578,6 @@ namespace FundTool
                         qadmisible = qadmisible / 1000; //convirtiendo a toneladas
                         qadmisible = qadmisible * numeropilotes;
                         qestructural = qestructural / 1000; //convirtiendo a toneladas
-                        qestructural = qestructural * numeropilotes;
                         //convertimos diametro a metros:
                         //OJO QUE EL DIAMETRO NO SEA SIEMPRE 150, REVISAR
                         double aux = nuevos.Diametro / 100;
