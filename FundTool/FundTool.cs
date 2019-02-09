@@ -28,7 +28,7 @@ namespace FundTool
             System.Windows.Window win = new Directas();
 
             oked = Application.ShowModalWindow(win);
-
+            
             if (oked.HasValue && oked.Value) {
                 /* input1 = win.Property1;
                    input2 = win.Property2;*/

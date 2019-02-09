@@ -22,55 +22,98 @@ namespace FundTool
     {
         public class Opcion
         {
-            public double SeccionTeorica { get; set; }
-            public String DiametroTeorico { get; set; }
-            public double AceroApoyo { get; set; }
-            public int OpcionDeAcero { get; set; }
+            public double Seccion_Teorica { get; set; }
+            public String Diametro_Teorico_Pulgadas { get; set; }
+            public double Diametro_Teorico { get; set; }
+            //public double Area_De_Acero { get; set; }
+            public int Numero_De_Cabillas { get; set; }
         }
         List<Opcion> tabla;
-        List<String> diametrosTeoricos = new List<string> { "5/8", "3/4", "7/8", "1", "1.3/8" };
+        List<double> diametrosTeoricos;
+        List<String> diametrosTeoricosPulgadas;
         List<int> opcionesDeAceroLongitudinal;
         String nombreApoyo;
-        double aceroLongitudinalApoyo;
+        //double aceroLongitudinalApoyo;
         int numeroApoyo;
+        public double diametroTeoricocm; //diametro teorico elegido, igual lo de abajo
+        public int numeroCabillas;
+        public String diametroTeoricopulg;
+        public double seccionTeoricaopcion;
         public List<double> seccionTeorica;
 
-        public Cabillas(List<int> Opciones, String nombreApoyo, double aceroLongitudinalApoyo, int Numero, List<double> secteor)
+        public Cabillas(List<int> Opciones, String nombreApoyo, int Numero, List<double> secteor)
         {
             InitializeComponent();
+            this.opcionesDeAceroLongitudinal = new List<int>();
             this.opcionesDeAceroLongitudinal = Opciones;
             this.nombreApoyo = nombreApoyo;
-            this.aceroLongitudinalApoyo = aceroLongitudinalApoyo;
+            //this.aceroLongitudinalApoyo = new double();
+            //this.aceroLongitudinalApoyo = aceroLongitudinalApoyo; no lo usamos
             this.numeroApoyo = Numero;
             this.NombreApoyo.Text = this.nombreApoyo;
             this.NumeroApoyo.Text = this.numeroApoyo.ToString();
+            this.seccionTeorica = new List<double>();
             this.seccionTeorica = secteor;
+            this.diametrosTeoricos = new List<double> { 1.588, 1.905, 2.222, 2.540, 3.581 };
+            this.diametrosTeoricosPulgadas = new List<String> { "5/8", "3/4", "7/8", "1", "1.3/8" };
             IniciarGrid();
         }
 
         public void IniciarGrid()
         {
             this.tabla = new List<Opcion>();
-            for (int i = 0; i < this.opcionesDeAceroLongitudinal.Count(); i++)
+            for (int i = 0; i < this.diametrosTeoricos.Count(); i++)
             {
-                Opcion op = new Opcion();
-                Opcion aux = op;
-                aux.SeccionTeorica = this.seccionTeorica[i];
-                aux.DiametroTeorico = this.diametrosTeoricos[i];
-                aux.AceroApoyo = this.aceroLongitudinalApoyo;
-                aux.OpcionDeAcero = this.opcionesDeAceroLongitudinal[i];
+                Opcion aux = new Opcion();
+                aux.Seccion_Teorica = this.seccionTeorica[i];
+                aux.Diametro_Teorico_Pulgadas = this.diametrosTeoricosPulgadas[i];
+                aux.Diametro_Teorico = this.diametrosTeoricos[i];
+                //aux.Area_De_Acero = this.aceroLongitudinalApoyo;
+                aux.Numero_De_Cabillas = this.opcionesDeAceroLongitudinal[i];
                 this.tabla.Add(aux);
             }
             this.GridOpciones.ItemsSource = tabla;
-            this.GridOpciones.Columns[0].Header = "Seccion Teorica [cm²]";
-            this.GridOpciones.Columns[1].Header = "Diametro Teorico [pulgadas]";
-            this.GridOpciones.Columns[2].Header = "Area de Acero (Total)";
-            this.GridOpciones.Columns[3].Header = "# de Cabillas";
+           /* ObservableCollection<Opcion> obsCollection = new ObservableCollection<Opcion>(this.tabla);
+            GridOpciones.DataContext = obsCollection;
+            GridOpciones.Columns[0].Header = "Seccion Teorica (cm²)";
+            GridOpciones.Columns[1].Header = "Diametro Teorico (pulgadas)";
+            GridOpciones.Columns[2].Header = "Diametro Teorico (cm²)";
+            GridOpciones.Columns[3].Header = "Numero de Cabillas";*/
         }
 
         private void AceptarSeleccion(object sender, RoutedEventArgs e)
         {
+            if (this.GridOpciones.SelectedItem == null)
+            {
+                MessageBox.Show("Seleccione una opcion");
+            }
+            else
+            {
+                int opcion = this.GridOpciones.SelectedIndex;
+                this.diametroTeoricocm = this.diametrosTeoricos[opcion];
+                this.numeroCabillas = this.opcionesDeAceroLongitudinal[opcion];
+                Close();
+            }
+        }
 
+        public double DiametroTeoricoCM()
+        {
+            return diametroTeoricocm;
+        }
+
+        public int NumeroDeCabillas()
+        {
+            return numeroCabillas;
+        }
+
+        public double SeccionTeoricaEle()
+        {
+            return seccionTeoricaopcion;
+        }
+
+        public String DiametroTeoricoPULG()
+        {
+            return diametroTeoricopulg;
         }
     }
 }
