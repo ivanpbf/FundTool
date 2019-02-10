@@ -37,6 +37,8 @@ namespace FundTool
             public long MtoEnEjeY { get; set; }
             public long FBasalX { get; set; }
             public long FBasalY { get; set; }
+            public double DimensionColumnaX { get; set; }
+            public double DimensionColumnaY { get; set; }
         }
         public long? resistenciaAcero;
         public long? resistenciaConcreto;
@@ -233,6 +235,8 @@ namespace FundTool
                     apoyonuevo.MtoEnEjeY = 0;
                     apoyonuevo.FBasalX = 0;
                     apoyonuevo.FBasalY = 0;
+                    apoyonuevo.DimensionColumnaX = 1;
+                    apoyonuevo.DimensionColumnaY = 1;
                     apoyonuevo.Nombre = apoyonuevo.Numero.ToString();
                     apoyos.Add(apoyonuevo);
                 }
@@ -302,12 +306,15 @@ namespace FundTool
             this.MtoEjeYApoyo.Text = this.apoyos[numero-1].MtoEnEjeY.ToString();
             this.FBasalXApoyo.Text = this.apoyos[numero-1].FBasalX.ToString();
             this.FBasalYApoyo.Text = this.apoyos[numero-1].FBasalY.ToString();
+            this.DimensionColumnaX.Text = this.apoyos[numero - 1].DimensionColumnaX.ToString();
+            this.DimensionColumnaY.Text = this.apoyos[numero - 1].DimensionColumnaY.ToString();
         }
 
         private void IntroducirDatosApoyo(object sender, RoutedEventArgs e)
         {
             if (!String.IsNullOrEmpty(this.NombreApoyo.Text) && !String.IsNullOrEmpty(this.CargaApoyo.Text) && !String.IsNullOrEmpty(this.CoordXApoyo.Text) && !String.IsNullOrEmpty(this.CoordYApoyo.Text)
-                && !String.IsNullOrEmpty(this.MtoEjeXApoyo.Text) && !String.IsNullOrEmpty(this.MtoEjeYApoyo.Text) && !String.IsNullOrEmpty(this.FBasalXApoyo.Text) && !String.IsNullOrEmpty(this.FBasalYApoyo.Text))
+                && !String.IsNullOrEmpty(this.MtoEjeXApoyo.Text) && !String.IsNullOrEmpty(this.MtoEjeYApoyo.Text) && !String.IsNullOrEmpty(this.FBasalXApoyo.Text) && !String.IsNullOrEmpty(this.FBasalYApoyo.Text)
+                && !String.IsNullOrEmpty(this.DimensionColumnaX.Text) && !String.IsNullOrEmpty(this.DimensionColumnaY.Text))
             {
                 int numero = Int32.Parse(this.NumeroApoyo.Text);
                 this.apoyos[numero - 1].Nombre = this.NombreApoyo.Text;
@@ -318,6 +325,8 @@ namespace FundTool
                 this.apoyos[numero - 1].MtoEnEjeY = Int32.Parse(this.MtoEjeYApoyo.Text);
                 this.apoyos[numero - 1].FBasalX = Int32.Parse(this.FBasalXApoyo.Text);
                 this.apoyos[numero - 1].FBasalY = Int32.Parse(this.FBasalYApoyo.Text);
+                this.apoyos[numero - 1].DimensionColumnaX = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.DimensionColumnaX.Text)));
+                this.apoyos[numero - 1].DimensionColumnaY = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.DimensionColumnaX.Text)));
                 MessageBox.Show("Se introdujeron los datos correctamente.");
             }
             else

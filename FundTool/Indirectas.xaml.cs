@@ -47,9 +47,12 @@ namespace FundTool
             public double Carga { get; set; }
             public double MtoEnEjeX { get; set; }
             public double MtoEnEjeY { get; set; }
+            public double DimensionColumnaX { get; set; }
+            public double DimensionColumnaY { get; set; }
             public double FBasalX { get; set; }
             public double FBasalY { get; set; }
             public double Qadmisible { get; set; }
+            public double QadmisibleGrupo { get; set; }
             public double Qestructural { get; set; }
             public double EspesorCabezal { get; set; }
             public double EspaciamientoCabillasApoyo { get; set; }
@@ -60,6 +63,12 @@ namespace FundTool
             public double DiametroTeoricoCabillas { get; set; }
             public String DiametroTeoricoPulgadas { get; set; }
             public double SeccionTeorica { get; set; }
+            public double AreaAceroX { get; set; } //de cajon
+            public double AreaAceroY { get; set; }
+            public int CabillasDeCajonX { get; set; } //cajon
+            public int CabillasDeCajonY { get; set; }
+            public double EspaciamientoCabillasX { get; set; } //cajon
+            public double EspaciamientoCabillasY { get; set; }
         }
         public class Estrato
         {
@@ -237,6 +246,8 @@ namespace FundTool
                     apoyonuevo.MtoEnEjeY = 0;
                     apoyonuevo.FBasalX = 0;
                     apoyonuevo.FBasalY = 0;
+                    apoyonuevo.DimensionColumnaX = 1;
+                    apoyonuevo.DimensionColumnaY = 1;
                     apoyonuevo.Nombre = apoyonuevo.Numero.ToString();
                     apoyos.Add(apoyonuevo);
                 }
@@ -306,12 +317,15 @@ namespace FundTool
             this.MtoEjeYApoyo.Text = this.apoyos[numero - 1].MtoEnEjeY.ToString();
             this.FBasalXApoyo.Text = this.apoyos[numero - 1].FBasalX.ToString();
             this.FBasalYApoyo.Text = this.apoyos[numero - 1].FBasalY.ToString();
+            this.DimensionColumnaX.Text = this.apoyos[numero - 1].DimensionColumnaX.ToString();
+            this.DimensionColumnaY.Text = this.apoyos[numero - 1].DimensionColumnaY.ToString();
         }
 
         private void IntroducirDatosApoyo(object sender, RoutedEventArgs e)
         {
             if (!String.IsNullOrEmpty(this.NombreApoyo.Text) && !String.IsNullOrEmpty(this.CargaApoyo.Text) && !String.IsNullOrEmpty(this.CoordXApoyo.Text) && !String.IsNullOrEmpty(this.CoordYApoyo.Text)
-                && !String.IsNullOrEmpty(this.MtoEjeXApoyo.Text) && !String.IsNullOrEmpty(this.MtoEjeYApoyo.Text) && !String.IsNullOrEmpty(this.FBasalXApoyo.Text) && !String.IsNullOrEmpty(this.FBasalYApoyo.Text))
+                && !String.IsNullOrEmpty(this.MtoEjeXApoyo.Text) && !String.IsNullOrEmpty(this.MtoEjeYApoyo.Text) && !String.IsNullOrEmpty(this.FBasalXApoyo.Text) && !String.IsNullOrEmpty(this.FBasalYApoyo.Text)
+                && !String.IsNullOrEmpty(this.DimensionColumnaX.Text) && !String.IsNullOrEmpty(this.DimensionColumnaY.Text))
             {
                 int numero = Int32.Parse(this.NumeroApoyo.Text);
                 this.apoyos[numero - 1].Nombre = this.NombreApoyo.Text;
@@ -322,6 +336,8 @@ namespace FundTool
                 this.apoyos[numero - 1].MtoEnEjeY = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.MtoEjeYApoyo.Text)));
                 this.apoyos[numero - 1].FBasalX = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.FBasalXApoyo.Text)));
                 this.apoyos[numero - 1].FBasalY = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.FBasalYApoyo.Text)));
+                this.apoyos[numero - 1].DimensionColumnaX = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.DimensionColumnaX.Text)));
+                this.apoyos[numero - 1].DimensionColumnaY = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.DimensionColumnaX.Text)));
                 //cambiar el nombre del boton
                 MessageBox.Show("Se introdujeron los datos correctamente.");
             }
@@ -612,7 +628,7 @@ namespace FundTool
                         qadmisible = (double)(((r1 + r2 + r3 + r4 + r5) * areapunta) / 4) - friccionnegativa;
                         qestructural = 0.225 * (((double)this.resistenciaConcreto * (areapunta)) + ((double)this.resistenciaAcero) * areaAceroLongitudinal);
                         qadmisible = qadmisible / 1000; //convirtiendo a toneladas
-                        qadmisible = qadmisible * numeropilotes;
+                        qadmisible = qadmisible * numeropilotes; //sin contar eficiencia de grupo
                         qestructural = qestructural / 1000; //convirtiendo a toneladas
                         //convertimos diametro a metros:
                         double aux = this.diametrosComerciales[j] / 100;
@@ -630,12 +646,14 @@ namespace FundTool
                             if (longitudEfectiva > (6 * aux) && longitudEfectiva <= (30 * aux))
                             {
                                 this.apoyos[i].DiametroPilotes = this.diametrosComerciales[j];
+                                MessageBox.Show("r1 " + r1 + " r2 " + r2 + " r3 " + r3 + " r4 " + r4 + " r5 " + r5);
                                 break;
                             }
                             else if (contador != 0)
                             {
                                 //ajuro entra
                                 this.apoyos[i].DiametroPilotes = this.diametrosComerciales[j];
+                                MessageBox.Show("r1 " + r1 + " r2 " + r2 + " r3 " + r3 + " r4 " + r4 + " r5 " + r5);
                                 break;
                             }
                             else if (j == (diametrosComerciales.Count() - 1))
@@ -656,15 +674,15 @@ namespace FundTool
                             numeropilotes = numeropilotes + 1;
                         }
                     }
-                    this.apoyos[i].AceroLongitudinal = areaAceroLongitudinal;
                     for (int j = 1; j <= numeropilotes; j++)
                     {
                         this.apoyos[i].Pilotes.Add(nuevos);
                     }
                     this.apoyos[i].Qadmisible = qadmisible;
                     this.apoyos[i].Qestructural = qestructural;
+                    this.apoyos[i].AceroLongitudinal = areaAceroLongitudinal;
                     //pendiente de los diametros comerciales
-                    MessageBox.Show("apoyo: " + this.apoyos[i].Nombre + " Numero de pilotes " + this.apoyos[i].Pilotes.Count() + " Qadmisible " + qadmisible + " Qestructural " + qestructural + " carga del apoyo " + this.apoyos[i].Carga);
+                    MessageBox.Show("apoyo: " + this.apoyos[i].Nombre + " Numero de pilotes " + this.apoyos[i].Pilotes.Count() + " Qadmisible " + qadmisible + " Qestructural " + qestructural + " carga del apoyo " + this.apoyos[i].Carga + " diametro " + this.apoyos[i].DiametroPilotes);
                 }
             }
             CalcularAceroLongitudinal();
@@ -713,63 +731,93 @@ namespace FundTool
                 int cantPilotes = this.apoyos[i].Pilotes.Count();
                 int m = 0; //filas
                 int n = 0; //columnas
+                double Tx = 0;
+                double Ty = 0;
+                double P = this.apoyos[i].Carga; //p = carga z
                 double S = new double();
-                S = 2.5 * this.apoyos[i].Pilotes[0].Diametro;
+                double s = 2.5; // minima distancia entre pilotes
+                S = s * this.apoyos[i].Pilotes[0].Diametro/100; // /100 para metros
                 switch (cantPilotes)
                 {
                     case 1:
                         m = 1;
                         n = 1;
+                        Tx = P;
+                        Ty = Tx;
                         break;
                     case 2:
                         m = 1;
                         n = 2;
+                        Tx = (P * (2 * s - this.apoyos[i].DimensionColumnaX)) / (8 * 0.6 * 2.5);
+                        Ty = Tx;
                         break;
                     case 3:
                         n = 3;
                         m = 1;
+                        Tx = (P * s) / (9 * 0.688 * s); //triangulo
+                        Ty = Tx;
                         break;
                     case 4:
                         n = 2;
                         m = 2;
+                        Tx = (P * s) / (8 * 0.842 * s);
+                        Ty = Tx;
                         break;
                     case 5:
                         n = 3;
                         m = 2;
+                        Tx = (P * s) / (10 * 0.842 * s);
+                        Ty = Tx;
                         break;
                     case 6:
                         n = 4;
-                        m = 3;
+                        m = 3; //hexagono
+                        Tx = (P * s) / (3 * 1.2 * s);
+                        Ty = (P * s * Math.Sqrt(3)) / (6 * 1.2 * s);
                         break;
                     case 7:
                         n = 5;
                         m = 3;
+                        Tx = (2 * P * s) / (7 * 1.2 * s);
+                        Ty = (3 * P * s) / (7 * Math.Sqrt(3) * 1.2 * s);
                         break;
                     case 8:
                         n = 5;
                         m = 3;
+                        Tx = (5 * P * s) / (16 * 1.58 * s);
+                        Ty = (9 * P * s) / (16 * Math.Sqrt(3) * 1.58 * s);
                         break;
                     case 9:
                         n = 3;
                         m = 3;
+                        Tx = (P * s) / (3 * 1.7 * s);
+                        Ty = Tx;
                         break;
                     case 10:
                         n = 5;
                         m = 3;
+                        Tx = (2 * P * s) / (5 * 1.58 * s);
+                        Ty = (9 * P * s) / (20 * Math.Sqrt(3) * 1.58 * s);
                         break;
                     case 11:
                         n = 7;
                         m = 3;
+                        Tx = (4 * P * s) / (11 * 2 * s);
+                        Ty = (2 * Math.Sqrt(3) * P * s) / (11 * 2 * s);
                         break;
                     case 12:
                         n = 4;
                         m = 3;
+                        Tx = (P * s) / (2 * 2.15 * s);
+                        Ty = (5 * P * s) / (12 * 2.15 * s);
                         break;
                     default:
                         if (cantPilotes > 12)
                         {
                             double resta = cantPilotes % 2;
                             //mas tarde
+                            //no esta programado todavia debido a M y N hay que idearnosla 
+                            //recordar
                         }
                         else
                         {
@@ -786,8 +834,21 @@ namespace FundTool
 
                     this.apoyos[i].Eficiencia = 1 - ((((n * (m - 1)) + (m * (n - 1))) / ((90 * m * n))) * (Math.Atan((this.apoyos[i].Pilotes[0].Diametro) / (S))));
                 }
+                //entonces la q admisible de grupo sera
+                this.apoyos[i].QadmisibleGrupo = this.apoyos[i].Pilotes.Count() * this.apoyos[i].Qadmisible * this.apoyos[i].Eficiencia;
+                MessageBox.Show("Qadmisible de grupo: " + this.apoyos[i].QadmisibleGrupo);
+                this.apoyos[i].DimensionesCabezal = (S / 2) - 0.15; //metros
+                MessageBox.Show("Dimensiones del cabezal (h) " + this.apoyos[i].DimensionesCabezal);
+                double Ax = Tx / 2100;
+                this.apoyos[i].AreaAceroX = Ax;
+                double Ay = Ty / 2100;
+                this.apoyos[i].AreaAceroY = Ay;
+                this.apoyos[i].CabillasDeCajonX = (int)Math.Ceiling(Ax / this.apoyos[i].SeccionTeorica); //seccion teorica area de cabillas?
+                this.apoyos[i].CabillasDeCajonY = (int)Math.Ceiling(Ay / this.apoyos[i].SeccionTeorica);
+                MessageBox.Show("Area acero X " + Ax + " Area de acero Y " + Ay + " cabillas en X " + this.apoyos[i].CabillasDeCajonX + " cabillas en Y " + this.apoyos[i].CabillasDeCajonY);
+                //sigue el espaciamiento entre cabillas
+                //this.apoyos[i].EspaciamientoCabillasX = 
 
-                //que seguira
             }
         }
 
