@@ -736,7 +736,9 @@ namespace FundTool
                 double P = this.apoyos[i].Carga; //p = carga z
                 double S = new double();
                 double s = 2.5; // minima distancia entre pilotes
-                S = s * this.apoyos[i].Pilotes[0].Diametro/100; // /100 para metros
+                double longitudX = 0;
+                double longitudY = 0;
+                S = s * this.apoyos[i].DiametroPilotes/100; // /100 para metros
                 switch (cantPilotes)
                 {
                     case 1:
@@ -744,18 +746,23 @@ namespace FundTool
                         n = 1;
                         Tx = P;
                         Ty = Tx;
+                        longitudX = this.apoyos[i].DiametroPilotes + 0.30;
+                        longitudY = longitudX;
                         break;
                     case 2:
                         m = 1;
                         n = 2;
                         Tx = (P * (2 * s - this.apoyos[i].DimensionColumnaX)) / (8 * 0.6 * 2.5);
                         Ty = Tx;
+                        longitudX = s + 2 * (this.apoyos[i].DiametroPilotes/2)+0.30;
+                        longitudY = this.apoyos[i].DiametroPilotes + 0.30;
                         break;
                     case 3:
                         n = 3;
                         m = 1;
                         Tx = (P * s) / (9 * 0.688 * s); //triangulo
                         Ty = Tx;
+
                         break;
                     case 4:
                         n = 2;
@@ -837,6 +844,10 @@ namespace FundTool
                 //entonces la q admisible de grupo sera
                 this.apoyos[i].QadmisibleGrupo = this.apoyos[i].Pilotes.Count() * this.apoyos[i].Qadmisible * this.apoyos[i].Eficiencia;
                 MessageBox.Show("Qadmisible de grupo: " + this.apoyos[i].QadmisibleGrupo);
+                if(this.apoyos[i].QadmisibleGrupo < this.apoyos[i].Carga)
+                {
+                    MessageBox.Show("Qadmisible de grupo no es mayor que la carga " + this.apoyos[i].Carga);
+                }
                 this.apoyos[i].DimensionesCabezal = (S / 2) - 0.15; //metros
                 MessageBox.Show("Dimensiones del cabezal (h) " + this.apoyos[i].DimensionesCabezal);
                 double Ax = Tx / 2100;
@@ -847,8 +858,9 @@ namespace FundTool
                 this.apoyos[i].CabillasDeCajonY = (int)Math.Ceiling(Ay / this.apoyos[i].SeccionTeorica);
                 MessageBox.Show("Area acero X " + Ax + " Area de acero Y " + Ay + " cabillas en X " + this.apoyos[i].CabillasDeCajonX + " cabillas en Y " + this.apoyos[i].CabillasDeCajonY);
                 //sigue el espaciamiento entre cabillas
-                //this.apoyos[i].EspaciamientoCabillasX = 
-
+                this.apoyos[i].EspaciamientoCabillasX = this.apoyos[i].DiametroPilotes / this.apoyos[i].CabillasDeCajonX;
+                this.apoyos[i].EspaciamientoCabillasY = this.apoyos[i].DiametroPilotes / this.apoyos[i].CabillasDeCajonY;
+                MessageBox.Show("Espaciamiento entre cabillas x " + this.apoyos[i].EspaciamientoCabillasX + " espaciamiento entre cabillas y " + this.apoyos[i].EspaciamientoCabillasY);
             }
         }
 

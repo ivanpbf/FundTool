@@ -79,6 +79,7 @@
                 <Button Content="Aceptar y Continuar" FontWeight="Bold" HorizontalAlignment="Left" Margin="321,14,0,0" VerticalAlignment="Top" Width="127" Click="CompletarIndirectas" RenderTransformOrigin="0.874,0.7"/>
             </Grid>
             <Grid x:Name="SolicitacionesGrid" Height="322" Margin="2,321,10,0" VerticalAlignment="Top" Background="AntiqueWhite">
+                
                 <Label Content="Solicitaciones" FontWeight="Bold" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
                 <Label Content="Numero de Apoyos en X:" HorizontalAlignment="Left" Margin="10,39,0,0" VerticalAlignment="Top"/>
                 <TextBox x:Name="NroApoyosX" HorizontalAlignment="Left" Height="23" Margin="153,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" PreviewTextInput="NumericOnly" TextAlignment="Center"/>
@@ -121,6 +122,7 @@
                 <Label Content="Dimension Columna Y:" HorizontalAlignment="Left" Margin="548,261,0,0" VerticalAlignment="Top"/>
                 <TextBox x:Name="DimensionColumnaY" HorizontalAlignment="Left" Height="23" Margin="683,261,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32" TextAlignment="Center" PreviewTextInput="NumericOnly"/>
                 <Label Content="m" HorizontalAlignment="Left" Margin="720,261,0,0" VerticalAlignment="Top"/>
+                <Image HorizontalAlignment="Left" Height="100" Margin="45,184,0,0" VerticalAlignment="Top" Width="125" Source="imagenfundtool.jpg"/>
             </Grid>
         </Grid>
     </ScrollViewer>
