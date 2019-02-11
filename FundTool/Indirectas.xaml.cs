@@ -523,7 +523,7 @@ namespace FundTool
                             this.apoyos[i].Qadmisible = qadmisible;
                             this.apoyos[i].Qestructural = qestructural;
                             this.apoyos[i].DiametroPilotes = this.diametrosComerciales[j];
-                            if (CalculoConjuntoDePilotes(i))
+                            if (CalculoConjuntoDePilotes(i, numeropilotes)) //ojo que el numero de pilotes hasta que se pongan, es auxiliar
                             {
                                 break;
                             }
@@ -534,7 +534,7 @@ namespace FundTool
                             this.apoyos[i].Qadmisible = qadmisible;
                             this.apoyos[i].Qestructural = qestructural;
                             this.apoyos[i].DiametroPilotes = this.diametrosComerciales[j];
-                            if (CalculoConjuntoDePilotes(i))
+                            if (CalculoConjuntoDePilotes(i, numeropilotes))
                             {
                                 break;
                             }
@@ -672,7 +672,7 @@ namespace FundTool
                             this.apoyos[i].Qadmisible = qadmisible;
                             this.apoyos[i].Qestructural = qestructural;
                             this.apoyos[i].DiametroPilotes = this.diametrosComerciales[j];
-                            if (CalculoConjuntoDePilotes(i))
+                            if (CalculoConjuntoDePilotes(i, numeropilotes))
                             {
                                 MessageBox.Show("r1 " + r1 + " r2 " + r2 + " r3 " + r3 + " r4 " + r4 + " r5 " + r5);
                                 break;
@@ -683,7 +683,7 @@ namespace FundTool
                             this.apoyos[i].Qadmisible = qadmisible;
                             this.apoyos[i].Qestructural = qestructural;
                             this.apoyos[i].DiametroPilotes = this.diametrosComerciales[j];
-                            if (CalculoConjuntoDePilotes(i))
+                            if (CalculoConjuntoDePilotes(i, numeropilotes))
                             {
                                 MessageBox.Show("r1 " + r1 + " r2 " + r2 + " r3 " + r3 + " r4 " + r4 + " r5 " + r5);
                                 break;
@@ -757,9 +757,9 @@ namespace FundTool
             
         }
 
-        public Boolean CalculoConjuntoDePilotes(int i) //posicion del apoyo
+        public Boolean CalculoConjuntoDePilotes(int i, int cantPil) //posicion del apoyo
         {
-        int cantPilotes = this.apoyos[i].Pilotes.Count();
+        int cantPilotes = cantPil;
         int m = 0; //filas
         int n = 0; //columnas
         double Tx = 0;
