@@ -83,7 +83,7 @@ namespace FundTool
         public int? resistenciaAcero;
         public double? nsptpunta;
         public int? resistenciaConcreto;
-        public List<int> diametrosComerciales = new List<int> { 55, 65, 80, 90, 100, 110, 120, 130, 140, 150 }; // centimetros
+        public List<double> diametrosComerciales = new List<double> { 55, 65, 80, 90, 100, 110, 120, 130, 140, 150 }; // centimetros
         public List<double> seccionTeorica = new List<double> { 1.9806, 2.8502, 3.8777, 5.0670, 10.0717 };
         public List<MetroGolpe> golpesSuelo;
         public List<double> valoresS5 = new List<double> { 0.00, 1.6, 1.68, 1.76, 1.85, 1.95, 2.06, 2.15, 2.28, 2.41, 2.55, 2.70, 2.86, 3.02, 3.21, 3.41, 3.62, 3.85, 4.11,
@@ -452,220 +452,95 @@ namespace FundTool
         {
             if (this.tipoDeSuelo == "Granular")
             {
-                double areaAceroLongitudinal = new double();
-                //sacar nsptfuste
-                double nsptfuste = new double();
-                this.longitudEfectiva = this.longitudPilote - this.espesorRelleno;
-                nsptfuste = 0;
-                double? aPartirDe = this.espesorRelleno;
-                for (int i = (int)aPartirDe; i <= this.golpesSuelo.Count; i++)
-                {
-                    int numero = this.golpesSuelo[i - 1].NumeroDeGolpes;
-                    nsptfuste = numero + nsptfuste;
-                }
-                nsptfuste = nsptfuste / this.golpesSuelo.Count;
-                //si el promedio es mayor a 30, se toma 30
-                if (nsptfuste >= 30)
-                {
-                    nsptfuste = 30;
-                }
-                //calcular el diametro comercial y Q de pilotes del apoyo
-                for (int i = 0; i < this.apoyos.Count; i++)
-                {
-                    this.apoyos[i].Pilotes = new List<Pilote>();
-                    int numeropilotes = new int();
-                    double qadmisible = new double();
-                    qadmisible = 0;
-                    double ausar = new double(); //este va a ser el menor
-                    double qestructural = new double();
-                    qestructural = 0;
-                    numeropilotes = 1;
-                    Pilote nuevos = new Pilote();
-                    int contador = 0;
-                    for (int j = 0; j < diametrosComerciales.Count; j++)
-                    {
-                        nuevos.Diametro = this.diametrosComerciales[j];
-                        double areapunta = (3.14159265358979) * Math.Pow((diametrosComerciales[j] / 2), 2);
-                        double areafuste = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)this.longitudPilote;
-                        double friccionnegativa = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)this.espesorRelleno * (double)this.coefFriccionRelleno;
-                        qadmisible = ((4 / 3) * (double)this.nsptpunta * (areapunta)) + ((4 / 600) * (double)nsptfuste * (areafuste)) - friccionnegativa;
-                        areaAceroLongitudinal = (double)this.porcentajeAcero * areapunta;
-                        qestructural = ((((double)this.resistenciaConcreto * (areapunta)) + (((double)this.resistenciaAcero) * areaAceroLongitudinal))) * 0.225;
-                        qadmisible = qadmisible / 1000; //convirtiendo a toneladas
-                        qadmisible = qadmisible * numeropilotes; //sin contar eficiencia de grupo
-                        qestructural = qestructural / 1000; //convirtiendo a toneladas
-                        //convertimos diametro a metros:
-                        double aux = this.diametrosComerciales[j]/100;
-                        if (qadmisible < qestructural)
-                        {
-                            ausar = qadmisible;
-                        }
-                        else
-                        {
-                            ausar = qestructural;
-                        }
-                        //vemos que la menor de ellas sea mayor a la carga
-                        if (ausar >= this.apoyos[i].Carga)
-                        {
-                            if(longitudEfectiva > (6 * aux) && longitudEfectiva <= (30 * aux))
-                            {
-                                this.apoyos[i].DiametroPilotes = this.diametrosComerciales[j];
-                                break;
-                            }
-                            else if (contador != 0)
-                            {
-                                //ajuro entra
-                                this.apoyos[i].DiametroPilotes = this.diametrosComerciales[j];
-                                break;
-                            }
-                            else if (j == (diametrosComerciales.Count() - 1))
-                            {
-                                j = -1;
-                                numeropilotes = numeropilotes + 1;
-                            }
-                            else
-                            {
-                                j = -1;
-                                numeropilotes = numeropilotes + 1;
-                                contador++;
-                            }    
-                        }
-                        else if (j == (diametrosComerciales.Count() - 1))
-                        {
-                            j = -1;
-                            numeropilotes = numeropilotes + 1;
-                        }
-                    }
-                    for (int j = 1; j <= numeropilotes; j++)
-                    {
-                        this.apoyos[i].Pilotes.Add(nuevos);
-                    }
-                    this.apoyos[i].Qadmisible = qadmisible;
-                    this.apoyos[i].Qestructural = qestructural;
-                    this.apoyos[i].AceroLongitudinal = areaAceroLongitudinal;
-                    //pendiente de los diametros comerciales
-                    MessageBox.Show("apoyo: " + this.apoyos[i].Nombre + " Numero de pilotes " + this.apoyos[i].Pilotes.Count() + " Qadmisible " + qadmisible + " Qestructural " + qestructural + " carga del apoyo " + this.apoyos[i].Carga + " diametro "+this.apoyos[i].DiametroPilotes);
-                }
-                ///falta
+                CalculoPilotesGranular();
             }
             else if (this.tipoDeSuelo == "GranularCohesivo")
             {
-                //peso angulo y cohesion de fuste: (valores primados)
-                double areaAceroLongitudinal = new double();
-                double pesoPromedio = 0;
-                double anguloPromedio = 0;
-                double cohesionPromedio = 0;
-                double espesorTotal = 0;
-                this.longitudEfectiva = this.longitudPilote - this.espesorRelleno;
-                for (int i = 0; i < this.estratos.Count(); i++)
-                {
-                    pesoPromedio = pesoPromedio + (this.estratos[i].Peso * this.estratos[i].Espesor);
-                    anguloPromedio = anguloPromedio + (this.estratos[i].Angulo * this.estratos[i].Espesor);
-                    cohesionPromedio = cohesionPromedio + (this.estratos[i].Cohesion * this.estratos[i].Espesor);
-                    espesorTotal = espesorTotal + this.estratos[i].Espesor;
-                }
-                //verificaciones del angulo
-                double s1;
-                double s2;
-                double s2primado;
-                double s3primado;
-                double s5primado;
-                if (anguloPromedio < 9)
-                {
-                    MessageBox.Show("El angulo promedio es de " + anguloPromedio + ", el terreno es muy debil.");
-                    return;
-                }
-                else if (anguloPromedio > 60)
-                {
-                    MessageBox.Show("El angulo promedio es de " + anguloPromedio + ", el terreno es muy duro.");
-                    return;
-                }
-                else
-                {
-                    int auxiliar = (int)anguloPromedio - 10;
-                    s1 = 0.192 * (Math.Pow(Math.Tan(45 + (anguloPromedio / 2)), 2)) * ((Math.Pow(Math.E, 4.55 * Math.Tan(anguloPromedio))) - 1);
-                    s2 = (Math.Pow(Math.Tan(45 + (anguloPromedio / 2)), 2)) * (Math.Pow(Math.E, Math.Tan(anguloPromedio)));
-                    s2primado = 1 + (0.32 * Math.Pow(Math.Tan(anguloPromedio), 2));
-                    s3primado = (Math.Tan(anguloPromedio)) * Math.Pow(Math.E, (19 / 30) * (Math.Tan(anguloPromedio)) * (4 + Math.Pow(Math.Tan(anguloPromedio), 2 / 3)));
-                    s5primado = valoresS5[auxiliar];
+                CalculoPilotesCohesivo();
+            }
+            CalcularAceroLongitudinal();
+        }
 
-                }
-                //factores de resistencia:
-                for (int i = 0; i < this.apoyos.Count; i++)
+        public void CalculoPilotesGranular()
+        {
+            double areaAceroLongitudinal = new double();
+            //sacar nsptfuste
+            double nsptfuste = new double();
+            this.longitudEfectiva = this.longitudPilote - this.espesorRelleno;
+            nsptfuste = 0;
+            double? aPartirDe = this.espesorRelleno;
+            for (int i = (int)aPartirDe; i <= this.golpesSuelo.Count; i++)
+            {
+                int numero = this.golpesSuelo[i - 1].NumeroDeGolpes;
+                nsptfuste = numero + nsptfuste;
+            }
+            nsptfuste = nsptfuste / this.golpesSuelo.Count;
+            //si el promedio es mayor a 30, se toma 30
+            if (nsptfuste >= 30)
+            {
+                nsptfuste = 30;
+            }
+            //calcular el diametro comercial y Q de pilotes del apoyo
+            for (int i = 0; i < this.apoyos.Count; i++)
+            {
+                this.apoyos[i].Pilotes = new List<Pilote>();
+                int numeropilotes = new int();
+                double qadmisible = new double();
+                qadmisible = 0;
+                double ausar = new double(); //este va a ser el menor
+                double qestructural = new double();
+                qestructural = 0;
+                numeropilotes = 1;
+                Pilote nuevos = new Pilote();
+                int contador = 0;
+                for (int j = 0; j < diametrosComerciales.Count; j++)
                 {
-                    this.apoyos[i].Pilotes = new List<Pilote>();
-                    int numeropilotes = new int();
-                    double qadmisible = new double();
-                    qadmisible = 0;
-                    double ausar = new double(); //este va a ser el menor
-                    double qestructural = new double();
-                    qestructural = 0;
-                    numeropilotes = 1;
-                    Pilote nuevos = new Pilote();
-                    int contador = 0;
-                    double? r1;
-                    //r1 = peso especifico * diametro? * s1/4
-                    double? r2;
-                    //r2 = pesoFuste * longitud efectiva * s2 * s2'
-                    double? r3;
-                    //r3 = pesoFuste * 2longitudefectiva^2 * s3'/diametro?
-                    double? r4;
-                    //r4 = (CohesionFuste/tan(angulo)) * (s2 -1)
-                    double? r5;
-                    //r5 = cohesionFuste * 4 longitud efectiva * s5'/diametro?
-                    for (int j = 0; j < diametrosComerciales.Count; j++)
+                    nuevos.Diametro = this.diametrosComerciales[j];
+                    double areapunta = (3.14159265358979) * Math.Pow((diametrosComerciales[j] / 2), 2);
+                    double areafuste = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)this.longitudPilote;
+                    double friccionnegativa = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)this.espesorRelleno * (double)this.coefFriccionRelleno;
+                    qadmisible = ((4 / 3) * (double)this.nsptpunta * (areapunta)) + ((4 / 600) * (double)nsptfuste * (areafuste)) - friccionnegativa;
+                    areaAceroLongitudinal = (double)this.porcentajeAcero * areapunta;
+                    qestructural = ((((double)this.resistenciaConcreto * (areapunta)) + (((double)this.resistenciaAcero) * areaAceroLongitudinal))) * 0.225;
+                    qadmisible = qadmisible / 1000; //convirtiendo a toneladas
+                    qadmisible = qadmisible * numeropilotes; //sin contar eficiencia de grupo
+                    qestructural = qestructural / 1000; //convirtiendo a toneladas
+                    //convertimos diametro a metros:
+                    double aux = this.diametrosComerciales[j] / 100;
+                    if (qadmisible < qestructural)
                     {
-                        nuevos.Diametro = this.diametrosComerciales[j];
-                        r1 = pesoPromedio * (nuevos.Diametro / 100) * (s1 / 4);
-                        r2 = pesoPromedio * longitudEfectiva * s2 * s2primado;
-                        r3 = pesoPromedio * (2 * (longitudEfectiva * longitudEfectiva)) * (s3primado / (nuevos.Diametro / 100));
-                        r4 = (cohesionPromedio / (Math.Tan(anguloPromedio))) * (s2 - 1);
-                        r5 = cohesionPromedio * (4 * longitudEfectiva) * (s5primado / (nuevos.Diametro / 100));
-                        double areapunta = (3.14159265358979) * Math.Pow((diametrosComerciales[j] / 2), 2);
-                        double areafuste = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)this.longitudPilote;
-                        double friccionnegativa = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)this.espesorRelleno * (double)this.coefFriccionRelleno;
-                        areaAceroLongitudinal = (double)this.porcentajeAcero * areapunta;
-                        qadmisible = (double)(((r1 + r2 + r3 + r4 + r5) * areapunta) / 4) - friccionnegativa;
-                        qestructural = 0.225 * (((double)this.resistenciaConcreto * (areapunta)) + ((double)this.resistenciaAcero) * areaAceroLongitudinal);
-                        qadmisible = qadmisible / 1000; //convirtiendo a toneladas
-                        qadmisible = qadmisible * numeropilotes; //sin contar eficiencia de grupo
-                        qestructural = qestructural / 1000; //convirtiendo a toneladas
-                        //convertimos diametro a metros:
-                        double aux = this.diametrosComerciales[j] / 100;
-                        if (qadmisible < qestructural)
+                        ausar = qadmisible;
+                    }
+                    else
+                    {
+                        ausar = qestructural;
+                    }
+                    //vemos que la menor de ellas sea mayor a la carga
+                    if (ausar >= this.apoyos[i].Carga)
+                    {
+                        if (longitudEfectiva > (6 * aux) && longitudEfectiva <= (30 * aux))
                         {
-                            ausar = qadmisible;
-                        }
-                        else
-                        {
-                            ausar = qestructural;
-                        }
-                        //vemos que la menor de ellas sea mayor a la carga
-                        if (ausar >= this.apoyos[i].Carga)
-                        {
-                            if (longitudEfectiva > (6 * aux) && longitudEfectiva <= (30 * aux))
+                            this.apoyos[i].Qadmisible = qadmisible;
+                            this.apoyos[i].Qestructural = qestructural;
+                            this.apoyos[i].DiametroPilotes = this.diametrosComerciales[j];
+                            if (CalculoConjuntoDePilotes(i))
                             {
-                                this.apoyos[i].DiametroPilotes = this.diametrosComerciales[j];
-                                MessageBox.Show("r1 " + r1 + " r2 " + r2 + " r3 " + r3 + " r4 " + r4 + " r5 " + r5);
                                 break;
                             }
-                            else if (contador != 0)
+                        }
+                        else if (contador != 0)
+                        {
+                            //ajuro entra
+                            this.apoyos[i].Qadmisible = qadmisible;
+                            this.apoyos[i].Qestructural = qestructural;
+                            this.apoyos[i].DiametroPilotes = this.diametrosComerciales[j];
+                            if (CalculoConjuntoDePilotes(i))
                             {
-                                //ajuro entra
-                                this.apoyos[i].DiametroPilotes = this.diametrosComerciales[j];
-                                MessageBox.Show("r1 " + r1 + " r2 " + r2 + " r3 " + r3 + " r4 " + r4 + " r5 " + r5);
                                 break;
-                            }
-                            else if (j == (diametrosComerciales.Count() - 1))
-                            {
-                                j = -1;
-                                numeropilotes = numeropilotes + 1;
                             }
                             else
                             {
-                                j = -1;
-                                numeropilotes = numeropilotes + 1;
-                                contador++;
+                                contador = 0;
                             }
                         }
                         else if (j == (diametrosComerciales.Count() - 1))
@@ -673,22 +548,180 @@ namespace FundTool
                             j = -1;
                             numeropilotes = numeropilotes + 1;
                         }
+                        else
+                        {
+                            j = -1;
+                            numeropilotes = numeropilotes + 1;
+                            contador++;
+                        }
                     }
-                    for (int j = 1; j <= numeropilotes; j++)
+                    else if (j == (diametrosComerciales.Count() - 1))
                     {
-                        this.apoyos[i].Pilotes.Add(nuevos);
+                        j = -1;
+                        numeropilotes = numeropilotes + 1;
                     }
-                    this.apoyos[i].Qadmisible = qadmisible;
-                    this.apoyos[i].Qestructural = qestructural;
-                    this.apoyos[i].AceroLongitudinal = areaAceroLongitudinal;
-                    //pendiente de los diametros comerciales
-                    MessageBox.Show("apoyo: " + this.apoyos[i].Nombre + " Numero de pilotes " + this.apoyos[i].Pilotes.Count() + " Qadmisible " + qadmisible + " Qestructural " + qestructural + " carga del apoyo " + this.apoyos[i].Carga + " diametro " + this.apoyos[i].DiametroPilotes);
                 }
+                for (int j = 1; j <= numeropilotes; j++)
+                {
+                    this.apoyos[i].Pilotes.Add(nuevos);
+                }
+                this.apoyos[i].AceroLongitudinal = areaAceroLongitudinal;
+                //pendiente de los diametros comerciales
+                MessageBox.Show("apoyo: " + this.apoyos[i].Nombre + " Numero de pilotes " + this.apoyos[i].Pilotes.Count() + " Qadmisible " + qadmisible + " Qestructural " + qestructural + " carga del apoyo " + this.apoyos[i].Carga + " diametro " + this.apoyos[i].DiametroPilotes);
             }
-            CalcularAceroLongitudinal();
-            CalculoConjuntoDePilotes();
         }
 
+
+        public void CalculoPilotesCohesivo()
+        {
+            //peso angulo y cohesion de fuste: (valores primados)
+            double areaAceroLongitudinal = new double();
+            double pesoPromedio = 0;
+            double anguloPromedio = 0;
+            double cohesionPromedio = 0;
+            double espesorTotal = 0;
+            this.longitudEfectiva = this.longitudPilote - this.espesorRelleno;
+            for (int i = 0; i < this.estratos.Count(); i++)
+            {
+                pesoPromedio = pesoPromedio + (this.estratos[i].Peso * this.estratos[i].Espesor);
+                anguloPromedio = anguloPromedio + (this.estratos[i].Angulo * this.estratos[i].Espesor);
+                cohesionPromedio = cohesionPromedio + (this.estratos[i].Cohesion * this.estratos[i].Espesor);
+                espesorTotal = espesorTotal + this.estratos[i].Espesor;
+            }
+            //verificaciones del angulo
+            double s1;
+            double s2;
+            double s2primado;
+            double s3primado;
+            double s5primado;
+            if (anguloPromedio < 9)
+            {
+                MessageBox.Show("El angulo promedio es de " + anguloPromedio + ", el terreno es muy debil.");
+                return;
+            }
+            else if (anguloPromedio > 60)
+            {
+                MessageBox.Show("El angulo promedio es de " + anguloPromedio + ", el terreno es muy duro.");
+                return;
+            }
+            else
+            {
+                int auxiliar = (int)anguloPromedio - 10;
+                s1 = 0.192 * (Math.Pow(Math.Tan(45 + (anguloPromedio / 2)), 2)) * ((Math.Pow(Math.E, 4.55 * Math.Tan(anguloPromedio))) - 1);
+                s2 = (Math.Pow(Math.Tan(45 + (anguloPromedio / 2)), 2)) * (Math.Pow(Math.E, Math.Tan(anguloPromedio)));
+                s2primado = 1 + (0.32 * Math.Pow(Math.Tan(anguloPromedio), 2));
+                s3primado = (Math.Tan(anguloPromedio)) * Math.Pow(Math.E, (19 / 30) * (Math.Tan(anguloPromedio)) * (4 + Math.Pow(Math.Tan(anguloPromedio), 2 / 3)));
+                s5primado = valoresS5[auxiliar];
+
+            }
+            //factores de resistencia:
+            for (int i = 0; i < this.apoyos.Count; i++)
+            {
+                this.apoyos[i].Pilotes = new List<Pilote>();
+                int numeropilotes = new int();
+                double qadmisible = new double();
+                qadmisible = 0;
+                double ausar = new double(); //este va a ser el menor
+                double qestructural = new double();
+                qestructural = 0;
+                numeropilotes = 1;
+                Pilote nuevos = new Pilote();
+                int contador = 0;
+                double? r1;
+                //r1 = peso especifico * diametro? * s1/4
+                double? r2;
+                //r2 = pesoFuste * longitud efectiva * s2 * s2'
+                double? r3;
+                //r3 = pesoFuste * 2longitudefectiva^2 * s3'/diametro?
+                double? r4;
+                //r4 = (CohesionFuste/tan(angulo)) * (s2 -1)
+                double? r5;
+                //r5 = cohesionFuste * 4 longitud efectiva * s5'/diametro?
+                for (int j = 0; j < diametrosComerciales.Count; j++)
+                {
+                    nuevos.Diametro = this.diametrosComerciales[j];
+                    r1 = pesoPromedio * (nuevos.Diametro / 100) * (s1 / 4);
+                    r2 = pesoPromedio * longitudEfectiva * s2 * s2primado;
+                    r3 = pesoPromedio * (2 * (longitudEfectiva * longitudEfectiva)) * (s3primado / (nuevos.Diametro / 100));
+                    r4 = (cohesionPromedio / (Math.Tan(anguloPromedio))) * (s2 - 1);
+                    r5 = cohesionPromedio * (4 * longitudEfectiva) * (s5primado / (nuevos.Diametro / 100));
+                    double areapunta = (3.14159265358979) * Math.Pow((diametrosComerciales[j] / 2), 2);
+                    double areafuste = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)this.longitudPilote;
+                    double friccionnegativa = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)this.espesorRelleno * (double)this.coefFriccionRelleno;
+                    areaAceroLongitudinal = (double)this.porcentajeAcero * areapunta;
+                    qadmisible = (double)(((r1 + r2 + r3 + r4 + r5) * areapunta) / 4) - friccionnegativa;
+                    qestructural = 0.225 * (((double)this.resistenciaConcreto * (areapunta)) + ((double)this.resistenciaAcero) * areaAceroLongitudinal);
+                    qadmisible = qadmisible / 1000; //convirtiendo a toneladas
+                    qadmisible = qadmisible * numeropilotes; //sin contar eficiencia de grupo
+                    qestructural = qestructural / 1000; //convirtiendo a toneladas
+                                                        //convertimos diametro a metros:
+                    double aux = this.diametrosComerciales[j] / 100;
+                    if (qadmisible < qestructural)
+                    {
+                        ausar = qadmisible;
+                    }
+                    else
+                    {
+                        ausar = qestructural;
+                    }
+                    //vemos que la menor de ellas sea mayor a la carga
+                    if (ausar >= this.apoyos[i].Carga)
+                    {
+                        if (longitudEfectiva > (6 * aux) && longitudEfectiva <= (30 * aux))
+                        {
+                            this.apoyos[i].Qadmisible = qadmisible;
+                            this.apoyos[i].Qestructural = qestructural;
+                            this.apoyos[i].DiametroPilotes = this.diametrosComerciales[j];
+                            if (CalculoConjuntoDePilotes(i))
+                            {
+                                MessageBox.Show("r1 " + r1 + " r2 " + r2 + " r3 " + r3 + " r4 " + r4 + " r5 " + r5);
+                                break;
+                            }
+                        }
+                        else if (contador != 0)
+                        {
+                            this.apoyos[i].Qadmisible = qadmisible;
+                            this.apoyos[i].Qestructural = qestructural;
+                            this.apoyos[i].DiametroPilotes = this.diametrosComerciales[j];
+                            if (CalculoConjuntoDePilotes(i))
+                            {
+                                MessageBox.Show("r1 " + r1 + " r2 " + r2 + " r3 " + r3 + " r4 " + r4 + " r5 " + r5);
+                                break;
+                            }
+                            else
+                            {
+                                contador = 0;
+                            }
+                        }
+                        else if (j == (diametrosComerciales.Count() - 1))
+                        {
+                            j = -1;
+                            numeropilotes = numeropilotes + 1;
+                        }
+                        else
+                        {
+                            j = -1;
+                            numeropilotes = numeropilotes + 1;
+                            contador++;
+                        }
+                    }
+                    else if (j == (diametrosComerciales.Count() - 1))
+                    {
+                        j = -1;
+                        numeropilotes = numeropilotes + 1;
+                    }
+                }
+                for (int j = 1; j <= numeropilotes; j++)
+                {
+                    this.apoyos[i].Pilotes.Add(nuevos);
+                }
+                this.apoyos[i].Qadmisible = qadmisible;
+                this.apoyos[i].Qestructural = qestructural;
+                this.apoyos[i].AceroLongitudinal = areaAceroLongitudinal;
+                //pendiente de los diametros comerciales
+                MessageBox.Show("apoyo: " + this.apoyos[i].Nombre + " Numero de pilotes " + this.apoyos[i].Pilotes.Count() + " Qadmisible " + qadmisible + " Qestructural " + qestructural + " carga del apoyo " + this.apoyos[i].Carga + " diametro " + this.apoyos[i].DiametroPilotes);
+            }
+        }
 
         public void CalcularAceroLongitudinal()
         {
@@ -724,130 +757,127 @@ namespace FundTool
             
         }
 
-        public void CalculoConjuntoDePilotes()
+        public Boolean CalculoConjuntoDePilotes(int i) //posicion del apoyo
         {
-            for (int i = 0; i < this.apoyos.Count(); i++)
+        int cantPilotes = this.apoyos[i].Pilotes.Count();
+        int m = 0; //filas
+        int n = 0; //columnas
+        double Tx = 0;
+        double Ty = 0;
+        double P = this.apoyos[i].Carga; //p = carga z
+        double S = new double();
+        double s = 2.5; // minima distancia entre pilotes
+        double longitudX = 0;
+        double longitudY = 0;
+        S = s * this.apoyos[i].DiametroPilotes/100; // /100 para metros
+        switch (cantPilotes)
             {
-                int cantPilotes = this.apoyos[i].Pilotes.Count();
-                int m = 0; //filas
-                int n = 0; //columnas
-                double Tx = 0;
-                double Ty = 0;
-                double P = this.apoyos[i].Carga; //p = carga z
-                double S = new double();
-                double s = 2.5; // minima distancia entre pilotes
-                double longitudX = 0;
-                double longitudY = 0;
-                S = s * this.apoyos[i].DiametroPilotes/100; // /100 para metros
-                switch (cantPilotes)
-                {
-                    case 1:
-                        m = 1;
-                        n = 1;
-                        Tx = P;
-                        Ty = Tx;
-                        longitudX = this.apoyos[i].DiametroPilotes + 0.30;
-                        longitudY = longitudX;
-                        break;
-                    case 2:
-                        m = 1;
-                        n = 2;
-                        Tx = (P * (2 * s - this.apoyos[i].DimensionColumnaX)) / (8 * 0.6 * 2.5);
-                        Ty = Tx;
-                        longitudX = s + 2 * (this.apoyos[i].DiametroPilotes/2)+0.30;
-                        longitudY = this.apoyos[i].DiametroPilotes + 0.30;
-                        break;
-                    case 3:
-                        n = 3;
-                        m = 1;
-                        Tx = (P * s) / (9 * 0.688 * s); //triangulo
-                        Ty = Tx;
-
-                        break;
-                    case 4:
-                        n = 2;
-                        m = 2;
-                        Tx = (P * s) / (8 * 0.842 * s);
-                        Ty = Tx;
-                        break;
-                    case 5:
-                        n = 3;
-                        m = 2;
-                        Tx = (P * s) / (10 * 0.842 * s);
-                        Ty = Tx;
-                        break;
-                    case 6:
-                        n = 4;
-                        m = 3; //hexagono
-                        Tx = (P * s) / (3 * 1.2 * s);
-                        Ty = (P * s * Math.Sqrt(3)) / (6 * 1.2 * s);
-                        break;
-                    case 7:
-                        n = 5;
-                        m = 3;
-                        Tx = (2 * P * s) / (7 * 1.2 * s);
-                        Ty = (3 * P * s) / (7 * Math.Sqrt(3) * 1.2 * s);
-                        break;
-                    case 8:
-                        n = 5;
-                        m = 3;
-                        Tx = (5 * P * s) / (16 * 1.58 * s);
-                        Ty = (9 * P * s) / (16 * Math.Sqrt(3) * 1.58 * s);
-                        break;
-                    case 9:
-                        n = 3;
-                        m = 3;
-                        Tx = (P * s) / (3 * 1.7 * s);
-                        Ty = Tx;
-                        break;
-                    case 10:
-                        n = 5;
-                        m = 3;
-                        Tx = (2 * P * s) / (5 * 1.58 * s);
-                        Ty = (9 * P * s) / (20 * Math.Sqrt(3) * 1.58 * s);
-                        break;
-                    case 11:
-                        n = 7;
-                        m = 3;
-                        Tx = (4 * P * s) / (11 * 2 * s);
-                        Ty = (2 * Math.Sqrt(3) * P * s) / (11 * 2 * s);
-                        break;
-                    case 12:
-                        n = 4;
-                        m = 3;
-                        Tx = (P * s) / (2 * 2.15 * s);
-                        Ty = (5 * P * s) / (12 * 2.15 * s);
-                        break;
-                    default:
-                        if (cantPilotes > 12)
-                        {
-                            double resta = cantPilotes % 2;
-                            //mas tarde
-                            //no esta programado todavia debido a M y N hay que idearnosla 
-                            //recordar
-                        }
-                        else
-                        {
-                            Console.Write("No entro al caso, imposible");
-                        }
-                        break;
-                }
-                if (cantPilotes == 1)
-                {
-                    this.apoyos[i].Eficiencia = this.apoyos[i].Qadmisible;
-                }
-                else
-                {
-
-                    this.apoyos[i].Eficiencia = 1 - ((((n * (m - 1)) + (m * (n - 1))) / ((90 * m * n))) * (Math.Atan((this.apoyos[i].Pilotes[0].Diametro) / (S))));
-                }
-                //entonces la q admisible de grupo sera
-                this.apoyos[i].QadmisibleGrupo = this.apoyos[i].Pilotes.Count() * this.apoyos[i].Qadmisible * this.apoyos[i].Eficiencia;
+                case 1:
+                    m = 1;
+                    n = 1;
+                    Tx = P;
+                    Ty = Tx;
+                    longitudX = this.apoyos[i].DiametroPilotes + 0.30;
+                    longitudY = longitudX;
+                    break;
+                case 2:
+                    m = 1;
+                    n = 2;
+                    Tx = (P * (2 * s - this.apoyos[i].DimensionColumnaX)) / (8 * 0.6 * 2.5);
+                    longitudX = s + 2 * (this.apoyos[i].DiametroPilotes/2)+0.30;
+                    longitudY = this.apoyos[i].DiametroPilotes + 0.30;
+                    break;
+                case 3:
+                    n = 3;
+                    m = 1;
+                    Tx = (P * s) / (9 * 0.688 * s); //triangulo
+                    Ty = Tx;
+                    break;
+                case 4:
+                    n = 2;
+                    m = 2;
+                    Tx = (P * s) / (8 * 0.842 * s);
+                    Ty = Tx;
+                    break;
+                case 5:
+                    n = 3;
+                    m = 2;
+                    Tx = (P * s) / (10 * 0.842 * s);
+                    Ty = Tx;
+                    break;
+                case 6:
+                    n = 4;
+                    m = 3; //hexagono
+                    Tx = (P * s) / (3 * 1.2 * s);
+                    Ty = (P * s * Math.Sqrt(3)) / (6 * 1.2 * s);
+                    break;
+                case 7:
+                    n = 5;
+                    m = 3;
+                    Tx = (2 * P * s) / (7 * 1.2 * s);
+                    Ty = (3 * P * s) / (7 * Math.Sqrt(3) * 1.2 * s);
+                    break;
+                case 8:
+                    n = 5;
+                    m = 3;
+                    Tx = (5 * P * s) / (16 * 1.58 * s);
+                    Ty = (9 * P * s) / (16 * Math.Sqrt(3) * 1.58 * s);
+                    break;
+                case 9:
+                    n = 3;
+                    m = 3;
+                    Tx = (P * s) / (3 * 1.7 * s);
+                    Ty = Tx;
+                    break;
+                case 10:
+                    n = 5;
+                    m = 3;
+                    Tx = (2 * P * s) / (5 * 1.58 * s);
+                    Ty = (9 * P * s) / (20 * Math.Sqrt(3) * 1.58 * s);
+                    break;
+                case 11:
+                    n = 7;
+                    m = 3;
+                    Tx = (4 * P * s) / (11 * 2 * s);
+                    Ty = (2 * Math.Sqrt(3) * P * s) / (11 * 2 * s);
+                    break;
+                case 12:
+                    n = 4;
+                    m = 3;
+                    Tx = (P * s) / (2 * 2.15 * s);
+                    Ty = (5 * P * s) / (12 * 2.15 * s);
+                    break;
+                default:
+                    if (cantPilotes > 12)
+                    {
+                        double resta = cantPilotes % 2;
+                        //mas tarde
+                        //no esta programado todavia debido a M y N hay que idearnosla 
+                        //recordar
+                    }
+                    else
+                    {
+                        Console.Write("No entro al caso, imposible");
+                    }
+                    break;
+            }
+            if (cantPilotes == 1)
+            {
+                this.apoyos[i].Eficiencia = this.apoyos[i].Qadmisible;
+            }
+            else
+            {
+                this.apoyos[i].Eficiencia = 1 - ((((n * (m - 1)) + (m * (n - 1))) / ((90 * m * n))) * (Math.Atan((this.apoyos[i].DiametroPilotes) / (S))));
+            }
+            //entonces la q admisible de grupo sera
+           this.apoyos[i].QadmisibleGrupo = this.apoyos[i].Pilotes.Count() * this.apoyos[i].Qadmisible * this.apoyos[i].Eficiencia;
+            if (this.apoyos[i].QadmisibleGrupo < this.apoyos[i].Carga)
+            {
+                return false;
+            }
+            else
+            {
                 MessageBox.Show("Qadmisible de grupo: " + this.apoyos[i].QadmisibleGrupo);
-                if(this.apoyos[i].QadmisibleGrupo < this.apoyos[i].Carga)
-                {
-                    MessageBox.Show("Qadmisible de grupo no es mayor que la carga " + this.apoyos[i].Carga);
-                }
                 this.apoyos[i].DimensionesCabezal = (S / 2) - 0.15; //metros
                 MessageBox.Show("Dimensiones del cabezal (h) " + this.apoyos[i].DimensionesCabezal);
                 double Ax = Tx / 2100;
@@ -860,9 +890,11 @@ namespace FundTool
                 //sigue el espaciamiento entre cabillas
                 this.apoyos[i].EspaciamientoCabillasX = this.apoyos[i].DiametroPilotes / this.apoyos[i].CabillasDeCajonX;
                 this.apoyos[i].EspaciamientoCabillasY = this.apoyos[i].DiametroPilotes / this.apoyos[i].CabillasDeCajonY;
-                MessageBox.Show("Espaciamiento entre cabillas x " + this.apoyos[i].EspaciamientoCabillasX + " espaciamiento entre cabillas y " + this.apoyos[i].EspaciamientoCabillasY);
+                //aqui hay mas y esto esta mal
+                return true;
             }
+            
         }
-
     }
+
 }
