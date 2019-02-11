@@ -30,28 +30,29 @@ namespace FundTool
         {
             public int Numero { get; set; }
             public String Nombre { get; set; }
-            public long CoordEjeX { get; set; }
-            public long CoordEjeY { get; set; }
-            public long Carga { get; set; }
-            public long MtoEnEjeX { get; set; }
-            public long MtoEnEjeY { get; set; }
-            public long FBasalX { get; set; }
-            public long FBasalY { get; set; }
+            public double CoordEjeX { get; set; }
+            public double CoordEjeY { get; set; }
+            public double Carga { get; set; }
+            public double MtoEnEjeX { get; set; }
+            public double MtoEnEjeY { get; set; }
+            public double FBasalX { get; set; }
+            public double FBasalY { get; set; }
             public double DimensionColumnaX { get; set; }
             public double DimensionColumnaY { get; set; }
         }
-        public long? resistenciaAcero;
-        public long? resistenciaConcreto;
-        public long? anguloFriccion;
-        public long? cohesion;
-        public long? pesoEspecifico;
-        public long? empotramientoDF;
+        public double? resistenciaAcero;
+        public double? resistenciaConcreto;
+        public double? anguloFriccion;
+        public double? cohesion;
+        public double? pesoEspecifico;
+        public double? empotramientoDF;
         public String falla;
         public Boolean nivelFreatico;
-        public long? cotaNivelFreatico;
+        public double? cotaNivelFreatico;
         public Boolean datosEnsayoSPT;
-        public long? profundidadEstudioSuelos;
-        public long? asentamiento;
+        public double? profundidadEstudioSuelos;
+        public double? asentamiento;
+        public double? pesoEspecificoSaturado;
         public Boolean introdujoGolpes;
         public List<MetroGolpe> golpesSuelo;
         public List<Apoyo> apoyos;
@@ -124,10 +125,11 @@ namespace FundTool
             if (!String.IsNullOrEmpty(this.AnguloFriccion.Text) && !String.IsNullOrEmpty(this.Cohesion.Text) && !String.IsNullOrEmpty(this.PesoEspecifico.Text)
                 && !String.IsNullOrEmpty(this.EmpotramientoDF.Text))
             {
-                this.anguloFriccion = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.AnguloFriccion.Text)));
-                this.cohesion = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.Cohesion.Text)));
-                this.pesoEspecifico = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.PesoEspecifico.Text)));
-                this.empotramientoDF = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.EmpotramientoDF.Text)));
+                this.anguloFriccion = Convert.ToDouble(this.AnguloFriccion.Text);
+                this.anguloFriccion = Math.Tan((double)this.anguloFriccion);
+                this.cohesion = Convert.ToDouble(this.Cohesion.Text);
+                this.pesoEspecifico = Convert.ToDouble(this.PesoEspecifico.Text);
+                this.empotramientoDF = Convert.ToDouble(this.EmpotramientoDF.Text);
                 if ((Boolean)this.FallaL.IsChecked)
                 {
                     this.falla = "local";
@@ -138,13 +140,14 @@ namespace FundTool
                 }
                 if ((Boolean)this.SiNF.IsChecked)
                 {
-                    if (!String.IsNullOrEmpty(this.CotaNF.Text))
+                    if (!String.IsNullOrEmpty(this.CotaNF.Text) && !String.IsNullOrEmpty(this.PesoEspecificoSaturado.Text))
                     {
-                        this.cotaNivelFreatico = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.CotaNF.Text)));
+                        this.cotaNivelFreatico = Convert.ToDouble(this.CotaNF.Text);
+                        this.pesoEspecificoSaturado = (double)Convert.ToDouble(this.PesoEspecificoSaturado.Text);
                     }
                     else
                     {
-                        MessageBox.Show("Introduzca la Cota de Nivel Freatico");
+                        MessageBox.Show("Introduzca los datos de Nivel Freatico");
                         return;
                     }
                 }
@@ -152,7 +155,7 @@ namespace FundTool
                 {
                     if(!String.IsNullOrEmpty(this.ProfundidadEstudioSuelos.Text) && !String.IsNullOrEmpty(this.Asentamiento.Text) && this.introdujoGolpes)
                     {
-                        this.asentamiento = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.Asentamiento.Text)));
+                        this.asentamiento = Convert.ToDouble(this.Asentamiento.Text);
                     }
                     else
                     {
@@ -318,15 +321,15 @@ namespace FundTool
             {
                 int numero = Int32.Parse(this.NumeroApoyo.Text);
                 this.apoyos[numero - 1].Nombre = this.NombreApoyo.Text;
-                this.apoyos[numero - 1].Carga = Int32.Parse(this.CargaApoyo.Text);
-                this.apoyos[numero - 1].CoordEjeX = Int32.Parse(this.CoordXApoyo.Text);
-                this.apoyos[numero - 1].CoordEjeY = Int32.Parse(this.CoordYApoyo.Text);
-                this.apoyos[numero - 1].MtoEnEjeX = Int32.Parse(this.MtoEjeXApoyo.Text);
-                this.apoyos[numero - 1].MtoEnEjeY = Int32.Parse(this.MtoEjeYApoyo.Text);
-                this.apoyos[numero - 1].FBasalX = Int32.Parse(this.FBasalXApoyo.Text);
-                this.apoyos[numero - 1].FBasalY = Int32.Parse(this.FBasalYApoyo.Text);
-                this.apoyos[numero - 1].DimensionColumnaX = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.DimensionColumnaX.Text)));
-                this.apoyos[numero - 1].DimensionColumnaY = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.DimensionColumnaX.Text)));
+                this.apoyos[numero - 1].Carga = Convert.ToDouble(this.CargaApoyo.Text);
+                this.apoyos[numero - 1].CoordEjeX = Convert.ToDouble(this.CoordXApoyo.Text);
+                this.apoyos[numero - 1].CoordEjeY = Convert.ToDouble(this.CoordYApoyo.Text);
+                this.apoyos[numero - 1].MtoEnEjeX = Convert.ToDouble(this.MtoEjeXApoyo.Text);
+                this.apoyos[numero - 1].MtoEnEjeY = Convert.ToDouble(this.MtoEjeYApoyo.Text);
+                this.apoyos[numero - 1].FBasalX = Convert.ToDouble(this.FBasalXApoyo.Text);
+                this.apoyos[numero - 1].FBasalY = Convert.ToDouble(this.FBasalYApoyo.Text);
+                this.apoyos[numero - 1].DimensionColumnaX = Convert.ToDouble(this.DimensionColumnaX.Text);
+                this.apoyos[numero - 1].DimensionColumnaY =Convert.ToDouble(this.DimensionColumnaX.Text);
                 MessageBox.Show("Se introdujeron los datos correctamente.");
             }
             else
@@ -344,8 +347,22 @@ namespace FundTool
 
         private void CompletarDirectas(object sender, RoutedEventArgs e)
         {
-            //aqui hara lo siguiente que seria generar otra ventana y dar resultados?
-            //tal vez
+            if(this.falla == "local")
+            {
+                this.cohesion = (2 / 3) * this.cohesion;
+                this.anguloFriccion = (2 / 3) * this.anguloFriccion;
+            }
+            if (this.nivelFreatico)
+            {
+                if (this.cotaNivelFreatico >= 0 && this.cotaNivelFreatico <= this.empotramientoDF)
+                {
+                    double? sobrecargaefectiva = (this.cotaNivelFreatico*this.pesoEspecifico) + ((this.empotramientoDF - this.cotaNivelFreatico)*(this.pesoEspecificoSaturado - 9806.65));
+
+                }
+                else if(true){
+
+                }
+            }
         }
 
         

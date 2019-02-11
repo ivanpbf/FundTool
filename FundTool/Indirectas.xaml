@@ -11,7 +11,7 @@
             <Grid x:Name="TipoDeSuelo" HorizontalAlignment="Left" Height="107" Margin="10,145,0,0" VerticalAlignment="Top" Width="263" Background="AntiqueWhite">
                 <Label Content="Tipo de Suelo (en Punta):" FontWeight="Bold" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
                 <RadioButton x:Name="Granular" Content="Suelo Granular" HorizontalAlignment="Left" Margin="10,38,0,0" VerticalAlignment="Top" GroupName="TipoDeSuelo"/>
-                <RadioButton x:Name="GranularCohesivo" Content="Suelo Granular-Cohesivo" HorizontalAlignment="Left" Margin="10,58,0,0" VerticalAlignment="Top" GroupName="TipoDeSuelo"/>
+                <RadioButton x:Name="GranularCohesivo" Content="Suelo Cohesivo" HorizontalAlignment="Left" Margin="10,58,0,0" VerticalAlignment="Top" GroupName="TipoDeSuelo"/>
                 <Button x:Name="Siguientes" Content="Siguiente" HorizontalAlignment="Left" Margin="123,78,0,0" VerticalAlignment="Top" Width="53" Click="AceptarSuelo"/>
                 <Button x:Name="Cancelars" Content="Cambiar" HorizontalAlignment="Left" Margin="198,78,0,0" VerticalAlignment="Top" Width="55" Click="CancelarSuelo"/>
             </Grid>
