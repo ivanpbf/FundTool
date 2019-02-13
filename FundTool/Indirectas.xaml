@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="FundTool - Indirectas" Height="750" Width="801">
     <ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="0,0,0,-1">
-        <Grid Background="#D3D3D3" Height="702">
+        <Grid Background="#D3D3D3" Height="701">
             <Grid x:Name="TipoDeSuelo" HorizontalAlignment="Left" Height="107" Margin="10,145,0,0" VerticalAlignment="Top" Width="263" Background="AntiqueWhite">
                 <Label Content="Tipo de Suelo (en Punta):" FontWeight="Bold" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
                 <RadioButton x:Name="Granular" Content="Suelo Granular" HorizontalAlignment="Left" Margin="10,38,0,0" VerticalAlignment="Top" GroupName="TipoDeSuelo"/>

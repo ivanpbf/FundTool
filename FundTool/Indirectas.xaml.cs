@@ -309,16 +309,16 @@ namespace FundTool
             Button elboton = (Button)sender;
             int numero = Int32.Parse((String)elboton.Content);
             this.NombreApoyo.Text = this.apoyos[numero - 1].Nombre;
-            this.CargaApoyo.Text = this.apoyos[numero - 1].Carga.ToString();
+            this.CargaApoyo.Text = this.apoyos[numero - 1].Carga.ToString("0.000");
             this.NumeroApoyo.Text = this.apoyos[numero - 1].Numero.ToString();
-            this.CoordXApoyo.Text = this.apoyos[numero - 1].CoordEjeX.ToString();
-            this.CoordYApoyo.Text = this.apoyos[numero - 1].CoordEjeY.ToString();
-            this.MtoEjeXApoyo.Text = this.apoyos[numero - 1].MtoEnEjeX.ToString();
-            this.MtoEjeYApoyo.Text = this.apoyos[numero - 1].MtoEnEjeY.ToString();
-            this.FBasalXApoyo.Text = this.apoyos[numero - 1].FBasalX.ToString();
-            this.FBasalYApoyo.Text = this.apoyos[numero - 1].FBasalY.ToString();
-            this.DimensionColumnaX.Text = this.apoyos[numero - 1].DimensionColumnaX.ToString("F6");
-            this.DimensionColumnaY.Text = this.apoyos[numero - 1].DimensionColumnaY.ToString("F6");
+            this.CoordXApoyo.Text = this.apoyos[numero - 1].CoordEjeX.ToString("0.000");
+            this.CoordYApoyo.Text = this.apoyos[numero - 1].CoordEjeY.ToString("0.000");
+            this.MtoEjeXApoyo.Text = this.apoyos[numero - 1].MtoEnEjeX.ToString("0.000");
+            this.MtoEjeYApoyo.Text = this.apoyos[numero - 1].MtoEnEjeY.ToString("0.000");
+            this.FBasalXApoyo.Text = this.apoyos[numero - 1].FBasalX.ToString("0.000");
+            this.FBasalYApoyo.Text = this.apoyos[numero - 1].FBasalY.ToString("0.000");
+            this.DimensionColumnaX.Text = this.apoyos[numero - 1].DimensionColumnaX.ToString("0.000");
+            this.DimensionColumnaY.Text = this.apoyos[numero - 1].DimensionColumnaY.ToString("0.000");
         }
 
         private void IntroducirDatosApoyo(object sender, RoutedEventArgs e)
@@ -336,8 +336,8 @@ namespace FundTool
                 this.apoyos[numero - 1].MtoEnEjeY = Convert.ToDouble(this.MtoEjeYApoyo.Text);
                 this.apoyos[numero - 1].FBasalX = Convert.ToDouble(this.FBasalXApoyo.Text);
                 this.apoyos[numero - 1].FBasalY = Convert.ToDouble(this.FBasalYApoyo.Text);
-                this.apoyos[numero - 1].DimensionColumnaX = Convert.ToDouble(this.DimensionColumnaX.Text);
-                this.apoyos[numero - 1].DimensionColumnaY = Convert.ToDouble(this.DimensionColumnaX.Text);
+                this.apoyos[numero - 1].DimensionColumnaX = (double)Convert.ToDouble(this.DimensionColumnaX.Text);
+                this.apoyos[numero - 1].DimensionColumnaY = (double)Convert.ToDouble(this.DimensionColumnaX.Text);
                 //cambiar el nombre del boton
                 MessageBox.Show("Se introdujeron los datos correctamente.");
             }
@@ -505,7 +505,6 @@ namespace FundTool
                     qadmisible = qadmisible / 1000; //convirtiendo a toneladas
                     qadmisible = qadmisible * numeropilotes;
                     qestructural = qestructural / 1000; //convirtiendo a toneladas
-                    MessageBox.Show("Qadmisible " + qadmisible);
                     //convertimos diametro a metros:
                     double aux = this.diametrosComerciales[j] / 100;
                     if (qadmisible < qestructural)
@@ -770,6 +769,17 @@ namespace FundTool
         double P = this.apoyos[i].Carga; //p = carga z
         double S = new double();
         double s = 2.5; // minima distancia entre pilotes
+        double e = 2.5 * this.apoyos[i].DiametroPilotes; //distancia centro a centro de pilote
+        double d; //altura util del cabezal
+        double a; //ancho de la columna que llega al cabezal
+            if (this.apoyos[i].DimensionColumnaY > this.apoyos[i].DimensionColumnaX)
+            {
+                a = this.apoyos[i].DimensionColumnaY;
+            }
+            else
+            {
+                a = this.apoyos[i].DimensionColumnaX;
+            }
         double longitudX = 0;
         double longitudY = 0;
         S = s * this.apoyos[i].DiametroPilotes;
@@ -786,21 +796,25 @@ namespace FundTool
                 case 2:
                     m = 1;
                     n = 2;
-                    Tx = (P * (2 * s - this.apoyos[i].DimensionColumnaX)) / (8 * 0.6 * 2.5);
+                    d = (e / 2) * Math.Tan(50);
+                    Tx = (P * (2 * e - a)) / (8 * d);
+                    Ty = Tx;
                     longitudX = s + 2 * (this.apoyos[i].DiametroPilotes/2)+0.30;
                     longitudY = this.apoyos[i].DiametroPilotes + 0.30;
                     break;
                 case 3:
                     n = 3;
                     m = 1;
-                    Tx = (P * s) / (9 * 0.688 * s); //triangulo
+                    d = (0.577 * e) * Math.Tan(50);
+                    Tx = (P*(2*e*Math.Sqrt(3) - a * Math.Sqrt(2))) / (18 * Math.Sqrt(3) * d); //triangulo
                     Ty = Tx;
 
                     break;
                 case 4:
                     n = 2;
                     m = 2;
-                    Tx = (P * s) / (8 * 0.842 * s);
+                    d = (e / 2) * Math.Sqrt(2) * Math.Tan(50);
+                    Tx = (P*(2*e-a))/(8*d);
                     Ty = Tx;
                     longitudX = s + 2 * (this.apoyos[i].DiametroPilotes / 2) + 0.30;
                     longitudY = longitudX;
@@ -808,7 +822,8 @@ namespace FundTool
                 case 5:
                     n = 3;
                     m = 2;
-                    Tx = (P * s) / (10 * 0.842 * s);
+                    d = e * Math.Tan(50);
+                    Tx = (P*(2*e-a))/ (10*d);
                     Ty = Tx;
                     longitudX = s + 2 * (this.apoyos[i].DiametroPilotes / 2) + 0.30;
                     longitudY = longitudX;
@@ -816,29 +831,33 @@ namespace FundTool
                 case 6:
                     n = 4;
                     m = 3; //hexagono
-                    Tx = (P * s) / (3 * 1.2 * s);
-                    Ty = (P * s * Math.Sqrt(3)) / (6 * 1.2 * s);
+                    d = e * Math.Tan(50);
+                    Tx = (P*e)/(3*d);
+                    Ty = (P*e)/(2*Math.Sqrt(3) * d);
 
                     break;
                 case 7:
                     n = 5;
                     m = 3;
-                    Tx = (2 * P * s) / (7 * 1.2 * s);
-                    Ty = (3 * P * s) / (7 * Math.Sqrt(3) * 1.2 * s);
+                    d = e * Math.Tan(50);
+                    Tx = (2*P*e)/(7*d);
+                    Ty = (P*e*Math.Sqrt(3)) / (7*d);
 
                     break;
                 case 8:
                     n = 5;
                     m = 3;
-                    Tx = (5 * P * s) / (16 * 1.58 * s);
-                    Ty = (9 * P * s) / (16 * Math.Sqrt(3) * 1.58 * s);
+                    d = 1.32 * e * Math.Tan(50);
+                    Tx = (5*P*e)/(16*d);
+                    Ty = (3*Math.Tan(3)*P*e)/(16*d);
                     longitudX = 2*s + 2 * (this.apoyos[i].DiametroPilotes / 2) + 0.30;
                     longitudY = s * Math.Sqrt(3) + 2 * (this.apoyos[i].DiametroPilotes / 2) + 0.30;
                     break;
                 case 9:
                     n = 3;
                     m = 3;
-                    Tx = (P * s) / (3 * 1.7 * s);
+                    d = e * Math.Sqrt(2) * Math.Tan(50);
+                    Tx = (Math.Sqrt(2)*P*e)/(6*d);
                     Ty = Tx;
                     longitudX = 2*s + 2 * (this.apoyos[i].DiametroPilotes / 2) + 0.30;
                     longitudY = longitudX;
@@ -846,8 +865,9 @@ namespace FundTool
                 case 10:
                     n = 5;
                     m = 3;
-                    Tx = (2 * P * s) / (5 * 1.58 * s);
-                    Ty = (9 * P * s) / (20 * Math.Sqrt(3) * 1.58 * s);
+                    d = 1.32 * e * Math.Tan(50);
+                    Tx = (4*P*e)/(10*d);
+                    Ty = (3*Math.Sqrt(3)*P*e)/(20*d);
 
                     break;
                 case 11:
