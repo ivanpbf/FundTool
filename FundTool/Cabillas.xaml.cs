@@ -92,6 +92,8 @@ namespace FundTool
                 int opcion = this.GridOpciones.SelectedIndex;
                 this.diametroTeoricocm = this.diametrosTeoricos[opcion];
                 this.numeroCabillas = this.opcionesDeAceroLongitudinal[opcion];
+                this.seccionTeoricaopcion = this.seccionTeorica[opcion];
+                this.diametroTeoricopulg = this.diametrosTeoricosPulgadas[opcion];
                 Close();
             }
         }

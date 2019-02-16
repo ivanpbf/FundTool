@@ -40,6 +40,15 @@ namespace FundTool
             public double DimensionColumnaX { get; set; }
             public double DimensionColumnaY { get; set; }
         }
+        public class Estrato
+        {
+            public String Nombre { get; set; }
+            public double Espesor { get; set; }
+            public String Descripcion { get; set; }
+            public double Angulo { get; set; }
+            public double Cohesion { get; set; }
+            public double Peso { get; set; }
+        }
         public double? resistenciaAcero;
         public double? resistenciaConcreto;
         public double? anguloFriccion;
@@ -56,6 +65,8 @@ namespace FundTool
         public Boolean introdujoGolpes;
         public List<MetroGolpe> golpesSuelo;
         public List<Apoyo> apoyos;
+        public List<Estrato> estratos;
+        public int numeroEstratos;
 
 
         public Directas()
@@ -119,6 +130,55 @@ namespace FundTool
             }
         }
 
+        private void IntroducirEstratos(object sender, RoutedEventArgs e)
+        {
+            if (!String.IsNullOrEmpty(this.NroEstratos.Text) && !this.NroEstratos.Text.Equals("0"))
+            {
+                int numero = Int32.Parse(this.NroEstratos.Text);
+                this.numeroEstratos = numero;
+                estratos = new List<Estrato>();
+                for (int i = 0; i < numero; i++)
+                {
+                    Estrato estratonuevo = new Estrato();
+                    Estrato aux = estratonuevo;
+                    aux.Nombre = "E-" + (i + 1);
+                    aux.Espesor = 0;
+                    this.estratos.Add(aux);
+                }
+                ObservableCollection<Estrato> obsCollection = new ObservableCollection<Estrato>(this.estratos);
+                DataGridEstratos.DataContext = obsCollection;
+                DataGridEstratos.Columns[0].IsReadOnly = true;
+                DataGridEstratos.Columns[1].Header = "Espesor (m)";
+                DataGridEstratos.Columns[2].Header = "Descripcion";
+                DataGridEstratos.Columns[3].Header = "Angulo de Friccion";
+                DataGridEstratos.Columns[4].Header = "Cohesion (Ton/m²)";
+                DataGridEstratos.Columns[5].Header = "Peso Unitario (Ton/m²)";
+                AceptarValoresEstratos.IsEnabled = true;
+            }
+            else
+            {
+                MessageBox.Show("Introduzca un numero de Apoyos mayor a 0");
+                return;
+            }
+
+        }
+
+        private void IntroducirDatosEstratos(object sender, RoutedEventArgs e)
+        {
+            for (int i = 0; i < this.estratos.Count; i++)
+            {
+                TextBlock espesor = DataGridEstratos.Columns[1].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
+                TextBlock descripcion = DataGridEstratos.Columns[2].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
+                TextBlock angulo = DataGridEstratos.Columns[3].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
+                TextBlock cohesion = DataGridEstratos.Columns[4].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
+                TextBlock peso = DataGridEstratos.Columns[5].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
+                this.estratos[i].Espesor = Convert.ToDouble(espesor.Text);
+                this.estratos[i].Angulo = Convert.ToDouble(angulo.Text);
+                this.estratos[i].Cohesion = Convert.ToDouble(cohesion.Text);
+                this.estratos[i].Peso = Convert.ToDouble(peso.Text);
+                this.SiguienteDatosSuelo.IsEnabled = true;
+            }
+        }
 
         private void IntrodujoDatosSuelo(object sender, RoutedEventArgs e)
         {
@@ -301,16 +361,16 @@ namespace FundTool
             Button elboton = (Button)sender;
             int numero = Int32.Parse((String)elboton.Content);
             this.NombreApoyo.Text = this.apoyos[numero-1].Nombre;
-            this.CargaApoyo.Text = this.apoyos[numero-1].Carga.ToString();
-            this.NumeroApoyo.Text = this.apoyos[numero-1].Numero.ToString();
-            this.CoordXApoyo.Text = this.apoyos[numero-1].CoordEjeX.ToString();
-            this.CoordYApoyo.Text = this.apoyos[numero-1].CoordEjeY.ToString();
-            this.MtoEjeXApoyo.Text = this.apoyos[numero-1].MtoEnEjeX.ToString();
-            this.MtoEjeYApoyo.Text = this.apoyos[numero-1].MtoEnEjeY.ToString();
-            this.FBasalXApoyo.Text = this.apoyos[numero-1].FBasalX.ToString();
-            this.FBasalYApoyo.Text = this.apoyos[numero-1].FBasalY.ToString();
-            this.DimensionColumnaX.Text = this.apoyos[numero - 1].DimensionColumnaX.ToString();
-            this.DimensionColumnaY.Text = this.apoyos[numero - 1].DimensionColumnaY.ToString();
+            this.CargaApoyo.Text = this.apoyos[numero-1].Carga.ToString("0.0");
+            this.NumeroApoyo.Text = this.apoyos[numero-1].Numero.ToString("0.0");
+            this.CoordXApoyo.Text = this.apoyos[numero-1].CoordEjeX.ToString("0.0");
+            this.CoordYApoyo.Text = this.apoyos[numero-1].CoordEjeY.ToString("0.0");
+            this.MtoEjeXApoyo.Text = this.apoyos[numero-1].MtoEnEjeX.ToString("0.0");
+            this.MtoEjeYApoyo.Text = this.apoyos[numero-1].MtoEnEjeY.ToString("0.0");
+            this.FBasalXApoyo.Text = this.apoyos[numero-1].FBasalX.ToString("0.0");
+            this.FBasalYApoyo.Text = this.apoyos[numero-1].FBasalY.ToString("0.0");
+            this.DimensionColumnaX.Text = this.apoyos[numero - 1].DimensionColumnaX.ToString("0.0");
+            this.DimensionColumnaY.Text = this.apoyos[numero - 1].DimensionColumnaY.ToString("0.0");
         }
 
         private void IntroducirDatosApoyo(object sender, RoutedEventArgs e)
@@ -347,20 +407,39 @@ namespace FundTool
 
         private void CompletarDirectas(object sender, RoutedEventArgs e)
         {
-            if(this.falla == "local")
+            if (this.falla == "local")
             {
                 this.cohesion = (2 / 3) * this.cohesion;
                 this.anguloFriccion = (2 / 3) * this.anguloFriccion;
             }
             if (this.nivelFreatico)
             {
+                //caso a
                 if (this.cotaNivelFreatico >= 0 && this.cotaNivelFreatico <= this.empotramientoDF)
                 {
-                    double? sobrecargaefectiva = (this.cotaNivelFreatico*this.pesoEspecifico) + ((this.empotramientoDF - this.cotaNivelFreatico)*(this.pesoEspecificoSaturado - 9806.65));
-
+                    List<double> d = new List<double>();
+                    d.Add(this.estratos[0].Espesor);
+                    for(int i = 0; i < this.estratos.Count(); i++)
+                    {
+                        if(i != 0)
+                        {
+                            if (this.empotramientoDF < this.estratos[i].Espesor)
+                            {
+                                d.Add(this.estratos[i].Espesor);
+                            }
+                        }   
+                    }
+                    double? esfuerzoefectivo = (this.cotaNivelFreatico*this.pesoEspecifico);
+                    for(int i = 0; i < d.Count(); i++)
+                    {
+                        esfuerzoefectivo = d[i]*(this.pesoEspecificoSaturado - (2.4 * 907.185)); 
+                    }
+                    MessageBox.Show("Esfuerzo efectivo Caso A " + esfuerzoefectivo);
                 }
-                else if(true){
-
+                //caso b
+                else if (this.cotaNivelFreatico > this.empotramientoDF && this.cotaNivelFreatico < (this.empotramientoDF+1))
+                {
+                    //this.pesoEspecifico = 
                 }
             }
         }

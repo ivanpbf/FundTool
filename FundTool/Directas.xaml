@@ -44,10 +44,14 @@
                 <TextBox x:Name="CotaNF" HorizontalAlignment="Left" Height="23" Margin="134,200,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="37" IsEnabled="{Binding ElementName=SiNF, Path=IsChecked}" PreviewTextInput="NumericOnly" TextAlignment="Center"/>
                 <Label Content="m" HorizontalAlignment="Left" Margin="167,200,0,0" VerticalAlignment="Top"/>
                 <CheckBox x:Name="IntroducirSPT" FontWeight="Bold" Content="Introducir los Datos del Ensayo S.P.T.&#xD;&#xA;Para Suelos Granulares" HorizontalAlignment="Left" Margin="5,325,0,0" VerticalAlignment="Top" Checked="IntroducirSPT_Checked" Unchecked="IntroducirSPT_Checked"/>
-                <Button x:Name="SiguienteDatosSuelo" Content="Siguiente" HorizontalAlignment="Left" Margin="386,337,0,0" VerticalAlignment="Top" Width="75" Click="IntrodujoDatosSuelo" RenderTransformOrigin="0.533,0.773"/>
+                <Button x:Name="SiguienteDatosSuelo" Content="Siguiente" HorizontalAlignment="Left" Margin="386,337,0,0" VerticalAlignment="Top" Width="75" Click="IntrodujoDatosSuelo" RenderTransformOrigin="0.533,0.773" IsEnabled="False"/>
                 <Label Content="Peso Especifico Saturado:" HorizontalAlignment="Left" Margin="0,247,0,0" VerticalAlignment="Top"/>
                 <TextBox x:Name="PesoEspecificoSaturado" HorizontalAlignment="Left" Height="23" Margin="144,250,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly" TextAlignment="Center"/>
                 <Label Content="kg/m³" HorizontalAlignment="Left" Margin="198,247,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="NroEstratos" HorizontalAlignment="Left" Height="23" Margin="405,100,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" PreviewTextInput="NumericOnly"/>
+                <Button Content="Introducir Estratos" HorizontalAlignment="Left" Margin="298,127,0,0" VerticalAlignment="Top" Width="144" Click="IntroducirEstratos"/>
+                <DataGrid x:Name="DataGridEstratos" Height="130" Margin="243,152,0,0" VerticalAlignment="Top" ItemsSource="{Binding}" CanUserAddRows="false" HorizontalAlignment="Left" Width="250"/>
+                <Button x:Name="AceptarValoresEstratos" Content="Aceptar Estratos" HorizontalAlignment="Left" Margin="386,290,0,0" VerticalAlignment="Top" Width="107" Click="IntroducirDatosEstratos" IsEnabled="False"/>
             </Grid>
             <Grid x:Name="GridFinal" HorizontalAlignment="Left" Height="49" Margin="10,709,0,0" VerticalAlignment="Top" Width="772" Background="AntiqueWhite">
                 <Button Content="Aceptar y Continuar" FontWeight="Bold" HorizontalAlignment="Left" Margin="318,10,0,0" VerticalAlignment="Top" Width="127" Click="CompletarDirectas" RenderTransformOrigin="0.874,0.7"/>
