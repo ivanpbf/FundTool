@@ -39,6 +39,17 @@ namespace FundTool
             public double FBasalY { get; set; }
             public double DimensionColumnaX { get; set; }
             public double DimensionColumnaY { get; set; }
+            public double AreaZapata { get; set; }
+            public double B { get; set; }
+            public double Fcs { get; set; }
+            public double Fqs { get; set; }
+            public double Fps { get; set; }
+            public double Fpd { get; set; }
+            public double Fcd { get; set; }
+            public double Fqd { get; set; }
+            public double Qultima { get; set; }
+            public double Esfuerzoefectivo { get; set; }
+            public Boolean ZapataConjunta { get; set; }
         }
         public class Estrato
         {
@@ -49,24 +60,34 @@ namespace FundTool
             public double Cohesion { get; set; }
             public double Peso { get; set; }
         }
-        public double? resistenciaAcero;
-        public double? resistenciaConcreto;
-        public double? anguloFriccion;
-        public double? cohesion;
-        public double? pesoEspecifico;
-        public double? empotramientoDF;
+        public double resistenciaAcero;
+        public double resistenciaConcreto;
+        public int anguloFriccion;
+        public double cohesion;
+        public double pesoEspecifico;
+        public double empotramientoDF;
         public String falla;
         public Boolean nivelFreatico;
-        public double? cotaNivelFreatico;
+        public double cotaNivelFreatico;
         public Boolean datosEnsayoSPT;
-        public double? profundidadEstudioSuelos;
-        public double? asentamiento;
-        public double? pesoEspecificoSaturado;
+        public double profundidadEstudioSuelos;
+        public double asentamiento;
+        public double pesoEspecificoSaturado;
         public Boolean introdujoGolpes;
         public List<MetroGolpe> golpesSuelo;
         public List<Apoyo> apoyos;
         public List<Estrato> estratos;
         public int numeroEstratos;
+        public List<double> NC = new List<double> {5.7, 5.9, 6.1, 6.3, 6.51, 6.74, 6.97, 7.22, 7.47, 7.74, 8.02, 8.32, 8.63, 8.96, 9.31, 9.67, 10.06, 10.47, 10.90, 11.36, 11.85, 12.37, 12.92, 13.51,
+        14.14, 14.80, 15.53, 16.30, 17.13, 18.03, 18.99, 20.03, 21.16, 22.39, 23.72, 25.18, 26.77, 28.51, 30.43, 32.53, 34.87, 37.45, 40.33, 43.54, 47.13, 51.17, 55.63, 60.91, 66.80, 73.55, 81.31};
+        public List<double> NQ = new List<double> { 1, 1.07, 1.14, 1.22, 1.30, 1.39, 1.49, 1.59, 1.70, 1.82, 1.94, 2.08, 2.22, 2.38, 2.55, 2.73, 2.92, 3.13, 3.36, 3.61, 3.88, 4.17, 4.48, 4.82, 5.2,
+        5.6, 6.05, 6.54, 7.07, 7.66, 8.31, 9.03, 9.82, 10.69, 11.67, 12.75, 13.97, 15.32, 16.85, 18.56, 20.50, 22.70, 25.21, 28.06, 31.34, 35.11, 39.48, 44.45, 50.46, 57.41, 65.60};
+        public List<double> NF = new List<double> { 0.00, 0.005, 0.02, 0.04, 0.055, 0.074, 0.1, 0.128, 0.16, 0.20, 0.24, 0.30, 0.35, 0.42, 0.48, 0.47, 0.77, 0.776, 0.88, 1.03, 1.12, 1.35, 1.55, 1.74,
+        1.97, 2.25, 2.59, 2.88, 3.29, 3.76, 4.39, 4.83, 5.51, 6.32, 7.22, 8.35, 9.41, 10.90, 12.75, 14.71, 17.22, 19.75, 22.50, 26.25, 30.40, 36, 41.70, 49.30, 59.25, 71.45, 85.75};
+        public List<Apoyo> menoresApoyosX;
+        public List<Apoyo> menoresApoyosY;
+
+        
 
 
         public Directas()
@@ -185,8 +206,7 @@ namespace FundTool
             if (!String.IsNullOrEmpty(this.AnguloFriccion.Text) && !String.IsNullOrEmpty(this.Cohesion.Text) && !String.IsNullOrEmpty(this.PesoEspecifico.Text)
                 && !String.IsNullOrEmpty(this.EmpotramientoDF.Text))
             {
-                this.anguloFriccion = Convert.ToDouble(this.AnguloFriccion.Text);
-                this.anguloFriccion = Math.Tan((double)this.anguloFriccion);
+                this.anguloFriccion = Convert.ToInt32(this.AnguloFriccion.Text);
                 this.cohesion = Convert.ToDouble(this.Cohesion.Text);
                 this.pesoEspecifico = Convert.ToDouble(this.PesoEspecifico.Text);
                 this.empotramientoDF = Convert.ToDouble(this.EmpotramientoDF.Text);
@@ -412,38 +432,93 @@ namespace FundTool
                 this.cohesion = (2 / 3) * this.cohesion;
                 this.anguloFriccion = (2 / 3) * this.anguloFriccion;
             }
-            if (this.nivelFreatico)
+            for (int i = 0; i < this.apoyos.Count(); i++)
             {
-                //caso a
-                if (this.cotaNivelFreatico >= 0 && this.cotaNivelFreatico <= this.empotramientoDF)
+                this.apoyos[i].B = 1;
+                if (this.nivelFreatico)
                 {
-                    List<double> d = new List<double>();
-                    d.Add(this.estratos[0].Espesor);
-                    for(int i = 0; i < this.estratos.Count(); i++)
+                    //caso a
+                    if (this.cotaNivelFreatico >= 0 && this.cotaNivelFreatico <= this.empotramientoDF)
                     {
-                        if(i != 0)
+                        List<double> d = new List<double>();
+                        d.Add(this.estratos[0].Espesor);
+                        for (int j = 0; j < this.estratos.Count(); j++)
                         {
-                            if (this.empotramientoDF < this.estratos[i].Espesor)
+                            if (i != 0)
                             {
-                                d.Add(this.estratos[i].Espesor);
+                                if (this.empotramientoDF < this.estratos[j].Espesor)
+                                {
+                                    d.Add(this.estratos[j].Espesor);
+                                }
                             }
-                        }   
+                        }
+                        this.apoyos[i].Esfuerzoefectivo = (this.cotaNivelFreatico * this.pesoEspecifico);
+                        for (int j = 0; j < d.Count(); j++)
+                        {
+                            this.apoyos[i].Esfuerzoefectivo = d[j] * (this.pesoEspecificoSaturado - (2.4 * 907.185));
+                        }
+                        MessageBox.Show("Esfuerzo efectivo Caso A " + this.apoyos[i].Esfuerzoefectivo);
                     }
-                    double? esfuerzoefectivo = (this.cotaNivelFreatico*this.pesoEspecifico);
-                    for(int i = 0; i < d.Count(); i++)
+                    //caso b
+                    else if (this.cotaNivelFreatico > this.empotramientoDF && this.cotaNivelFreatico < (this.empotramientoDF + 1))
                     {
-                        esfuerzoefectivo = d[i]*(this.pesoEspecificoSaturado - (2.4 * 907.185)); 
-                    }
-                    MessageBox.Show("Esfuerzo efectivo Caso A " + esfuerzoefectivo);
-                }
-                //caso b
-                else if (this.cotaNivelFreatico > this.empotramientoDF && this.cotaNivelFreatico < (this.empotramientoDF+1))
-                {
-                    //this.pesoEspecifico = 
-                }
-            }
-        }
+                        this.pesoEspecifico = this.pesoEspecificoSaturado - (2.4 * 907.185) + (1 / this.apoyos[i].B) * (this.pesoEspecifico - (this.pesoEspecificoSaturado - (2.4 * 907.185))); // completar formula
+                        this.apoyos[i].Esfuerzoefectivo = this.empotramientoDF * this.pesoEspecifico;
 
-        
+                    }
+                    //caso c
+                    else
+                    {
+                        this.apoyos[i].Esfuerzoefectivo = this.empotramientoDF * this.pesoEspecifico;
+                    }
+                }
+                else
+                {
+                    this.apoyos[i].Esfuerzoefectivo = this.empotramientoDF * this.pesoEspecifico;
+                }
+                //factores de forma
+                this.apoyos[i].Fcs = 1 + (this.apoyos[i].B * this.NQ[this.anguloFriccion]) / (this.NC[this.anguloFriccion]);
+                this.apoyos[i].Fqs = 1 + (Math.Tan(this.anguloFriccion));
+                this.apoyos[i].Fps = 1 - 0.4 * this.apoyos[i].B;
+                //factores de profundidad
+                if ((this.empotramientoDF / this.apoyos[i].B) < 1)
+                {
+                    this.apoyos[i].Fcd = 1 + (0.4 * this.empotramientoDF / this.apoyos[i].B);
+                    this.apoyos[i].Fpd = 1;
+                    this.apoyos[i].Fqd = 1 + (2 * Math.Tan(this.anguloFriccion) * Math.Pow((1 - Math.Sin(this.anguloFriccion)), 2) * (this.empotramientoDF / this.apoyos[i].B));
+                }
+                else
+                {
+                    this.apoyos[i].Fpd = 1;
+                    this.apoyos[i].Fcd = 1 + 0.4 * Math.Pow(Math.Tan(this.empotramientoDF / this.apoyos[i].B), -1);
+                    this.apoyos[i].Fqd = 1 + (2 * Math.Tan(this.anguloFriccion) * Math.Pow((1 - Math.Sin(this.anguloFriccion)), 2) * Math.Pow(Math.Tan(this.empotramientoDF / this.apoyos[i].B), -1));
+                }
+                //carga ultima
+                double q = this.pesoEspecifico * this.empotramientoDF;
+                double pesoMenor = 999999999999;
+                for (int j = 0; j < this.estratos.Count; j++)
+                {
+                    double pesoPrima;
+                    if (this.estratos[j].Espesor > this.empotramientoDF)
+                    {
+                        pesoPrima = this.estratos[j].Peso - (2.4 * 907.185);
+                    }
+                    else
+                    {
+                        pesoPrima = this.estratos[j].Peso;
+                    }
+                    if (pesoPrima < pesoMenor)
+                    {
+                        pesoMenor = pesoPrima;
+                    }
+                }
+                this.apoyos[i].Qultima = (this.cohesion * this.NC[this.anguloFriccion] * this.apoyos[i].Fcs * this.apoyos[i].Fcd) + (q * this.NQ[this.anguloFriccion] * this.apoyos[i].Fqs * this.apoyos[i].Fqd) + ((1 / 2) * pesoMenor * this.apoyos[i].B * this.NF[this.anguloFriccion] * this.apoyos[i].Fps * this.apoyos[i].Fpd);
+                //area de la zapata para cada apoyo
+                this.apoyos[i].AreaZapata = (this.apoyos[i].Carga * 3) / this.apoyos[i].Qultima;
+                this.apoyos[i].B = Math.Sqrt(this.apoyos[i].AreaZapata);
+                //verificaciones
+            }
+            
+        } 
     }
 }

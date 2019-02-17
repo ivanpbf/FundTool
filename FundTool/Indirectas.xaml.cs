@@ -84,28 +84,28 @@ namespace FundTool
             public double Peso { get; set; }
         }
         public String tipoDeSuelo;
-        public int? resistenciaAcero;
-        public double? nsptpunta;
-        public int? resistenciaConcreto;
+        public int resistenciaAcero;
+        public double nsptpunta;
+        public int resistenciaConcreto;
         public List<double> diametrosComerciales = new List<double> { 55, 65, 80, 90, 100, 110, 120, 130, 140, 150 }; // centimetros
         public List<double> seccionTeorica = new List<double> { 1.9806, 2.8502, 3.8777, 5.0670, 10.0717 };
         public List<MetroGolpe> golpesSuelo;
         public List<double> valoresS5 = new List<double> { 0.00, 1.6, 1.68, 1.76, 1.85, 1.95, 2.06, 2.15, 2.28, 2.41, 2.55, 2.70, 2.86, 3.02, 3.21, 3.41, 3.62, 3.85, 4.11,
             4.39, 4.68, 5.01, 5.40, 5.75, 6.20, 6.71, 7.27, 7.86, 8.35, 8.86, 9.30, 10.36, 12.12, 13.39, 14.60, 16.16, 17.97,
             20.05, 22.80, 25.20, 28.60, 32.30, 37.10, 42.40, 48.90, 56.56, 66.90, 79.00, 94.900, 114.60, 140.00, 172.00 };
-        public double? profundidadEstudioSuelos;
-        public double? longitudPilote;
-        public double? espesorRelleno;
-        public double? longitudEfectiva;
-        public double? coefFriccionRelleno;
-        public double? porcentajeAcero;
-        public int? numeroPilotes;
-        public double? cohesionFuste;
-        public double? cohesionPunta;
-        public double? factorAdherencia;
-        public int? numeroEstratos;
-        public double? coefFriccion;
-        public int? cantidadFundaciones;
+        public double profundidadEstudioSuelos;
+        public double longitudPilote;
+        public double espesorRelleno;
+        public double longitudEfectiva;
+        public double coefFriccionRelleno;
+        public double porcentajeAcero;
+        public int numeroPilotes;
+        public double cohesionFuste;
+        public double cohesionPunta;
+        public double factorAdherencia;
+        public int numeroEstratos;
+        public double coefFriccion;
+        public int cantidadFundaciones;
         public Boolean introdujoGolpes;
         public List<Apoyo> apoyos;
         public List<Estrato> estratos;
