@@ -518,6 +518,14 @@ namespace FundTool
                 this.apoyos[i].B = Math.Sqrt(this.apoyos[i].AreaZapata);
                 //verificaciones
             }
+            for (int i = 0; i < this.apoyos.Count-1; i++)
+            {
+                if(this.apoyos[i].CoordEjeY == this.apoyos[i + 1].CoordEjeY)
+                {
+                    double distancia1 = this.apoyos[i].CoordEjeX + (this.apoyos[i].B / 2);
+                    double distancia2 = this.apoyos[i].CoordEjeX - (this.apoyos[i].B / 2);
+                }
+            }
             
         } 
     }
