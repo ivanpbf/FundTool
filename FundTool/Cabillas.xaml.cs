@@ -22,8 +22,8 @@ namespace FundTool
     {
         public class Opcion
         {
-            public double Seccion_Teorica { get; set; }
             public String Diametro_Teorico_Pulgadas { get; set; }
+            public double Seccion_Teorica { get; set; }
             public double Diametro_Teorico { get; set; }
             //public double Area_De_Acero { get; set; }
             public int Numero_De_Cabillas { get; set; }
@@ -73,12 +73,6 @@ namespace FundTool
                 this.tabla.Add(aux);
             }
             this.GridOpciones.ItemsSource = tabla;
-           /* ObservableCollection<Opcion> obsCollection = new ObservableCollection<Opcion>(this.tabla);
-            GridOpciones.DataContext = obsCollection;
-            GridOpciones.Columns[0].Header = "Seccion Teorica (cm²)";
-            GridOpciones.Columns[1].Header = "Diametro Teorico (pulgadas)";
-            GridOpciones.Columns[2].Header = "Diametro Teorico (cm²)";
-            GridOpciones.Columns[3].Header = "Numero de Cabillas";*/
         }
 
         private void AceptarSeleccion(object sender, RoutedEventArgs e)

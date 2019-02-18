@@ -311,16 +311,16 @@ namespace FundTool
                 {
                     Apoyo apoyonuevo = new Apoyo();
                     apoyonuevo.Numero = i + 1;
-                    apoyonuevo.Carga = 0;
-                    apoyonuevo.CoordEjeX = 0;
-                    apoyonuevo.CoordEjeY = 0;
-                    apoyonuevo.MtoEnEjeX = 0;
-                    apoyonuevo.MtoEnEjeY = 0;
-                    apoyonuevo.FBasalX = 0;
-                    apoyonuevo.FBasalY = 0;
-                    apoyonuevo.DimensionColumnaX = 1;
-                    apoyonuevo.DimensionColumnaY = 1;
-                    apoyonuevo.Nombre = apoyonuevo.Numero.ToString();
+                    apoyonuevo.Carga = (double)0;
+                    apoyonuevo.CoordEjeX = (double)0;
+                    apoyonuevo.CoordEjeY = (double)0;
+                    apoyonuevo.MtoEnEjeX = (double)0;
+                    apoyonuevo.MtoEnEjeY = (double)0;
+                    apoyonuevo.FBasalX = (double)0;
+                    apoyonuevo.FBasalY = (double)0;
+                    apoyonuevo.DimensionColumnaX = (double)100;
+                    apoyonuevo.DimensionColumnaY = (double)100;
+                    apoyonuevo.Nombre = "A-" + apoyonuevo.Numero.ToString();
                     apoyos.Add(apoyonuevo);
                 }
                 this.ApoyosTotales.Text = apoyos.Count().ToString();
@@ -401,15 +401,15 @@ namespace FundTool
             {
                 int numero = Int32.Parse(this.NumeroApoyo.Text);
                 this.apoyos[numero - 1].Nombre = this.NombreApoyo.Text;
-                this.apoyos[numero - 1].Carga = Convert.ToDouble(this.CargaApoyo.Text);
-                this.apoyos[numero - 1].CoordEjeX = Convert.ToDouble(this.CoordXApoyo.Text);
-                this.apoyos[numero - 1].CoordEjeY = Convert.ToDouble(this.CoordYApoyo.Text);
-                this.apoyos[numero - 1].MtoEnEjeX = Convert.ToDouble(this.MtoEjeXApoyo.Text);
-                this.apoyos[numero - 1].MtoEnEjeY = Convert.ToDouble(this.MtoEjeYApoyo.Text);
-                this.apoyos[numero - 1].FBasalX = Convert.ToDouble(this.FBasalXApoyo.Text);
-                this.apoyos[numero - 1].FBasalY = Convert.ToDouble(this.FBasalYApoyo.Text);
-                this.apoyos[numero - 1].DimensionColumnaX = Convert.ToDouble(this.DimensionColumnaX.Text);
-                this.apoyos[numero - 1].DimensionColumnaY =Convert.ToDouble(this.DimensionColumnaX.Text);
+                this.apoyos[numero - 1].Carga = (double)Convert.ToDouble(this.CargaApoyo.Text);
+                this.apoyos[numero - 1].CoordEjeX = (double)Convert.ToDouble(this.CoordXApoyo.Text);
+                this.apoyos[numero - 1].CoordEjeY = (double)Convert.ToDouble(this.CoordYApoyo.Text);
+                this.apoyos[numero - 1].MtoEnEjeX = (double)Convert.ToDouble(this.MtoEjeXApoyo.Text);
+                this.apoyos[numero - 1].MtoEnEjeY = (double)Convert.ToDouble(this.MtoEjeYApoyo.Text);
+                this.apoyos[numero - 1].FBasalX = (double)Convert.ToDouble(this.FBasalXApoyo.Text);
+                this.apoyos[numero - 1].FBasalY = (double)Convert.ToDouble(this.FBasalYApoyo.Text);
+                this.apoyos[numero - 1].DimensionColumnaX = (double)Convert.ToDouble(this.DimensionColumnaX.Text)/100;
+                this.apoyos[numero - 1].DimensionColumnaY = (double)Convert.ToDouble(this.DimensionColumnaX.Text)/100;
                 MessageBox.Show("Se introdujeron los datos correctamente.");
             }
             else

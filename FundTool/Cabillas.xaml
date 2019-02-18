@@ -15,9 +15,9 @@
             <TextBox x:Name="NombreApoyo" HorizontalAlignment="Left" Height="23" Margin="400,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="50" IsEnabled="False"/>
             <TextBox x:Name="NumeroApoyo" HorizontalAlignment="Left" Height="23" Margin="575,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="50" IsEnabled="False"/>
             <Button Content="Aceptar Seleccion" HorizontalAlignment="Left" Margin="286,216,0,0" VerticalAlignment="Top" Width="104" Click="AceptarSeleccion"/>
-            <Label Content="cm²" HorizontalAlignment="Left" Margin="43,184,0,0" VerticalAlignment="Top"/>
-            <Label Content="Pulgadas" HorizontalAlignment="Left" Margin="196,184,0,0" VerticalAlignment="Top"/>
-            <Label Content="cm²" HorizontalAlignment="Left" Margin="385,184,0,0" VerticalAlignment="Top"/>
+            <Label Content="cm²" HorizontalAlignment="Left" Margin="197,189,0,0" VerticalAlignment="Top"/>
+            <Label Content="Pulgadas" HorizontalAlignment="Left" Margin="31,189,0,0" VerticalAlignment="Top"/>
+            <Label Content="cm" HorizontalAlignment="Left" Margin="385,184,0,0" VerticalAlignment="Top"/>
             <Label Content="#" HorizontalAlignment="Left" Margin="556,184,0,0" VerticalAlignment="Top"/>
         </Grid>
 

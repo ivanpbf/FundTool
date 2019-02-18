@@ -6,6 +6,9 @@ using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
+using static FundTool.Indirectas;
+using static FundTool.Directas;
+using System.Collections.Generic;
 
 // This line is not mandatory, but improves loading performances
 [assembly: CommandClass(typeof(FundTool.MyCommands))]
@@ -28,17 +31,18 @@ namespace FundTool
             System.Windows.Window win = new Directas();
 
             oked = Application.ShowModalWindow(win);
-            
+            oked = true;
             if (oked.HasValue && oked.Value) {
-                /* input1 = win.Property1;
-                   input2 = win.Property2;*/
-                // DO something based in inputs
+
             }
-        }
+    }
 
         [CommandMethod("FundToolIndirecta")]
         public static void GetInfoIndirectas()
         {
+
+            Document acDoc = Application.DocumentManager.MdiActiveDocument;
+            Database acCurDb = acDoc.Database;
             bool? oked = false;
             /*object input1 = null;
             object input2 = null;*/
@@ -46,14 +50,58 @@ namespace FundTool
             System.Windows.Window win = new Indirectas();
 
             oked = Application.ShowModalWindow(win);
-
+            oked = true;
             if (oked.HasValue && oked.Value)
             {
-                /* input1 = win.Property1;
-                   input2 = win.Property2;*/
-                // DO something based in inputs
+                Indirectas instance = (Indirectas)win;
+                List<Indirectas.Apoyo> apoyos;
+                if (instance.apoyos != null)
+                {
+                    apoyos = instance.apoyos;
+
+                    using (Transaction acTrans = acCurDb.TransactionManager.StartTransaction())
+                    {
+                        // Open the Block table for read
+                        BlockTable acBlkTbl;
+                        acBlkTbl = acTrans.GetObject(acCurDb.BlockTableId,
+                                                        OpenMode.ForRead) as BlockTable;
+
+                        // Open the Block table record Model space for write
+                        BlockTableRecord acBlkTblRec;
+                        acBlkTblRec = acTrans.GetObject(acBlkTbl[BlockTableRecord.ModelSpace],
+                                                        OpenMode.ForWrite) as BlockTableRecord;
+                        for (int i = 0; i < apoyos.Count; i++)
+                        {
+                            // Create a polyline with two segments (3 points)
+                            using (Polyline acPoly = new Polyline())
+                            {
+                                acPoly.AddVertexAt(0, new Point2d(apoyos[i].Vertice1X, apoyos[i].Vertice1Y), 0, 0, 0);
+                                acPoly.AddVertexAt(0, new Point2d(apoyos[i].Vertice2X, apoyos[i].Vertice2Y), 0, 0, 0);
+                                acPoly.AddVertexAt(0, new Point2d(apoyos[i].Vertice4X, apoyos[i].Vertice4Y), 0, 0, 0);
+                                acPoly.AddVertexAt(0, new Point2d(apoyos[i].Vertice3X, apoyos[i].Vertice3Y), 0, 0, 0);
+                                acPoly.AddVertexAt(0, new Point2d(apoyos[i].Vertice1X, apoyos[i].Vertice1Y), 0, 0, 0);
+                                // Add the new object to the block table record and the transaction
+                                acBlkTblRec.AppendEntity(acPoly);
+                                acTrans.AddNewlyCreatedDBObject(acPoly, true);
+                            }
+                            using (Circle circle = new Circle())
+                            {
+                                circle.Center = new Point3d(apoyos[i].CoordEjeX, apoyos[i].CoordEjeY, 0);
+                                circle.Radius = apoyos[i].DiametroPilotes/100;
+                                acBlkTblRec.AppendEntity(circle);
+                                acTrans.AddNewlyCreatedDBObject(circle, true);
+                            }
+                            // Save the new object to the database       
+                        }
+                        acTrans.Commit();
+                    }
+                    
+                }
             }
+            
         }
+    }
+
 
         /*[CommandMethod("InputFromWinForm")]
         public static void GetInputFromWinForm(){
@@ -72,6 +120,4 @@ namespace FundTool
                 //Do sothing
             }*/
 
-    }
-
-}   
+}
