@@ -588,10 +588,9 @@ namespace FundTool
                         numeropilotes = numeropilotes + 1;
                     }
                 }
-                this.apoyos[i].Qadmisible = this.apoyos[i].Qadmisible / this.apoyos[i].Pilotes.Count;
                 this.apoyos[i].AceroLongitudinal = areaAceroLongitudinal;
                 //pendiente de los diametros comerciales
-                MessageBox.Show("apoyo: " + this.apoyos[i].Nombre + " Numero de pilotes " + this.apoyos[i].Pilotes.Count() + " Qadmisible " + qadmisible +" Qadmisible de grupo "+this.apoyos[i].QadmisibleGrupo+ " Qestructural " + qestructural + " carga del apoyo " + this.apoyos[i].Carga + " diametro " + this.apoyos[i].DiametroPilotes);
+                MessageBox.Show("apoyo: " + this.apoyos[i].Nombre + " Numero de pilotes " + this.apoyos[i].Pilotes.Count() + " Qadmisible " + this.apoyos[i].Qadmisible + " Qestructural " + this.apoyos[i].Qestructural + " Qadmisible de grupo" + this.apoyos[i].QadmisibleGrupo + "carga del apoyo " + this.apoyos[i].Carga + " diametro " + this.apoyos[i].DiametroPilotes);
             }
         }
 
@@ -746,10 +745,9 @@ namespace FundTool
                         numeropilotes = numeropilotes + 1;
                     }
                 }
-                this.apoyos[i].Qadmisible = this.apoyos[i].Qadmisible / this.apoyos[i].Pilotes.Count;
                 this.apoyos[i].AceroLongitudinal = areaAceroLongitudinal;
                 //pendiente de los diametros comerciales
-                MessageBox.Show("apoyo: " + this.apoyos[i].Nombre + " Numero de pilotes " + this.apoyos[i].Pilotes.Count() + " Qadmisible " + qadmisible + " Qestructural " + qestructural + " carga del apoyo " + this.apoyos[i].Carga + " diametro " + this.apoyos[i].DiametroPilotes);
+                MessageBox.Show("apoyo: " + this.apoyos[i].Nombre + " Numero de pilotes " + this.apoyos[i].Pilotes.Count() + " Qadmisible " + this.apoyos[i].Qadmisible + " Qestructural " + this.apoyos[i].Qestructural + " Qadmisible de grupo" + this.apoyos[i].QadmisibleGrupo + "carga del apoyo " + this.apoyos[i].Carga + " diametro " + this.apoyos[i].DiametroPilotes);
             }
         }
 
@@ -939,6 +937,7 @@ namespace FundTool
             }
             else
             {
+                this.apoyos[i].Qadmisible = (double)(this.apoyos[i].Qadmisible) / (cantPil);
                 this.apoyos[i].GrosorCabezal = (e / 2.0) +  15; 
                 MessageBox.Show("Grosor del cabezal (h) " + this.apoyos[i].GrosorCabezal);
                 double Ax = Tx / 2100;
@@ -948,8 +947,7 @@ namespace FundTool
                 //sigue el espaciamiento entre cabillas
                 this.apoyos[i].EspaciamientoCabillasX = this.apoyos[i].DiametroPilotes / this.apoyos[i].CabillasDeCajonX;
                 this.apoyos[i].EspaciamientoCabillasY = this.apoyos[i].DiametroPilotes / this.apoyos[i].CabillasDeCajonY;
-                this.apoyos[i].DistanciaMinimaEntrePilotes = e;
-                //aqui hay mas y esto esta mal
+                this.apoyos[i].DistanciaMinimaEntrePilotes = e;    
                 PosicionPilotes(cantPil, i);
                 if (CalculoCargaAdmisiblePilote(i))
                 {
