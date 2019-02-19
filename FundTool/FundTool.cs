@@ -70,28 +70,30 @@ namespace FundTool
                         BlockTableRecord acBlkTblRec;
                         acBlkTblRec = acTrans.GetObject(acBlkTbl[BlockTableRecord.ModelSpace],
                                                         OpenMode.ForWrite) as BlockTableRecord;
+                        Polyline[] acPoly = new Polyline[apoyos.Count];
                         for (int i = 0; i < apoyos.Count; i++)
                         {
                             // Create a polyline with two segments (3 points)
-                            using (Polyline acPoly = new Polyline())
+                            using (acPoly[i] = new Polyline())
                             {
-                                acPoly.AddVertexAt(0, new Point2d(apoyos[i].Vertice1X, apoyos[i].Vertice1Y), 0, 0, 0);
-                                acPoly.AddVertexAt(0, new Point2d(apoyos[i].Vertice2X, apoyos[i].Vertice2Y), 0, 0, 0);
-                                acPoly.AddVertexAt(0, new Point2d(apoyos[i].Vertice4X, apoyos[i].Vertice4Y), 0, 0, 0);
-                                acPoly.AddVertexAt(0, new Point2d(apoyos[i].Vertice3X, apoyos[i].Vertice3Y), 0, 0, 0);
-                                acPoly.AddVertexAt(0, new Point2d(apoyos[i].Vertice1X, apoyos[i].Vertice1Y), 0, 0, 0);
+                                acPoly[i].AddVertexAt(0, new Point2d(apoyos[i].Vertice1X, apoyos[i].Vertice1Y), 0, 0, 0);
+                                acPoly[i].AddVertexAt(1, new Point2d(apoyos[i].Vertice2X, apoyos[i].Vertice2Y), 0, 0, 0);
+                                acPoly[i].AddVertexAt(2, new Point2d(apoyos[i].Vertice4X, apoyos[i].Vertice4Y), 0, 0, 0);
+                                acPoly[i].AddVertexAt(3, new Point2d(apoyos[i].Vertice3X, apoyos[i].Vertice3Y), 0, 0, 0);
+                                acPoly[i].AddVertexAt(4, new Point2d(apoyos[i].Vertice1X, apoyos[i].Vertice1Y), 0, 0, 0);
                                 // Add the new object to the block table record and the transaction
-                                acBlkTblRec.AppendEntity(acPoly);
-                                acTrans.AddNewlyCreatedDBObject(acPoly, true);
+                                acBlkTblRec.AppendEntity(acPoly[i]);
+                                acTrans.AddNewlyCreatedDBObject(acPoly[i], true);
                             }
+                            Circle[] circle = new Circle[apoyos[i].Pilotes.Count];
                             for(int j = 0; j < apoyos[i].Pilotes.Count; j++)
                             {
-                                using (Circle circle = new Circle())
+                                using (circle[i] = new Circle())
                                 {
-                                    circle.Center = new Point3d(apoyos[i].Pilotes[j].PosicionX, apoyos[i].Pilotes[j].PosicionY, 0);
-                                    circle.Radius = apoyos[i].DiametroPilotes/100;
-                                    acBlkTblRec.AppendEntity(circle);
-                                    acTrans.AddNewlyCreatedDBObject(circle, true);
+                                    circle[i].Center = new Point3d(apoyos[i].Pilotes[j].PosicionX, apoyos[i].Pilotes[j].PosicionY, 0);
+                                    circle[i].Radius = apoyos[i].DiametroPilotes/100;
+                                    acBlkTblRec.AppendEntity(circle[i]);
+                                    acTrans.AddNewlyCreatedDBObject(circle[i], true);
                                 }
                             }
                             
