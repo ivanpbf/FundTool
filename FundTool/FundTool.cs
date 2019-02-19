@@ -84,13 +84,17 @@ namespace FundTool
                                 acBlkTblRec.AppendEntity(acPoly);
                                 acTrans.AddNewlyCreatedDBObject(acPoly, true);
                             }
-                            using (Circle circle = new Circle())
+                            for(int j = 0; j < apoyos[i].Pilotes.Count; j++)
                             {
-                                circle.Center = new Point3d(apoyos[i].CoordEjeX, apoyos[i].CoordEjeY, 0);
-                                circle.Radius = apoyos[i].DiametroPilotes/100;
-                                acBlkTblRec.AppendEntity(circle);
-                                acTrans.AddNewlyCreatedDBObject(circle, true);
+                                using (Circle circle = new Circle())
+                                {
+                                    circle.Center = new Point3d(apoyos[i].Pilotes[j].PosicionX, apoyos[i].Pilotes[j].PosicionY, 0);
+                                    circle.Radius = apoyos[i].DiametroPilotes/100;
+                                    acBlkTblRec.AppendEntity(circle);
+                                    acTrans.AddNewlyCreatedDBObject(circle, true);
+                                }
                             }
+                            
                             // Save the new object to the database       
                         }
                         acTrans.Commit();
