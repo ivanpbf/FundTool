@@ -508,11 +508,11 @@ namespace FundTool
                 double qestructural = new double();
                 qestructural = 0;
                 numeropilotes = 1;
-                Pilote nuevos = new Pilote();
+                
                 int contador = 0;
                 for (int j = 0; j < diametrosComerciales.Count; j++)
                 {
-                    nuevos.Diametro = this.diametrosComerciales[j];
+                    
                     double areapunta = (3.14159265358979) * Math.Pow((diametrosComerciales[j] / 2), 2);
                     double areafuste = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)this.longitudPilote;
                     double friccionnegativa = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)this.espesorRelleno * (double)this.coefFriccionRelleno;
@@ -543,6 +543,8 @@ namespace FundTool
                             this.apoyos[i].Pilotes = new List<Pilote>();
                             for (int k = 0; k <= numeropilotes - 1; k++)
                             {
+                                Pilote nuevos = new Pilote();
+                                nuevos.Diametro = this.diametrosComerciales[j];
                                 this.apoyos[i].Pilotes.Add(nuevos);
                             }
                             if (CalculoConjuntoDePilotes(i, numeropilotes)) //ojo que el numero de pilotes hasta que se pongan, es auxiliar
@@ -559,6 +561,8 @@ namespace FundTool
                             this.apoyos[i].Pilotes = new List<Pilote>();
                             for (int k =0; k <= numeropilotes-1; k++)
                             {
+                                Pilote nuevos = new Pilote();
+                                nuevos.Diametro = this.diametrosComerciales[j];
                                 this.apoyos[i].Pilotes.Add(nuevos);
                             }
                             if (CalculoConjuntoDePilotes(i, numeropilotes))
@@ -590,7 +594,7 @@ namespace FundTool
                 }
                 this.apoyos[i].AceroLongitudinal = areaAceroLongitudinal;
                 //pendiente de los diametros comerciales
-                //MessageBox.Show("apoyo: " + this.apoyos[i].Nombre + " Numero de pilotes " + this.apoyos[i].Pilotes.Count() + " Qadmisible " + this.apoyos[i].Qadmisible + " Qestructural " + this.apoyos[i].Qestructural + " Qadmisible de grupo" + this.apoyos[i].QadmisibleGrupo + "carga del apoyo " + this.apoyos[i].Carga + " diametro " + this.apoyos[i].DiametroPilotes);
+                MessageBox.Show("apoyo: " + this.apoyos[i].Nombre + " Numero de pilotes " + this.apoyos[i].Pilotes.Count() + " Qadmisible " + this.apoyos[i].Qadmisible + " Qestructural " + this.apoyos[i].Qestructural + " Qadmisible de grupo" + this.apoyos[i].QadmisibleGrupo + "carga del apoyo " + this.apoyos[i].Carga + " diametro " + this.apoyos[i].DiametroPilotes);
             }
         }
 
@@ -651,7 +655,6 @@ namespace FundTool
                 double qestructural = new double();
                 qestructural = 0;
                 numeropilotes = 1;
-                Pilote nuevos = new Pilote();
                 int contador = 0;
                 double? r1;
                 //r1 = peso especifico * diametro? * s1/4
@@ -665,12 +668,12 @@ namespace FundTool
                 //r5 = cohesionFuste * 4 longitud efectiva * s5'/diametro?
                 for (int j = 0; j < diametrosComerciales.Count; j++)
                 {
-                    nuevos.Diametro = this.diametrosComerciales[j];
-                    r1 = pesoPromedio * (nuevos.Diametro / 100) * (s1 / 4);
+                    
+                    r1 = pesoPromedio * (diametrosComerciales[j] / 100) * (s1 / 4);
                     r2 = pesoPromedio * longitudEfectiva * s2 * s2primado;
-                    r3 = pesoPromedio * (2 * (longitudEfectiva * longitudEfectiva)) * (s3primado / (nuevos.Diametro / 100));
+                    r3 = pesoPromedio * (2 * (longitudEfectiva * longitudEfectiva)) * (s3primado / (diametrosComerciales[j] / 100));
                     r4 = (cohesionPromedio / (Math.Tan(anguloPromedio))) * (s2 - 1);
-                    r5 = cohesionPromedio * (4 * longitudEfectiva) * (s5primado / (nuevos.Diametro / 100));
+                    r5 = cohesionPromedio * (4 * longitudEfectiva) * (s5primado / (diametrosComerciales[j] / 100));
                     double areapunta = (3.14159265358979) * Math.Pow((diametrosComerciales[j] / 2), 2);
                     double areafuste = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)this.longitudPilote;
                     double friccionnegativa = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)this.espesorRelleno * (double)this.coefFriccionRelleno;
@@ -700,6 +703,8 @@ namespace FundTool
                             this.apoyos[i].Pilotes = new List<Pilote>();
                             for (int k = 0; k <= numeropilotes - 1; k++)
                             {
+                                Pilote nuevos = new Pilote();
+                                nuevos.Diametro = this.diametrosComerciales[j];
                                 this.apoyos[i].Pilotes.Add(nuevos);
                             }
                             if (CalculoConjuntoDePilotes(i, numeropilotes)) //ojo que el numero de pilotes hasta que se pongan, es auxiliar
@@ -716,6 +721,8 @@ namespace FundTool
                             this.apoyos[i].Pilotes = new List<Pilote>();
                             for (int k = 0; k <= numeropilotes - 1; k++)
                             {
+                                Pilote nuevos = new Pilote();
+                                nuevos.Diametro = this.diametrosComerciales[j];
                                 this.apoyos[i].Pilotes.Add(nuevos);
                             }
                             if (CalculoConjuntoDePilotes(i, numeropilotes))
@@ -747,7 +754,7 @@ namespace FundTool
                 }
                 this.apoyos[i].AceroLongitudinal = areaAceroLongitudinal;
                 //pendiente de los diametros comerciales
-                //MessageBox.Show("apoyo: " + this.apoyos[i].Nombre + " Numero de pilotes " + this.apoyos[i].Pilotes.Count() + " Qadmisible " + this.apoyos[i].Qadmisible + " Qestructural " + this.apoyos[i].Qestructural + " Qadmisible de grupo" + this.apoyos[i].QadmisibleGrupo + "carga del apoyo " + this.apoyos[i].Carga + " diametro " + this.apoyos[i].DiametroPilotes);
+                MessageBox.Show("apoyo: " + this.apoyos[i].Nombre + " Numero de pilotes " + this.apoyos[i].Pilotes.Count() + " Qadmisible " + this.apoyos[i].Qadmisible + " Qestructural " + this.apoyos[i].Qestructural + " Qadmisible de grupo" + this.apoyos[i].QadmisibleGrupo + "carga del apoyo " + this.apoyos[i].Carga + " diametro " + this.apoyos[i].DiametroPilotes);
             }
         }
 
@@ -982,151 +989,194 @@ namespace FundTool
                     break;
                     case 2:
                         this.apoyos[i].Pilotes[0].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
-                        this.apoyos[i].Pilotes[1].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes);
-                        this.apoyos[i].Pilotes[0].PosicionY = this.apoyos[i].CoordEjeY;
-                        this.apoyos[i].Pilotes[1].PosicionY = this.apoyos[i].CoordEjeY;
                         this.apoyos[i].Vertice1X = this.apoyos[i].Pilotes[0].PosicionX - 0.5;
-                        this.apoyos[i].Vertice1Y = this.apoyos[i].Pilotes[0].PosicionY + 0.5;
-                        this.apoyos[i].Vertice2X = this.apoyos[i].Pilotes[1].PosicionX + 0.5;
-                        this.apoyos[i].Vertice2Y = this.apoyos[i].Pilotes[1].PosicionY + 0.5;
                         this.apoyos[i].Vertice3X = this.apoyos[i].Pilotes[0].PosicionX - 0.5;
-                        this.apoyos[i].Vertice3Y = this.apoyos[i].Pilotes[0].PosicionY - 0.5;
+                        this.apoyos[i].Pilotes[1].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes);
+                        this.apoyos[i].Vertice2X = this.apoyos[i].Pilotes[1].PosicionX + 0.5;
                         this.apoyos[i].Vertice4X = this.apoyos[i].Pilotes[1].PosicionX + 0.5;
+                        this.apoyos[i].Pilotes[0].PosicionY = this.apoyos[i].CoordEjeY;
+                        this.apoyos[i].Vertice1Y = this.apoyos[i].Pilotes[0].PosicionY + 0.5;
+                        this.apoyos[i].Vertice3Y = this.apoyos[i].Pilotes[0].PosicionY - 0.5;
+                        this.apoyos[i].Pilotes[1].PosicionY = this.apoyos[i].CoordEjeY;
+                        this.apoyos[i].Vertice2Y = this.apoyos[i].Pilotes[1].PosicionY + 0.5;
                         this.apoyos[i].Vertice4Y = this.apoyos[i].Pilotes[1].PosicionY - 0.5;
                     break;
                     case 3:
-                        this.apoyos[i].Pilotes[0].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
-                        this.apoyos[i].Pilotes[1].PosicionX = (this.apoyos[i].CoordEjeX);
-                        this.apoyos[i].Pilotes[2].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes);
-                        this.apoyos[i].Pilotes[0].PosicionY = (this.apoyos[i].CoordEjeY);
-                        this.apoyos[i].Pilotes[1].PosicionY = (this.apoyos[i].CoordEjeY);
-                        this.apoyos[i].Pilotes[2].PosicionY = (this.apoyos[i].CoordEjeY);
+                        apoyos[i].Pilotes[0].PosicionX = (this.apoyos[i].CoordEjeX - this.apoyos[i].DistanciaMinimaEntrePilotes);
                         this.apoyos[i].Vertice1X = this.apoyos[i].Pilotes[0].PosicionX - 0.5;
-                        this.apoyos[i].Vertice1Y = this.apoyos[i].Pilotes[0].PosicionY + 0.5;
-                        this.apoyos[i].Vertice2X = this.apoyos[i].Pilotes[2].PosicionX + 0.5;
-                        this.apoyos[i].Vertice2Y = this.apoyos[i].Pilotes[2].PosicionY + 0.5;
                         this.apoyos[i].Vertice3X = this.apoyos[i].Pilotes[0].PosicionX - 0.5;
-                        this.apoyos[i].Vertice3Y = this.apoyos[i].Pilotes[0].PosicionY - 0.5;
+                        apoyos[i].Pilotes[1].PosicionX = (this.apoyos[i].CoordEjeX);
+                        apoyos[i].Pilotes[2].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes);
+                        this.apoyos[i].Vertice2X = this.apoyos[i].Pilotes[2].PosicionX + 0.5;
                         this.apoyos[i].Vertice4X = this.apoyos[i].Pilotes[2].PosicionX + 0.5;
+                        apoyos[i].Pilotes[0].PosicionY = (this.apoyos[i].CoordEjeY);
+                        this.apoyos[i].Vertice3Y = this.apoyos[i].Pilotes[0].PosicionY - 0.5;
+                        this.apoyos[i].Vertice1Y = this.apoyos[i].Pilotes[0].PosicionY + 0.5;
+                        apoyos[i].Pilotes[1].PosicionY = (this.apoyos[i].CoordEjeY);
+                        apoyos[i].Pilotes[2].PosicionY = (this.apoyos[i].CoordEjeY);
+                        this.apoyos[i].Vertice2Y = this.apoyos[i].Pilotes[2].PosicionY + 0.5;
                         this.apoyos[i].Vertice4Y = this.apoyos[i].Pilotes[2].PosicionY - 0.5;
                     break;
                     case 4:
                         this.apoyos[i].Pilotes[0].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
-                        this.apoyos[i].Pilotes[0].PosicionY = (this.apoyos[i].CoordEjeY) + (this.apoyos[i].DistanciaMinimaEntrePilotes);
-                        this.apoyos[i].Pilotes[1].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes);
-                        this.apoyos[i].Pilotes[1].PosicionY = (this.apoyos[i].CoordEjeY) + (this.apoyos[i].DistanciaMinimaEntrePilotes);
-                        this.apoyos[i].Pilotes[2].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
-                        this.apoyos[i].Pilotes[2].PosicionY = (this.apoyos[i].CoordEjeY) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
-                        this.apoyos[i].Pilotes[3].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes);
-                        this.apoyos[i].Pilotes[3].PosicionY = (this.apoyos[i].CoordEjeY) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
                         this.apoyos[i].Vertice1X = this.apoyos[i].Pilotes[0].PosicionX - 0.5;
+
+                        this.apoyos[i].Pilotes[0].PosicionY = (this.apoyos[i].CoordEjeY) + (this.apoyos[i].DistanciaMinimaEntrePilotes);
                         this.apoyos[i].Vertice1Y = this.apoyos[i].Pilotes[0].PosicionY + 0.5;
+
+                        this.apoyos[i].Pilotes[1].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes);
                         this.apoyos[i].Vertice2X = this.apoyos[i].Pilotes[1].PosicionX + 0.5;
+
+                        this.apoyos[i].Pilotes[1].PosicionY = (this.apoyos[i].CoordEjeY) + (this.apoyos[i].DistanciaMinimaEntrePilotes);
                         this.apoyos[i].Vertice2Y = this.apoyos[i].Pilotes[1].PosicionY + 0.5;
+
+                        this.apoyos[i].Pilotes[2].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
                         this.apoyos[i].Vertice3X = this.apoyos[i].Pilotes[2].PosicionX - 0.5;
+
+                        this.apoyos[i].Pilotes[2].PosicionY = (this.apoyos[i].CoordEjeY) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
                         this.apoyos[i].Vertice3Y = this.apoyos[i].Pilotes[2].PosicionY - 0.5;
+
+                        this.apoyos[i].Pilotes[3].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes);
                         this.apoyos[i].Vertice4X = this.apoyos[i].Pilotes[3].PosicionX + 0.5;
+
+                        this.apoyos[i].Pilotes[3].PosicionY = (this.apoyos[i].CoordEjeY) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
                         this.apoyos[i].Vertice4Y = this.apoyos[i].Pilotes[3].PosicionY - 0.5;
                     break;
                     case 5:
                         this.apoyos[i].Pilotes[0].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
+                        this.apoyos[i].Vertice1X = this.apoyos[i].Pilotes[0].PosicionX - 0.5;
+
                         this.apoyos[i].Pilotes[0].PosicionY = (this.apoyos[i].CoordEjeY) + (this.apoyos[i].DistanciaMinimaEntrePilotes);
+                        this.apoyos[i].Vertice1Y = this.apoyos[i].Pilotes[0].PosicionY + 0.5;
+
                         this.apoyos[i].Pilotes[1].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes);
+                        this.apoyos[i].Vertice2X = this.apoyos[i].Pilotes[1].PosicionX + 0.5;
+
                         this.apoyos[i].Pilotes[1].PosicionY = (this.apoyos[i].CoordEjeY) + (this.apoyos[i].DistanciaMinimaEntrePilotes);
+                        this.apoyos[i].Vertice2Y = this.apoyos[i].Pilotes[1].PosicionY + 0.5;
+
                         this.apoyos[i].Pilotes[2].PosicionX = (this.apoyos[i].CoordEjeX);
                         this.apoyos[i].Pilotes[2].PosicionY = (this.apoyos[i].CoordEjeY);
+
                         this.apoyos[i].Pilotes[3].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
-                        this.apoyos[i].Pilotes[3].PosicionY = (this.apoyos[i].CoordEjeY) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
-                        this.apoyos[i].Pilotes[4].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes);
-                        this.apoyos[i].Pilotes[4].PosicionY = (this.apoyos[i].CoordEjeY) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
-                        this.apoyos[i].Vertice1X = this.apoyos[i].Pilotes[0].PosicionX - 0.5;
-                        this.apoyos[i].Vertice1Y = this.apoyos[i].Pilotes[0].PosicionY + 0.5;
-                        this.apoyos[i].Vertice2X = this.apoyos[i].Pilotes[1].PosicionX + 0.5;
-                        this.apoyos[i].Vertice2Y = this.apoyos[i].Pilotes[1].PosicionY + 0.5;
                         this.apoyos[i].Vertice3X = this.apoyos[i].Pilotes[3].PosicionX - 0.5;
+
+                        this.apoyos[i].Pilotes[3].PosicionY = (this.apoyos[i].CoordEjeY) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
                         this.apoyos[i].Vertice3Y = this.apoyos[i].Pilotes[3].PosicionY - 0.5;
+
+                        this.apoyos[i].Pilotes[4].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes);
                         this.apoyos[i].Vertice4X = this.apoyos[i].Pilotes[4].PosicionX + 0.5;
+
+                        this.apoyos[i].Pilotes[4].PosicionY = (this.apoyos[i].CoordEjeY) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
                         this.apoyos[i].Vertice4Y = this.apoyos[i].Pilotes[4].PosicionY - 0.5;
                     break;
                     case 6:
                         this.apoyos[i].Pilotes[0].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
                         this.apoyos[i].Pilotes[0].PosicionY = (this.apoyos[i].CoordEjeY) + ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
+                        this.apoyos[i].Vertice1Y = this.apoyos[i].Pilotes[0].PosicionY + 0.5;
+
                         this.apoyos[i].Pilotes[1].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
                         this.apoyos[i].Pilotes[1].PosicionY = (this.apoyos[i].CoordEjeY) + ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
+                        this.apoyos[i].Vertice2Y = this.apoyos[i].Pilotes[1].PosicionY + 0.5;
+
                         this.apoyos[i].Pilotes[2].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
+                        this.apoyos[i].Vertice1X = this.apoyos[i].Pilotes[2].PosicionX - 0.5;
+                        this.apoyos[i].Vertice3X = this.apoyos[i].Pilotes[2].PosicionX - 0.5;
+
                         this.apoyos[i].Pilotes[2].PosicionY = (this.apoyos[i].CoordEjeY);
                         this.apoyos[i].Pilotes[3].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes);
+                        this.apoyos[i].Vertice2X = this.apoyos[i].Pilotes[3].PosicionX + 0.5;
+                        this.apoyos[i].Vertice4X = this.apoyos[i].Pilotes[3].PosicionX + 0.5;
+
+
                         this.apoyos[i].Pilotes[3].PosicionY = (this.apoyos[i].CoordEjeY);
                         this.apoyos[i].Pilotes[4].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
                         this.apoyos[i].Pilotes[4].PosicionY = (this.apoyos[i].CoordEjeY) - ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
+                        this.apoyos[i].Vertice3Y = this.apoyos[i].Pilotes[4].PosicionY - 0.5;
+
                         this.apoyos[i].Pilotes[5].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
                         this.apoyos[i].Pilotes[5].PosicionY = (this.apoyos[i].CoordEjeY) - ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
-                        this.apoyos[i].Vertice1X = this.apoyos[i].Pilotes[2].PosicionX - 0.5;
-                        this.apoyos[i].Vertice1Y = this.apoyos[i].Pilotes[0].PosicionY + 0.5;
-                        this.apoyos[i].Vertice2X = this.apoyos[i].Pilotes[3].PosicionX + 0.5;
-                        this.apoyos[i].Vertice2Y = this.apoyos[i].Pilotes[1].PosicionY + 0.5;
-                        this.apoyos[i].Vertice3X = this.apoyos[i].Pilotes[2].PosicionX - 0.5;
-                        this.apoyos[i].Vertice3Y = this.apoyos[i].Pilotes[4].PosicionY - 0.5;
-                        this.apoyos[i].Vertice4X = this.apoyos[i].Pilotes[3].PosicionX + 0.5;
                         this.apoyos[i].Vertice4Y = this.apoyos[i].Pilotes[5].PosicionY - 0.5;
                     break;
                     case 7:
                         this.apoyos[i].Pilotes[0].PosicionX = (this.apoyos[i].CoordEjeX) - ((2.5 * this.apoyos[i].DiametroPilotes) / 2);
                         this.apoyos[i].Pilotes[0].PosicionY = (this.apoyos[i].CoordEjeY) + ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
+                        this.apoyos[i].Vertice1Y = this.apoyos[i].Pilotes[0].PosicionY + 0.5;
+
                         this.apoyos[i].Pilotes[1].PosicionX = (this.apoyos[i].CoordEjeX) + ((2.5 * this.apoyos[i].DiametroPilotes) / 2);
                         this.apoyos[i].Pilotes[1].PosicionY = (this.apoyos[i].CoordEjeY) + ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
+                        this.apoyos[i].Vertice2Y = this.apoyos[i].Pilotes[1].PosicionY + 0.5;
+
                         this.apoyos[i].Pilotes[2].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
+                        this.apoyos[i].Vertice1X = this.apoyos[i].Pilotes[2].PosicionX - 0.5;
+                        this.apoyos[i].Vertice3X = this.apoyos[i].Pilotes[2].PosicionX - 0.5;
+
                         this.apoyos[i].Pilotes[2].PosicionY = (this.apoyos[i].CoordEjeY);
+
                         this.apoyos[i].Pilotes[3].PosicionX = (this.apoyos[i].CoordEjeX);
                         this.apoyos[i].Pilotes[3].PosicionY = (this.apoyos[i].CoordEjeY);
                         this.apoyos[i].Pilotes[4].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes);
+                        this.apoyos[i].Vertice2X = this.apoyos[i].Pilotes[4].PosicionX + 0.5;
+                        this.apoyos[i].Vertice4X = this.apoyos[i].Pilotes[4].PosicionX + 0.5;
+
+
                         this.apoyos[i].Pilotes[4].PosicionY = (this.apoyos[i].CoordEjeY);
                         this.apoyos[i].Pilotes[5].PosicionX = (this.apoyos[i].CoordEjeX) - ((2.5 * this.apoyos[i].DiametroPilotes) / 2);
                         this.apoyos[i].Pilotes[5].PosicionY = (this.apoyos[i].CoordEjeY) - ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
+                        this.apoyos[i].Vertice3Y = this.apoyos[i].Pilotes[5].PosicionY - 0.5;
+
                         this.apoyos[i].Pilotes[6].PosicionX = (this.apoyos[i].CoordEjeX) + ((2.5 * this.apoyos[i].DiametroPilotes) / 2);
                         this.apoyos[i].Pilotes[6].PosicionY = (this.apoyos[i].CoordEjeY) - ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
-                        this.apoyos[i].Vertice1X = this.apoyos[i].Pilotes[2].PosicionX - 0.5;
-                        this.apoyos[i].Vertice1Y = this.apoyos[i].Pilotes[0].PosicionY + 0.5;
-                        this.apoyos[i].Vertice2X = this.apoyos[i].Pilotes[4].PosicionX + 0.5;
-                        this.apoyos[i].Vertice2Y = this.apoyos[i].Pilotes[1].PosicionY + 0.5;
-                        this.apoyos[i].Vertice3X = this.apoyos[i].Pilotes[2].PosicionX - 0.5;
-                        this.apoyos[i].Vertice3Y = this.apoyos[i].Pilotes[5].PosicionY - 0.5;
-                        this.apoyos[i].Vertice4X = this.apoyos[i].Pilotes[4].PosicionX + 0.5;
                         this.apoyos[i].Vertice4Y = this.apoyos[i].Pilotes[6].PosicionY - 0.5;
                     break;
                     case 8:
                         this.apoyos[i].Pilotes[0].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
+                        this.apoyos[i].Vertice1X = this.apoyos[i].Pilotes[0].PosicionX - 0.5;
+
                         this.apoyos[i].Pilotes[0].PosicionY = (this.apoyos[i].CoordEjeY) + ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
+                        this.apoyos[i].Vertice1Y = this.apoyos[i].Pilotes[0].PosicionY + 0.5;
+
                         this.apoyos[i].Pilotes[1].PosicionX = (this.apoyos[i].CoordEjeX);
                         this.apoyos[i].Pilotes[1].PosicionY = (this.apoyos[i].CoordEjeY) + ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
                         this.apoyos[i].Pilotes[2].PosicionX = (this.apoyos[i].CoordEjeX) + this.apoyos[i].DistanciaMinimaEntrePilotes;
+                        this.apoyos[i].Vertice2X = this.apoyos[i].Pilotes[2].PosicionX + 0.5;
+
                         this.apoyos[i].Pilotes[2].PosicionY = (this.apoyos[i].CoordEjeY) + ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
+                        this.apoyos[i].Vertice2Y = this.apoyos[i].Pilotes[2].PosicionY + 0.5;
+
                         this.apoyos[i].Pilotes[3].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
                         this.apoyos[i].Pilotes[3].PosicionY = (this.apoyos[i].CoordEjeY);
                         this.apoyos[i].Pilotes[4].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
                         this.apoyos[i].Pilotes[4].PosicionY = (this.apoyos[i].CoordEjeY);
                         this.apoyos[i].Pilotes[5].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
+                        this.apoyos[i].Vertice3X = this.apoyos[i].Pilotes[5].PosicionX - 0.5;
+
                         this.apoyos[i].Pilotes[5].PosicionY = (this.apoyos[i].CoordEjeY) - ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
+                        this.apoyos[i].Vertice3Y = this.apoyos[i].Pilotes[5].PosicionY - 0.5;
+
                         this.apoyos[i].Pilotes[6].PosicionX = (this.apoyos[i].CoordEjeX);
                         this.apoyos[i].Pilotes[6].PosicionY = (this.apoyos[i].CoordEjeY) - ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
                         this.apoyos[i].Pilotes[7].PosicionX = (this.apoyos[i].CoordEjeX) + this.apoyos[i].DistanciaMinimaEntrePilotes;
-                        this.apoyos[i].Pilotes[7].PosicionY = (this.apoyos[i].CoordEjeY) - ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
-                        this.apoyos[i].Vertice1X = this.apoyos[i].Pilotes[0].PosicionX - 0.5;
-                        this.apoyos[i].Vertice1Y = this.apoyos[i].Pilotes[0].PosicionY + 0.5;
-                        this.apoyos[i].Vertice2X = this.apoyos[i].Pilotes[2].PosicionX + 0.5;
-                        this.apoyos[i].Vertice2Y = this.apoyos[i].Pilotes[2].PosicionY + 0.5;
-                        this.apoyos[i].Vertice3X = this.apoyos[i].Pilotes[5].PosicionX - 0.5;
-                        this.apoyos[i].Vertice3Y = this.apoyos[i].Pilotes[5].PosicionY - 0.5;
                         this.apoyos[i].Vertice4X = this.apoyos[i].Pilotes[7].PosicionX + 0.5;
+
+                        this.apoyos[i].Pilotes[7].PosicionY = (this.apoyos[i].CoordEjeY) - ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
                         this.apoyos[i].Vertice4Y = this.apoyos[i].Pilotes[7].PosicionY - 0.5;
                     break;
                     case 9:
                         this.apoyos[i].Pilotes[0].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
+                        this.apoyos[i].Vertice1X = this.apoyos[i].Pilotes[0].PosicionX - 0.5;
+
                         this.apoyos[i].Pilotes[0].PosicionY = (this.apoyos[i].CoordEjeY) + ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
+                        this.apoyos[i].Vertice1Y = this.apoyos[i].Pilotes[0].PosicionY + 0.5;
+
                         this.apoyos[i].Pilotes[1].PosicionX = (this.apoyos[i].CoordEjeX);
                         this.apoyos[i].Pilotes[1].PosicionY = (this.apoyos[i].CoordEjeY) + ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
                         this.apoyos[i].Pilotes[2].PosicionX = (this.apoyos[i].CoordEjeX) + this.apoyos[i].DistanciaMinimaEntrePilotes;
+                        this.apoyos[i].Vertice2X = this.apoyos[i].Pilotes[2].PosicionX + 0.5;
+
                         this.apoyos[i].Pilotes[2].PosicionY = (this.apoyos[i].CoordEjeY) + ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
+                        this.apoyos[i].Vertice2Y = this.apoyos[i].Pilotes[2].PosicionY + 0.5;
+
                         this.apoyos[i].Pilotes[3].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
                         this.apoyos[i].Pilotes[3].PosicionY = (this.apoyos[i].CoordEjeY);
                         this.apoyos[i].Pilotes[4].PosicionX = (this.apoyos[i].CoordEjeX);
@@ -1134,59 +1184,73 @@ namespace FundTool
                         this.apoyos[i].Pilotes[5].PosicionX = (this.apoyos[i].CoordEjeX) + this.apoyos[i].DistanciaMinimaEntrePilotes;
                         this.apoyos[i].Pilotes[5].PosicionY = (this.apoyos[i].CoordEjeY);
                         this.apoyos[i].Pilotes[6].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
+                        this.apoyos[i].Vertice3X = this.apoyos[i].Pilotes[6].PosicionX - 0.5;
+
                         this.apoyos[i].Pilotes[6].PosicionY = (this.apoyos[i].CoordEjeY) - ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
+                        this.apoyos[i].Vertice3Y = this.apoyos[i].Pilotes[6].PosicionY - 0.5;
+
                         this.apoyos[i].Pilotes[7].PosicionX = (this.apoyos[i].CoordEjeX);
                         this.apoyos[i].Pilotes[7].PosicionY = (this.apoyos[i].CoordEjeY) - ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
                         this.apoyos[i].Pilotes[8].PosicionX = (this.apoyos[i].CoordEjeX) + this.apoyos[i].DistanciaMinimaEntrePilotes;
-                        this.apoyos[i].Pilotes[8].PosicionY = (this.apoyos[i].CoordEjeY) - ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
-                        this.apoyos[i].Vertice1X = this.apoyos[i].Pilotes[0].PosicionX - 0.5;
-                        this.apoyos[i].Vertice1Y = this.apoyos[i].Pilotes[0].PosicionY + 0.5;
-                        this.apoyos[i].Vertice2X = this.apoyos[i].Pilotes[2].PosicionX + 0.5;
-                        this.apoyos[i].Vertice2Y = this.apoyos[i].Pilotes[2].PosicionY + 0.5;
-                        this.apoyos[i].Vertice3X = this.apoyos[i].Pilotes[6].PosicionX - 0.5;
-                        this.apoyos[i].Vertice3Y = this.apoyos[i].Pilotes[6].PosicionY - 0.5;
                         this.apoyos[i].Vertice4X = this.apoyos[i].Pilotes[8].PosicionX + 0.5;
+
+                        this.apoyos[i].Pilotes[8].PosicionY = (this.apoyos[i].CoordEjeY) - ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
                         this.apoyos[i].Vertice4Y = this.apoyos[i].Pilotes[8].PosicionY - 0.5;
                     break;
                     case 10:
                         this.apoyos[i].Pilotes[0].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
                         this.apoyos[i].Pilotes[0].PosicionY = (this.apoyos[i].CoordEjeY) + ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
+                        this.apoyos[i].Vertice1Y = this.apoyos[i].Pilotes[0].PosicionY + 0.5;
+
                         this.apoyos[i].Pilotes[1].PosicionX = (this.apoyos[i].CoordEjeX);
                         this.apoyos[i].Pilotes[1].PosicionY = (this.apoyos[i].CoordEjeY) + ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
                         this.apoyos[i].Pilotes[2].PosicionX = (this.apoyos[i].CoordEjeX) + this.apoyos[i].DistanciaMinimaEntrePilotes;
                         this.apoyos[i].Pilotes[2].PosicionY = (this.apoyos[i].CoordEjeY) + ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
+                        this.apoyos[i].Vertice2Y = this.apoyos[i].Pilotes[2].PosicionY + 0.5;
+
                         this.apoyos[i].Pilotes[3].PosicionX = (this.apoyos[i].CoordEjeX) - this.apoyos[i].DistanciaMinimaEntrePilotes - (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
+                        this.apoyos[i].Vertice3X = this.apoyos[i].Pilotes[3].PosicionX - 0.5;
+
+                        this.apoyos[i].Vertice1X = this.apoyos[i].Pilotes[3].PosicionX - 0.5;
+
                         this.apoyos[i].Pilotes[3].PosicionY = (this.apoyos[i].CoordEjeY);
                         this.apoyos[i].Pilotes[4].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
                         this.apoyos[i].Pilotes[4].PosicionY = (this.apoyos[i].CoordEjeY);
                         this.apoyos[i].Pilotes[5].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
                         this.apoyos[i].Pilotes[5].PosicionY = (this.apoyos[i].CoordEjeY);
                         this.apoyos[i].Pilotes[6].PosicionX = (this.apoyos[i].CoordEjeX) + this.apoyos[i].DistanciaMinimaEntrePilotes - (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
+                        this.apoyos[i].Vertice2X = this.apoyos[i].Pilotes[6].PosicionX + 0.5;
+                        this.apoyos[i].Vertice4X = this.apoyos[i].Pilotes[6].PosicionX + 0.5;
+
+
                         this.apoyos[i].Pilotes[6].PosicionY = (this.apoyos[i].CoordEjeY);
                         this.apoyos[i].Pilotes[7].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
+                        this.apoyos[i].Vertice3Y = this.apoyos[i].Pilotes[7].PosicionY - 0.5;
+
                         this.apoyos[i].Pilotes[7].PosicionY = (this.apoyos[i].CoordEjeY) - ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
                         this.apoyos[i].Pilotes[8].PosicionX = (this.apoyos[i].CoordEjeX);
                         this.apoyos[i].Pilotes[8].PosicionY = (this.apoyos[i].CoordEjeY) - ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
                         this.apoyos[i].Pilotes[9].PosicionX = (this.apoyos[i].CoordEjeX) + this.apoyos[i].DistanciaMinimaEntrePilotes;
                         this.apoyos[i].Pilotes[9].PosicionY = (this.apoyos[i].CoordEjeY) - ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
-                        this.apoyos[i].Vertice1X = this.apoyos[i].Pilotes[3].PosicionX - 0.5;
-                        this.apoyos[i].Vertice1Y = this.apoyos[i].Pilotes[0].PosicionY + 0.5;
-                        this.apoyos[i].Vertice2X = this.apoyos[i].Pilotes[6].PosicionX + 0.5;
-                        this.apoyos[i].Vertice2Y = this.apoyos[i].Pilotes[2].PosicionY + 0.5;
-                        this.apoyos[i].Vertice3X = this.apoyos[i].Pilotes[3].PosicionX - 0.5;
-                        this.apoyos[i].Vertice3Y = this.apoyos[i].Pilotes[7].PosicionY - 0.5;
-                        this.apoyos[i].Vertice4X = this.apoyos[i].Pilotes[6].PosicionX + 0.5;
                         this.apoyos[i].Vertice4Y = this.apoyos[i].Pilotes[9].PosicionY - 0.5;
                     break;
                     case 11:
                         this.apoyos[i].Pilotes[0].PosicionX = (this.apoyos[i].CoordEjeX) - this.apoyos[i].DistanciaMinimaEntrePilotes - (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
+                        this.apoyos[i].Vertice1X = this.apoyos[i].Pilotes[0].PosicionX - 0.5;
+
                         this.apoyos[i].Pilotes[0].PosicionY = (this.apoyos[i].CoordEjeY) + ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
+                        this.apoyos[i].Vertice1Y = this.apoyos[i].Pilotes[0].PosicionY + 0.5;
+
                         this.apoyos[i].Pilotes[1].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
                         this.apoyos[i].Pilotes[1].PosicionY = (this.apoyos[i].CoordEjeY) + ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
                         this.apoyos[i].Pilotes[2].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
                         this.apoyos[i].Pilotes[2].PosicionY = (this.apoyos[i].CoordEjeY) + ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
                         this.apoyos[i].Pilotes[3].PosicionX = (this.apoyos[i].CoordEjeX) + this.apoyos[i].DistanciaMinimaEntrePilotes - (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
+                        this.apoyos[i].Vertice2X = this.apoyos[i].Pilotes[3].PosicionX + 0.5;
+
                         this.apoyos[i].Pilotes[3].PosicionY = (this.apoyos[i].CoordEjeY) + ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
+                        this.apoyos[i].Vertice2Y = this.apoyos[i].Pilotes[3].PosicionY + 0.5;
+
                         this.apoyos[i].Pilotes[4].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
                         this.apoyos[i].Pilotes[4].PosicionY = (this.apoyos[i].CoordEjeY);
                         this.apoyos[i].Pilotes[5].PosicionX = (this.apoyos[i].CoordEjeX);
@@ -1194,31 +1258,34 @@ namespace FundTool
                         this.apoyos[i].Pilotes[6].PosicionX = (this.apoyos[i].CoordEjeX) + this.apoyos[i].DistanciaMinimaEntrePilotes;
                         this.apoyos[i].Pilotes[6].PosicionY = (this.apoyos[i].CoordEjeY);
                         this.apoyos[i].Pilotes[7].PosicionX = (this.apoyos[i].CoordEjeX) - this.apoyos[i].DistanciaMinimaEntrePilotes - (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
+                        this.apoyos[i].Vertice3X = this.apoyos[i].Pilotes[7].PosicionX - 0.5;
+
                         this.apoyos[i].Pilotes[7].PosicionY = (this.apoyos[i].CoordEjeY) - ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
+                        this.apoyos[i].Vertice3Y = this.apoyos[i].Pilotes[7].PosicionY - 0.5;
+
                         this.apoyos[i].Pilotes[8].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
                         this.apoyos[i].Pilotes[8].PosicionY = (this.apoyos[i].CoordEjeY) - ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
                         this.apoyos[i].Pilotes[9].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
                         this.apoyos[i].Pilotes[9].PosicionY = (this.apoyos[i].CoordEjeY) - ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
                         this.apoyos[i].Pilotes[10].PosicionX = (this.apoyos[i].CoordEjeX) + this.apoyos[i].DistanciaMinimaEntrePilotes - (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
-                        this.apoyos[i].Pilotes[10].PosicionY = (this.apoyos[i].CoordEjeY) - ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
-                        this.apoyos[i].Vertice1X = this.apoyos[i].Pilotes[0].PosicionX - 0.5;
-                        this.apoyos[i].Vertice1Y = this.apoyos[i].Pilotes[0].PosicionY + 0.5;
-                        this.apoyos[i].Vertice2X = this.apoyos[i].Pilotes[3].PosicionX + 0.5;
-                        this.apoyos[i].Vertice2Y = this.apoyos[i].Pilotes[3].PosicionY + 0.5;
-                        this.apoyos[i].Vertice3X = this.apoyos[i].Pilotes[7].PosicionX - 0.5;
-                        this.apoyos[i].Vertice3Y = this.apoyos[i].Pilotes[7].PosicionY - 0.5;
                         this.apoyos[i].Vertice4X = this.apoyos[i].Pilotes[10].PosicionX + 0.5;
+
+                        this.apoyos[i].Pilotes[10].PosicionY = (this.apoyos[i].CoordEjeY) - ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
                         this.apoyos[i].Vertice4Y = this.apoyos[i].Pilotes[10].PosicionY - 0.5;
                     break;
                     case 12:
                         this.apoyos[i].Pilotes[0].PosicionX = (this.apoyos[i].CoordEjeX) - this.apoyos[i].DistanciaMinimaEntrePilotes - (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
                         this.apoyos[i].Pilotes[0].PosicionY = (this.apoyos[i].CoordEjeY) + ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
+                        this.apoyos[i].Vertice1X = this.apoyos[i].Pilotes[0].PosicionX - 0.5;
+                        this.apoyos[i].Vertice1Y = this.apoyos[i].Pilotes[0].PosicionY + 0.5;
                         this.apoyos[i].Pilotes[1].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
                         this.apoyos[i].Pilotes[1].PosicionY = (this.apoyos[i].CoordEjeY) + ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
                         this.apoyos[i].Pilotes[2].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
                         this.apoyos[i].Pilotes[2].PosicionY = (this.apoyos[i].CoordEjeY) + ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
                         this.apoyos[i].Pilotes[3].PosicionX = (this.apoyos[i].CoordEjeX) + this.apoyos[i].DistanciaMinimaEntrePilotes - (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
                         this.apoyos[i].Pilotes[3].PosicionY = (this.apoyos[i].CoordEjeY) + ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
+                        this.apoyos[i].Vertice2X = this.apoyos[i].Pilotes[3].PosicionX + 0.5;
+                        this.apoyos[i].Vertice2Y = this.apoyos[i].Pilotes[3].PosicionY + 0.5;
                         this.apoyos[i].Pilotes[4].PosicionX = (this.apoyos[i].CoordEjeX) - this.apoyos[i].DistanciaMinimaEntrePilotes - (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
                         this.apoyos[i].Pilotes[4].PosicionY = (this.apoyos[i].CoordEjeY);
                         this.apoyos[i].Pilotes[5].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
@@ -1229,18 +1296,14 @@ namespace FundTool
                         this.apoyos[i].Pilotes[7].PosicionY = (this.apoyos[i].CoordEjeY);
                         this.apoyos[i].Pilotes[8].PosicionX = (this.apoyos[i].CoordEjeX) - this.apoyos[i].DistanciaMinimaEntrePilotes - (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
                         this.apoyos[i].Pilotes[8].PosicionY = (this.apoyos[i].CoordEjeY) - ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
+                        this.apoyos[i].Vertice3X = this.apoyos[i].Pilotes[8].PosicionX - 0.5;
+                        this.apoyos[i].Vertice3Y = this.apoyos[i].Pilotes[8].PosicionY - 0.5;
                         this.apoyos[i].Pilotes[9].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
                         this.apoyos[i].Pilotes[9].PosicionY = (this.apoyos[i].CoordEjeY) - ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
                         this.apoyos[i].Pilotes[10].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
                         this.apoyos[i].Pilotes[10].PosicionY = (this.apoyos[i].CoordEjeY) - ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
                         this.apoyos[i].Pilotes[11].PosicionX = (this.apoyos[i].CoordEjeX) + this.apoyos[i].DistanciaMinimaEntrePilotes - (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
                         this.apoyos[i].Pilotes[11].PosicionY = (this.apoyos[i].CoordEjeY) - ((this.apoyos[i].DistanciaMinimaEntrePilotes * Math.Sqrt(3)) / 2);
-                        this.apoyos[i].Vertice1X = this.apoyos[i].Pilotes[0].PosicionX - 0.5;
-                        this.apoyos[i].Vertice1Y = this.apoyos[i].Pilotes[0].PosicionY + 0.5;
-                        this.apoyos[i].Vertice2X = this.apoyos[i].Pilotes[3].PosicionX + 0.5;
-                        this.apoyos[i].Vertice2Y = this.apoyos[i].Pilotes[3].PosicionY + 0.5;
-                        this.apoyos[i].Vertice3X = this.apoyos[i].Pilotes[8].PosicionX - 0.5;
-                        this.apoyos[i].Vertice3Y = this.apoyos[i].Pilotes[8].PosicionY - 0.5;
                         this.apoyos[i].Vertice4X = this.apoyos[i].Pilotes[11].PosicionX + 0.5;
                         this.apoyos[i].Vertice4Y = this.apoyos[i].Pilotes[11].PosicionY - 0.5;
                     break;
@@ -1249,11 +1312,6 @@ namespace FundTool
                         break;
 
                 }
-            MessageBox.Show("Vertices de apoyo  " + this.apoyos[i].Numero + " " + this.apoyos[i].Vertice1X + " " + this.apoyos[i].Vertice1Y + " " + this.apoyos[i].Vertice2X + " " + this.apoyos[i].Vertice2Y + " " + this.apoyos[i].Vertice3X + " " + this.apoyos[i].Vertice3Y + " " + this.apoyos[i].Vertice4X + " " + this.apoyos[i].Vertice4Y);
-            for(int j = 0; j < this.apoyos[i].Pilotes.Count; j++)
-            {
-                MessageBox.Show("Posicion pilote " + (j + 1) + " x " + this.apoyos[i].Pilotes[j].PosicionX + " y " + this.apoyos[i].Pilotes[j].PosicionY);
-            }
             this.apoyos[i].DiametroPilotes = this.apoyos[i].DiametroPilotes * 100;
             this.apoyos[i].DistanciaMinimaEntrePilotes = this.apoyos[i].DistanciaMinimaEntrePilotes * 100;
 

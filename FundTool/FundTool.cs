@@ -88,12 +88,12 @@ namespace FundTool
                             Circle[] circle = new Circle[apoyos[i].Pilotes.Count];
                             for(int j = 0; j < apoyos[i].Pilotes.Count; j++)
                             {
-                                using (circle[i] = new Circle())
+                                using (circle[j] = new Circle())
                                 {
-                                    circle[i].Center = new Point3d(apoyos[i].Pilotes[j].PosicionX, apoyos[i].Pilotes[j].PosicionY, 0);
-                                    circle[i].Radius = apoyos[i].DiametroPilotes/100;
-                                    acBlkTblRec.AppendEntity(circle[i]);
-                                    acTrans.AddNewlyCreatedDBObject(circle[i], true);
+                                    circle[j].Center = new Point3d(apoyos[i].Pilotes[j].PosicionX, apoyos[i].Pilotes[j].PosicionY, 0);
+                                    circle[j].Radius = apoyos[i].DiametroPilotes/200;
+                                    acBlkTblRec.AppendEntity(circle[j]);
+                                    acTrans.AddNewlyCreatedDBObject(circle[j], true);
                                 }
                             }
                             
