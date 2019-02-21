@@ -71,6 +71,7 @@ namespace FundTool
                         acBlkTblRec = acTrans.GetObject(acBlkTbl[BlockTableRecord.ModelSpace],
                                                         OpenMode.ForWrite) as BlockTableRecord;
                         Polyline[] acPoly = new Polyline[apoyos.Count];
+                        Polyline[] columna = new Polyline[apoyos.Count];
                         for (int i = 0; i < apoyos.Count; i++)
                         {
                             // Create a polyline with two segments (3 points)
@@ -84,6 +85,17 @@ namespace FundTool
                                 // Add the new object to the block table record and the transaction
                                 acBlkTblRec.AppendEntity(acPoly[i]);
                                 acTrans.AddNewlyCreatedDBObject(acPoly[i], true);
+                            }
+                            using(columna[i] = new Polyline())
+                            {
+                                columna[i].AddVertexAt(0, new Point2d(apoyos[i].ColumnaV1X/10, apoyos[i].ColumnaV1Y/10), 0, 0, 0);
+                                columna[i].AddVertexAt(1, new Point2d(apoyos[i].ColumnaV2X/10, apoyos[i].ColumnaV2Y/10), 0, 0, 0);
+                                columna[i].AddVertexAt(2, new Point2d(apoyos[i].ColumnaV4X/10, apoyos[i].ColumnaV4Y/10), 0, 0, 0);
+                                columna[i].AddVertexAt(3, new Point2d(apoyos[i].ColumnaV3X/10, apoyos[i].ColumnaV3Y/10), 0, 0, 0);
+                                columna[i].AddVertexAt(4, new Point2d(apoyos[i].ColumnaV1X/10, apoyos[i].ColumnaV1Y/10), 0, 0, 0);
+                                // Add the new object to the block table record and the transaction
+                                acBlkTblRec.AppendEntity(columna[i]);
+                                acTrans.AddNewlyCreatedDBObject(columna[i], true);
                             }
                             Circle[] circle = new Circle[apoyos[i].Pilotes.Count];
                             for(int j = 0; j < apoyos[i].Pilotes.Count; j++)
