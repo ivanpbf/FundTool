@@ -87,7 +87,7 @@
                 <Button x:Name="AceptarValoresSolicitaciones" Content="Siguiente" HorizontalAlignment="Left" Margin="45,292,0,0" VerticalAlignment="Top" Width="107" Click="IntroducirDatosSolicitaciones" IsEnabled="False"/>
                 <Label Content="Numero de Apoyos en Y:" HorizontalAlignment="Left" Margin="10,77,0,0" VerticalAlignment="Top"/>
                 <TextBox x:Name="NroApoyosY" HorizontalAlignment="Left" Height="23" Margin="153,80,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" PreviewTextInput="NumericOnly" TextAlignment="Center"/>
-                <Grid x:Name="GridApoyos" HorizontalAlignment="Left" Height="259" Margin="212,12,0,0" VerticalAlignment="Top" Width="329" Background="White"/>
+                <Grid x:Name="GridApoyos" HorizontalAlignment="Left" Height="275" Margin="212,12,0,0" VerticalAlignment="Top" Width="310" Background="White"/>
                 <TextBox x:Name="ApoyosTotales" HorizontalAlignment="Left" Height="23" Margin="153,152,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" IsEnabled="False" TextAlignment="Center"/>
                 <Label Content="Apoyos totales:" HorizontalAlignment="Left" Margin="10,149,0,0" VerticalAlignment="Top"/>
                 <Button x:Name="ModificarDatosBoton" Content="Modificar Datos" HorizontalAlignment="Left" Margin="622,292,0,0" VerticalAlignment="Top" Width="93" Click="IntroducirDatosApoyo" IsEnabled="False"/>
@@ -95,32 +95,32 @@
                 <TextBox x:Name="NumeroApoyo" HorizontalAlignment="Left" Height="23" Margin="611,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32" IsEnabled="False" TextAlignment="Center"/>
                 <Label Content="Nombre:" HorizontalAlignment="Left" Margin="653,14,0,0" VerticalAlignment="Top"/>
                 <TextBox x:Name="NombreApoyo" HorizontalAlignment="Left" Height="23" Margin="708,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32" TextAlignment="Center"/>
-                <Label Content="Coordenada en eje X:" HorizontalAlignment="Left" Margin="555,68,0,0" VerticalAlignment="Top"/>
+                <Label Content="Coordenada en eje X:" HorizontalAlignment="Left" Margin="529,68,0,0" VerticalAlignment="Top"/>
                 <Label Content="m" HorizontalAlignment="Left" Margin="720,68,0,0" VerticalAlignment="Top"/>
-                <Label Content="Coordenada en eje Y:" HorizontalAlignment="Left" Margin="555,94,0,0" VerticalAlignment="Top"/>
+                <Label Content="Coordenada en eje Y:" HorizontalAlignment="Left" Margin="529,94,0,0" VerticalAlignment="Top"/>
                 <Label Content="m" HorizontalAlignment="Left" Margin="720,94,0,0" VerticalAlignment="Top"/>
-                <Label Content="Carga (Z):" HorizontalAlignment="Left" Margin="614,40,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="CargaApoyo" HorizontalAlignment="Left" Height="23" Margin="683,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32" TextAlignment="Center" PreviewTextInput="NumericOnly"/>
-                <TextBox x:Name="CoordXApoyo" HorizontalAlignment="Left" Height="23" Margin="683,71,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32" TextAlignment="Center" PreviewTextInput="NumericOnly"/>
-                <TextBox x:Name="CoordYApoyo" HorizontalAlignment="Left" Height="23" Margin="683,97,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32" TextAlignment="Center" PreviewTextInput="NumericOnly"/>
+                <Label Content="Carga (Z):" HorizontalAlignment="Left" Margin="588,40,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="CargaApoyo" HorizontalAlignment="Left" Height="23" Margin="657,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="58" TextAlignment="Center" PreviewTextInput="NumericOnly"/>
+                <TextBox x:Name="CoordXApoyo" HorizontalAlignment="Left" Height="23" Margin="657,71,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="58" TextAlignment="Center" PreviewTextInput="NumericOnly"/>
+                <TextBox x:Name="CoordYApoyo" HorizontalAlignment="Left" Height="23" Margin="657,97,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="58" TextAlignment="Center" PreviewTextInput="NumericOnly"/>
                 <Label Content="Ton" HorizontalAlignment="Left" Margin="717,42,0,0" VerticalAlignment="Top"/>
-                <Label Content="Momento en Eje X:" HorizontalAlignment="Left" Margin="565,123,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="MtoEjeXApoyo" HorizontalAlignment="Left" Height="23" Margin="683,123,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32" TextAlignment="Center" PreviewTextInput="NumericOnly"/>
+                <Label Content="Momento en Eje X:" HorizontalAlignment="Left" Margin="539,123,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="MtoEjeXApoyo" HorizontalAlignment="Left" Height="23" Margin="657,123,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="58" TextAlignment="Center" PreviewTextInput="NumericOnly"/>
                 <Label Content="Ton-m" HorizontalAlignment="Left" Margin="717,120,0,0" VerticalAlignment="Top"/>
-                <Label Content="Momento en Eje Y:" HorizontalAlignment="Left" Margin="565,149,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="MtoEjeYApoyo" HorizontalAlignment="Left" Height="23" Margin="683,149,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32" TextAlignment="Center" PreviewTextInput="NumericOnly"/>
+                <Label Content="Momento en Eje Y:" HorizontalAlignment="Left" Margin="539,149,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="MtoEjeYApoyo" HorizontalAlignment="Left" Height="23" Margin="657,149,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="58" TextAlignment="Center" PreviewTextInput="NumericOnly"/>
                 <Label Content="Ton-m" HorizontalAlignment="Left" Margin="717,146,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="FBasalXApoyo" HorizontalAlignment="Left" Height="23" Margin="683,177,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32" TextAlignment="Center" PreviewTextInput="NumericOnly"/>
+                <TextBox x:Name="FBasalXApoyo" HorizontalAlignment="Left" Height="23" Margin="657,177,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="58" TextAlignment="Center" PreviewTextInput="NumericOnly"/>
                 <Label Content="Ton" HorizontalAlignment="Left" Margin="717,175,0,0" VerticalAlignment="Top"/>
-                <Label Content="Cortante Basal X:" HorizontalAlignment="Left" Margin="576,175,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="FBasalYApoyo" HorizontalAlignment="Left" Height="23" Margin="683,204,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32" TextAlignment="Center" PreviewTextInput="NumericOnly"/>
+                <Label Content="Cortante Basal X:" HorizontalAlignment="Left" Margin="550,175,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="FBasalYApoyo" HorizontalAlignment="Left" Height="23" Margin="657,204,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="58" TextAlignment="Center" PreviewTextInput="NumericOnly"/>
                 <Label Content="Ton" HorizontalAlignment="Left" Margin="714,199,0,0" VerticalAlignment="Top"/>
-                <Label Content="Cortante Basal Y:" HorizontalAlignment="Left" Margin="576,201,0,0" VerticalAlignment="Top"/>
-                <Label Content="Dimension Columna X:" HorizontalAlignment="Left" Margin="548,230,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="DimensionColumnaX" HorizontalAlignment="Left" Height="23" Margin="683,233,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32" TextAlignment="Center" PreviewTextInput="NumericOnly"/>
+                <Label Content="Cortante Basal Y:" HorizontalAlignment="Left" Margin="550,201,0,0" VerticalAlignment="Top"/>
+                <Label Content="Dimension Columna X:" HorizontalAlignment="Left" Margin="522,230,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="DimensionColumnaX" HorizontalAlignment="Left" Height="23" Margin="657,233,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="58" TextAlignment="Center" PreviewTextInput="NumericOnly"/>
                 <Label Content="cm" HorizontalAlignment="Left" Margin="720,230,0,0" VerticalAlignment="Top"/>
-                <Label Content="Dimension Columna Y:" HorizontalAlignment="Left" Margin="548,261,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="DimensionColumnaY" HorizontalAlignment="Left" Height="23" Margin="683,261,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32" TextAlignment="Center" PreviewTextInput="NumericOnly"/>
+                <Label Content="Dimension Columna Y:" HorizontalAlignment="Left" Margin="522,261,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="DimensionColumnaY" HorizontalAlignment="Left" Height="23" Margin="657,261,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="58" TextAlignment="Center" PreviewTextInput="NumericOnly"/>
                 <Label Content="cm" HorizontalAlignment="Left" Margin="720,261,0,0" VerticalAlignment="Top"/>
                 <Image HorizontalAlignment="Left" Height="100" Margin="45,184,0,0" VerticalAlignment="Top" Width="125" Source="imagenfundtool.jpg"/>
             </Grid>

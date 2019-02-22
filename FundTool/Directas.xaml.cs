@@ -381,16 +381,16 @@ namespace FundTool
             Button elboton = (Button)sender;
             int numero = Int32.Parse((String)elboton.Content);
             this.NombreApoyo.Text = this.apoyos[numero-1].Nombre;
-            this.CargaApoyo.Text = this.apoyos[numero-1].Carga.ToString("0.0");
-            this.NumeroApoyo.Text = this.apoyos[numero-1].Numero.ToString("0.0");
-            this.CoordXApoyo.Text = this.apoyos[numero-1].CoordEjeX.ToString("0.0");
-            this.CoordYApoyo.Text = this.apoyos[numero-1].CoordEjeY.ToString("0.0");
-            this.MtoEjeXApoyo.Text = this.apoyos[numero-1].MtoEnEjeX.ToString("0.0");
-            this.MtoEjeYApoyo.Text = this.apoyos[numero-1].MtoEnEjeY.ToString("0.0");
-            this.FBasalXApoyo.Text = this.apoyos[numero-1].FBasalX.ToString("0.0");
-            this.FBasalYApoyo.Text = this.apoyos[numero-1].FBasalY.ToString("0.0");
-            this.DimensionColumnaX.Text = this.apoyos[numero - 1].DimensionColumnaX.ToString("0.0");
-            this.DimensionColumnaY.Text = this.apoyos[numero - 1].DimensionColumnaY.ToString("0.0");
+            this.CargaApoyo.Text = this.apoyos[numero-1].Carga.ToString();
+            this.NumeroApoyo.Text = this.apoyos[numero-1].Numero.ToString();
+            this.CoordXApoyo.Text = this.apoyos[numero-1].CoordEjeX.ToString();
+            this.CoordYApoyo.Text = this.apoyos[numero-1].CoordEjeY.ToString();
+            this.MtoEjeXApoyo.Text = this.apoyos[numero-1].MtoEnEjeX.ToString();
+            this.MtoEjeYApoyo.Text = this.apoyos[numero-1].MtoEnEjeY.ToString();
+            this.FBasalXApoyo.Text = this.apoyos[numero-1].FBasalX.ToString();
+            this.FBasalYApoyo.Text = this.apoyos[numero-1].FBasalY.ToString();
+            this.DimensionColumnaX.Text = this.apoyos[numero - 1].DimensionColumnaX.ToString();
+            this.DimensionColumnaY.Text = this.apoyos[numero - 1].DimensionColumnaY.ToString();
         }
 
         private void IntroducirDatosApoyo(object sender, RoutedEventArgs e)
@@ -409,7 +409,7 @@ namespace FundTool
                 this.apoyos[numero - 1].FBasalX = (double)Convert.ToDouble(this.FBasalXApoyo.Text);
                 this.apoyos[numero - 1].FBasalY = (double)Convert.ToDouble(this.FBasalYApoyo.Text);
                 this.apoyos[numero - 1].DimensionColumnaX = (double)Convert.ToDouble(this.DimensionColumnaX.Text);
-                this.apoyos[numero - 1].DimensionColumnaY = (double)Convert.ToDouble(this.DimensionColumnaX.Text);
+                this.apoyos[numero - 1].DimensionColumnaY = (double)Convert.ToDouble(this.DimensionColumnaY.Text);
                 MessageBox.Show("Se introdujeron los datos correctamente.");
             }
             else

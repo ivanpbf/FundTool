@@ -88,11 +88,11 @@ namespace FundTool
                             }
                             using(columna[i] = new Polyline())
                             {
-                                columna[i].AddVertexAt(0, new Point2d(apoyos[i].ColumnaV1X/10, apoyos[i].ColumnaV1Y/10), 0, 0, 0);
-                                columna[i].AddVertexAt(1, new Point2d(apoyos[i].ColumnaV2X/10, apoyos[i].ColumnaV2Y/10), 0, 0, 0);
-                                columna[i].AddVertexAt(2, new Point2d(apoyos[i].ColumnaV4X/10, apoyos[i].ColumnaV4Y/10), 0, 0, 0);
-                                columna[i].AddVertexAt(3, new Point2d(apoyos[i].ColumnaV3X/10, apoyos[i].ColumnaV3Y/10), 0, 0, 0);
-                                columna[i].AddVertexAt(4, new Point2d(apoyos[i].ColumnaV1X/10, apoyos[i].ColumnaV1Y/10), 0, 0, 0);
+                                columna[i].AddVertexAt(0, new Point2d(apoyos[i].ColumnaV1X, apoyos[i].ColumnaV1Y), 0, 0, 0);
+                                columna[i].AddVertexAt(1, new Point2d(apoyos[i].ColumnaV2X, apoyos[i].ColumnaV2Y), 0, 0, 0);
+                                columna[i].AddVertexAt(2, new Point2d(apoyos[i].ColumnaV4X, apoyos[i].ColumnaV4Y), 0, 0, 0);
+                                columna[i].AddVertexAt(3, new Point2d(apoyos[i].ColumnaV3X, apoyos[i].ColumnaV3Y), 0, 0, 0);
+                                columna[i].AddVertexAt(4, new Point2d(apoyos[i].ColumnaV1X, apoyos[i].ColumnaV1Y), 0, 0, 0);
                                 // Add the new object to the block table record and the transaction
                                 acBlkTblRec.AppendEntity(columna[i]);
                                 acTrans.AddNewlyCreatedDBObject(columna[i], true);

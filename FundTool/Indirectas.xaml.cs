@@ -330,16 +330,16 @@ namespace FundTool
             Button elboton = (Button)sender;
             int numero = Int32.Parse((String)elboton.Content);
             this.NombreApoyo.Text = this.apoyos[numero - 1].Nombre;
-            this.CargaApoyo.Text = this.apoyos[numero - 1].Carga.ToString("0.0");
+            this.CargaApoyo.Text = this.apoyos[numero - 1].Carga.ToString();
             this.NumeroApoyo.Text = this.apoyos[numero - 1].Numero.ToString();
-            this.CoordXApoyo.Text = this.apoyos[numero - 1].CoordEjeX.ToString("0.0");
-            this.CoordYApoyo.Text = this.apoyos[numero - 1].CoordEjeY.ToString("0.0");
-            this.MtoEjeXApoyo.Text = this.apoyos[numero - 1].MtoEnEjeX.ToString("0.0");
-            this.MtoEjeYApoyo.Text = this.apoyos[numero - 1].MtoEnEjeY.ToString("0.0");
-            this.FBasalXApoyo.Text = this.apoyos[numero - 1].FBasalX.ToString("0.0");
-            this.FBasalYApoyo.Text = this.apoyos[numero - 1].FBasalY.ToString("0.0");
-            this.DimensionColumnaX.Text = this.apoyos[numero - 1].DimensionColumnaX.ToString("0.0");
-            this.DimensionColumnaY.Text = this.apoyos[numero - 1].DimensionColumnaY.ToString("0.0");
+            this.CoordXApoyo.Text = this.apoyos[numero - 1].CoordEjeX.ToString();
+            this.CoordYApoyo.Text = this.apoyos[numero - 1].CoordEjeY.ToString();
+            this.MtoEjeXApoyo.Text = this.apoyos[numero - 1].MtoEnEjeX.ToString();
+            this.MtoEjeYApoyo.Text = this.apoyos[numero - 1].MtoEnEjeY.ToString();
+            this.FBasalXApoyo.Text = this.apoyos[numero - 1].FBasalX.ToString();
+            this.FBasalYApoyo.Text = this.apoyos[numero - 1].FBasalY.ToString();
+            this.DimensionColumnaX.Text = this.apoyos[numero - 1].DimensionColumnaX.ToString();
+            this.DimensionColumnaY.Text = this.apoyos[numero - 1].DimensionColumnaY.ToString();
         }
 
         private void IntroducirDatosApoyo(object sender, RoutedEventArgs e)
@@ -358,7 +358,7 @@ namespace FundTool
                 this.apoyos[numero - 1].FBasalX = (double)Convert.ToDouble(this.FBasalXApoyo.Text);
                 this.apoyos[numero - 1].FBasalY = (double)Convert.ToDouble(this.FBasalYApoyo.Text);
                 this.apoyos[numero - 1].DimensionColumnaX = (double)Convert.ToDouble(this.DimensionColumnaX.Text);
-                this.apoyos[numero - 1].DimensionColumnaY = (double)Convert.ToDouble(this.DimensionColumnaX.Text);
+                this.apoyos[numero - 1].DimensionColumnaY = (double)Convert.ToDouble(this.DimensionColumnaY.Text);
 
 
                 //cambiar el nombre del boton
@@ -524,8 +524,8 @@ namespace FundTool
                 {
                     
                     double areapunta = (3.14159265358979) * Math.Pow((diametrosComerciales[j] / 2), 2);
-                    double areafuste = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)this.longitudPilote;
-                    double friccionnegativa = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)this.espesorRelleno * (double)this.coefFriccionRelleno;
+                    double areafuste = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)(this.longitudEfectiva*100);
+                    double friccionnegativa = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)(this.espesorRelleno*100) * (double)this.coefFriccionRelleno;
                     qadmisible = ((4 / 3) * (double)this.nsptpunta * (areapunta)) + ((4 / 600) * (double)nsptfuste * (areafuste)) - friccionnegativa;
                     areaAceroLongitudinal = (double)this.porcentajeAcero * areapunta;
                     qestructural = ((((double)this.resistenciaConcreto * (areapunta)) + (((double)this.resistenciaAcero) * areaAceroLongitudinal))) * 0.225;
@@ -685,12 +685,13 @@ namespace FundTool
                     r4 = (cohesionPromedio / (Math.Tan(anguloPromedio))) * (s2 - 1);
                     r5 = cohesionPromedio * (4 * longitudEfectiva) * (s5primado / (diametrosComerciales[j] / 100));
                     double areapunta = (3.14159265358979) * Math.Pow((diametrosComerciales[j] / 2), 2);
-                    double areafuste = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)this.longitudPilote;
-                    double friccionnegativa = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)this.espesorRelleno * (double)this.coefFriccionRelleno;
+                    double areafuste = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)(this.longitudEfectiva*100);
+                    double friccionnegativa = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)(this.espesorRelleno*100) * (double)this.coefFriccionRelleno;
                     areaAceroLongitudinal = (double)this.porcentajeAcero * areapunta;
                     qadmisible = (double)(((r1 + r2 + r3 + r4 + r5) * areapunta) / 4) - friccionnegativa;
                     qestructural = 0.225 * (((double)this.resistenciaConcreto * (areapunta)) + ((double)this.resistenciaAcero) * areaAceroLongitudinal);
                     qadmisible = qadmisible / 1000; //convirtiendo a toneladas
+                    qadmisible = qadmisible * numeropilotes;
                     qestructural = qestructural / 1000; //convirtiendo a toneladas
                                                         //convertimos diametro a metros:
                     double aux = this.diametrosComerciales[j] / 100;
@@ -982,14 +983,14 @@ namespace FundTool
         public void PosicionPilotes(int cantPil, int i)
         {
             //ademas buscamos la posicion de la columna
-            this.apoyos[i].ColumnaV1X = this.apoyos[i].CoordEjeX - this.apoyos[i].DimensionColumnaX / 20;
-            this.apoyos[i].ColumnaV1Y = this.apoyos[i].CoordEjeY + this.apoyos[i].DimensionColumnaY / 20;
-            this.apoyos[i].ColumnaV2X = this.apoyos[i].CoordEjeX + this.apoyos[i].DimensionColumnaX / 20;
-            this.apoyos[i].ColumnaV2Y = this.apoyos[i].CoordEjeY + this.apoyos[i].DimensionColumnaY / 20;
-            this.apoyos[i].ColumnaV3X = this.apoyos[i].CoordEjeX - this.apoyos[i].DimensionColumnaX / 20;
-            this.apoyos[i].ColumnaV3Y = this.apoyos[i].CoordEjeY - this.apoyos[i].DimensionColumnaY / 20;
-            this.apoyos[i].ColumnaV4X = this.apoyos[i].CoordEjeX + this.apoyos[i].DimensionColumnaX / 20;
-            this.apoyos[i].ColumnaV4Y = this.apoyos[i].CoordEjeY - this.apoyos[i].DimensionColumnaY / 20;
+            this.apoyos[i].ColumnaV1X = this.apoyos[i].CoordEjeX - this.apoyos[i].DimensionColumnaX / 200;
+            this.apoyos[i].ColumnaV1Y = this.apoyos[i].CoordEjeY + this.apoyos[i].DimensionColumnaY / 200;
+            this.apoyos[i].ColumnaV2X = this.apoyos[i].CoordEjeX + this.apoyos[i].DimensionColumnaX / 200;
+            this.apoyos[i].ColumnaV2Y = this.apoyos[i].CoordEjeY + this.apoyos[i].DimensionColumnaY / 200;
+            this.apoyos[i].ColumnaV3X = this.apoyos[i].CoordEjeX - this.apoyos[i].DimensionColumnaX / 200;
+            this.apoyos[i].ColumnaV3Y = this.apoyos[i].CoordEjeY - this.apoyos[i].DimensionColumnaY / 200;
+            this.apoyos[i].ColumnaV4X = this.apoyos[i].CoordEjeX + this.apoyos[i].DimensionColumnaX / 200;
+            this.apoyos[i].ColumnaV4Y = this.apoyos[i].CoordEjeY - this.apoyos[i].DimensionColumnaY / 200;
             MessageBox.Show("columna " + this.apoyos[i].DimensionColumnaX + " vertice 1 " + this.apoyos[i].ColumnaV1X + " " + this.apoyos[i].ColumnaV1Y);
             this.apoyos[i].DiametroPilotes = this.apoyos[i].DiametroPilotes / 100; //por motivos de calculo
             this.apoyos[i].DistanciaMinimaEntrePilotes = this.apoyos[i].DistanciaMinimaEntrePilotes / 100; // por motivos de calculo
@@ -1009,10 +1010,10 @@ namespace FundTool
                         this.apoyos[i].Vertice4Y = this.apoyos[i].CoordEjeY - k;
                     break;
                     case 2:
-                        this.apoyos[i].Pilotes[0].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
+                        this.apoyos[i].Pilotes[0].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes/2);
                         this.apoyos[i].Vertice1X = this.apoyos[i].Pilotes[0].PosicionX - k;
                         this.apoyos[i].Vertice3X = this.apoyos[i].Pilotes[0].PosicionX - k;
-                        this.apoyos[i].Pilotes[1].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes);
+                        this.apoyos[i].Pilotes[1].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes/2);
                         this.apoyos[i].Vertice2X = this.apoyos[i].Pilotes[1].PosicionX + k;
                         this.apoyos[i].Vertice4X = this.apoyos[i].Pilotes[1].PosicionX + k;
                         this.apoyos[i].Pilotes[0].PosicionY = this.apoyos[i].CoordEjeY;
