@@ -22,7 +22,8 @@ namespace FundTool
     /// </summary>
     public partial class Directas : Window
     {
-        public class MetroGolpe{
+        public class MetroGolpe
+        {
             public int Metro { get; set; }
             public int NumeroDeGolpes { get; set; }
         }
@@ -48,8 +49,27 @@ namespace FundTool
             public double Fcd { get; set; }
             public double Fqd { get; set; }
             public double Qultima { get; set; }
+            public double Qadmisible { get; set; }
             public double Esfuerzoefectivo { get; set; }
-            public Boolean ZapataConjunta { get; set; }
+            public Boolean ZapataConjuntaX { get; set; }
+            public Boolean ZapataConjuntaY { get; set; }
+            //tal vez aqui va lo de las dimensiones del cuadro
+            public double Vertice1X { get; set; }
+            public double Vertice1Y { get; set; }
+            public double Vertice2X { get; set; }
+            public double Vertice2Y { get; set; }
+            public double Vertice3X { get; set; }
+            public double Vertice3Y { get; set; }
+            public double Vertice4X { get; set; }
+            public double Vertice4Y { get; set; }
+            public double ColumnaV1X { get; set; }
+            public double ColumnaV1Y { get; set; }
+            public double ColumnaV2X { get; set; }
+            public double ColumnaV2Y { get; set; }
+            public double ColumnaV3X { get; set; }
+            public double ColumnaV3Y { get; set; }
+            public double ColumnaV4X { get; set; }
+            public double ColumnaV4Y { get; set; }
         }
         public class Estrato
         {
@@ -87,7 +107,7 @@ namespace FundTool
         public List<Apoyo> menoresApoyosX;
         public List<Apoyo> menoresApoyosY;
 
-        
+
 
 
         public Directas()
@@ -131,7 +151,7 @@ namespace FundTool
                 MessageBox.Show("Introduzca la Resistencia del Acero");
                 return;
             }
-       
+
         }
 
         private void CancelarMateriales(object sender, RoutedEventArgs e)
@@ -233,7 +253,7 @@ namespace FundTool
                 }
                 if ((Boolean)this.IntroducirSPT.IsChecked)
                 {
-                    if(!String.IsNullOrEmpty(this.ProfundidadEstudioSuelos.Text) && !String.IsNullOrEmpty(this.Asentamiento.Text) && this.introdujoGolpes)
+                    if (!String.IsNullOrEmpty(this.ProfundidadEstudioSuelos.Text) && !String.IsNullOrEmpty(this.Asentamiento.Text) && this.introdujoGolpes)
                     {
                         this.asentamiento = Convert.ToDouble(this.Asentamiento.Text);
                     }
@@ -254,7 +274,7 @@ namespace FundTool
 
         private void AgregarMetroyGolpe(object sender, RoutedEventArgs e)
         {
-             if(!String.IsNullOrEmpty(this.ProfundidadEstudioSuelos.Text) && !this.ProfundidadEstudioSuelos.Text.Equals(0))
+            if (!String.IsNullOrEmpty(this.ProfundidadEstudioSuelos.Text) && !this.ProfundidadEstudioSuelos.Text.Equals(0))
             {
                 int num = Int32.Parse(this.ProfundidadEstudioSuelos.Text);
                 this.golpesSuelo = new List<MetroGolpe>();
@@ -284,7 +304,7 @@ namespace FundTool
             for (int i = 0; i < this.golpesSuelo.Count; i++)
             {
                 TextBlock golpe = DataGridGolpes.Columns[1].GetCellContent(DataGridGolpes.Items[i]) as TextBlock;
-                if(golpe == null)
+                if (golpe == null)
                 {
                     MessageBox.Show("Alguno de los valores esta vacio, por favor introduzca un numero");
                     return;
@@ -321,26 +341,28 @@ namespace FundTool
                     apoyonuevo.DimensionColumnaX = (double)100;
                     apoyonuevo.DimensionColumnaY = (double)100;
                     apoyonuevo.Nombre = "A-" + apoyonuevo.Numero.ToString();
+                    apoyonuevo.ZapataConjuntaX = false;
+                    apoyonuevo.ZapataConjuntaY = false;
                     apoyos.Add(apoyonuevo);
                 }
                 this.ApoyosTotales.Text = apoyos.Count().ToString();
                 //agregando columnas
-                for (int i = 0; i < (numerox*2)-1; i++)
+                for (int i = 0; i < (numerox * 2) - 1; i++)
                 {
                     ColumnDefinition gridcol = new ColumnDefinition();
                     GridApoyos.ColumnDefinitions.Add(gridcol);
                 }
                 //agregando filas
-                for (int i = 0; i < (numeroy*2)-1; i++)
+                for (int i = 0; i < (numeroy * 2) - 1; i++)
                 {
                     RowDefinition gridro = new RowDefinition();
                     GridApoyos.RowDefinitions.Add(gridro);
                 }
                 //agregando botones
                 int aux = 1;
-                for (int j = 0; j < (numeroy*2)-1; j++)
+                for (int j = 0; j < (numeroy * 2) - 1; j++)
                 {
-                    for (int i = 0; i < (numerox*2)-1; i++)
+                    for (int i = 0; i < (numerox * 2) - 1; i++)
                     {
                         Button boton = new Button();
                         boton.Content = "";
@@ -360,7 +382,7 @@ namespace FundTool
                                 boton.Click += new RoutedEventHandler(this.BuscarApoyo);
                                 aux++;
                             }
-                        }  
+                        }
                         Grid.SetRow(boton, j);
                         Grid.SetColumn(boton, i);
                         GridApoyos.Children.Add(boton);
@@ -380,15 +402,15 @@ namespace FundTool
         {
             Button elboton = (Button)sender;
             int numero = Int32.Parse((String)elboton.Content);
-            this.NombreApoyo.Text = this.apoyos[numero-1].Nombre;
-            this.CargaApoyo.Text = this.apoyos[numero-1].Carga.ToString();
-            this.NumeroApoyo.Text = this.apoyos[numero-1].Numero.ToString();
-            this.CoordXApoyo.Text = this.apoyos[numero-1].CoordEjeX.ToString();
-            this.CoordYApoyo.Text = this.apoyos[numero-1].CoordEjeY.ToString();
-            this.MtoEjeXApoyo.Text = this.apoyos[numero-1].MtoEnEjeX.ToString();
-            this.MtoEjeYApoyo.Text = this.apoyos[numero-1].MtoEnEjeY.ToString();
-            this.FBasalXApoyo.Text = this.apoyos[numero-1].FBasalX.ToString();
-            this.FBasalYApoyo.Text = this.apoyos[numero-1].FBasalY.ToString();
+            this.NombreApoyo.Text = this.apoyos[numero - 1].Nombre;
+            this.CargaApoyo.Text = this.apoyos[numero - 1].Carga.ToString();
+            this.NumeroApoyo.Text = this.apoyos[numero - 1].Numero.ToString();
+            this.CoordXApoyo.Text = this.apoyos[numero - 1].CoordEjeX.ToString();
+            this.CoordYApoyo.Text = this.apoyos[numero - 1].CoordEjeY.ToString();
+            this.MtoEjeXApoyo.Text = this.apoyos[numero - 1].MtoEnEjeX.ToString();
+            this.MtoEjeYApoyo.Text = this.apoyos[numero - 1].MtoEnEjeY.ToString();
+            this.FBasalXApoyo.Text = this.apoyos[numero - 1].FBasalX.ToString();
+            this.FBasalYApoyo.Text = this.apoyos[numero - 1].FBasalY.ToString();
             this.DimensionColumnaX.Text = this.apoyos[numero - 1].DimensionColumnaX.ToString();
             this.DimensionColumnaY.Text = this.apoyos[numero - 1].DimensionColumnaY.ToString();
         }
@@ -518,15 +540,259 @@ namespace FundTool
                 this.apoyos[i].B = Math.Sqrt(this.apoyos[i].AreaZapata);
                 //verificaciones
             }
-            for (int i = 0; i < this.apoyos.Count-1; i++)
+            for (int i = 0; i < this.apoyos.Count - 1; i++)
             {
-                if(this.apoyos[i].CoordEjeY == this.apoyos[i + 1].CoordEjeY)
+
+                if (this.apoyos.Count > 1)
                 {
-                    double distancia1 = this.apoyos[i].CoordEjeX + (this.apoyos[i].B / 2);
-                    double distancia2 = this.apoyos[i].CoordEjeX - (this.apoyos[i].B / 2);
+
+                    for (int k = i + 1; k <= this.apoyos.Count; k++)
+                    {
+                        int j = 0;
+                        //todo esto para X
+                        if (this.apoyos[i].CoordEjeX == this.apoyos[k].CoordEjeX && !this.apoyos[i].ZapataConjuntaY && !this.apoyos[i].ZapataConjuntaY)
+                        {
+                            j = k;
+                            CombinandoZapatasX(i, j);
+                            break;
+                        }
+                        else if (this.apoyos[i].CoordEjeY == this.apoyos[k].CoordEjeY && !this.apoyos[i].ZapataConjuntaX && !this.apoyos[i].ZapataConjuntaX)
+                        {
+                            j = k;
+                            CombinandoZapatasY(i, j);
+                            break;
+                        }
+                    }
+
                 }
             }
-            
-        } 
+        }
+
+        /*private void VerificacionAsentamiento()
+        {
+            if()
+        }*/
+
+        private void CombinandoZapatasX(int i, int j)
+        {
+            double distancia1 = 0;
+            double distancia2 = 0;
+            double superposicionbulbos = 0;
+            double distanciaEntreEllos;
+            //verificamos superposicion geometrica
+            distancia1 = this.apoyos[i].CoordEjeX + (this.apoyos[i].B / 2);
+            distancia2 = this.apoyos[j].CoordEjeX - (this.apoyos[i].B / 2);
+            distanciaEntreEllos = distancia1 - distancia2;
+            if (distanciaEntreEllos <= 0) //superposicion geometrica
+            {
+                this.apoyos[i].ZapataConjuntaX = true;
+                this.apoyos[j].ZapataConjuntaX = true;
+                return;
+            }
+            superposicionbulbos = (this.apoyos[i].B / 2) + (this.apoyos[j].B / 2) + ((this.apoyos[i].B / 2) * Math.Tan(30)) + ((this.apoyos[j].B / 2) * Math.Tan(30));
+            if (superposicionbulbos <= distanciaEntreEllos)
+            {
+                this.apoyos[i].ZapataConjuntaX = true;
+                this.apoyos[j].ZapataConjuntaX = true;
+                return;
+            }
+            double factorE1 = 0;
+            double sumatoriaMomentos1 = 0;
+            double factorE2 = 0;
+            double sumatoriaMomentos2 = 0;
+            //esto para X
+            sumatoriaMomentos1 = this.apoyos[i].MtoEnEjeY + this.empotramientoDF * this.apoyos[i].FBasalX;
+            sumatoriaMomentos2 = this.apoyos[j].MtoEnEjeY + this.empotramientoDF * this.apoyos[j].FBasalX;
+            factorE1 = (sumatoriaMomentos1) / (this.apoyos[i].Carga); // sumatoria v siendo la carga del apoyo
+            factorE2 = (sumatoriaMomentos2) / (this.apoyos[j].Carga);
+            double qmax1 = 0;
+            double qmin1 = 0;
+            double qmax2 = 0;
+            double qmin2 = 0;
+            double qadm1 = 0;
+            double qadm2 = 0;
+            qadm1 = this.apoyos[i].Qultima / 3; //3 siendo factor de seguridad
+            qadm2 = this.apoyos[j].Qultima / 3; //3 siendo factor de seguridad
+            if (factorE1 > this.apoyos[i].B / 6)
+            {
+                qmin1 = 0;
+                qmax1 = (this.apoyos[i].Carga / Math.Pow(this.apoyos[i].B, 2)) * (1 + (6 * (factorE1) / this.apoyos[i].B));
+            }
+            else
+            {
+                qmax1 = (this.apoyos[i].Carga / Math.Pow(this.apoyos[i].B, 2)) * (1 + (6 * (factorE1) / this.apoyos[i].B));
+                qmin1 = (this.apoyos[i].Carga / Math.Pow(this.apoyos[i].B, 2)) * (1 - (6 * (factorE1) / this.apoyos[i].B));
+            }
+            if (factorE2 > this.apoyos[j].B / 6)
+            {
+                qmin2 = 0;
+                qmax2 = (this.apoyos[j].Carga / Math.Pow(this.apoyos[j].B, 2)) * (1 + (6 * (factorE2) / this.apoyos[j].B));
+            }
+            else
+            {
+                qmax2 = (this.apoyos[j].Carga / Math.Pow(this.apoyos[j].B, 2)) * (1 + (6 * (factorE2) / this.apoyos[j].B));
+                qmin2 = (this.apoyos[j].Carga / Math.Pow(this.apoyos[j].B, 2)) * (1 - (6 * (factorE2) / this.apoyos[j].B));
+            }
+            double baux1 = this.apoyos[i].B;
+            double baux2 = this.apoyos[j].B;
+            if (qmax1 > qadm1)
+            {
+                double[] aux = new double[3];
+                aux = RepeticionPaso3(i, factorE1, qmin1, qmax1, qadm1, baux1);
+                baux1 = aux[0];
+                qmax1 = aux[1];
+                qmin1 = aux[2];
+            }
+            if (qmax2 > qadm2)
+            {
+                double[] aux = new double[3];
+                aux = RepeticionPaso3(j, factorE2, qmin2, qmax2, qadm2, baux2);
+                baux2 = aux[0];
+                qmax2 = aux[1];
+                qmin2 = aux[2];
+
+            }
+            //verificamos si se combinan 
+            if((qmax1 + qmin2)> qadm1)
+            {
+                this.apoyos[i].Qadmisible = qadm1;
+                this.apoyos[j].Qadmisible = qadm2;
+                // se combinaran
+                this.apoyos[i].ZapataConjuntaX = true;
+                this.apoyos[j].ZapataConjuntaX = true;
+                double L = this.apoyos[i].CoordEjeX - this.apoyos[j].CoordEjeX;
+                double Mpuntorojo = (-this.apoyos[i].Carga * (1 - this.apoyos[i].DimensionColumnaX * this.apoyos[i].DimensionColumnaY) - (this.apoyos[j].Carga * (1 + L)) +
+                    ((this.apoyos[i].Carga + this.apoyos[j].Carga) * ((L / 2) + 1))); //esto para que sirve? debe dar = 0?
+                double Ltotal = L + 2;
+                this.apoyos[i].B = (this.apoyos[i].Carga* 907.185) / (this.apoyos[i].Qadmisible* 907.185 * Ltotal); //907.185 es ton a kg
+                return;
+            }
+            else
+            {
+                return;  //no se combinan
+            }
+        }
+
+        private void CombinandoZapatasY(int i, int j)
+        {
+            double distancia1 = 0;
+            double distancia2 = 0;
+            double superposicionbulbos = 0;
+            double distanciaEntreEllos;
+            //verificamos superposicion geometrica
+            distancia1 = this.apoyos[i].CoordEjeY + (this.apoyos[i].B / 2);
+            distancia2 = this.apoyos[j].CoordEjeY - (this.apoyos[i].B / 2);
+            distanciaEntreEllos = distancia1 - distancia2;
+            if (distanciaEntreEllos <= 0) //superposicion geometrica
+            {
+                this.apoyos[i].ZapataConjuntaY = true;
+                this.apoyos[j].ZapataConjuntaY = true;
+                return;
+            }
+            superposicionbulbos = (this.apoyos[i].B / 2) + (this.apoyos[j].B / 2) + ((this.apoyos[i].B / 2) * Math.Tan(30)) + ((this.apoyos[j].B / 2) * Math.Tan(30));
+            if (superposicionbulbos <= distanciaEntreEllos)
+            {
+                this.apoyos[i].ZapataConjuntaY = true;
+                this.apoyos[j].ZapataConjuntaY = true;
+                return;
+            }
+            double factorE1 = 0;
+            double sumatoriaMomentos1 = 0;
+            double factorE2 = 0;
+            double sumatoriaMomentos2 = 0;
+            //esto para X
+            sumatoriaMomentos1 = this.apoyos[i].MtoEnEjeX + this.empotramientoDF * this.apoyos[i].FBasalY;
+            sumatoriaMomentos2 = this.apoyos[j].MtoEnEjeX + this.empotramientoDF * this.apoyos[j].FBasalY;
+            factorE1 = (sumatoriaMomentos1) / (this.apoyos[i].Carga); // sumatoria v siendo la carga del apoyo
+            factorE2 = (sumatoriaMomentos2) / (this.apoyos[j].Carga);
+            double qmax1 = 0;
+            double qmin1 = 0;
+            double qmax2 = 0;
+            double qmin2 = 0;
+            double qadm1 = 0;
+            double qadm2 = 0;
+            qadm1 = this.apoyos[i].Qultima / 3; //3 siendo factor de seguridad
+            qadm2 = this.apoyos[j].Qultima / 3; //3 siendo factor de seguridad
+            if (factorE1 > this.apoyos[i].B / 6)
+            {
+                qmin1 = 0;
+                qmax1 = (this.apoyos[i].Carga / Math.Pow(this.apoyos[i].B, 2)) * (1 + (6 * (factorE1) / this.apoyos[i].B));
+            }
+            else
+            {
+                qmax1 = (this.apoyos[i].Carga / Math.Pow(this.apoyos[i].B, 2)) * (1 + (6 * (factorE1) / this.apoyos[i].B));
+                qmin1 = (this.apoyos[i].Carga / Math.Pow(this.apoyos[i].B, 2)) * (1 - (6 * (factorE1) / this.apoyos[i].B));
+            }
+            if (factorE2 > this.apoyos[j].B / 6)
+            {
+                qmin2 = 0;
+                qmax2 = (this.apoyos[j].Carga / Math.Pow(this.apoyos[j].B, 2)) * (1 + (6 * (factorE2) / this.apoyos[j].B));
+            }
+            else
+            {
+                qmax2 = (this.apoyos[j].Carga / Math.Pow(this.apoyos[j].B, 2)) * (1 + (6 * (factorE2) / this.apoyos[j].B));
+                qmin2 = (this.apoyos[j].Carga / Math.Pow(this.apoyos[j].B, 2)) * (1 - (6 * (factorE2) / this.apoyos[j].B));
+            }
+            double baux1 = this.apoyos[i].B;
+            double baux2 = this.apoyos[j].B;
+            if (qmax1 > qadm1)
+            {
+                double[] aux = new double[3];
+                aux = RepeticionPaso3(i, factorE1, qmin1, qmax1, qadm1, baux1);
+                baux1 = aux[0];
+                qmax1 = aux[1];
+                qmin1 = aux[2];
+            }
+            if (qmax2 > qadm2)
+            {
+                double[] aux = new double[3];
+                aux = RepeticionPaso3(j, factorE2, qmin2, qmax2, qadm2, baux2);
+                baux2 = aux[0];
+                qmax2 = aux[1];
+                qmin2 = aux[2];
+
+            }
+            //verificamos si se combinan 
+            if ((qmax1 + qmin2) > qadm1)
+            {
+                this.apoyos[i].Qadmisible = qadm1;
+                this.apoyos[j].Qadmisible = qadm2;
+                // se combinaran
+                this.apoyos[i].ZapataConjuntaX = true;
+                this.apoyos[j].ZapataConjuntaX = true;
+                double L = this.apoyos[i].CoordEjeY - this.apoyos[j].CoordEjeY;
+                double Mpuntorojo = (-this.apoyos[i].Carga * (1 - this.apoyos[i].DimensionColumnaY * this.apoyos[i].DimensionColumnaX) - (this.apoyos[j].Carga * (1 + L)) +
+                    ((this.apoyos[i].Carga + this.apoyos[j].Carga) * ((L / 2) + 1))); //esto para que sirve? debe dar = 0?
+                double Ltotal = L + 2;
+                this.apoyos[i].B = (this.apoyos[i].Carga * 907.185) / (this.apoyos[i].Qadmisible * 907.185 * Ltotal); //907.185 es ton a kg
+                return;
+            }
+            else
+            {
+                return; //no se combinan
+            }
+        }
+
+        private double[] RepeticionPaso3(int i, double factorE1, double qmin1, double qmax1, double qadm1, double b) //revisando que qmax no sea mayor a qadm
+        {
+            b = b + 0.1;
+            if (factorE1 > b / 6)
+            {
+                qmin1 = 0;
+                qmax1 = (this.apoyos[i].Carga / Math.Pow(b, 2)) * (1 + (6 * (factorE1) / b));
+            }
+            else
+            {
+                qmax1 = (this.apoyos[i].Carga / Math.Pow(b, 2)) * (1 + (6 * (factorE1) / b));
+                qmin1 = (this.apoyos[i].Carga / Math.Pow(b, 2)) * (1 - (6 * (factorE1) / b));
+            }
+            if (qmax1 > qadm1)
+            {      
+                RepeticionPaso3(i, factorE1, qmin1, qmax1, qadm1, b);
+            }
+            double[] aux = new double[3] { b, qmax1, qmin1};
+            return aux;
+        }
     }
 }
+   

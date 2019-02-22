@@ -496,6 +496,9 @@ namespace FundTool
             double nsptfuste = new double();
             this.longitudEfectiva = this.longitudPilote - this.espesorRelleno;
             nsptfuste = 0;
+            double areapunta;
+            double areafuste;
+            double friccionnegativa;
             double? aPartirDe = this.espesorRelleno;
             for (int i = (int)aPartirDe; i <= this.golpesSuelo.Count; i++)
             {
@@ -514,8 +517,12 @@ namespace FundTool
                 int numeropilotes = new int();
                 double qadmisible = new double();
                 qadmisible = 0;
+                areapunta = 0;
+                areafuste = 0;
+                friccionnegativa = 0;
                 double ausar = new double(); //este va a ser el menor
                 double qestructural = new double();
+
                 qestructural = 0;
                 numeropilotes = 1;
                 
@@ -523,9 +530,9 @@ namespace FundTool
                 for (int j = 0; j < diametrosComerciales.Count; j++)
                 {
                     
-                    double areapunta = (3.14159265358979) * Math.Pow((diametrosComerciales[j] / 2), 2);
-                    double areafuste = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)(this.longitudEfectiva*100);
-                    double friccionnegativa = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)(this.espesorRelleno*100) * (double)this.coefFriccionRelleno;
+                    areapunta = (3.14159265358979) * Math.Pow((diametrosComerciales[j] / 2), 2);
+                    areafuste = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)(this.longitudEfectiva*100);
+                    friccionnegativa = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)(this.espesorRelleno*100) * (double)this.coefFriccionRelleno;
                     qadmisible = ((4 / 3) * (double)this.nsptpunta * (areapunta)) + ((4 / 600) * (double)nsptfuste * (areafuste)) - friccionnegativa;
                     areaAceroLongitudinal = (double)this.porcentajeAcero * areapunta;
                     qestructural = ((((double)this.resistenciaConcreto * (areapunta)) + (((double)this.resistenciaAcero) * areaAceroLongitudinal))) * 0.225;
@@ -569,7 +576,7 @@ namespace FundTool
                             this.apoyos[i].Qestructural = qestructural;
                             this.apoyos[i].DiametroPilotes = this.diametrosComerciales[j];
                             this.apoyos[i].Pilotes = new List<Pilote>();
-                            for (int k =0; k <= numeropilotes-1; k++)
+                            for (int k = 0; k <= numeropilotes - 1; k++)
                             {
                                 Pilote nuevos = new Pilote();
                                 nuevos.Diametro = this.diametrosComerciales[j];
@@ -582,12 +589,18 @@ namespace FundTool
                             else
                             {
                                 contador = 0;
+                                if (j == (diametrosComerciales.Count() - 1))
+                                {
+                                    j = -1;
+                                    numeropilotes = numeropilotes + 1;
+                                }
                             }
                         }
                         else if (j == (diametrosComerciales.Count() - 1))
                         {
                             j = -1;
                             numeropilotes = numeropilotes + 1;
+                            contador++;
                         }
                         else
                         {
@@ -604,6 +617,7 @@ namespace FundTool
                 }
                 this.apoyos[i].AceroLongitudinal = areaAceroLongitudinal;
                 //pendiente de los diametros comerciales
+                MessageBox.Show("apoyo " + this.apoyos[i].Nombre + " nsptpunta " + nsptpunta + " nsptfuste " + nsptfuste + " area de punta "+areapunta+" friccion negativa "+friccionnegativa+" area fuste"+areafuste);
                 MessageBox.Show("apoyo: " + this.apoyos[i].Nombre + " Numero de pilotes " + this.apoyos[i].Pilotes.Count() + " Qadmisible " + this.apoyos[i].Qadmisible + " Qestructural " + this.apoyos[i].Qestructural + " Qadmisible de grupo" + this.apoyos[i].QadmisibleGrupo + "carga del apoyo " + this.apoyos[i].Carga + " diametro " + this.apoyos[i].DiametroPilotes);
             }
         }
@@ -743,12 +757,18 @@ namespace FundTool
                             else
                             {
                                 contador = 0;
+                                if (j == (diametrosComerciales.Count() - 1))
+                                {
+                                    j = -1;
+                                    numeropilotes = numeropilotes + 1;
+                                }
                             }
                         }
                         else if (j == (diametrosComerciales.Count() - 1))
                         {
                             j = -1;
                             numeropilotes = numeropilotes + 1;
+                            contador++;
                         }
                         else
                         {
@@ -771,9 +791,9 @@ namespace FundTool
 
         public void CalcularAceroLongitudinal()
         {
-            List<int> opcionesDeAceroLongitudinal = new List<int>();
             for(int i = 0; i < apoyos.Count(); i++)
             {
+                List<int> opcionesDeAceroLongitudinal = new List<int>();
                 for (int j = 0; j < this.seccionTeorica.Count(); j++)
                 {
                     double aceroLongitudinal = this.apoyos[i].AceroLongitudinal / this.seccionTeorica[j];
