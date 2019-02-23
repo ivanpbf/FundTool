@@ -31,7 +31,6 @@ namespace FundTool
         public class Pilote
         {
             public double Diametro { get; set; }
-            public double Longitud { get; set; }
             public double AreaCabillas { get; set; }
             public double EspaciamientoCabillas { get; set; }
             public double CargaPilote { get; set; }
@@ -116,13 +115,8 @@ namespace FundTool
         public double longitudEfectiva;
         public double coefFriccionRelleno;
         public double porcentajeAcero;
-        public int numeroPilotes;
-        public double cohesionFuste;
-        public double cohesionPunta;
-        public double factorAdherencia;
         public int numeroEstratos;
         public double coefFriccion;
-        public int cantidadFundaciones;
         public Boolean introdujoGolpes;
         public List<Apoyo> apoyos;
         public List<Estrato> estratos;
@@ -533,7 +527,9 @@ namespace FundTool
                     areapunta = (3.14159265358979) * Math.Pow((diametrosComerciales[j] / 2), 2);
                     areafuste = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)(this.longitudEfectiva*100);
                     friccionnegativa = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)(this.espesorRelleno*100) * (double)this.coefFriccionRelleno;
-                    qadmisible = ((4 / 3) * (double)this.nsptpunta * (areapunta)) + ((4 / 600) * (double)nsptfuste * (areafuste)) - friccionnegativa;
+                    double a = ((4 / 3) * nsptpunta * areapunta);
+                    double b = (0.00666666666666666666666666666667) * nsptfuste * areafuste;
+                    qadmisible = a + b - friccionnegativa;
                     areaAceroLongitudinal = (double)this.porcentajeAcero * areapunta;
                     qestructural = ((((double)this.resistenciaConcreto * (areapunta)) + (((double)this.resistenciaAcero) * areaAceroLongitudinal))) * 0.225;
                     qadmisible = qadmisible / 1000; //convirtiendo a toneladas
@@ -566,6 +562,7 @@ namespace FundTool
                             }
                             if (CalculoConjuntoDePilotes(i, numeropilotes)) //ojo que el numero de pilotes hasta que se pongan, es auxiliar
                             {
+                                MessageBox.Show("qadmisible " + this.apoyos[i].Qadmisible + " (4/3)*nsptpunta*areapunta " + a + " (4/600)*nsptfuste*areafuste " + b + " friccion negativa " + friccionnegativa);
                                 break;
                             }
                         }
@@ -584,6 +581,7 @@ namespace FundTool
                             }
                             if (CalculoConjuntoDePilotes(i, numeropilotes))
                             {
+                                MessageBox.Show("qadmisible " + this.apoyos[i].Qadmisible + " (4/3)*nsptpunta*areapunta " + a + " (4/600)*nsptfuste*areafuste " + b + " friccion negativa " + friccionnegativa);
                                 break;
                             }
                             else
