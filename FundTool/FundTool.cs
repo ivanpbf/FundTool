@@ -25,6 +25,8 @@ namespace FundTool
         [CommandMethod("FundToolDirecta")]
         public static void GetInfoDirectas() {
             bool? oked = false;
+            Document acDoc = Application.DocumentManager.MdiActiveDocument;
+            Database acCurDb = acDoc.Database;
             /*object input1 = null;
             object input2 = null;*/
 
@@ -32,10 +34,60 @@ namespace FundTool
 
             oked = Application.ShowModalWindow(win);
             oked = true;
-            if (oked.HasValue && oked.Value) {
+            if (oked.HasValue && oked.Value)
+            {
+                Directas instance = (Directas)win;
+                List<Directas.Apoyo> apoyos;
+                if (instance.apoyos != null)
+                {
+                    apoyos = instance.apoyos;
 
+                    using (Transaction acTrans = acCurDb.TransactionManager.StartTransaction())
+                    {
+                        // Open the Block table for read
+                        BlockTable acBlkTbl;
+                        acBlkTbl = acTrans.GetObject(acCurDb.BlockTableId,
+                                                        OpenMode.ForRead) as BlockTable;
+
+                        // Open the Block table record Model space for write
+                        BlockTableRecord acBlkTblRec;
+                        acBlkTblRec = acTrans.GetObject(acBlkTbl[BlockTableRecord.ModelSpace],
+                                                        OpenMode.ForWrite) as BlockTableRecord;
+                        Polyline[] acPoly = new Polyline[apoyos.Count];
+                        Polyline[] columna = new Polyline[apoyos.Count];
+                        for (int i = 0; i < apoyos.Count; i++)
+                        {
+                            // Create a polyline with two segments (3 points)
+                            using (acPoly[i] = new Polyline())
+                            {
+                                acPoly[i].AddVertexAt(0, new Point2d(apoyos[i].Vertice1X, apoyos[i].Vertice1Y), 0, 0, 0);
+                                acPoly[i].AddVertexAt(1, new Point2d(apoyos[i].Vertice2X, apoyos[i].Vertice2Y), 0, 0, 0);
+                                acPoly[i].AddVertexAt(2, new Point2d(apoyos[i].Vertice4X, apoyos[i].Vertice4Y), 0, 0, 0);
+                                acPoly[i].AddVertexAt(3, new Point2d(apoyos[i].Vertice3X, apoyos[i].Vertice3Y), 0, 0, 0);
+                                acPoly[i].AddVertexAt(4, new Point2d(apoyos[i].Vertice1X, apoyos[i].Vertice1Y), 0, 0, 0);
+                                // Add the new object to the block table record and the transaction
+                                acBlkTblRec.AppendEntity(acPoly[i]);
+                                acTrans.AddNewlyCreatedDBObject(acPoly[i], true);
+                            }
+                            using (columna[i] = new Polyline())
+                            {
+                                columna[i].AddVertexAt(0, new Point2d(apoyos[i].ColumnaV1X, apoyos[i].ColumnaV1Y), 0, 0, 0);
+                                columna[i].AddVertexAt(1, new Point2d(apoyos[i].ColumnaV2X, apoyos[i].ColumnaV2Y), 0, 0, 0);
+                                columna[i].AddVertexAt(2, new Point2d(apoyos[i].ColumnaV4X, apoyos[i].ColumnaV4Y), 0, 0, 0);
+                                columna[i].AddVertexAt(3, new Point2d(apoyos[i].ColumnaV3X, apoyos[i].ColumnaV3Y), 0, 0, 0);
+                                columna[i].AddVertexAt(4, new Point2d(apoyos[i].ColumnaV1X, apoyos[i].ColumnaV1Y), 0, 0, 0);
+                                // Add the new object to the block table record and the transaction
+                                acBlkTblRec.AppendEntity(columna[i]);
+                                acTrans.AddNewlyCreatedDBObject(columna[i], true);
+                            }
+ 
+                        }
+                        acTrans.Commit();
+                    }
+
+                }
             }
-    }
+        }
 
         [CommandMethod("FundToolIndirecta")]
         public static void GetInfoIndirectas()

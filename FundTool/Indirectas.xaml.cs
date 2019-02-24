@@ -527,7 +527,7 @@ namespace FundTool
                     areapunta = (3.14159265358979) * Math.Pow((diametrosComerciales[j] / 2), 2);
                     areafuste = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)(this.longitudEfectiva*100);
                     friccionnegativa = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)(this.espesorRelleno*100) * (double)this.coefFriccionRelleno;
-                    double a = ((4 / 3) * nsptpunta * areapunta);
+                    double a = (1.3333333333333333333333333333333) * nsptpunta * areapunta;
                     double b = (0.00666666666666666666666666666667) * nsptfuste * areafuste;
                     qadmisible = a + b - friccionnegativa;
                     areaAceroLongitudinal = (double)this.porcentajeAcero * areapunta;
@@ -535,6 +535,7 @@ namespace FundTool
                     qadmisible = qadmisible / 1000; //convirtiendo a toneladas
                     qadmisible = qadmisible * numeropilotes;
                     qestructural = qestructural / 1000; //convirtiendo a toneladas
+                    qestructural = qestructural * numeropilotes;
                     //convertimos diametro a metros:
                     double aux = this.diametrosComerciales[j] / 100;
                     if (qadmisible < qestructural)
@@ -705,6 +706,7 @@ namespace FundTool
                     qadmisible = qadmisible / 1000; //convirtiendo a toneladas
                     qadmisible = qadmisible * numeropilotes;
                     qestructural = qestructural / 1000; //convirtiendo a toneladas
+                    qestructural = qestructural * numeropilotes;
                                                         //convertimos diametro a metros:
                     double aux = this.diametrosComerciales[j] / 100;
                     if (qadmisible < qestructural)
@@ -974,6 +976,7 @@ namespace FundTool
             else
             {
                 this.apoyos[i].Qadmisible = (double)(this.apoyos[i].Qadmisible) / (cantPil);
+                this.apoyos[i].Qestructural = (double)(this.apoyos[i].Qestructural) / (cantPil);
                 this.apoyos[i].GrosorCabezal = (e / 2.0) +  15; 
                 //MessageBox.Show("Grosor del cabezal (h) " + this.apoyos[i].GrosorCabezal);
                 double Ax = Tx / 2100;
