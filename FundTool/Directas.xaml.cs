@@ -639,7 +639,12 @@ namespace FundTool
                 }
                 else
                 {
-
+                    double CC = 0.009 * (limiteliquido - 10);
+                    double h = espesorEstratocohesivo; //hacer un for que busca el estrato despues del df+b
+                    double desde = this.empotramientoDF + this.apoyos[i].B;
+                    double p0 = this.apoyos[i].Carga;
+                    double gamapav = qmax; //:|
+                    this.apoyos[i].MaximoApoyo = (CC * h) / (1 + eo) * (Math.Log((p0 * gamapav) / p0));
                 }
             }
             
