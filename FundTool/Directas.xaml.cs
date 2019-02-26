@@ -121,12 +121,14 @@ namespace FundTool
         11.85, 13.20, 14.72, 16.44, 18.40, 20.63, 23.18, 26.09, 29.44, 33.3, 37.75, 42.92, 48.93, 55.96, 64.20, 73.90, 85.38, 99.02, 115.31, 134.88, 158.51, 187.21, 222.31, 265.51, 319.07};
         public List<double> NF = new List<double> {0.00, 0.077, 0.15, 0.24, 0.34, 0.45, 0.57, 0.71, 0.86, 1.03, 1.22, 1.44, 1.69, 1.97, 2.29, 2.65, 3.06, 3.53, 4.07, 4.68, 5.39, 6.20, 7.13, 8.20, 9.44, 10.88,
         12.54, 14.47, 16.72, 19.34, 22.40, 25.99, 30.22, 35.19, 41.06, 48.03, 56.31, 66.19, 78.03, 92.25, 109.41, 130.22, 155.55, 186.54, 224.64, 271.76, 330.35, 403.67, 496.01, 613.16, 762.89};
-        public List<Apoyo> menoresApoyosX;
-        public List<Apoyo> menoresApoyosY;
 
 
 
-
+        /// <summary>
+        /// Inicializacion de la ventana de Directas
+        /// 
+        /// Colapsa ciertos elementos del documento XAML para que se abran de manera que avanza el programa y el usuario
+        /// </summary>
         public Directas()
         {
             InitializeComponent();
@@ -138,18 +140,33 @@ namespace FundTool
 
         }
 
+        /// <summary>
+        /// Permite que los datos ingresados sean solo numeros y decimales
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
         private void NumericOnly(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("^[.][0-9]+$|^[0-9]*[.]{0,1}[0-9]*$");
             e.Handled = !regex.IsMatch((sender as TextBox).Text.Insert((sender as TextBox).SelectionStart, e.Text));
         }
 
+        /// <summary>
+        /// Permite que los datos ingresados sean solo numeros, decimales y negativos
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
         private void NumericNegativeDecimal(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex(@"^[-]?\d+(?:\.\d{0,2})?$");
             e.Handled = !regex.IsMatch((sender as TextBox).Text.Insert((sender as TextBox).SelectionStart, e.Text));
         }
 
+        /// <summary>
+        /// Acepta los materiales seleccionados por el usuario en la interfaz
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
         private void AceptarMateriales(object sender, RoutedEventArgs e)
         {
             if (!String.IsNullOrEmpty(this.ResistenciaConcreto.Text) && !String.IsNullOrEmpty(this.ResistenciaAcero.Text))
@@ -171,11 +188,22 @@ namespace FundTool
 
         }
 
+        /// <summary>
+        /// Cierra la ventana.
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
         private void CancelarMateriales(object sender, RoutedEventArgs e)
         {
             this.Close(); //cierra la ventana
         }
 
+        /// <summary>
+        /// Verifica que el suelo granular este elegido, de ser asi hace visible 
+        /// la parte de la interfaz sobre los datos del ensayo SPT
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
         private void Granular_Checked(object sender, RoutedEventArgs e)
         {
             if ((Boolean)Granular.IsChecked)
@@ -185,6 +213,12 @@ namespace FundTool
             }
         }
 
+        /// <summary>
+        /// Verifica que el suelo cohesivo este elegido, de ser asi hace invisible 
+        /// la parte de la interfaz sobre los datos del ensayo SPT
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
         private void Cohesivo_Checked(object sender, RoutedEventArgs e) 
         {
             if ((Boolean)Cohesivo.IsChecked)
@@ -197,7 +231,11 @@ namespace FundTool
             }
         }
 
-
+        /// <summary>
+        /// Se introducen los estratos que el usuario coloque en una lista de interfaz
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
         private void IntroducirEstratos(object sender, RoutedEventArgs e)
         {
             if (!String.IsNullOrEmpty(this.NroEstratos.Text) && !this.NroEstratos.Text.Equals("0"))
@@ -233,6 +271,11 @@ namespace FundTool
 
         }
 
+        /// <summary>
+        /// Acepta los datos seleccionados por el usuario respecto a los estratos
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
         private void IntroducirDatosEstratos(object sender, RoutedEventArgs e)
         {
             for (int i = 0; i < this.estratos.Count; i++)
@@ -254,6 +297,11 @@ namespace FundTool
             }
         }
 
+        /// <summary>
+        /// Se aceptan los datos relacionados atodo el suelo en base a las opciones marcadas
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
         private void IntrodujoDatosSuelo(object sender, RoutedEventArgs e)
         {
             if (!String.IsNullOrEmpty(this.AnguloFriccion.Text) && !String.IsNullOrEmpty(this.Cohesion.Text) && !String.IsNullOrEmpty(this.PesoEspecifico.Text)
@@ -311,6 +359,11 @@ namespace FundTool
             }
         }
 
+        /// <summary>
+        /// Agrega la cantidad de metros por golpe en una lista de la interfaz
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
         private void AgregarMetroyGolpe(object sender, RoutedEventArgs e)
         {
             if (!String.IsNullOrEmpty(this.ProfundidadEstudioSuelos.Text) && !this.ProfundidadEstudioSuelos.Text.Equals(0) && !String.IsNullOrEmpty(this.Asentamiento.Text))
@@ -338,6 +391,11 @@ namespace FundTool
             }
         }
 
+        /// <summary>
+        /// Acepta los datos de metro por golpe introducidos por el usuario
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
         private void AceptarMetroYGolpe(object sender, RoutedEventArgs e)
         {
             for (int i = 0; i < this.golpesSuelo.Count; i++)
@@ -354,6 +412,11 @@ namespace FundTool
             this.introdujoGolpes = true;
         }
 
+        /// <summary>
+        /// Introduce y crea los apoyos sin datos que seran usados por el usuario
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
         private void IntroducirApoyos(object sender, RoutedEventArgs e)
         {
             if (!String.IsNullOrEmpty(this.NroApoyosX.Text) && !this.NroApoyosX.Text.Equals("0") && !String.IsNullOrEmpty(this.NroApoyosY.Text) && !this.NroApoyosY.Text.Equals("0"))
@@ -437,6 +500,11 @@ namespace FundTool
             }
         }
 
+        /// <summary>
+        /// Busca el apoyo que el usuario selecciono en la interfaz
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
         private void BuscarApoyo(object sender, RoutedEventArgs e)
         {
             Button elboton = (Button)sender;
@@ -454,6 +522,11 @@ namespace FundTool
             this.DimensionColumnaY.Text = this.apoyos[numero - 1].DimensionColumnaY.ToString();
         }
 
+        /// <summary>
+        /// Acepta los datos modificados por el usuario sobre el apoyo seleccionado
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
         private void IntroducirDatosApoyo(object sender, RoutedEventArgs e)
         {
             if (!String.IsNullOrEmpty(this.NombreApoyo.Text) && !String.IsNullOrEmpty(this.CargaApoyo.Text) && !String.IsNullOrEmpty(this.CoordXApoyo.Text) && !String.IsNullOrEmpty(this.CoordYApoyo.Text)
@@ -480,12 +553,22 @@ namespace FundTool
             }
         }
 
+        /// <summary>
+        /// Genera una nueva parte en la interfaz identificando que ya el usuario introdujo los datos de las solicitaciones
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
         private void IntroducirDatosSolicitaciones(object sender, RoutedEventArgs e)
         {
             this.GridFinal.Visibility = Visibility.Visible;
         }
 
-
+        /// <summary>
+        /// El usuario indica que ya selecciono los datos relevantes y el programa 
+        /// seguira a hacer los calculos y metodos necesarios para finalizar ejecucion
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
         private void CompletarDirectas(object sender, RoutedEventArgs e)
         {
             if (this.falla == "local")
@@ -619,6 +702,9 @@ namespace FundTool
             FinalizarDirectas();
         }
 
+        /// <summary>
+        /// Para cada apoyo dimensionada genera el cabezal y luego procede a dibujar
+        /// </summary>
         public void FinalizarDirectas()
         {
             for(int i = 0; i < this.apoyos.Count; i++)
@@ -643,6 +729,9 @@ namespace FundTool
             }
         }
 
+        /// <summary>
+        /// Verificaciones que se hacen para saber si 2 o mas apoyos pueden estar conjuntos
+        /// </summary>
         public void VerificacionConjuntas()
         {
             for (int i = 0; i < this.apoyos.Count - 1; i++)
@@ -722,6 +811,13 @@ namespace FundTool
             }
         }
 
+        /// <summary>
+        /// Verificaciones del asentamiento de apoyos conjuntos
+        /// </summary>
+        /// <param name="i">Apoyo I</param>
+        /// <param name="j">Apoyo J</param>
+        /// <returns>Al verificar si el asentamiento esta correcto, retorna true
+        /// de lo contrario retorna false</returns>
         private Boolean VerificacionAsentamientoConjunto(int i, int j)
         {
             double conjunto = this.apoyos[i].MaximoApoyo - this.apoyos[j].MaximoApoyo;
@@ -740,7 +836,10 @@ namespace FundTool
 
         }
 
-
+        /// <summary>
+        /// Verifica que el asentamiento de un apoyo este correcto
+        /// </summary>
+        /// <param name="i">Apoyo I en la lista de apoyos</param>
         private void VerificacionAsentamiento(int i)
         {
             Boolean seCumple = false;
@@ -826,6 +925,12 @@ namespace FundTool
             
         }
 
+        /// <summary>
+        /// Si se cumple que 2 zapatas tienen la posibilidad de combinarse en direccion X, procede a hacer los calculos
+        /// y verificaciones necesarias
+        /// </summary>
+        /// <param name="i">Apoyo I en la lista de apoyos</param>
+        /// <param name="j">Apoyo J en la lista de apoyos</param>
         private void CombinandoZapatasX(int i, int j)
         {
             double distancia1 = 0;
@@ -935,6 +1040,12 @@ namespace FundTool
             }
         }
 
+        /// <summary>
+        /// Si se cumple que 2 zapatas tienen la posibilidad de combinarse en direccion Y, procede a hacer los calculos
+        /// y verificaciones necesarias
+        /// </summary>
+        /// <param name="i">Apoyo I en la lista de apoyos</param>
+        /// <param name="j">Apoyo J en la lista de apoyos</param>
         private void CombinandoZapatasY(int i, int j)
         {
             double distancia1 = 0;
@@ -1057,6 +1168,16 @@ namespace FundTool
             }
         }
 
+        /// <summary>
+        /// Repite el paso 3 de los pasos para combinar zapata, los nuevos valores seran retornados
+        /// </summary>
+        /// <param name="i">Apoyo I en la lista de apoyos</param>
+        /// <param name="factorE1">Factor E del apoyo</param>
+        /// <param name="qmin1">Q Minima del apoyo</param>
+        /// <param name="qmax1">Q maxima del apoyo</param>
+        /// <param name="qadm1">Q admisible del apoyo</param>
+        /// <param name="b">Valor de B del apoyo</param>
+        /// <returns>Nuevos valores que se calcularon se retornaran</returns>
         private double[] RepeticionPaso3(int i, double factorE1, double qmin1, double qmax1, double qadm1, double b) //revisando que qmax no sea mayor a qadm
         {
             b = b + 0.1;

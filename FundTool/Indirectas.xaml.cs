@@ -118,10 +118,15 @@ namespace FundTool
         public int numeroEstratos;
         public double coefFriccion;
         public Boolean introdujoGolpes;
+        public Boolean calculosCorrectos;
         public List<Apoyo> apoyos;
         public List<Estrato> estratos;
 
-
+        /// <summary>
+        /// Inicializacion de la ventana de Indirectas
+        /// 
+        /// Colapsa ciertos elementos del documento XAML para que se abran de manera que avanza el programa y el usuario
+        /// </summary>
         public Indirectas()
         {
             InitializeComponent();
@@ -133,6 +138,11 @@ namespace FundTool
 
         }
 
+        /// <summary>
+        /// Cambiar suelo elegido por el usuario
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
         private void CancelarSuelo(object sender, RoutedEventArgs e)
         {
             this.GranularGrid.Visibility = Visibility.Collapsed;
@@ -142,12 +152,22 @@ namespace FundTool
             this.Siguientes.IsEnabled = true;
         }
 
+        /// <summary>
+        /// Permite que los datos ingresados sean solo numeros y decimales
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
         private void NumericOnly(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("^[.][0-9]+$|^[0-9]*[.]{0,1}[0-9]*$");
             e.Handled = !regex.IsMatch((sender as TextBox).Text.Insert((sender as TextBox).SelectionStart, e.Text));
         }
 
+        /// <summary>
+        /// Acepta los materiales seleccionados por el usuario en la interfaz
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
         private void AceptarMateriales(object sender, RoutedEventArgs e)
         {
             if (!String.IsNullOrEmpty(this.ResistenciaConcreto.Text) && !String.IsNullOrEmpty(this.ResistenciaAcero.Text))
@@ -169,6 +189,11 @@ namespace FundTool
 
         }
 
+        /// <summary>
+        /// Cierra la ventana.
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
         private void CancelarMateriales(object sender, RoutedEventArgs e)
         {
             this.Close(); //cierra la ventana
@@ -201,6 +226,11 @@ namespace FundTool
             }
         }
 
+        /// <summary>
+        /// Agrega la cantidad de metros por golpe en una lista de la interfaz
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
         private void AgregarMetroyGolpe(object sender, RoutedEventArgs e)
         {
             if (!String.IsNullOrEmpty(this.ProfundidadEstudioSuelosG.Text) && !this.ProfundidadEstudioSuelosG.Text.Equals(0))
@@ -228,6 +258,11 @@ namespace FundTool
             }
         }
 
+        /// <summary>
+        /// Acepta los datos de metro por golpe introducidos por el usuario
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
         private void AceptarMetroYGolpe(object sender, RoutedEventArgs e)
         {
             ObservableCollection<MetroGolpe> obs = new ObservableCollection<MetroGolpe>();
@@ -238,6 +273,11 @@ namespace FundTool
             this.introdujoGolpes = true;
         }
 
+        /// <summary>
+        /// Introduce y crea los apoyos sin datos que seran usados por el usuario
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
         private void IntroducirApoyos(object sender, RoutedEventArgs e)
         {
             if (!String.IsNullOrEmpty(this.NroApoyosX.Text) && !this.NroApoyosX.Text.Equals("0") && !String.IsNullOrEmpty(this.NroApoyosY.Text) && !this.NroApoyosY.Text.Equals("0"))
@@ -319,6 +359,11 @@ namespace FundTool
             }
         }
 
+        /// <summary>
+        /// Busca el apoyo que el usuario selecciono en la interfaz
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
         private void BuscarApoyo(object sender, RoutedEventArgs e)
         {
             Button elboton = (Button)sender;
@@ -336,6 +381,11 @@ namespace FundTool
             this.DimensionColumnaY.Text = this.apoyos[numero - 1].DimensionColumnaY.ToString();
         }
 
+        /// <summary>
+        /// Acepta los datos modificados por el usuario sobre el apoyo seleccionado
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
         private void IntroducirDatosApoyo(object sender, RoutedEventArgs e)
         {
             if (!String.IsNullOrEmpty(this.NombreApoyo.Text) && !String.IsNullOrEmpty(this.CargaApoyo.Text) && !String.IsNullOrEmpty(this.CoordXApoyo.Text) && !String.IsNullOrEmpty(this.CoordYApoyo.Text)
@@ -365,11 +415,21 @@ namespace FundTool
             }
         }
 
+        /// <summary>
+        /// Genera una nueva parte en la interfaz identificando que ya el usuario introdujo los datos de las solicitaciones
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
         private void IntroducirDatosSolicitaciones(object sender, RoutedEventArgs e)
         {
             this.GridFinal.Visibility = Visibility.Visible;
         }
 
+        /// <summary>
+        /// Se aceptan los datos relacionados al suelo granular
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
         private void IntrodujoDatosSueloGranular(object sender, RoutedEventArgs e)
         {
             if (!String.IsNullOrEmpty(this.LongitudPiloteG.Text) && !String.IsNullOrEmpty(this.CoefFriccionRellenoG.Text) && !String.IsNullOrEmpty(this.PorcentajeAceroG.Text)
@@ -395,6 +455,11 @@ namespace FundTool
             }
         }
 
+        /// <summary>
+        /// Se introducen los estratos que el usuario coloque en una lista de interfaz
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
         private void IntroducirEstratos(object sender, RoutedEventArgs e)
         {
             if (!String.IsNullOrEmpty(this.NroEstratos.Text) && !this.NroEstratos.Text.Equals("0"))
@@ -428,6 +493,11 @@ namespace FundTool
 
         }
 
+        /// <summary>
+        /// Acepta los datos seleccionados por el usuario respecto a los estratos
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
         private void IntroducirDatosEstratos(object sender, RoutedEventArgs e)
         {
             for (int i = 0; i < this.estratos.Count; i++)
@@ -445,6 +515,11 @@ namespace FundTool
             }
         }
 
+        /// <summary>
+        /// Se aceptan los datos relacionados al suelo cohesivo
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
         private void IntrodujoDatosSueloGranularCohesivo(object sender, RoutedEventArgs e)
         {
             if (!String.IsNullOrEmpty(this.LongitudPiloteGC.Text) && !String.IsNullOrEmpty(this.LongitudRellenoGC.Text) &&
@@ -464,9 +539,15 @@ namespace FundTool
             }
         }
 
-
+        /// <summary>
+        /// El usuario indica que ya selecciono los datos relevantes y el programa 
+        /// seguira a hacer los calculos necesarios y finalizar ejecucion
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
         private void CompletarIndirectas(object sender, RoutedEventArgs e)
         {
+            calculosCorrectos = false;
             if (this.tipoDeSuelo == "Granular")
             {
                 CalculoPilotesGranular();
@@ -475,14 +556,21 @@ namespace FundTool
             {
                 CalculoPilotesCohesivo();
             }
-            CalcularAceroLongitudinal();
-            MessageBoxResult result = MessageBox.Show("Continuar con los parametros especificados?", "Finaliza", MessageBoxButton.OKCancel);
-            if(result == MessageBoxResult.OK)
+            if (calculosCorrectos)
             {
-                this.Close();
+                CalcularAceroLongitudinal();
+                MessageBoxResult result = MessageBox.Show("Continuar con los parametros especificados?", "Finaliza", MessageBoxButton.OKCancel);
+                if (result == MessageBoxResult.OK)
+                {
+                    this.Close();
+                }
             }
+            
         }
 
+        /// <summary>
+        /// Genera los datos de calculo de cantidad de pilotes para suelo Granular
+        /// </summary>
         public void CalculoPilotesGranular()
         {
             double areaAceroLongitudinal = new double();
@@ -619,51 +707,54 @@ namespace FundTool
                 MessageBox.Show("apoyo " + this.apoyos[i].Nombre + " nsptpunta " + nsptpunta + " nsptfuste " + nsptfuste + " area de punta "+areapunta+" friccion negativa "+friccionnegativa+" area fuste"+areafuste);
                 MessageBox.Show("apoyo: " + this.apoyos[i].Nombre + " Numero de pilotes " + this.apoyos[i].Pilotes.Count() + " Qadmisible " + this.apoyos[i].Qadmisible + " Qestructural " + this.apoyos[i].Qestructural + " Qadmisible de grupo" + this.apoyos[i].QadmisibleGrupo + "carga del apoyo " + this.apoyos[i].Carga + " diametro " + this.apoyos[i].DiametroPilotes);
             }
+            calculosCorrectos = true;
         }
 
-
+        /// <summary>
+        /// Genera los datos de calculo de cantidad de pilotes para suelo Cohesivo
+        /// </summary>
         public void CalculoPilotesCohesivo()
         {
             //peso angulo y cohesion de fuste: (valores primados)
             double areaAceroLongitudinal = new double();
-            double pesoPromedio = 0;
-            double anguloPromedio = 0;
-            double cohesionPromedio = 0;
+            double pesoPrimado = 0;
+            double anguloPrimado = 0;
+            double cohesionPrimado = 0;
             double espesorTotal = 0;
             this.longitudEfectiva = this.longitudPilote - this.espesorRelleno;
             for (int i = 0; i < this.estratos.Count(); i++)
             {
-                pesoPromedio = pesoPromedio + (this.estratos[i].Peso * this.estratos[i].Espesor);
-                anguloPromedio = anguloPromedio + (this.estratos[i].Angulo * this.estratos[i].Espesor);
-                cohesionPromedio = cohesionPromedio + (this.estratos[i].Cohesion * this.estratos[i].Espesor);
+                pesoPrimado = pesoPrimado + (this.estratos[i].Peso * this.estratos[i].Espesor);
+                anguloPrimado = anguloPrimado + (this.estratos[i].Angulo * this.estratos[i].Espesor);
+                cohesionPrimado = cohesionPrimado + (this.estratos[i].Cohesion * this.estratos[i].Espesor);
                 espesorTotal = espesorTotal + this.estratos[i].Espesor;
             }
             //verificaciones del angulo
-            anguloPromedio = anguloPromedio / this.estratos.Count();
-            cohesionPromedio = cohesionPromedio / this.estratos.Count();
-            pesoPromedio = pesoPromedio / this.estratos.Count();
+            anguloPrimado = anguloPrimado / espesorTotal;
+            cohesionPrimado = cohesionPrimado / espesorTotal;
+            pesoPrimado = pesoPrimado / espesorTotal;
             double s1;
             double s2;
             double s2primado;
             double s3primado;
             double s5primado;
-            if (anguloPromedio < 9)
+            if (anguloPrimado < 9)
             {
-                MessageBox.Show("El angulo promedio es de " + anguloPromedio + ", el terreno es muy debil.");
+                MessageBox.Show("El angulo promedio es de " + anguloPrimado + ", el terreno es muy debil.");
                 return;
             }
-            else if (anguloPromedio > 60)
+            else if (anguloPrimado > 60)
             {
-                MessageBox.Show("El angulo promedio es de " + anguloPromedio + ", el terreno es muy duro.");
+                MessageBox.Show("El angulo promedio es de " + anguloPrimado + ", el terreno es muy duro.");
                 return;
             }
             else
             {
-                int auxiliar = (int)anguloPromedio - 10;
-                s1 = 0.192 * (Math.Pow(Math.Tan(45 + (anguloPromedio / 2)), 2)) * ((Math.Pow(Math.E, 4.55 * Math.Tan(anguloPromedio))) - 1);
-                s2 = (Math.Pow(Math.Tan(45 + (anguloPromedio / 2)), 2)) * (Math.Pow(Math.E, Math.Tan(anguloPromedio)));
-                s2primado = 1 + (0.32 * Math.Pow(Math.Tan(anguloPromedio), 2));
-                s3primado = (Math.Tan(anguloPromedio)) * Math.Pow(Math.E, (19 / 30) * (Math.Tan(anguloPromedio)) * (4 + Math.Pow(Math.Tan(anguloPromedio), 2 / 3)));
+                int auxiliar = (int)anguloPrimado - 10;
+                s1 = 0.192 * (Math.Pow(Math.Tan(45 + (anguloPrimado / 2)), 2)) * ((Math.Pow(Math.E, 4.55 * Math.Tan(anguloPrimado))) - 1);
+                s2 = (Math.Pow(Math.Tan(45 + (anguloPrimado / 2)), 2)) * (Math.Pow(Math.E, Math.Tan(anguloPrimado)));
+                s2primado = 1 + (0.32 * Math.Pow(Math.Tan(anguloPrimado), 2));
+                s3primado = (Math.Tan(anguloPrimado)) * Math.Pow(Math.E, (19 / 30) * (Math.Tan(anguloPrimado)) * (4 + Math.Pow(Math.Tan(anguloPrimado), 2 / 3)));
                 s5primado = valoresS5[auxiliar];
 
             }
@@ -692,18 +783,19 @@ namespace FundTool
                 for (int j = 0; j < diametrosComerciales.Count; j++)
                 {
                     
-                    r1 = pesoPromedio * (diametrosComerciales[j] / 100) * (s1 / 4);
-                    r2 = pesoPromedio * longitudEfectiva * s2 * s2primado;
-                    r3 = pesoPromedio * (2 * (longitudEfectiva * longitudEfectiva)) * (s3primado / (diametrosComerciales[j] / 100));
-                    r4 = (cohesionPromedio / (Math.Tan(anguloPromedio))) * (s2 - 1);
-                    r5 = cohesionPromedio * (4 * longitudEfectiva) * (s5primado / (diametrosComerciales[j] / 100));
+                    r1 = pesoPrimado * (diametrosComerciales[j] / 100) * (s1 / 4);
+                    r2 = pesoPrimado * longitudEfectiva * s2 * s2primado;
+                    r3 = pesoPrimado * (2 * (longitudEfectiva * longitudEfectiva)) * (s3primado / (diametrosComerciales[j] / 100));
+                    r4 = (cohesionPrimado / (Math.Tan(anguloPrimado))) * (s2 - 1);
+                    r5 = cohesionPrimado * (4 * longitudEfectiva) * (s5primado / (diametrosComerciales[j] / 100));
                     double areapunta = (3.14159265358979) * Math.Pow((diametrosComerciales[j] / 2), 2);
                     double areafuste = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)(this.longitudEfectiva*100);
                     double friccionnegativa = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)(this.espesorRelleno*100) * (double)this.coefFriccionRelleno;
+                    friccionnegativa = friccionnegativa / 1000;
                     areaAceroLongitudinal = (double)this.porcentajeAcero * areapunta;
-                    qadmisible = (double)(((r1 + r2 + r3 + r4 + r5) * areapunta) / 4) - friccionnegativa;
+                    qadmisible = (double)(((r1 + r2 + r3 + r4 + r5) * (areapunta/10000)) / 4) - friccionnegativa;
                     qestructural = 0.225 * (((double)this.resistenciaConcreto * (areapunta)) + ((double)this.resistenciaAcero) * areaAceroLongitudinal);
-                    qadmisible = qadmisible / 1000; //convirtiendo a toneladas
+                    //qadmisible = qadmisible / 1000; creo que no hace falta convirtiendo a toneladas
                     qadmisible = qadmisible * numeropilotes;
                     qestructural = qestructural / 1000; //convirtiendo a toneladas
                     qestructural = qestructural * numeropilotes;
@@ -734,6 +826,7 @@ namespace FundTool
                             }
                             if (CalculoConjuntoDePilotes(i, numeropilotes)) //ojo que el numero de pilotes hasta que se pongan, es auxiliar
                             {
+                                MessageBox.Show("qadmisible "+qadmisible+" valores: r1 " + r1 + " r2 " + r2 + " r3 " + r3 + " r4 " + r4 + " r5 " + r5 + " areapunta/10000 " + (areapunta / 10000) + " friccion negativa " + friccionnegativa);
                                 break;
                             }
                         }
@@ -752,6 +845,7 @@ namespace FundTool
                             }
                             if (CalculoConjuntoDePilotes(i, numeropilotes))
                             {
+                                MessageBox.Show("qadmisible valores: r1 " + r1 + " r2 " + r2 + " r3 " + r3 + " r4 " + r4 + " r5 " + r5 + " areapunta/10000 " + (areapunta / 10000) + " friccion negativa " + friccionnegativa);
                                 break;
                             }
                             else
@@ -787,8 +881,12 @@ namespace FundTool
                 //pendiente de los diametros comerciales
                 MessageBox.Show("apoyo: " + this.apoyos[i].Nombre + " Numero de pilotes " + this.apoyos[i].Pilotes.Count() + " Qadmisible " + this.apoyos[i].Qadmisible + " Qestructural " + this.apoyos[i].Qestructural + " Qadmisible de grupo" + this.apoyos[i].QadmisibleGrupo + "carga del apoyo " + this.apoyos[i].Carga + " diametro " + this.apoyos[i].DiametroPilotes);
             }
+            calculosCorrectos = true;
         }
 
+        /// <summary>
+        /// Genera las opciones de acero longitudinal para que el usuario luego elija en una nueva ventana.
+        /// </summary>
         public void CalcularAceroLongitudinal()
         {
             for(int i = 0; i < apoyos.Count(); i++)
@@ -826,13 +924,20 @@ namespace FundTool
             
         }
 
+        /// <summary>
+        /// Calcula la carga admisible de grupo de pilotes
+        /// </summary>
+        /// <param name="i">Posicion del apoyo en lista de apoyos</param>
+        /// <param name="cantPil">Cantidad de pilotes hasta el momento del apoyo</param>
+        /// <returns>Si los calculos fueron correctos y se verifica la condicion de conjunto de pilotes, retorna true
+        /// sino, retorna false</returns>
         public Boolean CalculoConjuntoDePilotes(int i, int cantPil) //posicion del apoyo
         {
         int m = 0; //filas
         int n = 0; //columnas
         double Tx = 0;
         double Ty = 0;
-        double P = this.apoyos[i].Carga/0.00110231; //p = carga z
+        double P = (double)this.apoyos[i].Carga/0.00110231; //p = carga z
         double e = 2.5 * this.apoyos[i].DiametroPilotes; //distancia centro a centro de pilote
         double d = e/2; //altura util del cabezal
         double a; //ancho de la columna que llega al cabezal
@@ -844,8 +949,6 @@ namespace FundTool
             {
                 a = this.apoyos[i].DimensionColumnaX;
             }
-        double longitudX = 0;
-        double longitudY = 0;
         switch (cantPil)
             {
                 case 1:
@@ -853,16 +956,12 @@ namespace FundTool
                     n = 1;
                     Tx = P;
                     Ty = Tx;
-                    longitudX = this.apoyos[i].DiametroPilotes + 0.30;
-                    longitudY = longitudX;
                     break;
                 case 2:
                     m = 1;
                     n = 2;
                     Tx = (P * (2 * e - a)) / (8 * d);
                     Ty = Tx;
-                    longitudX = e + 2 * (this.apoyos[i].DiametroPilotes/2)+0.30;
-                    longitudY = this.apoyos[i].DiametroPilotes + 0.30;
                     break;
                 case 3:
                     n = 1;
@@ -877,16 +976,12 @@ namespace FundTool
                     m = 2;
                     Tx = (P*(2*e-a))/(8*d);
                     Ty = Tx;
-                    longitudX = e + 2 * (this.apoyos[i].DiametroPilotes / 2) + 0.30;
-                    longitudY = longitudX;
                     break;
                 case 5:
                     n = 3;
                     m = 2;
                     Tx = (P*(2*e-a))/ (10*d);
                     Ty = Tx;
-                    longitudX = e + 2 * (this.apoyos[i].DiametroPilotes / 2) + 0.30;
-                    longitudY = longitudX;
                     break;
                 case 6:
                     n = 4;
@@ -907,16 +1002,12 @@ namespace FundTool
                     m = 3;
                     Tx = (5*P*e)/(16*d);
                     Ty = (3*Math.Tan(3)*P*e)/(16*d);
-                    longitudX = 2*e + 2 * (this.apoyos[i].DiametroPilotes / 2) + 0.30;
-                    longitudY = e * Math.Sqrt(3) + 2 * (this.apoyos[i].DiametroPilotes / 2) + 0.30;
                     break;
                 case 9:
                     n = 3;
                     m = 3;
                     Tx = (Math.Sqrt(2)*P*e)/(6*d);
                     Ty = Tx;
-                    longitudX = 2*e + 2 * (this.apoyos[i].DiametroPilotes / 2) + 0.30;
-                    longitudY = longitudX;
                     break;
                 case 10:
                     n = 5;
@@ -930,16 +1021,12 @@ namespace FundTool
                     m = 3;
                     Tx = (4 * P * e) / (11 * 2 * e);
                     Ty = (2 * Math.Sqrt(3) * P * e) / (11 * 2 * e);
-                    longitudX = 3 * e + 2 * (this.apoyos[i].DiametroPilotes / 2) + 0.30;
-                    longitudY = e * Math.Sqrt(3) + 2 * (this.apoyos[i].DiametroPilotes / 2) + 0.30;
                     break;
                 case 12:
                     n = 4;
                     m = 3;
                     Tx = (P * e) / (2 * 2.15 * e);
                     Ty = (5 * P * e) / (12 * 2.15 * e);
-                    longitudX = 3 * e + 2 * (this.apoyos[i].DiametroPilotes / 2) + 0.30;
-                    longitudY = 2 * e + 2 * (this.apoyos[i].DiametroPilotes / 2) + 0.30;
 
                     break;
                 default:
@@ -947,7 +1034,7 @@ namespace FundTool
                     {
                         //double resta = cantPil % 2;
                         MessageBox.Show("Demasiados pilotes, no se contempla el caso.");
-                        break;
+                        return false;
                         //mas tarde
                         //no esta programado todavia debido a M y N hay que idearnosla 
                         //recordar
@@ -955,18 +1042,11 @@ namespace FundTool
                     else
                     {
                         Console.Write("No entro al caso, imposible, 0 pilotes.");
+                        return false;
                     }
-                    break;
             }
-            if (cantPil == 1)
-            {
-                this.apoyos[i].Eficiencia = this.apoyos[i].Qadmisible;
-            }
-            else
-            {
-                double angulo = (double)(Math.Atan((this.apoyos[i].DiametroPilotes) / (e))) * 180.0 / Math.PI;
-                this.apoyos[i].Eficiencia = 1.0 - ((((n * (m - 1.0)) + (m * (n - 1))) / ((90.0 * m * n))) * (double)angulo);
-            }
+            double angulo = (double)(Math.Atan((this.apoyos[i].DiametroPilotes) / (e))) * 180.0 / Math.PI;
+            this.apoyos[i].Eficiencia = 1.0 - ((((n * (m - 1.0)) + (m * (n - 1))) / ((90.0 * m * n))) * (double)angulo);
             //entonces la q admisible de grupo sera
             this.apoyos[i].QadmisibleGrupo = this.apoyos[i].Qadmisible * this.apoyos[i].Eficiencia;
             if (this.apoyos[i].QadmisibleGrupo < this.apoyos[i].Carga)
@@ -1001,6 +1081,11 @@ namespace FundTool
             
         }
 
+        /// <summary>
+        /// Calcula la posicion donde se encuentran los pilotes dentro del apoyo y ademas busca los vertices del cabezal del apoyo
+        /// </summary>
+        /// <param name="cantPil">Cantidad de pilotes hasta el momento del apoyo</param>
+        /// <param name="i">Posicion del apoyo en lista de apoyos</param>
         public void PosicionPilotes(int cantPil, int i)
         {
             //ademas buscamos la posicion de la columna
@@ -1061,56 +1146,56 @@ namespace FundTool
                         this.apoyos[i].Vertice4Y = this.apoyos[i].Pilotes[2].PosicionY - k;
                     break;
                     case 4:
-                        this.apoyos[i].Pilotes[0].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
+                        this.apoyos[i].Pilotes[0].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes/2);
                         this.apoyos[i].Vertice1X = this.apoyos[i].Pilotes[0].PosicionX - k;
 
-                        this.apoyos[i].Pilotes[0].PosicionY = (this.apoyos[i].CoordEjeY) + (this.apoyos[i].DistanciaMinimaEntrePilotes);
+                        this.apoyos[i].Pilotes[0].PosicionY = (this.apoyos[i].CoordEjeY) + (this.apoyos[i].DistanciaMinimaEntrePilotes/2);
                         this.apoyos[i].Vertice1Y = this.apoyos[i].Pilotes[0].PosicionY + k;
 
-                        this.apoyos[i].Pilotes[1].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes);
+                        this.apoyos[i].Pilotes[1].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes/2);
                         this.apoyos[i].Vertice2X = this.apoyos[i].Pilotes[1].PosicionX + k;
 
-                        this.apoyos[i].Pilotes[1].PosicionY = (this.apoyos[i].CoordEjeY) + (this.apoyos[i].DistanciaMinimaEntrePilotes);
+                        this.apoyos[i].Pilotes[1].PosicionY = (this.apoyos[i].CoordEjeY) + (this.apoyos[i].DistanciaMinimaEntrePilotes/2);
                         this.apoyos[i].Vertice2Y = this.apoyos[i].Pilotes[1].PosicionY + k;
 
-                        this.apoyos[i].Pilotes[2].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
+                        this.apoyos[i].Pilotes[2].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes/2);
                         this.apoyos[i].Vertice3X = this.apoyos[i].Pilotes[2].PosicionX - k;
 
-                        this.apoyos[i].Pilotes[2].PosicionY = (this.apoyos[i].CoordEjeY) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
+                        this.apoyos[i].Pilotes[2].PosicionY = (this.apoyos[i].CoordEjeY) - (this.apoyos[i].DistanciaMinimaEntrePilotes/2);
                         this.apoyos[i].Vertice3Y = this.apoyos[i].Pilotes[2].PosicionY - k;
 
-                        this.apoyos[i].Pilotes[3].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes);
+                        this.apoyos[i].Pilotes[3].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes/2);
                         this.apoyos[i].Vertice4X = this.apoyos[i].Pilotes[3].PosicionX + k;
 
-                        this.apoyos[i].Pilotes[3].PosicionY = (this.apoyos[i].CoordEjeY) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
+                        this.apoyos[i].Pilotes[3].PosicionY = (this.apoyos[i].CoordEjeY) - (this.apoyos[i].DistanciaMinimaEntrePilotes/2);
                         this.apoyos[i].Vertice4Y = this.apoyos[i].Pilotes[3].PosicionY - k;
                     break;
                     case 5:
-                        this.apoyos[i].Pilotes[0].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
+                        this.apoyos[i].Pilotes[0].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes/2);
                         this.apoyos[i].Vertice1X = this.apoyos[i].Pilotes[0].PosicionX - k;
 
-                        this.apoyos[i].Pilotes[0].PosicionY = (this.apoyos[i].CoordEjeY) + (this.apoyos[i].DistanciaMinimaEntrePilotes);
+                        this.apoyos[i].Pilotes[0].PosicionY = (this.apoyos[i].CoordEjeY) + (this.apoyos[i].DistanciaMinimaEntrePilotes/2);
                         this.apoyos[i].Vertice1Y = this.apoyos[i].Pilotes[0].PosicionY + k;
 
-                        this.apoyos[i].Pilotes[1].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes);
+                        this.apoyos[i].Pilotes[1].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes/2);
                         this.apoyos[i].Vertice2X = this.apoyos[i].Pilotes[1].PosicionX + k;
 
-                        this.apoyos[i].Pilotes[1].PosicionY = (this.apoyos[i].CoordEjeY) + (this.apoyos[i].DistanciaMinimaEntrePilotes);
+                        this.apoyos[i].Pilotes[1].PosicionY = (this.apoyos[i].CoordEjeY) + (this.apoyos[i].DistanciaMinimaEntrePilotes/2);
                         this.apoyos[i].Vertice2Y = this.apoyos[i].Pilotes[1].PosicionY + k;
 
                         this.apoyos[i].Pilotes[2].PosicionX = (this.apoyos[i].CoordEjeX);
                         this.apoyos[i].Pilotes[2].PosicionY = (this.apoyos[i].CoordEjeY);
 
-                        this.apoyos[i].Pilotes[3].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
+                        this.apoyos[i].Pilotes[3].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes/2);
                         this.apoyos[i].Vertice3X = this.apoyos[i].Pilotes[3].PosicionX - k;
 
-                        this.apoyos[i].Pilotes[3].PosicionY = (this.apoyos[i].CoordEjeY) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
+                        this.apoyos[i].Pilotes[3].PosicionY = (this.apoyos[i].CoordEjeY) - (this.apoyos[i].DistanciaMinimaEntrePilotes/2);
                         this.apoyos[i].Vertice3Y = this.apoyos[i].Pilotes[3].PosicionY - k;
 
-                        this.apoyos[i].Pilotes[4].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes);
+                        this.apoyos[i].Pilotes[4].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes/2);
                         this.apoyos[i].Vertice4X = this.apoyos[i].Pilotes[4].PosicionX + k;
 
-                        this.apoyos[i].Pilotes[4].PosicionY = (this.apoyos[i].CoordEjeY) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
+                        this.apoyos[i].Pilotes[4].PosicionY = (this.apoyos[i].CoordEjeY) - (this.apoyos[i].DistanciaMinimaEntrePilotes/2);
                         this.apoyos[i].Vertice4Y = this.apoyos[i].Pilotes[4].PosicionY - k;
                     break;
                     case 6:
@@ -1360,6 +1445,12 @@ namespace FundTool
 
         }
 
+        /// <summary>
+        /// Calcula la carga individual de cada pilote en el apoyo i
+        /// </summary>
+        /// <param name="i">Posicion del apoyo en lista de apoyos</param>
+        /// <returns>Retorna true si se cumple que la carga del mayor pilote no es mayor a la carga admisible
+        /// Retorna false si no se cumple la condicion</returns>
         public Boolean CalculoCargaAdmisiblePilote(int i)
         {
                 double cargaActuante =(double) this.apoyos[i].Carga;

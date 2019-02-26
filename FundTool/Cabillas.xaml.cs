@@ -41,6 +41,13 @@ namespace FundTool
         public double seccionTeoricaopcion;
         public List<double> seccionTeorica;
 
+        /// <summary>
+        /// Crea e inicializa las componentes de la tabla de opciones de acero
+        /// </summary>
+        /// <param name="Opciones">Lista de numeros enteros de las opciones de numero de cabillas</param>
+        /// <param name="nombreApoyo">Nombre del apoyo para el cual se asignan las opciones</param>
+        /// <param name="Numero">Numero del apoyo</param>
+        /// <param name="secteor">Lista de valores de la seccion teorica anteriormente calculada en opciones de acero</param>
         public Cabillas(List<int> Opciones, String nombreApoyo, int Numero, List<double> secteor)
         {
             InitializeComponent();
@@ -59,6 +66,9 @@ namespace FundTool
             IniciarGrid();
         }
 
+        /// <summary>
+        /// Inserta los parametros calculados en el Grid de la ventana interfaz
+        /// </summary>
         public void IniciarGrid()
         {
             this.tabla = new List<Opcion>();
@@ -75,6 +85,11 @@ namespace FundTool
             this.GridOpciones.ItemsSource = tabla;
         }
 
+        /// <summary>
+        /// Acepta la seleccion que el usuario marca en cuanto a las opciones
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
         private void AceptarSeleccion(object sender, RoutedEventArgs e)
         {
             if (this.GridOpciones.SelectedItem == null)
@@ -92,21 +107,38 @@ namespace FundTool
             }
         }
 
+
+        /// <summary>
+        /// Get del diametro teorico seleccionado
+        /// </summary>
+        /// <returns>retorna el diametro teorico seleccionado</returns>
         public double DiametroTeoricoCM()
         {
             return diametroTeoricocm;
         }
 
+        /// <summary>
+        /// Get del numero de cabillas seleccionado
+        /// </summary>
+        /// <returns>retorna el numero de cabillas</returns>
         public int NumeroDeCabillas()
         {
             return numeroCabillas;
         }
 
+        /// <summary>
+        /// Get de la seccion teorica seleccionada
+        /// </summary>
+        /// <returns>retorna la seccion teorica seleccionada en la interfaz</returns>
         public double SeccionTeoricaEle()
         {
             return seccionTeoricaopcion;
         }
 
+        /// <summary>
+        /// Get del diametro teorico en pulgadas
+        /// </summary>
+        /// <returns>retorna un string del diametro teorico en pulgadas</returns>
         public String DiametroTeoricoPULG()
         {
             return diametroTeoricopulg;
