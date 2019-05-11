@@ -760,10 +760,10 @@ namespace FundTool
             {
                 int auxiliar = (int)anguloPrimado - 9;
                 double anguloRadianes = anguloPrimado * (Math.PI / 180);
-                s1 = (0.192) * (Math.Pow(Math.Tan((45 * Math.PI / 180) + (anguloRadianes / 2)), 2)) * ((Math.Pow(Math.E, 4.55 * Math.Tan(anguloPrimado))) - 1);
-                s2 = (Math.Pow(Math.Tan((45 * Math.PI / 180) + (anguloRadianes / 2)), 2)) * (Math.Pow(Math.E, Math.PI * Math.Tan(anguloPrimado)));
+                s1 = (0.192) * (Math.Pow(Math.Tan((45 * Math.PI / 180) + (anguloRadianes / 2)), 2)) * ((Math.Pow(Math.E, 4.55 * Math.Tan(anguloRadianes))) - 1);
+                s2 = (Math.Pow(Math.Tan((45 * Math.PI / 180) + (anguloRadianes / 2)), 2)) * (Math.Pow(Math.E, Math.PI * Math.Tan(anguloRadianes)));
                 s2primado = 1 + (0.32 * Math.Pow(Math.Tan(anguloRadianes), 2));
-                s3primado = (Math.Tan(anguloPrimado)) * Math.Pow(Math.E, ((double)19 / 30) * (Math.Tan(anguloRadianes)) * (4 + Math.Pow(Math.Tan(anguloRadianes), (double)2 / 3)));
+                s3primado = (Math.Tan(anguloRadianes)) * Math.Pow(Math.E, ((double)19 / 30) * (Math.Tan(anguloRadianes)) * (4 + Math.Pow(Math.Tan(anguloRadianes), (double)2 / 3)));
                 s5primado = valoresS5[auxiliar];
                 MessageBox.Show("s1 " + s1 + " s2 " + s2 + " s2primado " + s2primado + " s3primado " + s3primado + " s5primado " + s5primado);
             }
