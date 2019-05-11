@@ -202,7 +202,7 @@ namespace FundTool
                             var dim = new RotatedDimension();
                             dim.XLine1Point = new Point3d(xCoords[0], yCoords[i], 0.0);
                             dim.XLine2Point = new Point3d(xCoords[0], yCoords[i + 1], 0.0);
-                            dim.DimLinePoint = new Point3d(xCoords[0]-0.5, 0.0, 0.0);
+                            dim.DimLinePoint = new Point3d(xCoords[0]-1.5, 0.0, 0.0);
                             dim.Rotation = Math.PI / 2.0;
                             acBlkTblRec.AppendEntity(dim);
                             acTrans.AddNewlyCreatedDBObject(dim, true);
@@ -212,7 +212,7 @@ namespace FundTool
                             var dim = new RotatedDimension();
                             dim.XLine1Point = new Point3d(xCoords[i], yCoords[0], 0.0);
                             dim.XLine2Point = new Point3d(xCoords[i + 1], yCoords[0], 0.0);
-                            dim.DimLinePoint = new Point3d(0.0, yCoords[0]+0.5, 0.0);
+                            dim.DimLinePoint = new Point3d(0.0, yCoords[0]+1.5, 0.0);
                             dim.Rotation = 0.0;
                             acBlkTblRec.AppendEntity(dim);
                             acTrans.AddNewlyCreatedDBObject(dim, true);
