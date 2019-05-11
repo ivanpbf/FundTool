@@ -98,6 +98,8 @@ namespace FundTool
             public double Angulo { get; set; }
             public double Cohesion { get; set; }
             public double Peso { get; set; }
+            public double CotaInicio { get; set; }
+            public double CotaFinal { get; set; }
         }
         public String tipoDeSuelo;
         public int resistenciaAcero;
@@ -483,6 +485,8 @@ namespace FundTool
                 DataGridEstratos.Columns[3].Header = "Angulo de Friccion";
                 DataGridEstratos.Columns[4].Header = "Cohesion (Ton/m²)";
                 DataGridEstratos.Columns[5].Header = "Peso Unitario (Ton/m²)";
+                DataGridEstratos.Columns[6].Header = "Cota Inicio (m)";
+                DataGridEstratos.Columns[7].Header = "Cota Final (m)";
                 AceptarValoresEstratos.IsEnabled = true;
             }
             else
@@ -507,10 +511,14 @@ namespace FundTool
                 TextBlock angulo = DataGridEstratos.Columns[3].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
                 TextBlock cohesion = DataGridEstratos.Columns[4].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
                 TextBlock peso = DataGridEstratos.Columns[5].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
-                this.estratos[i].Espesor =Convert.ToDouble(espesor.Text);
+                TextBlock cotai = DataGridEstratos.Columns[6].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
+                TextBlock cotaf = DataGridEstratos.Columns[7].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
+                this.estratos[i].Espesor = Convert.ToDouble(espesor.Text);
                 this.estratos[i].Angulo = Convert.ToDouble(angulo.Text);
                 this.estratos[i].Cohesion = Convert.ToDouble(cohesion.Text);
                 this.estratos[i].Peso = Convert.ToDouble(peso.Text);
+                this.estratos[i].CotaInicio = Convert.ToDouble(cotai.Text);
+                this.estratos[i].CotaFinal = Convert.ToDouble(cotaf.Text);
                 this.SiguienteDatosSueloGC.IsEnabled = true;
             }
         }
@@ -587,7 +595,7 @@ namespace FundTool
                 int numero = this.golpesSuelo[i - 1].NumeroDeGolpes;
                 nsptfuste = numero + nsptfuste;
             }
-            nsptfuste = nsptfuste / this.golpesSuelo.Count;
+            nsptfuste = nsptfuste / (int)aPartirDe;
             //si el promedio es mayor a 30, se toma 30
             if (nsptfuste >= 30)
             {
@@ -730,7 +738,7 @@ namespace FundTool
                 espesorTotal = espesorTotal + this.estratos[i].Espesor;
             }
             //verificaciones del angulo
-            anguloPrimado = anguloPrimado / espesorTotal;
+            anguloPrimado = Math.Floor(anguloPrimado / espesorTotal);
             cohesionPrimado = cohesionPrimado / espesorTotal;
             pesoPrimado = pesoPrimado / espesorTotal;
             double s1;
@@ -750,14 +758,24 @@ namespace FundTool
             }
             else
             {
-                int auxiliar = (int)anguloPrimado - 10;
-                s1 = 0.192 * (Math.Pow(Math.Tan(45 + (anguloPrimado / 2)), 2)) * ((Math.Pow(Math.E, 4.55 * Math.Tan(anguloPrimado))) - 1);
-                s2 = (Math.Pow(Math.Tan(45 + (anguloPrimado / 2)), 2)) * (Math.Pow(Math.E, Math.Tan(anguloPrimado)));
-                s2primado = 1 + (0.32 * Math.Pow(Math.Tan(anguloPrimado), 2));
-                s3primado = (Math.Tan(anguloPrimado)) * Math.Pow(Math.E, (19 / 30) * (Math.Tan(anguloPrimado)) * (4 + Math.Pow(Math.Tan(anguloPrimado), 2 / 3)));
+                int auxiliar = (int)anguloPrimado - 9;
+                double anguloRadianes = anguloPrimado * (Math.PI / 180);
+                s1 = (0.192) * (Math.Pow(Math.Tan((45 * Math.PI / 180) + (anguloRadianes / 2)), 2)) * ((Math.Pow(Math.E, 4.55 * Math.Tan(anguloPrimado))) - 1);
+                s2 = (Math.Pow(Math.Tan((45 * Math.PI / 180) + (anguloRadianes / 2)), 2)) * (Math.Pow(Math.E, Math.PI * Math.Tan(anguloPrimado)));
+                s2primado = 1 + (0.32 * Math.Pow(Math.Tan(anguloRadianes), 2));
+                s3primado = (Math.Tan(anguloPrimado)) * Math.Pow(Math.E, ((double)19 / 30) * (Math.Tan(anguloRadianes)) * (4 + Math.Pow(Math.Tan(anguloRadianes), (double)2 / 3)));
                 s5primado = valoresS5[auxiliar];
-
+                MessageBox.Show("s1 " + s1 + " s2 " + s2 + " s2primado " + s2primado + " s3primado " + s3primado + " s5primado " + s5primado);
             }
+            double cohesionPunta = 0;
+            for(int i = 0; i < this.estratos.Count; i++)
+            {
+                if(this.longitudPilote < this.estratos[i].CotaFinal)
+                {
+                    cohesionPunta = this.estratos[i].Cohesion;
+                }
+            }
+            MessageBox.Show("Cohesion elegida(en punta) " + cohesionPunta+" cohesion primada "+cohesionPrimado+" angulo primado "+anguloPrimado+" peso primado "+pesoPrimado);
             //factores de resistencia:
             for (int i = 0; i < this.apoyos.Count; i++)
             {
@@ -786,7 +804,7 @@ namespace FundTool
                     r1 = pesoPrimado * (diametrosComerciales[j] / 100) * (s1 / 4);
                     r2 = pesoPrimado * longitudEfectiva * s2 * s2primado;
                     r3 = pesoPrimado * (2 * (longitudEfectiva * longitudEfectiva)) * (s3primado / (diametrosComerciales[j] / 100));
-                    r4 = (cohesionPrimado / (Math.Tan(anguloPrimado))) * (s2 - 1);
+                    r4 = (cohesionPunta / (Math.Tan(anguloPrimado))) * (s2 - 1);
                     r5 = cohesionPrimado * (4 * longitudEfectiva) * (s5primado / (diametrosComerciales[j] / 100));
                     double areapunta = (3.14159265358979) * Math.Pow((diametrosComerciales[j] / 2), 2);
                     double areafuste = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)(this.longitudEfectiva*100);
@@ -826,7 +844,7 @@ namespace FundTool
                             }
                             if (CalculoConjuntoDePilotes(i, numeropilotes)) //ojo que el numero de pilotes hasta que se pongan, es auxiliar
                             {
-                                MessageBox.Show("qadmisible "+qadmisible+" valores: r1 " + r1 + " r2 " + r2 + " r3 " + r3 + " r4 " + r4 + " r5 " + r5 + " areapunta/10000 " + (areapunta / 10000) + " friccion negativa " + friccionnegativa);
+                                MessageBox.Show("qadmisible "+qadmisible+" valores: r1 " + r1 + " r2 " + r2 + " r3 " + r3 + " r4 " + r4 + " r5 " + r5 + " areapunta/10000 " + (areapunta / 10000) + " friccion negativa " + friccionnegativa+" radio"+this.diametrosComerciales[j]);
                                 break;
                             }
                         }
