@@ -741,6 +741,7 @@ namespace FundTool
             anguloPrimado = Math.Floor(anguloPrimado / espesorTotal);
             cohesionPrimado = cohesionPrimado / espesorTotal;
             pesoPrimado = pesoPrimado / espesorTotal;
+            double anguloRadianes = anguloPrimado * (Math.PI / 180);
             double s1;
             double s2;
             double s2primado;
@@ -759,7 +760,6 @@ namespace FundTool
             else
             {
                 int auxiliar = (int)anguloPrimado - 9;
-                double anguloRadianes = anguloPrimado * (Math.PI / 180);
                 s1 = (0.192) * (Math.Pow(Math.Tan((45 * Math.PI / 180) + (anguloRadianes / 2)), 2)) * ((Math.Pow(Math.E, 4.55 * Math.Tan(anguloRadianes))) - 1);
                 s2 = (Math.Pow(Math.Tan((45 * Math.PI / 180) + (anguloRadianes / 2)), 2)) * (Math.Pow(Math.E, Math.PI * Math.Tan(anguloRadianes)));
                 s2primado = 1 + (0.32 * Math.Pow(Math.Tan(anguloRadianes), 2));
@@ -804,7 +804,7 @@ namespace FundTool
                     r1 = pesoPrimado * (diametrosComerciales[j] / 100) * (s1 / 4);
                     r2 = pesoPrimado * longitudEfectiva * s2 * s2primado;
                     r3 = pesoPrimado * (2 * (longitudEfectiva * longitudEfectiva)) * (s3primado / (diametrosComerciales[j] / 100));
-                    r4 = (cohesionPunta / (Math.Tan(anguloPrimado))) * (s2 - 1);
+                    r4 = (cohesionPunta / (Math.Tan(anguloRadianes))) * (s2 - 1);
                     r5 = cohesionPrimado * (4 * longitudEfectiva) * (s5primado / (diametrosComerciales[j] / 100));
                     double areapunta = (3.14159265358979) * Math.Pow((diametrosComerciales[j] / 2), 2);
                     double areafuste = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)(this.longitudEfectiva*100);
@@ -844,7 +844,7 @@ namespace FundTool
                             }
                             if (CalculoConjuntoDePilotes(i, numeropilotes)) //ojo que el numero de pilotes hasta que se pongan, es auxiliar
                             {
-                                MessageBox.Show("qadmisible "+qadmisible+" valores: r1 " + r1 + " r2 " + r2 + " r3 " + r3 + " r4 " + r4 + " r5 " + r5 + " areapunta/10000 " + (areapunta / 10000) + " friccion negativa " + friccionnegativa+" radio"+this.diametrosComerciales[j]);
+                                MessageBox.Show("qadmisible "+qadmisible+" valores: r1 " + r1 + " r2 " + r2 + " r3 " + r3 + " r4 " + r4 + " r5 " + r5 + " areapunta/10000 " + (areapunta / 10000) + " friccion negativa " + friccionnegativa+" diametros "+this.diametrosComerciales[j]);
                                 break;
                             }
                         }
