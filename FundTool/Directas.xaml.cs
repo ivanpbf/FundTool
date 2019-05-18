@@ -738,7 +738,7 @@ namespace FundTool
             {
                 if (this.apoyos.Count > 1)
                 {
-                    for (int k = i + 1; k <= this.apoyos.Count; k++)
+                    for (int k = i + 1; k <= this.apoyos.Count-1; k++)
                     {
                         int j = 0;
                         //todo esto para X
@@ -768,10 +768,10 @@ namespace FundTool
                                 this.apoyos[j].Dimensionada = true;
                                 break;
                             }
-                            else
+                            /*else
                             {
                                 VerificacionConjuntas();
-                            }
+                            }*/
                         }
                         else if (this.apoyos[i].CoordEjeY == this.apoyos[k].CoordEjeY && !this.apoyos[i].ZapataConjuntaX && !this.apoyos[i].ZapataConjuntaX)
                         {
@@ -800,10 +800,10 @@ namespace FundTool
                                 this.apoyos[j].Dimensionada = true;
                                 break;
                             }
-                            else
+                            /*else
                             {
                                 VerificacionConjuntas();
-                            }
+                            }*/
                         }
                     }
 

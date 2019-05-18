@@ -22,12 +22,8 @@
             <Grid x:Name="datosdelsuelo" Height="367" Margin="268,10,0,0" VerticalAlignment="Top" Background="AntiqueWhite" HorizontalAlignment="Left" Width="514">
                 <Label Content="Datos del Suelo" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold"/>
                 <Label Content="Tipo de Falla" HorizontalAlignment="Left" Margin="236,5,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-                <RadioButton x:Name="FallaL" Content="Falla Local" HorizontalAlignment="Left" Margin="243,31,0,0" VerticalAlignment="Top" GroupName="TipoDeFalla" IsChecked="True"/>
-                <RadioButton x:Name="FallaG" Content="Falla General" HorizontalAlignment="Left" Margin="243,52,0,0" VerticalAlignment="Top" GroupName="TipoDeFalla"/>
-                <RadioButton x:Name="Granular" Content="Suelo Granular" HorizontalAlignment="Left" Margin="342,33,0,0" VerticalAlignment="Top" GroupName="TipoDeSuelo" Checked="Granular_Checked"/>
-                <RadioButton x:Name="Cohesivo" Content="Suelo Cohesivo" HorizontalAlignment="Left" Margin="342,53,0,0" VerticalAlignment="Top" GroupName="TipoDeSuelo" Checked="Cohesivo_Checked"/>
-                <TextBox x:Name="Cohesion" HorizontalAlignment="Left" Height="23" Margin="128,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly" TextAlignment="Center"/>
                 <TextBox x:Name="AnguloFriccion" HorizontalAlignment="Left" Height="23" Margin="128,27,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly" TextAlignment="Center"/>
+                <TextBox x:Name="Cohesion" HorizontalAlignment="Left" Height="23" Margin="128,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly" TextAlignment="Center"/>
                 <Label Content="Angulo de Friccion:" HorizontalAlignment="Left" Margin="11,24,0,0" VerticalAlignment="Top"/>
                 <Label Content="Cohesion:" HorizontalAlignment="Left" Margin="61,52,0,0" VerticalAlignment="Top"/>
                 <Label Content="Peso Especifico:" HorizontalAlignment="Left" Margin="30,80,0,0" VerticalAlignment="Top"/>
@@ -48,19 +44,23 @@
                 <Button x:Name="SiguienteDatosSuelo" Content="Siguiente" HorizontalAlignment="Left" Margin="405,337,0,0" VerticalAlignment="Top" Width="75" Click="IntrodujoDatosSuelo" RenderTransformOrigin="0.533,0.773" IsEnabled="False"/>
                 <Label Content="Peso Especifico Saturado:" HorizontalAlignment="Left" Margin="0,247,0,0" VerticalAlignment="Top"/>
                 <TextBox x:Name="PesoEspecificoSaturado" HorizontalAlignment="Left" Height="23" Margin="144,250,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly" TextAlignment="Center"/>
-                <Label Content="kg/m³" HorizontalAlignment="Left" Margin="198,247,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="NSPTDES" HorizontalAlignment="Left" Height="23" Margin="144,275,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly" TextAlignment="Center"/>
+                <TextBox x:Name="LimiteLiquido" HorizontalAlignment="Left" Height="23" Margin="144,301,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly" TextAlignment="Center"/>
+                <TextBox x:Name="RelacionVacios" HorizontalAlignment="Left" Height="23" Margin="144,329,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly" TextAlignment="Center"/>
+                <RadioButton x:Name="FallaL" Content="Falla Local" HorizontalAlignment="Left" Margin="243,31,0,0" VerticalAlignment="Top" GroupName="TipoDeFalla" IsChecked="True"/>
+                <RadioButton x:Name="FallaG" Content="Falla General" HorizontalAlignment="Left" Margin="243,52,0,0" VerticalAlignment="Top" GroupName="TipoDeFalla"/>
+                <RadioButton x:Name="Granular" Content="Suelo Granular" HorizontalAlignment="Left" Margin="342,33,0,0" VerticalAlignment="Top" GroupName="TipoDeSuelo" Checked="Granular_Checked"/>
+                <RadioButton x:Name="Cohesivo" Content="Suelo Cohesivo" HorizontalAlignment="Left" Margin="342,53,0,0" VerticalAlignment="Top" GroupName="TipoDeSuelo" Checked="Cohesivo_Checked"/>
                 <TextBox x:Name="NroEstratos" HorizontalAlignment="Left" Height="23" Margin="405,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" PreviewTextInput="NumericOnly"/>
+                <Label Content="kg/m³" HorizontalAlignment="Left" Margin="198,247,0,0" VerticalAlignment="Top"/>
                 <Button Content="Introducir Estratos" HorizontalAlignment="Left" Margin="298,120,0,0" VerticalAlignment="Top" Width="144" Click="IntroducirEstratos"/>
                 <DataGrid x:Name="DataGridEstratos" Height="130" Margin="243,145,0,0" VerticalAlignment="Top" ItemsSource="{Binding}" CanUserAddRows="false" HorizontalAlignment="Left" Width="250"/>
                 <Button x:Name="AceptarValoresEstratos" Content="Aceptar Estratos" HorizontalAlignment="Left" Margin="386,283,0,0" VerticalAlignment="Top" Width="107" Click="IntroducirDatosEstratos" IsEnabled="False"/>
                 <Label Content="Tipo de Suelo (en Punta):" FontWeight="Bold" HorizontalAlignment="Left" Margin="342,5,0,0" VerticalAlignment="Top"/>
                 <Label Content="NSPT desfavorable:" HorizontalAlignment="Left" Margin="25,272,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="NSPTDES" HorizontalAlignment="Left" Height="23" Margin="144,275,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly" TextAlignment="Center"/>
-                <TextBox x:Name="LimiteLiquido" HorizontalAlignment="Left" Height="23" Margin="144,301,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly" TextAlignment="Center"/>
                 <Label Content="Limite Liquido:" HorizontalAlignment="Left" Margin="50,298,0,0" VerticalAlignment="Top"/>
                 <Label Content="Golpes" HorizontalAlignment="Left" Margin="198,275,0,0" VerticalAlignment="Top"/>
                 <Label Content="%" HorizontalAlignment="Left" Margin="198,301,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="RelacionVacios" HorizontalAlignment="Left" Height="23" Margin="144,329,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly" TextAlignment="Center"/>
                 <Label Content="Relacion de Vacios:" HorizontalAlignment="Left" Margin="27,324,0,0" VerticalAlignment="Top"/>
 
             </Grid>

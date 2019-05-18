@@ -662,6 +662,11 @@ namespace FundTool
                                 MessageBox.Show("qadmisible " + this.apoyos[i].Qadmisible + " (4/3)*nsptpunta*areapunta " + a + " (4/600)*nsptfuste*areafuste " + b + " friccion negativa " + friccionnegativa);
                                 break;
                             }
+                            if(numeropilotes >= 12)
+                            {
+                                MessageBox.Show("Demasiados pilotes, no se contempla el caso.");
+                                return;
+                            }
                         }
                         else if (contador != 0)
                         {
@@ -680,6 +685,11 @@ namespace FundTool
                             {
                                 MessageBox.Show("qadmisible " + this.apoyos[i].Qadmisible + " (4/3)*nsptpunta*areapunta " + a + " (4/600)*nsptfuste*areafuste " + b + " friccion negativa " + friccionnegativa);
                                 break;
+                            }
+                            if (numeropilotes >= 12)
+                            {
+                                MessageBox.Show("Demasiados pilotes, no se contempla el caso.");
+                                return;
                             }
                             else
                             {
@@ -847,6 +857,11 @@ namespace FundTool
                                 MessageBox.Show("qadmisible "+qadmisible+" valores: r1 " + r1 + " r2 " + r2 + " r3 " + r3 + " r4 " + r4 + " r5 " + r5 + " areapunta/10000 " + (areapunta / 10000) + " friccion negativa " + friccionnegativa+" diametros "+this.diametrosComerciales[j]);
                                 break;
                             }
+                            if (numeropilotes >= 12)
+                            {
+                                MessageBox.Show("Demasiados pilotes, no se contempla el caso.");
+                                return;
+                            }
                         }
                         else if (contador != 0)
                         {
@@ -865,6 +880,11 @@ namespace FundTool
                             {
                                 MessageBox.Show("qadmisible valores: r1 " + r1 + " r2 " + r2 + " r3 " + r3 + " r4 " + r4 + " r5 " + r5 + " areapunta/10000 " + (areapunta / 10000) + " friccion negativa " + friccionnegativa);
                                 break;
+                            }
+                            if(numeropilotes >= 12)
+                            {
+                                MessageBox.Show("Demasiados pilotes, no se contempla el caso.");
+                                return;
                             }
                             else
                             {
@@ -1050,12 +1070,7 @@ namespace FundTool
                 default:
                     if (cantPil > 12)
                     {
-                        //double resta = cantPil % 2;
-                        MessageBox.Show("Demasiados pilotes, no se contempla el caso.");
                         return false;
-                        //mas tarde
-                        //no esta programado todavia debido a M y N hay que idearnosla 
-                        //recordar
                     }
                     else
                     {
