@@ -657,10 +657,16 @@ namespace FundTool
                     }
                 }
                 this.apoyos[i].Qultima = (this.cohesion * this.NC[this.anguloFriccion] * this.apoyos[i].Fcs * this.apoyos[i].Fcd) + (q * this.NQ[this.anguloFriccion] * this.apoyos[i].Fqs * this.apoyos[i].Fqd) + ((1 / 2) * pesoMenor * this.apoyos[i].B * this.NF[this.anguloFriccion] * this.apoyos[i].Fps * this.apoyos[i].Fpd);
+                MessageBox.Show("[Apoyo] " + this.apoyos[i].Numero + " ([cohesion] " + this.cohesion + " [NC] " + this.NC[this.anguloFriccion] + " [FCS] " + this.apoyos[i].Fcs + " [FCD] " + this.apoyos[i].Fcd + " multiplicacion de esto es "
+                    + (this.cohesion * this.NC[this.anguloFriccion] * this.apoyos[i].Fcs * this.apoyos[i].Fcd) + ") + ([q] " + q + " [NQ] " + this.NQ[this.anguloFriccion] + " [FQS] " + this.apoyos[i].Fqs + " [FQD] " + this.apoyos[i].Fqd + " multiplicacion de esto" +
+                    (q * this.NQ[this.anguloFriccion] * this.apoyos[i].Fqs * this.apoyos[i].Fqd) + ") + (1/2 * [pesoMenor] " + pesoMenor + " [B] " + this.apoyos[i].B + " [NF] " + this.NF[this.anguloFriccion] + " [FPS] " + this.apoyos[i].Fps + " [FPD] " + this.apoyos[i].Fpd +
+                    " multiplicacion de esto " + ((1 / 2) * pesoMenor * this.apoyos[i].B * this.NF[this.anguloFriccion] * this.apoyos[i].Fps * this.apoyos[i].Fpd) + ")");
+                MessageBox.Show("Q ultima apoyo " + this.apoyos[i].Qultima);
                 //area de la zapata para cada apoyo
                 this.apoyos[i].AreaZapata = (this.apoyos[i].Carga * 3) / this.apoyos[i].Qultima;
                 this.apoyos[i].B = Math.Sqrt(this.apoyos[i].AreaZapata);
-                MessageBox.Show("Q ultima apoyo " + this.apoyos[i].Numero + " B inicial " + this.apoyos[i].B);
+                MessageBox.Show("Area zapata "+ this.apoyos[i].AreaZapata+" B "+ this.apoyos[i].B);
+                MessageBox.Show("Q ultima apoyo " + this.apoyos[i].Qultima);
                 this.apoyos[i].SumatoriaMomentosX = this.apoyos[i].MtoEnEjeY + this.empotramientoDF * this.apoyos[i].FBasalX;
                 this.apoyos[i].SumatoriaMomentosY = this.apoyos[i].MtoEnEjeX + this.empotramientoDF * this.apoyos[i].FBasalY;
                 this.apoyos[i].Qadmisible = this.apoyos[i].Qultima / 3;
@@ -734,6 +740,7 @@ namespace FundTool
         /// </summary>
         public void VerificacionConjuntas()
         {
+            MessageBox.Show("Se pasa a verificar si estan conjuntas");
             for (int i = 0; i < this.apoyos.Count - 1; i++)
             {
                 if (this.apoyos.Count > 1)
@@ -828,8 +835,8 @@ namespace FundTool
             }
             else
             {
-                this.apoyos[i].B = this.apoyos[i].B + 0.5;
-                this.apoyos[j].B = this.apoyos[j].B + 0.5;
+                this.apoyos[i].B = this.apoyos[i].B + 0.1;
+                this.apoyos[j].B = this.apoyos[j].B + 0.1;
                 MessageBox.Show("Incrementa B porque no se cumple verificacion de asentamiento conjunto");
                 return false;
             }
@@ -881,7 +888,7 @@ namespace FundTool
                     double maximoApoyo = (5 * p) / ((Nac - 1.5) * Cb);
                     if (maximoApoyo > this.asentamiento)
                     {
-                        this.apoyos[i].B = this.apoyos[i].B + 0.50;
+                        this.apoyos[i].B = this.apoyos[i].B + 0.1;
                     }
                     else
                     {
@@ -912,7 +919,7 @@ namespace FundTool
                     double maximoApoyo = ((CC * h) / (1 + this.relaciondeVacios)) * (Math.Log((p0 * gamapav) / p0));
                     if (maximoApoyo > this.asentamiento)
                     {
-                        this.apoyos[i].B = this.apoyos[i].B + 0.50;
+                        this.apoyos[i].B = this.apoyos[i].B + 0.1;
                     }
                     else
                     {
@@ -933,6 +940,7 @@ namespace FundTool
         /// <param name="j">Apoyo J en la lista de apoyos</param>
         private void CombinandoZapatasX(int i, int j)
         {
+            MessageBox.Show("Entra " + (i + 1) + " y " + (j + 1) + " a verificar combinarse por X");
             double distancia1 = 0;
             double distancia2 = 0;
             double superposicionbulbos = 0;
@@ -948,6 +956,7 @@ namespace FundTool
             double qadm1 = this.apoyos[i].Qadmisible;
             double qadm2 = this.apoyos[j].Qadmisible;
             //verificamos superposicion geometrica
+            MessageBox.Show("Entra " + (i + 1) + " y " + (j + 1) + " a verificar superposicion geometrica");
             distancia1 = this.apoyos[i].CoordEjeX + (this.apoyos[i].B / 2);
             distancia2 = this.apoyos[j].CoordEjeX - (this.apoyos[i].B / 2);
             double L = this.apoyos[i].CoordEjeX - this.apoyos[j].CoordEjeX;
@@ -959,6 +968,7 @@ namespace FundTool
                 MessageBox.Show("Se combinan las zapatas " + this.apoyos[i].Numero + " y " + this.apoyos[j].Numero + " Se combinan por superposicion geometrica");
                 return;
             }
+            MessageBox.Show("Entra " + (i + 1) + " y " + (j + 1) + " a verificar superposicion de bulbos");
             superposicionbulbos = (this.apoyos[i].B / 2) + (this.apoyos[j].B / 2) + ((this.apoyos[i].B / 2) * Math.Tan(30)) + ((this.apoyos[j].B / 2) * Math.Tan(30));
             if (superposicionbulbos <= distanciaEntreEllos)
             {
@@ -970,6 +980,7 @@ namespace FundTool
             //esto para X     
             if (factorE1 > this.apoyos[i].B / 6)
             {
+                MessageBox.Show("Factor E1 es mayor que el B del apoyo "+(i+1) + " entre 6");
                 qmin1 = 0;
                 qmax1 = (this.apoyos[i].Carga / Math.Pow(this.apoyos[i].B, 2)) * (1 + (6 * (factorE1) / this.apoyos[i].B));
             }
@@ -980,6 +991,7 @@ namespace FundTool
             }
             if (factorE2 > this.apoyos[j].B / 6)
             {
+                MessageBox.Show("Factor E2 es mayor que el B del apoyo " + (j + 1)+" entre 6");
                 qmin2 = 0;
                 qmax2 = (this.apoyos[j].Carga / Math.Pow(this.apoyos[j].B, 2)) * (1 + (6 * (factorE2) / this.apoyos[j].B));
             }
@@ -992,6 +1004,7 @@ namespace FundTool
             double baux2 = this.apoyos[j].B;
             if (qmax1 > qadm1)
             {
+                MessageBox.Show("QMAX1 es mayor que QADM1");
                 double[] aux = new double[3];
                 aux = RepeticionPaso3(i, factorE1, qmin1, qmax1, qadm1, baux1);
                 baux1 = aux[0];
@@ -1000,6 +1013,7 @@ namespace FundTool
             }
             if (qmax2 > qadm2)
             {
+                MessageBox.Show("QMAX2 es mayor que QADM2");
                 double[] aux = new double[3];
                 aux = RepeticionPaso3(j, factorE2, qmin2, qmax2, qadm2, baux2);
                 baux2 = aux[0];
@@ -1008,8 +1022,10 @@ namespace FundTool
 
             }
             //verificamos si se combinan 
-            if((qmax1 + qmin2)> qadm1)
+            MessageBox.Show("Verificamos si se combinan por qmax1 + qmin2 > qadm1");
+            if ((qmax1 + qmin2)> qadm1)
             {
+                MessageBox.Show("Entro en qmax1+qmin2 > qadm1");
                 this.apoyos[i].Qadmisible = qadm1;
                 this.apoyos[j].Qadmisible = qadm2;
                 // se combinaran
@@ -1048,11 +1064,13 @@ namespace FundTool
         /// <param name="j">Apoyo J en la lista de apoyos</param>
         private void CombinandoZapatasY(int i, int j)
         {
+            MessageBox.Show("Entra " + (i + 1) + " y " + (j + 1) + " a verificar combinarse por Y");
             double distancia1 = 0;
             double distancia2 = 0;
             double superposicionbulbos = 0;
             double distanciaEntreEllos;
             //verificamos superposicion geometrica
+            MessageBox.Show("Entra " + (i + 1) + " y " + (j + 1) + " a verificar superposicion geometrica");
             distancia1 = this.apoyos[i].CoordEjeY + (this.apoyos[i].B / 2);
             distancia2 = this.apoyos[j].CoordEjeY - (this.apoyos[i].B / 2);
             double factorE1 = this.apoyos[i].FactorEY;
@@ -1081,6 +1099,7 @@ namespace FundTool
                 MessageBox.Show("Se combinan las zapatas " + this.apoyos[i].Numero + " y " + this.apoyos[j].Numero + " Se combinan por superposicion geometrica");
                 return;
             }
+            MessageBox.Show("Entra " + (i + 1) + " y " + (j + 1) + " a verificar superposicion de bulbos");
             superposicionbulbos = (this.apoyos[i].B / 2) + (this.apoyos[j].B / 2) + ((this.apoyos[i].B / 2) * Math.Tan(30)) + ((this.apoyos[j].B / 2) * Math.Tan(30));
             if (superposicionbulbos <= distanciaEntreEllos)
             {
@@ -1099,6 +1118,7 @@ namespace FundTool
             //esto para y
             if (factorE1 > this.apoyos[i].B / 6)
             {
+                MessageBox.Show("Factor E1 es mayor que el B del apoyo " + (i + 1) + " entre 6");
                 qmin1 = 0;
                 qmax1 = (this.apoyos[i].Carga / Math.Pow(this.apoyos[i].B, 2)) * (1 + (6 * (factorE1) / this.apoyos[i].B));
             }
@@ -1109,6 +1129,7 @@ namespace FundTool
             }
             if (factorE2 > this.apoyos[j].B / 6)
             {
+                MessageBox.Show("Factor E2 es mayor que el B del apoyo " + (j + 1) + " entre 6");
                 qmin2 = 0;
                 qmax2 = (this.apoyos[j].Carga / Math.Pow(this.apoyos[j].B, 2)) * (1 + (6 * (factorE2) / this.apoyos[j].B));
             }
@@ -1121,6 +1142,7 @@ namespace FundTool
             double baux2 = this.apoyos[j].B;
             if (qmax1 > qadm1)
             {
+                MessageBox.Show("QMAX1 es mayor que QADM1");
                 double[] aux = new double[3];
                 aux = RepeticionPaso3(i, factorE1, qmin1, qmax1, qadm1, baux1);
                 baux1 = aux[0];
@@ -1129,6 +1151,7 @@ namespace FundTool
             }
             if (qmax2 > qadm2)
             {
+                MessageBox.Show("QMAX2 es mayor que QADM2");
                 double[] aux = new double[3];
                 aux = RepeticionPaso3(j, factorE2, qmin2, qmax2, qadm2, baux2);
                 baux2 = aux[0];
@@ -1137,8 +1160,10 @@ namespace FundTool
 
             }
             //verificamos si se combinan 
+            MessageBox.Show("Verificamos si se combinan por qmax1 + qmin2 > qadm1");
             if ((qmax1 + qmin2) > qadm1)
             {
+                MessageBox.Show("Entro en qmax1+qmin2 > qadm1");
                 this.apoyos[i].Qadmisible = qadm1;
                 this.apoyos[j].Qadmisible = qadm2;
                 // se combinaran

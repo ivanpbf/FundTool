@@ -34,34 +34,35 @@
                 <Label Content="kg/m²" HorizontalAlignment="Left" Margin="182,52,0,0" VerticalAlignment="Top"/>
                 <Label Content="kg/m³" HorizontalAlignment="Left" Margin="182,80,0,0" VerticalAlignment="Top"/>
                 <Label Content="m" HorizontalAlignment="Left" Margin="182,108,0,0" VerticalAlignment="Top"/>
-                <Rectangle Fill="AntiqueWhite" HorizontalAlignment="Left" Height="85" Margin="4,145,0,0" Stroke="Black" VerticalAlignment="Top" Width="191"/>
+                <Rectangle Fill="AntiqueWhite" HorizontalAlignment="Left" Height="84" Margin="4,145,0,0" Stroke="Black" VerticalAlignment="Top" Width="234"/>
                 <Label Content="Existe Nivel Freatico:" HorizontalAlignment="Left" Margin="5,140,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
                 <RadioButton x:Name="SiNF" Content="Si" HorizontalAlignment="Left" Margin="128,145,0,0" VerticalAlignment="Top" GroupName="ExisteNF"/>
-                <RadioButton x:Name="NoNF" Content="No" HorizontalAlignment="Left" Margin="128,166,0,0" VerticalAlignment="Top" GroupName="ExisteNF" IsChecked="True"/>
-                <Label Content="Cota del Nivel Freatico:" HorizontalAlignment="Left" Margin="5,197,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="CotaNF" HorizontalAlignment="Left" Height="23" Margin="134,200,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="37" IsEnabled="{Binding ElementName=SiNF, Path=IsChecked}" PreviewTextInput="NumericOnly" TextAlignment="Center"/>
-                <Label Content="m" HorizontalAlignment="Left" Margin="167,200,0,0" VerticalAlignment="Top"/>
+                <RadioButton x:Name="NoNF" Content="No" HorizontalAlignment="Left" Margin="195,145,0,0" VerticalAlignment="Top" GroupName="ExisteNF" IsChecked="True"/>
+                <Label Content="Cota del Nivel Freatico:" HorizontalAlignment="Left" Margin="14,163,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="CotaNF" HorizontalAlignment="Left" Height="23" Margin="151,166,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="37" IsEnabled="{Binding ElementName=SiNF, Path=IsChecked}" PreviewTextInput="NumericOnly" TextAlignment="Center"/>
+                <Label Content="m" HorizontalAlignment="Left" Margin="196,166,0,0" VerticalAlignment="Top"/>
                 <Button x:Name="SiguienteDatosSuelo" Content="Siguiente" HorizontalAlignment="Left" Margin="405,337,0,0" VerticalAlignment="Top" Width="75" Click="IntrodujoDatosSuelo" RenderTransformOrigin="0.533,0.773" IsEnabled="False"/>
-                <Label Content="Peso Especifico Saturado:" HorizontalAlignment="Left" Margin="0,247,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="PesoEspecificoSaturado" HorizontalAlignment="Left" Height="23" Margin="144,250,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly" TextAlignment="Center"/>
-                <TextBox x:Name="NSPTDES" HorizontalAlignment="Left" Height="23" Margin="144,275,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly" TextAlignment="Center"/>
-                <TextBox x:Name="LimiteLiquido" HorizontalAlignment="Left" Height="23" Margin="144,301,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly" TextAlignment="Center"/>
-                <TextBox x:Name="RelacionVacios" HorizontalAlignment="Left" Height="23" Margin="144,329,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly" TextAlignment="Center"/>
+                <Label Content="Peso Especifico Saturado:" HorizontalAlignment="Left" Margin="3,189,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="PesoEspecificoSaturado" HorizontalAlignment="Left" Height="23" Margin="146,193,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" IsEnabled="{Binding ElementName=SiNF, Path=IsChecked}" PreviewTextInput="NumericOnly" TextAlignment="Center"/>
+                <TextBox x:Name="NSPTDES" HorizontalAlignment="Left" Height="23" Margin="128,251,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly" TextAlignment="Center"/>
+                <TextBox x:Name="LimiteLiquido" HorizontalAlignment="Left" Height="23" Margin="128,277,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly" TextAlignment="Center"/>
+                <TextBox x:Name="RelacionVacios" HorizontalAlignment="Left" Height="23" Margin="128,305,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly" TextAlignment="Center"/>
                 <RadioButton x:Name="FallaL" Content="Falla Local" HorizontalAlignment="Left" Margin="243,31,0,0" VerticalAlignment="Top" GroupName="TipoDeFalla" IsChecked="True"/>
                 <RadioButton x:Name="FallaG" Content="Falla General" HorizontalAlignment="Left" Margin="243,52,0,0" VerticalAlignment="Top" GroupName="TipoDeFalla"/>
                 <RadioButton x:Name="Granular" Content="Suelo Granular" HorizontalAlignment="Left" Margin="342,33,0,0" VerticalAlignment="Top" GroupName="TipoDeSuelo" Checked="Granular_Checked"/>
                 <RadioButton x:Name="Cohesivo" Content="Suelo Cohesivo" HorizontalAlignment="Left" Margin="342,53,0,0" VerticalAlignment="Top" GroupName="TipoDeSuelo" Checked="Cohesivo_Checked"/>
                 <TextBox x:Name="NroEstratos" HorizontalAlignment="Left" Height="23" Margin="405,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" PreviewTextInput="NumericOnly"/>
-                <Label Content="kg/m³" HorizontalAlignment="Left" Margin="198,247,0,0" VerticalAlignment="Top"/>
+                <Label Content="kg/m³" HorizontalAlignment="Left" Margin="195,193,0,0" VerticalAlignment="Top"/>
                 <Button Content="Introducir Estratos" HorizontalAlignment="Left" Margin="298,120,0,0" VerticalAlignment="Top" Width="144" Click="IntroducirEstratos"/>
                 <DataGrid x:Name="DataGridEstratos" Height="130" Margin="243,145,0,0" VerticalAlignment="Top" ItemsSource="{Binding}" CanUserAddRows="false" HorizontalAlignment="Left" Width="250"/>
-                <Button x:Name="AceptarValoresEstratos" Content="Aceptar Estratos" HorizontalAlignment="Left" Margin="386,283,0,0" VerticalAlignment="Top" Width="107" Click="IntroducirDatosEstratos" IsEnabled="False"/>
+                <Button x:Name="AceptarValoresEstratos" Content="Aceptar Estratos" HorizontalAlignment="Left" Margin="386,311,0,0" VerticalAlignment="Top" Width="107" Click="IntroducirDatosEstratos" IsEnabled="False"/>
                 <Label Content="Tipo de Suelo (en Punta):" FontWeight="Bold" HorizontalAlignment="Left" Margin="342,5,0,0" VerticalAlignment="Top"/>
-                <Label Content="NSPT desfavorable:" HorizontalAlignment="Left" Margin="25,272,0,0" VerticalAlignment="Top"/>
-                <Label Content="Limite Liquido:" HorizontalAlignment="Left" Margin="50,298,0,0" VerticalAlignment="Top"/>
-                <Label Content="Golpes" HorizontalAlignment="Left" Margin="198,275,0,0" VerticalAlignment="Top"/>
-                <Label Content="%" HorizontalAlignment="Left" Margin="198,301,0,0" VerticalAlignment="Top"/>
-                <Label Content="Relacion de Vacios:" HorizontalAlignment="Left" Margin="27,324,0,0" VerticalAlignment="Top"/>
+                <Label Content="NSPT desfavorable:" HorizontalAlignment="Left" Margin="9,248,0,0" VerticalAlignment="Top"/>
+                <Label Content="Limite Liquido:" HorizontalAlignment="Left" Margin="34,274,0,0" VerticalAlignment="Top"/>
+                <Label Content="Golpes" HorizontalAlignment="Left" Margin="182,251,0,0" VerticalAlignment="Top"/>
+                <Label Content="%" HorizontalAlignment="Left" Margin="182,277,0,0" VerticalAlignment="Top"/>
+                <Label Content="Relacion de Vacios:" HorizontalAlignment="Left" Margin="11,300,0,0" VerticalAlignment="Top"/>
+                <Label Content=" * Excluya el relleno y coloque solo los estratos &#xD;&#xA;que esten en contacto con el pilote." HorizontalAlignment="Left" Margin="243,275,0,0" VerticalAlignment="Top" FontSize="10"/>
 
             </Grid>
             <Grid x:Name="GridFinal" HorizontalAlignment="Left" Height="49" Margin="10,709,0,0" VerticalAlignment="Top" Width="772" Background="AntiqueWhite">

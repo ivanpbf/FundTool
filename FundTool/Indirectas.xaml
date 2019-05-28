@@ -41,7 +41,7 @@
                 <Button x:Name="AceptarMetroGolpes" Content="Aceptar" HorizontalAlignment="Left" Margin="399,210,0,0" VerticalAlignment="Top" Width="75" IsEnabled="False" Click="AceptarMetroYGolpe"/>
                 <Label Content="Numero de Ensayo &#xD;&#xA;SPT de Punta:" HorizontalAlignment="Left" Margin="12,176,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.211,0.077"/>
             </Grid>
-            <Grid x:Name="GranularCohesivoGrid" HorizontalAlignment="Left" Height="277" Margin="278,10,0,0" VerticalAlignment="Top" Width="504" Background="AntiqueWhite" Visibility="Collapsed">
+            <Grid x:Name="GranularCohesivoGrid" HorizontalAlignment="Left" Height="291" Margin="278,10,0,0" VerticalAlignment="Top" Width="504" Background="AntiqueWhite" Visibility="Collapsed">
                 <Label Content="Datos Generales" FontWeight="Bold" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
                 <Label Content="Datos del Pilote" FontWeight="Bold" HorizontalAlignment="Left" Margin="23,36,0,0" VerticalAlignment="Top"/>
                 <Label Content="Longitud Pilote:" HorizontalAlignment="Left" Margin="15,60,0,0" VerticalAlignment="Top"/>
@@ -55,14 +55,15 @@
                 <Label Content="m" HorizontalAlignment="Left" Margin="177,86,0,0" VerticalAlignment="Top"/>
                 <Label Content="%" HorizontalAlignment="Left" Margin="177,153,0,0" VerticalAlignment="Top"/>
                 <Label Content="Suelo Granular-Cohesivo" FontWeight="Bold" HorizontalAlignment="Left" Margin="185,5,0,0" VerticalAlignment="Top"/>
-                <Button x:Name="SiguienteDatosSueloGC" Content="Siguiente" HorizontalAlignment="Left" Margin="215,234,0,0" VerticalAlignment="Top" Width="75" Click="IntrodujoDatosSueloGranularCohesivo" RenderTransformOrigin="0.533,0.773" IsEnabled="False"/>
+                <Button x:Name="SiguienteDatosSueloGC" Content="Siguiente" HorizontalAlignment="Left" Margin="218,261,0,0" VerticalAlignment="Top" Width="75" Click="IntrodujoDatosSueloGranularCohesivo" RenderTransformOrigin="0.533,0.773" IsEnabled="False"/>
                 <Label Content="Coef. de Friccion:" HorizontalAlignment="Left" Margin="8,115,0,0" VerticalAlignment="Top"/>
                 <Label Content="kg/cm²" HorizontalAlignment="Left" Margin="177,118,0,0" VerticalAlignment="Top"/>
-                <Label Content="Numero de Estratos:" FontWeight="Bold" HorizontalAlignment="Left" Margin="269,36,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="NroEstratos" HorizontalAlignment="Left" Height="23" Margin="395,39,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" PreviewTextInput="NumericOnly"/>
-                <Button Content="Introducir Estratos" HorizontalAlignment="Left" Margin="288,66,0,0" VerticalAlignment="Top" Width="144" Click="IntroducirEstratos"/>
-                <DataGrid x:Name="DataGridEstratos" Height="130" Margin="233,91,0,0" VerticalAlignment="Top" ItemsSource="{Binding}" CanUserAddRows="false" HorizontalAlignment="Left" Width="250"/>
-                <Button x:Name="AceptarValoresEstratos" Content="Aceptar Estratos" HorizontalAlignment="Left" Margin="376,229,0,0" VerticalAlignment="Top" Width="107" Click="IntroducirDatosEstratos" IsEnabled="False"/>
+                <Label Content="Numero de Estratos:" FontWeight="Bold" HorizontalAlignment="Left" Margin="271,23,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="NroEstratos" HorizontalAlignment="Left" Height="23" Margin="397,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" PreviewTextInput="NumericOnly"/>
+                <Button Content="Introducir Estratos" HorizontalAlignment="Left" Margin="290,53,0,0" VerticalAlignment="Top" Width="144" Click="IntroducirEstratos"/>
+                <DataGrid x:Name="DataGridEstratos" Height="130" Margin="235,78,0,0" VerticalAlignment="Top" ItemsSource="{Binding}" CanUserAddRows="false" HorizontalAlignment="Left" Width="250"/>
+                <Button x:Name="AceptarValoresEstratos" Content="Aceptar Estratos" HorizontalAlignment="Left" Margin="378,245,0,0" VerticalAlignment="Top" Width="107" Click="IntroducirDatosEstratos" IsEnabled="False"/>
+                <Label Content=" * Excluya el relleno y coloque solo los estratos &#xA;que esten en contacto con el pilote." HorizontalAlignment="Left" Margin="235,208,0,0" VerticalAlignment="Top" FontSize="10"/>
             </Grid>
             <Grid x:Name="Materiales" HorizontalAlignment="Left" Height="130" Margin="10,10,0,0" VerticalAlignment="Top" Width="263" Background="AntiqueWhite">
                 <Label Content="Materiales" Margin="0,0,191,107" FontWeight="Bold"/>

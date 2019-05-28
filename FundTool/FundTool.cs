@@ -139,7 +139,17 @@ namespace FundTool
                                 acBlkTblRec.AppendEntity(acPoly[i]);
                                 acTrans.AddNewlyCreatedDBObject(acPoly[i], true);
                             }
-                            using(columna[i] = new Polyline())
+                            using (MText acMText = new MText())
+                            {
+                                acMText.Location = new Point3d(apoyos[i].Vertice3X, apoyos[i].Vertice3Y-0.2, 0);
+                                acMText.Width = apoyos[i].Vertice2X- apoyos[i].Vertice1X;
+                                acMText.Contents = "QADM de Grupo "+apoyos[i].QadmisibleGrupo+" QEST "+apoyos[i].Qestructural+" "+apoyos[i].Pilotes.Count+
+                                    " ∅ " + apoyos[i].Pilotes[0].Diametro+" Diametro teorico de Cabillas "+apoyos[i].DiametroTeoricoCabillas;
+
+                                acBlkTblRec.AppendEntity(acMText);
+                                acTrans.AddNewlyCreatedDBObject(acMText, true);
+                            }
+                            using (columna[i] = new Polyline())
                             {
                                 columna[i].AddVertexAt(0, new Point2d(apoyos[i].ColumnaV1X, apoyos[i].ColumnaV1Y), 0, 0, 0);
                                 Point3d punto1 = new Point3d(apoyos[i].ColumnaV1X, apoyos[i].ColumnaV1Y, 0);
@@ -193,7 +203,8 @@ namespace FundTool
                                     }
                                 }
                             }
-                            
+
+
                         }
                         double[] xCoords = points.Select(p => p.X).Distinct().OrderBy(x => x).ToArray();
                         double[] yCoords = points.Select(p => p.Y).Distinct().OrderBy(y => y).ToArray();

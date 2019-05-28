@@ -118,7 +118,6 @@ namespace FundTool
         public double coefFriccionRelleno;
         public double porcentajeAcero;
         public int numeroEstratos;
-        public double coefFriccion;
         public Boolean introdujoGolpes;
         public Boolean calculosCorrectos;
         public List<Apoyo> apoyos;
@@ -535,7 +534,7 @@ namespace FundTool
             {
                 this.longitudPilote = Convert.ToDouble(this.LongitudPiloteGC.Text);
                 this.espesorRelleno = Convert.ToDouble(this.LongitudRellenoGC.Text);
-                this.coefFriccion = Convert.ToDouble(this.CoefFriccionGC.Text);
+                this.coefFriccionRelleno = Convert.ToDouble(this.CoefFriccionGC.Text);
                 this.porcentajeAcero = Convert.ToDouble(this.PorcentajeAceroGC.Text);
                 this.porcentajeAcero = this.porcentajeAcero / 100;
                 this.SolicitacionesGrid.Visibility = Visibility.Visible;
@@ -623,8 +622,8 @@ namespace FundTool
                     areapunta = (3.14159265358979) * Math.Pow((diametrosComerciales[j] / 2), 2);
                     areafuste = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)(this.longitudEfectiva*100);
                     friccionnegativa = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)(this.espesorRelleno*100) * (double)this.coefFriccionRelleno;
-                    double a = (1.3333333333333333333333333333333) * nsptpunta * areapunta;
-                    double b = (0.00666666666666666666666666666667) * nsptfuste * areafuste;
+                    double a = (1.333) * nsptpunta * areapunta;
+                    double b = (0.0066667) * nsptfuste * areafuste;
                     qadmisible = a + b - friccionnegativa;
                     areaAceroLongitudinal = (double)this.porcentajeAcero * areapunta;
                     qestructural = ((((double)this.resistenciaConcreto * (areapunta)) + (((double)this.resistenciaAcero) * areaAceroLongitudinal))) * 0.225;
@@ -742,10 +741,22 @@ namespace FundTool
             this.longitudEfectiva = this.longitudPilote - this.espesorRelleno;
             for (int i = 0; i < this.estratos.Count(); i++)
             {
-                pesoPrimado = pesoPrimado + (this.estratos[i].Peso * this.estratos[i].Espesor);
-                anguloPrimado = anguloPrimado + (this.estratos[i].Angulo * this.estratos[i].Espesor);
-                cohesionPrimado = cohesionPrimado + (this.estratos[i].Cohesion * this.estratos[i].Espesor);
-                espesorTotal = espesorTotal + this.estratos[i].Espesor;
+                if (i == this.estratos.Count()-1)
+                {
+                    double extra = this.estratos[i].CotaFinal - this.longitudPilote;
+                    double espesorAuxiliar = this.estratos[i].Espesor - extra;
+                    pesoPrimado = pesoPrimado + (this.estratos[i].Peso * espesorAuxiliar);
+                    anguloPrimado = anguloPrimado + (this.estratos[i].Angulo * espesorAuxiliar);
+                    cohesionPrimado = cohesionPrimado + (this.estratos[i].Cohesion * espesorAuxiliar);
+                    espesorTotal = espesorTotal + espesorAuxiliar;
+                }
+                else
+                {
+                    pesoPrimado = pesoPrimado + (this.estratos[i].Peso * this.estratos[i].Espesor);
+                    anguloPrimado = anguloPrimado + (this.estratos[i].Angulo * this.estratos[i].Espesor);
+                    cohesionPrimado = cohesionPrimado + (this.estratos[i].Cohesion * this.estratos[i].Espesor);
+                    espesorTotal = espesorTotal + this.estratos[i].Espesor;
+                }
             }
             //verificaciones del angulo
             anguloPrimado = Math.Floor(anguloPrimado / espesorTotal);
@@ -771,10 +782,15 @@ namespace FundTool
             {
                 int auxiliar = (int)anguloPrimado - 9;
                 s1 = (0.192) * (Math.Pow(Math.Tan((45 * Math.PI / 180) + (anguloRadianes / 2)), 2)) * ((Math.Pow(Math.E, 4.55 * Math.Tan(anguloRadianes))) - 1);
+                s1 = Math.Round(s1, 3);
                 s2 = (Math.Pow(Math.Tan((45 * Math.PI / 180) + (anguloRadianes / 2)), 2)) * (Math.Pow(Math.E, Math.PI * Math.Tan(anguloRadianes)));
+                s2 = Math.Round(s2, 3);
                 s2primado = 1 + (0.32 * Math.Pow(Math.Tan(anguloRadianes), 2));
+                s2primado = Math.Round(s2primado, 3);
                 s3primado = (Math.Tan(anguloRadianes)) * Math.Pow(Math.E, ((double)19 / 30) * (Math.Tan(anguloRadianes)) * (4 + Math.Pow(Math.Tan(anguloRadianes), (double)2 / 3)));
+                s3primado = Math.Round(s3primado, 3);
                 s5primado = valoresS5[auxiliar];
+                s5primado = Math.Round(s5primado, 3);
                 MessageBox.Show("s1 " + s1 + " s2 " + s2 + " s2primado " + s2primado + " s3primado " + s3primado + " s5primado " + s5primado);
             }
             double cohesionPunta = 0;
@@ -785,7 +801,7 @@ namespace FundTool
                     cohesionPunta = this.estratos[i].Cohesion;
                 }
             }
-            MessageBox.Show("Cohesion elegida(en punta) " + cohesionPunta+" cohesion primada "+cohesionPrimado+" angulo primado "+anguloPrimado+" peso primado "+pesoPrimado);
+            MessageBox.Show("Cohesion elegida(en punta) " + cohesionPunta+" cohesion primada "+cohesionPrimado+" angulo primado "+anguloPrimado+" peso primado "+pesoPrimado+" espesor total"+espesorTotal);
             //factores de resistencia:
             for (int i = 0; i < this.apoyos.Count; i++)
             {
@@ -819,7 +835,7 @@ namespace FundTool
                     double areapunta = (3.14159265358979) * Math.Pow((diametrosComerciales[j] / 2), 2);
                     double areafuste = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)(this.longitudEfectiva*100);
                     double friccionnegativa = (2 * 3.14159265358979) * (diametrosComerciales[j] / 2) * (double)(this.espesorRelleno*100) * (double)this.coefFriccionRelleno;
-                    friccionnegativa = friccionnegativa / 1000;
+                    friccionnegativa = (double)friccionnegativa / 1000;
                     areaAceroLongitudinal = (double)this.porcentajeAcero * areapunta;
                     qadmisible = (double)(((r1 + r2 + r3 + r4 + r5) * (areapunta/10000)) / 4) - friccionnegativa;
                     qestructural = 0.225 * (((double)this.resistenciaConcreto * (areapunta)) + ((double)this.resistenciaAcero) * areaAceroLongitudinal);
