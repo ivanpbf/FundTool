@@ -656,16 +656,37 @@ namespace FundTool
                                 nuevos.Diametro = this.diametrosComerciales[j];
                                 this.apoyos[i].Pilotes.Add(nuevos);
                             }
-                            if (CalculoConjuntoDePilotes(i, numeropilotes)) //ojo que el numero de pilotes hasta que se pongan, es auxiliar
-                            {
-                                MessageBox.Show("qadmisible " + this.apoyos[i].Qadmisible + " (4/3)*nsptpunta*areapunta " + a + " (4/600)*nsptfuste*areafuste " + b + " friccion negativa " + friccionnegativa);
-                                break;
-                            }
                             if (numeropilotes >= 12)
                             {
                                 MessageBox.Show("Demasiados pilotes, no se contempla el caso.");
                                 return;
                             }
+                            CalculoConjuntoDePilotes(i, numeropilotes);
+                            if (this.apoyos[i].QadmisibleGrupo > this.apoyos[i].Carga) 
+                            {
+                                this.apoyos[i].Qadmisible = (double)(this.apoyos[i].Qadmisible) / (numeropilotes);
+                                this.apoyos[i].Qestructural = (double)(this.apoyos[i].Qestructural) / (numeropilotes);
+                                //sigue el espaciamiento entre cabillas
+                                this.apoyos[i].EspaciamientoCabillasX = this.apoyos[i].DiametroPilotes / this.apoyos[i].CabillasDeCajonX;
+                                this.apoyos[i].EspaciamientoCabillasY = this.apoyos[i].DiametroPilotes / this.apoyos[i].CabillasDeCajonY;
+                                MessageBox.Show("La eficiencia es " + this.apoyos[i].Eficiencia);
+                                PosicionPilotes(numeropilotes, i);
+                                CalculoCargaAdmisiblePilote(i);
+                                break;
+                            }
+                            else
+                            {
+                                if (j == (diametrosComerciales.Count() - 1))
+                                {
+                                    j = -1;
+                                    numeropilotes = numeropilotes + 1;
+                                    contador++;
+                                }
+                                else
+                                {
+                                    contador++;
+                                }
+                            }   
                         }
                         else if (contador != 0)
                         {
@@ -680,15 +701,23 @@ namespace FundTool
                                 nuevos.Diametro = this.diametrosComerciales[j];
                                 this.apoyos[i].Pilotes.Add(nuevos);
                             }
-                            if (CalculoConjuntoDePilotes(i, numeropilotes))
-                            {
-                                MessageBox.Show("qadmisible " + this.apoyos[i].Qadmisible + " (4/3)*nsptpunta*areapunta " + a + " (4/600)*nsptfuste*areafuste " + b + " friccion negativa " + friccionnegativa);
-                                break;
-                            }
                             if (numeropilotes >= 12)
                             {
                                 MessageBox.Show("Demasiados pilotes, no se contempla el caso.");
                                 return;
+                            }
+                            CalculoConjuntoDePilotes(i, numeropilotes);
+                            if (this.apoyos[i].QadmisibleGrupo > this.apoyos[i].Carga)
+                            {
+                                this.apoyos[i].Qadmisible = (double)(this.apoyos[i].Qadmisible) / (numeropilotes);
+                                this.apoyos[i].Qestructural = (double)(this.apoyos[i].Qestructural) / (numeropilotes);
+                                //sigue el espaciamiento entre cabillas
+                                this.apoyos[i].EspaciamientoCabillasX = this.apoyos[i].DiametroPilotes / this.apoyos[i].CabillasDeCajonX;
+                                this.apoyos[i].EspaciamientoCabillasY = this.apoyos[i].DiametroPilotes / this.apoyos[i].CabillasDeCajonY;
+                                MessageBox.Show("La eficiencia es " + this.apoyos[i].Eficiencia);
+                                PosicionPilotes(numeropilotes, i);
+                                CalculoCargaAdmisiblePilote(i);
+                                break;
                             }
                             else
                             {
@@ -700,17 +729,18 @@ namespace FundTool
                                 }
                             }
                         }
-                        else if (j == (diametrosComerciales.Count() - 1))
-                        {
-                            j = -1;
-                            numeropilotes = numeropilotes + 1;
-                            contador++;
-                        }
                         else
                         {
-                            j = -1;
-                            numeropilotes = numeropilotes + 1;
-                            contador++;
+                            if (j == (diametrosComerciales.Count() - 1))
+                            {
+                                j = -1;
+                                numeropilotes = numeropilotes + 1;
+                                contador++;
+                            }
+                            else
+                            {
+                                contador++;
+                            }     
                         }
                     }
                     else if (j == (diametrosComerciales.Count() - 1))
@@ -873,10 +903,31 @@ namespace FundTool
                                 MessageBox.Show("Demasiados pilotes, no se contempla el caso.");
                                 return;
                             }
-                            if (CalculoConjuntoDePilotes(i, numeropilotes)) //ojo que el numero de pilotes hasta que se pongan, es auxiliar
+                            CalculoConjuntoDePilotes(i, numeropilotes);
+                            if (this.apoyos[i].QadmisibleGrupo > this.apoyos[i].Carga)
                             {
-                                MessageBox.Show("qadmisible " + qadmisible + " valores: r1 " + r1 + " r2 " + r2 + " r3 " + r3 + " r4 " + r4 + " r5 " + r5 + " areapunta/10000 " + (areapunta / 10000) + " friccion negativa " + friccionnegativa + " diametros " + this.diametrosComerciales[j]);
+                                this.apoyos[i].Qadmisible = (double)(this.apoyos[i].Qadmisible) / (numeropilotes);
+                                this.apoyos[i].Qestructural = (double)(this.apoyos[i].Qestructural) / (numeropilotes);
+                                //sigue el espaciamiento entre cabillas
+                                this.apoyos[i].EspaciamientoCabillasX = this.apoyos[i].DiametroPilotes / this.apoyos[i].CabillasDeCajonX;
+                                this.apoyos[i].EspaciamientoCabillasY = this.apoyos[i].DiametroPilotes / this.apoyos[i].CabillasDeCajonY;
+                                MessageBox.Show("La eficiencia es " + this.apoyos[i].Eficiencia);
+                                PosicionPilotes(numeropilotes, i);
+                                CalculoCargaAdmisiblePilote(i);
                                 break;
+                            }
+                            else
+                            {
+                                if (j == (diametrosComerciales.Count() - 1))
+                                {
+                                    j = -1;
+                                    numeropilotes = numeropilotes + 1;
+                                    contador++;
+                                }
+                                else
+                                {
+                                    contador++;
+                                }
                             }
                         }
                         else if (contador != 0)
@@ -897,9 +948,17 @@ namespace FundTool
                                 MessageBox.Show("Demasiados pilotes, no se contempla el caso.");
                                 return;
                             }
-                            if (CalculoConjuntoDePilotes(i, numeropilotes))
+                            CalculoConjuntoDePilotes(i, numeropilotes);
+                            if (this.apoyos[i].QadmisibleGrupo > this.apoyos[i].Carga)
                             {
-                                MessageBox.Show("qadmisible valores: r1 " + r1 + " r2 " + r2 + " r3 " + r3 + " r4 " + r4 + " r5 " + r5 + " areapunta/10000 " + (areapunta / 10000) + " friccion negativa " + friccionnegativa);
+                                this.apoyos[i].Qadmisible = (double)(this.apoyos[i].Qadmisible) / (numeropilotes);
+                                this.apoyos[i].Qestructural = (double)(this.apoyos[i].Qestructural) / (numeropilotes);
+                                //sigue el espaciamiento entre cabillas
+                                this.apoyos[i].EspaciamientoCabillasX = this.apoyos[i].DiametroPilotes / this.apoyos[i].CabillasDeCajonX;
+                                this.apoyos[i].EspaciamientoCabillasY = this.apoyos[i].DiametroPilotes / this.apoyos[i].CabillasDeCajonY;
+                                MessageBox.Show("La eficiencia es " + this.apoyos[i].Eficiencia);
+                                PosicionPilotes(numeropilotes, i);
+                                CalculoCargaAdmisiblePilote(i);
                                 break;
                             }
                             else
@@ -985,7 +1044,7 @@ namespace FundTool
         /// <param name="cantPil">Cantidad de pilotes hasta el momento del apoyo</param>
         /// <returns>Si los calculos fueron correctos y se verifica la condicion de conjunto de pilotes, retorna true
         /// sino, retorna false</returns>
-        public Boolean CalculoConjuntoDePilotes(int i, int cantPil) //posicion del apoyo
+        public void CalculoConjuntoDePilotes(int i, int cantPil) //posicion del apoyo
         {
             int m = 0; //filas
             int n = 0; //columnas
@@ -1086,42 +1145,24 @@ namespace FundTool
                 default:
                     if (cantPil > 12)
                     {
-                        return false;
+                        return;
                     }
                     else
                     {
                         Console.Write("No entro al caso, imposible, 0 pilotes.");
-                        return false;
+                        return;
                     }
             }
             double angulo = (double)(Math.Atan((this.apoyos[i].DiametroPilotes) / (e))) * 180.0 / Math.PI;
             this.apoyos[i].Eficiencia = 1.0 - ((((n * (m - 1.0)) + (m * (n - 1))) / ((90.0 * m * n))) * (double)angulo);
             //entonces la q admisible de grupo sera
             this.apoyos[i].QadmisibleGrupo = this.apoyos[i].Qadmisible * this.apoyos[i].Eficiencia;
-            if (this.apoyos[i].QadmisibleGrupo < this.apoyos[i].Carga)
-            {
-                return false;
-            }
-            else
-            {
-                this.apoyos[i].GrosorCabezal = (e / 2.0) + 15;
-                //MessageBox.Show("Grosor del cabezal (h) " + this.apoyos[i].GrosorCabezal);
-                double Ax = Tx / 2100;
-                this.apoyos[i].AreaAceroX = Ax;
-                double Ay = Ty / 2100;
-                this.apoyos[i].AreaAceroY = Ay;
-                //sigue el espaciamiento entre cabillas
-                this.apoyos[i].EspaciamientoCabillasX = this.apoyos[i].DiametroPilotes / this.apoyos[i].CabillasDeCajonX;
-                this.apoyos[i].EspaciamientoCabillasY = this.apoyos[i].DiametroPilotes / this.apoyos[i].CabillasDeCajonY;
-                this.apoyos[i].DistanciaMinimaEntrePilotes = e;
-                PosicionPilotes(cantPil, i);
-                CalculoCargaAdmisiblePilote(i);
-                MessageBox.Show("La eficiencia es " + this.apoyos[i].Eficiencia);
-                this.apoyos[i].Qadmisible = (double)(this.apoyos[i].Qadmisible) / (cantPil);
-                this.apoyos[i].Qestructural = (double)(this.apoyos[i].Qestructural) / (cantPil);
-                return true;
-            }
-
+            this.apoyos[i].GrosorCabezal = (e / 2.0) + 15;
+            this.apoyos[i].DistanciaMinimaEntrePilotes = e;
+            double Ax = Tx / 2100;
+            this.apoyos[i].AreaAceroX = Ax;
+            double Ay = Ty / 2100;
+            this.apoyos[i].AreaAceroY = Ay;
         }
 
         /// <summary>
