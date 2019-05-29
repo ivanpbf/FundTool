@@ -143,8 +143,8 @@ namespace FundTool
                             {
                                 acMText.Location = new Point3d(apoyos[i].Vertice3X, apoyos[i].Vertice3Y-0.2, 0);
                                 acMText.Width = apoyos[i].Vertice2X- apoyos[i].Vertice1X;
-                                acMText.Contents = "QADM de Grupo "+apoyos[i].QadmisibleGrupo+" QEST "+apoyos[i].Qestructural+" "+apoyos[i].Pilotes.Count+
-                                    " ∅ " + apoyos[i].Pilotes[0].Diametro+" Diametro teorico de Cabillas "+apoyos[i].DiametroTeoricoCabillas;
+                                acMText.Contents = "QADM de Grupo "+Math.Round(apoyos[i].QadmisibleGrupo, 3)+" QEST "+Math.Round(apoyos[i].Qestructural,3)+" "+apoyos[i].Pilotes.Count+
+                                    " ∅ " + apoyos[i].Pilotes[0].Diametro+" Cabillas "+apoyos[i].NumeroCabillas+ " ∅ " + apoyos[i].DiametroTeoricoPulgadas;
 
                                 acBlkTblRec.AppendEntity(acMText);
                                 acTrans.AddNewlyCreatedDBObject(acMText, true);

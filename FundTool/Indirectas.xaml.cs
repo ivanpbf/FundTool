@@ -658,7 +658,7 @@ namespace FundTool
                             }
                             if (numeropilotes >= 12)
                             {
-                                MessageBox.Show("Demasiados pilotes, no se contempla el caso.");
+                                //MessageBox.Show("Demasiados pilotes, no se contempla el caso.");
                                 return;
                             }
                             CalculoConjuntoDePilotes(i, numeropilotes);
@@ -669,7 +669,7 @@ namespace FundTool
                                 //sigue el espaciamiento entre cabillas
                                 this.apoyos[i].EspaciamientoCabillasX = this.apoyos[i].DiametroPilotes / this.apoyos[i].CabillasDeCajonX;
                                 this.apoyos[i].EspaciamientoCabillasY = this.apoyos[i].DiametroPilotes / this.apoyos[i].CabillasDeCajonY;
-                                MessageBox.Show("La eficiencia es " + this.apoyos[i].Eficiencia);
+                                //MessageBox.Show("La eficiencia es " + this.apoyos[i].Eficiencia);
                                 PosicionPilotes(numeropilotes, i);
                                 CalculoCargaAdmisiblePilote(i);
                                 break;
@@ -714,7 +714,7 @@ namespace FundTool
                                 //sigue el espaciamiento entre cabillas
                                 this.apoyos[i].EspaciamientoCabillasX = this.apoyos[i].DiametroPilotes / this.apoyos[i].CabillasDeCajonX;
                                 this.apoyos[i].EspaciamientoCabillasY = this.apoyos[i].DiametroPilotes / this.apoyos[i].CabillasDeCajonY;
-                                MessageBox.Show("La eficiencia es " + this.apoyos[i].Eficiencia);
+                                //MessageBox.Show("La eficiencia es " + this.apoyos[i].Eficiencia);
                                 PosicionPilotes(numeropilotes, i);
                                 CalculoCargaAdmisiblePilote(i);
                                 break;
@@ -751,8 +751,8 @@ namespace FundTool
                 }
                 this.apoyos[i].AceroLongitudinal = areaAceroLongitudinal;
                 //pendiente de los diametros comerciales
-                MessageBox.Show("apoyo " + this.apoyos[i].Nombre + " nsptpunta " + nsptpunta + " nsptfuste " + nsptfuste + " area de punta " + areapunta + " friccion negativa " + friccionnegativa + " area fuste" + areafuste);
-                MessageBox.Show("apoyo: " + this.apoyos[i].Nombre + " Numero de pilotes " + this.apoyos[i].Pilotes.Count() + " Qadmisible " + this.apoyos[i].Qadmisible + " Qestructural " + this.apoyos[i].Qestructural + " Qadmisible de grupo" + this.apoyos[i].QadmisibleGrupo + "carga del apoyo " + this.apoyos[i].Carga + " diametro " + this.apoyos[i].DiametroPilotes);
+                //MessageBox.Show("apoyo " + this.apoyos[i].Nombre + " nsptpunta " + nsptpunta + " nsptfuste " + nsptfuste + " area de punta " + areapunta + " friccion negativa " + friccionnegativa + " area fuste" + areafuste);
+                //MessageBox.Show("apoyo: " + this.apoyos[i].Nombre + " Numero de pilotes " + this.apoyos[i].Pilotes.Count() + " Qadmisible " + this.apoyos[i].Qadmisible + " Qestructural " + this.apoyos[i].Qestructural + " Qadmisible de grupo" + this.apoyos[i].QadmisibleGrupo + "carga del apoyo " + this.apoyos[i].Carga + " diametro " + this.apoyos[i].DiametroPilotes);
             }
             calculosCorrectos = true;
         }
@@ -800,12 +800,12 @@ namespace FundTool
             double s5primado;
             if (anguloPrimado < 9)
             {
-                MessageBox.Show("El angulo promedio es de " + anguloPrimado + ", el terreno es muy debil.");
+                //MessageBox.Show("El angulo promedio es de " + anguloPrimado + ", el terreno es muy debil.");
                 return;
             }
             else if (anguloPrimado > 60)
             {
-                MessageBox.Show("El angulo promedio es de " + anguloPrimado + ", el terreno es muy duro.");
+                //MessageBox.Show("El angulo promedio es de " + anguloPrimado + ", el terreno es muy duro.");
                 return;
             }
             else
@@ -821,7 +821,7 @@ namespace FundTool
                 s3primado = Math.Round(s3primado, 3);
                 s5primado = valoresS5[auxiliar];
                 s5primado = Math.Round(s5primado, 3);
-                MessageBox.Show("s1 " + s1 + " s2 " + s2 + " s2primado " + s2primado + " s3primado " + s3primado + " s5primado " + s5primado);
+                //MessageBox.Show("s1 " + s1 + " s2 " + s2 + " s2primado " + s2primado + " s3primado " + s3primado + " s5primado " + s5primado);
             }
             double cohesionPunta = 0;
             for (int i = 0; i < this.estratos.Count; i++)
@@ -831,7 +831,7 @@ namespace FundTool
                     cohesionPunta = this.estratos[i].Cohesion;
                 }
             }
-            MessageBox.Show("Cohesion elegida(en punta) " + cohesionPunta + " cohesion primada " + cohesionPrimado + " angulo primado " + anguloPrimado + " peso primado " + pesoPrimado + " espesor total" + espesorTotal);
+            //MessageBox.Show("Cohesion elegida(en punta) " + cohesionPunta + " cohesion primada " + cohesionPrimado + " angulo primado " + anguloPrimado + " peso primado " + pesoPrimado + " espesor total" + espesorTotal);
             //factores de resistencia:
             for (int i = 0; i < this.apoyos.Count; i++)
             {
@@ -911,7 +911,7 @@ namespace FundTool
                                 //sigue el espaciamiento entre cabillas
                                 this.apoyos[i].EspaciamientoCabillasX = this.apoyos[i].DiametroPilotes / this.apoyos[i].CabillasDeCajonX;
                                 this.apoyos[i].EspaciamientoCabillasY = this.apoyos[i].DiametroPilotes / this.apoyos[i].CabillasDeCajonY;
-                                MessageBox.Show("La eficiencia es " + this.apoyos[i].Eficiencia);
+                                //MessageBox.Show("La eficiencia es " + this.apoyos[i].Eficiencia);
                                 PosicionPilotes(numeropilotes, i);
                                 CalculoCargaAdmisiblePilote(i);
                                 break;
@@ -956,7 +956,7 @@ namespace FundTool
                                 //sigue el espaciamiento entre cabillas
                                 this.apoyos[i].EspaciamientoCabillasX = this.apoyos[i].DiametroPilotes / this.apoyos[i].CabillasDeCajonX;
                                 this.apoyos[i].EspaciamientoCabillasY = this.apoyos[i].DiametroPilotes / this.apoyos[i].CabillasDeCajonY;
-                                MessageBox.Show("La eficiencia es " + this.apoyos[i].Eficiencia);
+                                //MessageBox.Show("La eficiencia es " + this.apoyos[i].Eficiencia);
                                 PosicionPilotes(numeropilotes, i);
                                 CalculoCargaAdmisiblePilote(i);
                                 break;
@@ -992,7 +992,7 @@ namespace FundTool
                 }
                 this.apoyos[i].AceroLongitudinal = areaAceroLongitudinal;
                 //pendiente de los diametros comerciales
-                MessageBox.Show("apoyo: " + this.apoyos[i].Nombre + " Numero de pilotes " + this.apoyos[i].Pilotes.Count() + " Qadmisible " + this.apoyos[i].Qadmisible + " Qestructural " + this.apoyos[i].Qestructural + " Qadmisible de grupo" + this.apoyos[i].QadmisibleGrupo + "carga del apoyo " + this.apoyos[i].Carga + " diametro " + this.apoyos[i].DiametroPilotes);
+                //MessageBox.Show("apoyo: " + this.apoyos[i].Nombre + " Numero de pilotes " + this.apoyos[i].Pilotes.Count() + " Qadmisible " + this.apoyos[i].Qadmisible + " Qestructural " + this.apoyos[i].Qestructural + " Qadmisible de grupo" + this.apoyos[i].QadmisibleGrupo + "carga del apoyo " + this.apoyos[i].Carga + " diametro " + this.apoyos[i].DiametroPilotes);
             }
             calculosCorrectos = true;
         }
@@ -1181,7 +1181,7 @@ namespace FundTool
             this.apoyos[i].ColumnaV3Y = this.apoyos[i].CoordEjeY - this.apoyos[i].DimensionColumnaY / 200;
             this.apoyos[i].ColumnaV4X = this.apoyos[i].CoordEjeX + this.apoyos[i].DimensionColumnaX / 200;
             this.apoyos[i].ColumnaV4Y = this.apoyos[i].CoordEjeY - this.apoyos[i].DimensionColumnaY / 200;
-            MessageBox.Show("columna " + this.apoyos[i].DimensionColumnaX + " vertice 1 " + this.apoyos[i].ColumnaV1X + " " + this.apoyos[i].ColumnaV1Y);
+            ; ; MessageBox.Show("columna " + this.apoyos[i].DimensionColumnaX + " vertice 1 " + this.apoyos[i].ColumnaV1X + " " + this.apoyos[i].ColumnaV1Y);
             this.apoyos[i].DiametroPilotes = this.apoyos[i].DiametroPilotes / 100; //por motivos de calculo
             this.apoyos[i].DistanciaMinimaEntrePilotes = this.apoyos[i].DistanciaMinimaEntrePilotes / 100; // por motivos de calculo
             double k = 1.5 * this.apoyos[i].DiametroPilotes / 2;
@@ -1526,8 +1526,8 @@ namespace FundTool
             }
             this.apoyos[i].DiametroPilotes = this.apoyos[i].DiametroPilotes * 100;
             this.apoyos[i].DistanciaMinimaEntrePilotes = this.apoyos[i].DistanciaMinimaEntrePilotes * 100;
-            MessageBox.Show("vertices " + this.apoyos[i].Vertice1X + " " + this.apoyos[i].Vertice1Y + " " + this.apoyos[i].Vertice2X + " " + this.apoyos[i].Vertice2Y + " "
-                + this.apoyos[i].Vertice3X + " " + this.apoyos[i].Vertice3Y + " " + this.apoyos[i].Vertice4X + " " + this.apoyos[i].Vertice4Y);
+            // MessageBox.Show("vertices " + this.apoyos[i].Vertice1X + " " + this.apoyos[i].Vertice1Y + " " + this.apoyos[i].Vertice2X + " " + this.apoyos[i].Vertice2Y + " "
+              //  + this.apoyos[i].Vertice3X + " " + this.apoyos[i].Vertice3Y + " " + this.apoyos[i].Vertice4X + " " + this.apoyos[i].Vertice4Y);
 
         }
 
