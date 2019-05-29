@@ -94,7 +94,6 @@ namespace FundTool
         {
             public String Nombre { get; set; }
             public double Espesor { get; set; }
-            public String Descripcion { get; set; }
             public double Angulo { get; set; }
             public double Cohesion { get; set; }
             public double Peso { get; set; }
@@ -480,7 +479,6 @@ namespace FundTool
                 DataGridEstratos.DataContext = obsCollection;
                 DataGridEstratos.Columns[0].IsReadOnly = true;
                 DataGridEstratos.Columns[1].Header = "Espesor (m)";
-                DataGridEstratos.Columns[2].Header = "Descripcion";
                 DataGridEstratos.Columns[3].Header = "Angulo de Friccion";
                 DataGridEstratos.Columns[4].Header = "Cohesion (Ton/m²)";
                 DataGridEstratos.Columns[5].Header = "Peso Unitario (Ton/m²)";
@@ -506,7 +504,6 @@ namespace FundTool
             for (int i = 0; i < this.estratos.Count; i++)
             {
                 TextBlock espesor = DataGridEstratos.Columns[1].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
-                TextBlock descripcion = DataGridEstratos.Columns[2].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
                 TextBlock angulo = DataGridEstratos.Columns[3].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
                 TextBlock cohesion = DataGridEstratos.Columns[4].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
                 TextBlock peso = DataGridEstratos.Columns[5].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;

@@ -313,7 +313,6 @@ namespace FundTool
                 this.pesoEspecifico = Convert.ToDouble(this.PesoEspecifico.Text);
                 this.empotramientoDF = Convert.ToDouble(this.EmpotramientoDF.Text);
                 this.limiteliquido = Convert.ToDouble(this.LimiteLiquido.Text);
-                this.limiteliquido = this.limiteliquido / 100;
                 this.nsptdesfavorable = Int32.Parse(this.NSPTDES.Text);
                 this.relaciondeVacios = Convert.ToDouble(this.RelacionVacios.Text);
 
