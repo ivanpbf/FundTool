@@ -22,11 +22,6 @@ namespace FundTool
     /// </summary>
     public partial class Directas : Window
     {
-        public class MetroGolpe
-        {
-            public int Metro { get; set; }
-            public int NumeroDeGolpes { get; set; }
-        }
         public class Apoyo
         {
             public int Numero { get; set; }
@@ -109,7 +104,6 @@ namespace FundTool
         public double pesoEspecificoSaturado;
         public int nsptdesfavorable;
         public Boolean introdujoGolpes;
-        public List<MetroGolpe> golpesSuelo;
         public List<Apoyo> apoyos;
         public List<Estrato> estratos;
         public int numeroEstratos;
@@ -133,11 +127,9 @@ namespace FundTool
         {
             InitializeComponent();
             this.datosdelsuelo.Visibility = Visibility.Collapsed;
-            this.DatosDelEnsayoSPTGranulares.Visibility = Visibility.Collapsed;
+            this.DatosDelEnsayoSPTGranulares.Visibility = Visibility.Visible;
             this.SolicitacionesGrid.Visibility = Visibility.Collapsed;
             this.GridFinal.Visibility = Visibility.Collapsed;
-            this.golpesSuelo = new List<MetroGolpe>();
-
         }
 
         /// <summary>
@@ -209,7 +201,6 @@ namespace FundTool
             if ((Boolean)Granular.IsChecked)
             {
                 this.tipoDeSuelo = "Granular";
-                this.DatosDelEnsayoSPTGranulares.Visibility = Visibility.Visible;
             }
         }
 
@@ -224,10 +215,6 @@ namespace FundTool
             if ((Boolean)Cohesivo.IsChecked)
             {
                 this.tipoDeSuelo = "Cohesivo";
-                if(this.DatosDelEnsayoSPTGranulares.Visibility == Visibility.Visible)
-                {
-                    this.DatosDelEnsayoSPTGranulares.Visibility = Visibility.Collapsed;
-                }
             }
         }
 
@@ -306,7 +293,7 @@ namespace FundTool
         {
             if (!String.IsNullOrEmpty(this.AnguloFriccion.Text) && !String.IsNullOrEmpty(this.Cohesion.Text) && !String.IsNullOrEmpty(this.PesoEspecifico.Text)
                 && !String.IsNullOrEmpty(this.EmpotramientoDF.Text) && !String.IsNullOrEmpty(this.tipoDeSuelo) && !string.IsNullOrEmpty(this.NSPTDES.Text) &&
-                !String.IsNullOrEmpty(this.LimiteLiquido.Text) && !String.IsNullOrEmpty(this.RelacionVacios.Text))
+                !String.IsNullOrEmpty(this.LimiteLiquido.Text) && !String.IsNullOrEmpty(this.RelacionVacios.Text) && !String.IsNullOrEmpty(this.Asentamiento.Text))
             {
                 this.anguloFriccion = Convert.ToInt32(this.AnguloFriccion.Text);
                 this.cohesion = Convert.ToDouble(this.Cohesion.Text);
@@ -315,7 +302,7 @@ namespace FundTool
                 this.limiteliquido = Convert.ToDouble(this.LimiteLiquido.Text);
                 this.nsptdesfavorable = Int32.Parse(this.NSPTDES.Text);
                 this.relaciondeVacios = Convert.ToDouble(this.RelacionVacios.Text);
-
+                this.asentamiento = Convert.ToDouble(this.Asentamiento.Text);
                 if ((Boolean)this.FallaL.IsChecked)
                 {
                     this.falla = "local";
@@ -337,18 +324,6 @@ namespace FundTool
                         return;
                     }
                 }
-                if ((Boolean)this.Granular.IsChecked)
-                {
-                    if (!String.IsNullOrEmpty(this.ProfundidadEstudioSuelos.Text) && !String.IsNullOrEmpty(this.Asentamiento.Text) && this.introdujoGolpes)
-                    {
-                        this.asentamiento = Convert.ToDouble(this.Asentamiento.Text);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Introduzca los Datos del Ensayo S.P.T.");
-                        return;
-                    }
-                }
                 this.SolicitacionesGrid.Visibility = Visibility.Visible;
             }
             else
@@ -356,59 +331,6 @@ namespace FundTool
                 MessageBox.Show("Introduzca los Datos del Suelo");
                 return;
             }
-        }
-
-        /// <summary>
-        /// Agrega la cantidad de metros por golpe en una lista de la interfaz
-        /// </summary>
-        /// <param name="sender"> Instancia del control que lanza el evento</param>
-        /// <param name="e">Argumentos enviados por el evento</param>
-        private void AgregarMetroyGolpe(object sender, RoutedEventArgs e)
-        {
-            if (!String.IsNullOrEmpty(this.ProfundidadEstudioSuelos.Text) && !this.ProfundidadEstudioSuelos.Text.Equals(0) && !String.IsNullOrEmpty(this.Asentamiento.Text))
-            {
-                int num = Int32.Parse(this.ProfundidadEstudioSuelos.Text);
-                this.golpesSuelo = new List<MetroGolpe>();
-                for (int i = 0; i < num; i++)
-                {
-                    MetroGolpe nuevom = new MetroGolpe() { Metro = i + 1, NumeroDeGolpes = 0 };
-                    this.golpesSuelo.Add(nuevom);
-                }
-                ObservableCollection<MetroGolpe> obsCollection = new ObservableCollection<MetroGolpe>(this.golpesSuelo);
-                this.profundidadEstudioSuelos = this.golpesSuelo.Count;
-                DataGridGolpes.DataContext = obsCollection;
-                DataGridGolpes.Columns[0].IsReadOnly = true;
-                DataGridGolpes.Columns[1].Header = "Numero de Golpes";
-                DataGridGolpes.CanUserAddRows = false;
-                this.AceptarMetroGolpes.IsEnabled = true;
-                this.introdujoGolpes = false;
-            }
-            else
-            {
-                MessageBox.Show("Introduzca un Valor");
-                return;
-            }
-        }
-
-        /// <summary>
-        /// Acepta los datos de metro por golpe introducidos por el usuario
-        /// </summary>
-        /// <param name="sender"> Instancia del control que lanza el evento</param>
-        /// <param name="e">Argumentos enviados por el evento</param>
-        private void AceptarMetroYGolpe(object sender, RoutedEventArgs e)
-        {
-            for (int i = 0; i < this.golpesSuelo.Count; i++)
-            {
-                TextBlock golpe = DataGridGolpes.Columns[1].GetCellContent(DataGridGolpes.Items[i]) as TextBlock;
-                if (golpe == null)
-                {
-                    MessageBox.Show("Alguno de los valores esta vacio, por favor introduzca un numero");
-                    return;
-                }
-                this.golpesSuelo[i].NumeroDeGolpes = Int32.Parse(golpe.Text);
-            }
-            MessageBox.Show("Se aceptaron los valores correctamente");
-            this.introdujoGolpes = true;
         }
 
         /// <summary>

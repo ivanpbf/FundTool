@@ -479,11 +479,11 @@ namespace FundTool
                 DataGridEstratos.DataContext = obsCollection;
                 DataGridEstratos.Columns[0].IsReadOnly = true;
                 DataGridEstratos.Columns[1].Header = "Espesor (m)";
-                DataGridEstratos.Columns[3].Header = "Angulo de Friccion";
-                DataGridEstratos.Columns[4].Header = "Cohesion (Ton/m²)";
-                DataGridEstratos.Columns[5].Header = "Peso Unitario (Ton/m²)";
-                DataGridEstratos.Columns[6].Header = "Cota Inicio (m)";
-                DataGridEstratos.Columns[7].Header = "Cota Final (m)";
+                DataGridEstratos.Columns[2].Header = "Angulo de Friccion";
+                DataGridEstratos.Columns[3].Header = "Cohesion (Ton/m²)";
+                DataGridEstratos.Columns[4].Header = "Peso Unitario (Ton/m²)";
+                DataGridEstratos.Columns[5].Header = "Cota Inicio (m)";
+                DataGridEstratos.Columns[6].Header = "Cota Final (m)";
                 AceptarValoresEstratos.IsEnabled = true;
             }
             else
@@ -504,11 +504,11 @@ namespace FundTool
             for (int i = 0; i < this.estratos.Count; i++)
             {
                 TextBlock espesor = DataGridEstratos.Columns[1].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
-                TextBlock angulo = DataGridEstratos.Columns[3].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
-                TextBlock cohesion = DataGridEstratos.Columns[4].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
-                TextBlock peso = DataGridEstratos.Columns[5].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
-                TextBlock cotai = DataGridEstratos.Columns[6].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
-                TextBlock cotaf = DataGridEstratos.Columns[7].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
+                TextBlock angulo = DataGridEstratos.Columns[2].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
+                TextBlock cohesion = DataGridEstratos.Columns[3].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
+                TextBlock peso = DataGridEstratos.Columns[4].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
+                TextBlock cotai = DataGridEstratos.Columns[5].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
+                TextBlock cotaf = DataGridEstratos.Columns[6].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
                 this.estratos[i].Espesor = Convert.ToDouble(espesor.Text);
                 this.estratos[i].Angulo = Convert.ToDouble(angulo.Text);
                 this.estratos[i].Cohesion = Convert.ToDouble(cohesion.Text);
@@ -1154,7 +1154,7 @@ namespace FundTool
             this.apoyos[i].Eficiencia = 1.0 - ((((n * (m - 1.0)) + (m * (n - 1))) / ((90.0 * m * n))) * (double)angulo);
             //entonces la q admisible de grupo sera
             this.apoyos[i].QadmisibleGrupo = this.apoyos[i].Qadmisible * this.apoyos[i].Eficiencia;
-            this.apoyos[i].GrosorCabezal = (e / 2.0) + 15;
+            this.apoyos[i].GrosorCabezal = ((e / 2.0) + 15)/100;
             this.apoyos[i].DistanciaMinimaEntrePilotes = e;
             double Ax = Tx / 2100;
             this.apoyos[i].AreaAceroX = Ax;
@@ -1178,7 +1178,7 @@ namespace FundTool
             this.apoyos[i].ColumnaV3Y = this.apoyos[i].CoordEjeY - this.apoyos[i].DimensionColumnaY / 200;
             this.apoyos[i].ColumnaV4X = this.apoyos[i].CoordEjeX + this.apoyos[i].DimensionColumnaX / 200;
             this.apoyos[i].ColumnaV4Y = this.apoyos[i].CoordEjeY - this.apoyos[i].DimensionColumnaY / 200;
-            ; ; MessageBox.Show("columna " + this.apoyos[i].DimensionColumnaX + " vertice 1 " + this.apoyos[i].ColumnaV1X + " " + this.apoyos[i].ColumnaV1Y);
+            //MessageBox.Show("columna " + this.apoyos[i].DimensionColumnaX + " vertice 1 " + this.apoyos[i].ColumnaV1X + " " + this.apoyos[i].ColumnaV1Y);
             this.apoyos[i].DiametroPilotes = this.apoyos[i].DiametroPilotes / 100; //por motivos de calculo
             this.apoyos[i].DistanciaMinimaEntrePilotes = this.apoyos[i].DistanciaMinimaEntrePilotes / 100; // por motivos de calculo
             double k = 1.5 * this.apoyos[i].DiametroPilotes / 2;
