@@ -31,8 +31,8 @@
                 <TextBox x:Name="PesoEspecifico" HorizontalAlignment="Left" Height="23" Margin="128,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly" TextAlignment="Center"/>
                 <TextBox x:Name="EmpotramientoDF" HorizontalAlignment="Left" Height="23" Margin="128,111,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly" TextAlignment="Center"/>
                 <Label Content="Grados" HorizontalAlignment="Left" Margin="182,24,0,0" VerticalAlignment="Top"/>
-                <Label Content="kg/m²" HorizontalAlignment="Left" Margin="182,52,0,0" VerticalAlignment="Top"/>
-                <Label Content="kg/m³" HorizontalAlignment="Left" Margin="182,80,0,0" VerticalAlignment="Top"/>
+                <Label Content="Ton/m²" HorizontalAlignment="Left" Margin="182,52,0,0" VerticalAlignment="Top"/>
+                <Label Content="Ton/m³" HorizontalAlignment="Left" Margin="182,80,0,0" VerticalAlignment="Top"/>
                 <Label Content="m" HorizontalAlignment="Left" Margin="182,108,0,0" VerticalAlignment="Top"/>
                 <Button x:Name="SiguienteDatosSuelo" Content="Siguiente" HorizontalAlignment="Left" Margin="219,301,0,0" VerticalAlignment="Top" Width="75" Click="IntrodujoDatosSuelo" RenderTransformOrigin="0.533,0.773" IsEnabled="False"/>
                 <TextBox x:Name="NSPTDES" HorizontalAlignment="Left" Height="23" Margin="128,168,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly" TextAlignment="Center"/>

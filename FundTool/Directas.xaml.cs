@@ -127,7 +127,7 @@ namespace FundTool
         {
             InitializeComponent();
             this.datosdelsuelo.Visibility = Visibility.Collapsed;
-            this.DatosDelEnsayoSPTGranulares.Visibility = Visibility.Visible;
+            this.DatosDelEnsayoSPTGranulares.Visibility = Visibility.Collapsed;
             this.SolicitacionesGrid.Visibility = Visibility.Collapsed;
             this.GridFinal.Visibility = Visibility.Collapsed;
         }
@@ -166,6 +166,7 @@ namespace FundTool
                 this.resistenciaAcero = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.ResistenciaAcero.Text)));
                 this.resistenciaConcreto = Convert.ToInt64(Math.Floor(Convert.ToDouble(this.ResistenciaConcreto.Text)));
                 this.datosdelsuelo.Visibility = Visibility.Visible;
+                this.DatosDelEnsayoSPTGranulares.Visibility = Visibility.Visible;
             }
             else if (String.IsNullOrEmpty(this.ResistenciaConcreto.Text))
             {
