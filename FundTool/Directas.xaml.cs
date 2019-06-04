@@ -495,8 +495,8 @@ namespace FundTool
         {
             if (this.falla == "local")
             {
-                this.cohesion = (double)(2 / 3) * (double)this.cohesion;
-                this.anguloFriccion = (double)(2 / 3) * this.anguloFriccion;
+                this.cohesion = (0.666666666667) * (double)this.cohesion;
+                this.anguloFriccion = (0.666666666667) * this.anguloFriccion;
             }
             for (int i = 0; i < this.apoyos.Count(); i++)
             {
@@ -564,7 +564,7 @@ namespace FundTool
                 double pesoMenor = 999999999999;
                 for (int j = 0; j < this.estratos.Count; j++)
                 {
-                    double pesoPrima;
+                    /*double pesoPrima;
                     if (this.estratos[j].Espesor > this.empotramientoDF)
                     {
                         pesoPrima = this.estratos[j].Peso - (2.4 * 907.185);
@@ -576,13 +576,17 @@ namespace FundTool
                     if (pesoPrima < pesoMenor)
                     {
                         pesoMenor = pesoPrima;
+                    }*/
+                    if(this.estratos[j].Peso < pesoMenor)
+                    {
+                        pesoMenor = this.estratos[j].Peso;
                     }
                 }
-                this.apoyos[i].Qultima = ((double)this.cohesion * this.NC[(int)this.anguloFriccion] * this.apoyos[i].Fcs * this.apoyos[i].Fcd) + (q * this.NQ[(int)this.anguloFriccion] * this.apoyos[i].Fqs * this.apoyos[i].Fqd) + ((1 / 2) * pesoMenor * this.apoyos[i].B * this.NF[(int)this.anguloFriccion] * this.apoyos[i].Fps * this.apoyos[i].Fpd);
+                this.apoyos[i].Qultima = ((double)this.cohesion * this.NC[(int)this.anguloFriccion] * this.apoyos[i].Fcs * this.apoyos[i].Fcd) + (q * this.NQ[(int)this.anguloFriccion] * this.apoyos[i].Fqs * this.apoyos[i].Fqd) + ((0.5) * pesoMenor * this.apoyos[i].B * this.NF[(int)this.anguloFriccion] * this.apoyos[i].Fps * this.apoyos[i].Fpd);
                 MessageBox.Show("[Apoyo] " + this.apoyos[i].Numero + " ([cohesion] " + (double)this.cohesion + " [NC] " + this.NC[(int)this.anguloFriccion] + " [FCS] " + this.apoyos[i].Fcs + " [FCD] " + this.apoyos[i].Fcd + " multiplicacion de esto es "
                     + (this.cohesion * this.NC[(int)this.anguloFriccion] * this.apoyos[i].Fcs * this.apoyos[i].Fcd) + ") + ([q] " + q + " [NQ] " + this.NQ[(int)this.anguloFriccion] + " [FQS] " + this.apoyos[i].Fqs + " [FQD] " + this.apoyos[i].Fqd + " multiplicacion de esto" +
                     (q * this.NQ[(int)this.anguloFriccion] * this.apoyos[i].Fqs * this.apoyos[i].Fqd) + ") + (1/2 * [pesoMenor] " + pesoMenor + " [B] " + this.apoyos[i].B + " [NF] " + this.NF[(int)this.anguloFriccion] + " [FPS] " + this.apoyos[i].Fps + " [FPD] " + this.apoyos[i].Fpd +
-                    " multiplicacion de esto " + ((1 / 2) * pesoMenor * this.apoyos[i].B * this.NF[(int)this.anguloFriccion] * this.apoyos[i].Fps * this.apoyos[i].Fpd) + ")");
+                    " multiplicacion de esto " + ((0.5) * pesoMenor * this.apoyos[i].B * this.NF[(int)this.anguloFriccion] * this.apoyos[i].Fps * this.apoyos[i].Fpd) + ")");
                 MessageBox.Show("Q ultima apoyo " + this.apoyos[i].Qultima);
                 //area de la zapata para cada apoyo
                 this.apoyos[i].AreaZapata = (this.apoyos[i].Carga * 3) / this.apoyos[i].Qultima;
@@ -648,7 +652,7 @@ namespace FundTool
                     this.apoyos[i].Vertice4X = this.apoyos[i].CoordEjeX + (this.apoyos[i].B / 2);
                     this.apoyos[i].Vertice4Y = this.apoyos[i].CoordEjeY - (this.apoyos[i].B / 2);
                 }
-                
+                MessageBox.Show("finales: B = " + this.apoyos[i].B + " Qultima =" + this.apoyos[i].Qultima);
             }
             MessageBoxResult result = MessageBox.Show("Continuar con los parametros especificados?", "Finaliza", MessageBoxButton.OKCancel);
             if (result == MessageBoxResult.OK)
