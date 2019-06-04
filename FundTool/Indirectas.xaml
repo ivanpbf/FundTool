@@ -15,7 +15,7 @@
                 <Button x:Name="Siguientes" Content="Siguiente" HorizontalAlignment="Left" Margin="123,78,0,0" VerticalAlignment="Top" Width="53" Click="AceptarSuelo"/>
                 <Button x:Name="Cancelars" Content="Cambiar" HorizontalAlignment="Left" Margin="198,78,0,0" VerticalAlignment="Top" Width="55" Click="CancelarSuelo"/>
             </Grid>
-            <Grid x:Name="GranularGrid" HorizontalAlignment="Left" Height="277" Margin="278,10,0,0" VerticalAlignment="Top" Width="504" Background="AntiqueWhite" Visibility="Collapsed">
+            <Grid x:Name="GranularGrid" Height="277" Margin="278,10,0,0" VerticalAlignment="Top" Background="AntiqueWhite" Visibility="Collapsed">
                 <Label Content="Datos Generales" FontWeight="Bold" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
                 <Label Content="Datos del Pilote" FontWeight="Bold" HorizontalAlignment="Left" Margin="23,36,0,0" VerticalAlignment="Top"/>
                 <Label Content="Longitud Pilote:" HorizontalAlignment="Left" Margin="23,62,0,0" VerticalAlignment="Top"/>
@@ -37,11 +37,11 @@
                 <Label Content="Profundidad del Sondeo Exploratorio:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="235,17,0,0"/>
                 <Label Content="m" HorizontalAlignment="Left" Margin="474,18,0,0" VerticalAlignment="Top"/>
                 <Button Content="Actualizar Lista" HorizontalAlignment="Left" Margin="322,47,0,0" VerticalAlignment="Top" Width="95" Height="26" Click="AgregarMetroyGolpe"/>
-                <DataGrid x:Name="DataGridGolpes" HorizontalAlignment="Left" Height="122" Margin="238,78,0,0" VerticalAlignment="Top" Width="256" ColumnWidth="*" ItemsSource="{Binding}"/>
+                <DataGrid x:Name="DataGridGolpes" Height="122" Margin="238,78,10,0" VerticalAlignment="Top" ColumnWidth="*" ItemsSource="{Binding}"/>
                 <Button x:Name="AceptarMetroGolpes" Content="Aceptar" HorizontalAlignment="Left" Margin="399,210,0,0" VerticalAlignment="Top" Width="75" IsEnabled="False" Click="AceptarMetroYGolpe"/>
                 <Label Content="Numero de Ensayo &#xD;&#xA;SPT de Punta:" HorizontalAlignment="Left" Margin="12,176,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.211,0.077"/>
             </Grid>
-            <Grid x:Name="GranularCohesivoGrid" HorizontalAlignment="Left" Height="291" Margin="278,10,0,0" VerticalAlignment="Top" Width="504" Background="AntiqueWhite" Visibility="Collapsed">
+            <Grid x:Name="GranularCohesivoGrid" Height="291" Margin="278,10,0,0" VerticalAlignment="Top" Background="AntiqueWhite" Visibility="Collapsed">
                 <Label Content="Datos Generales" FontWeight="Bold" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
                 <Label Content="Datos del Pilote" FontWeight="Bold" HorizontalAlignment="Left" Margin="23,36,0,0" VerticalAlignment="Top"/>
                 <Label Content="Longitud Pilote:" HorizontalAlignment="Left" Margin="15,60,0,0" VerticalAlignment="Top"/>
@@ -61,7 +61,7 @@
                 <Label Content="Numero de Estratos:" FontWeight="Bold" HorizontalAlignment="Left" Margin="271,23,0,0" VerticalAlignment="Top"/>
                 <TextBox x:Name="NroEstratos" HorizontalAlignment="Left" Height="23" Margin="397,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" PreviewTextInput="NumericOnly"/>
                 <Button Content="Introducir Estratos" HorizontalAlignment="Left" Margin="290,53,0,0" VerticalAlignment="Top" Width="144" Click="IntroducirEstratos"/>
-                <DataGrid x:Name="DataGridEstratos" Height="130" Margin="235,78,0,0" VerticalAlignment="Top" ItemsSource="{Binding}" CanUserAddRows="false" HorizontalAlignment="Left" Width="250"/>
+                <DataGrid x:Name="DataGridEstratos" Height="130" Margin="235,78,19,0" VerticalAlignment="Top" ItemsSource="{Binding}" CanUserAddRows="false"/>
                 <Button x:Name="AceptarValoresEstratos" Content="Aceptar Estratos" HorizontalAlignment="Left" Margin="378,245,0,0" VerticalAlignment="Top" Width="107" Click="IntroducirDatosEstratos" IsEnabled="False"/>
                 <Label Content=" * Excluya el relleno y coloque solo los estratos &#xA;que esten en contacto con el pilote." HorizontalAlignment="Left" Margin="235,208,0,0" VerticalAlignment="Top" FontSize="10"/>
             </Grid>

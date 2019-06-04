@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="FundTool - Directas" Height="740.5" Width="822">
     <ScrollViewer HorizontalScrollBarVisibility="Auto" Height="709" VerticalAlignment="Top">
-        <Grid Background="#D3D3D3" Height="707" Width="794">
+        <Grid Background="#D3D3D3" Height="707" Width="790">
             <Grid HorizontalAlignment="Left" Height="130" Margin="10,10,0,0" VerticalAlignment="Top" Width="253" Background="AntiqueWhite">
                 <Label Content="Materiales" Margin="0,0,191,107" FontWeight="Bold"/>
                 <Label Content="Resistencia del Concreto:" HorizontalAlignment="Left" Margin="1,23,0,0" VerticalAlignment="Top" Width="143"/>
@@ -19,7 +19,7 @@
                 <Button x:Name="Aceptarm" Content="Aceptar" HorizontalAlignment="Left" Margin="126,93,0,0" VerticalAlignment="Top" Width="53" Click="AceptarMateriales"/>
                 <Button x:Name="Cancelarm" Content="Cancelar" HorizontalAlignment="Left" Margin="187,93,0,0" VerticalAlignment="Top" Width="55" Click="CancelarMateriales"/>
             </Grid>
-            <Grid x:Name="datosdelsuelo" Height="322" Margin="268,10,0,0" VerticalAlignment="Top" Background="AntiqueWhite" HorizontalAlignment="Left" Width="506">
+            <Grid x:Name="datosdelsuelo" Height="322" Margin="268,10,20,0" VerticalAlignment="Top" Background="AntiqueWhite">
                 <Label Content="Datos del Suelo" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold"/>
                 <Label Content="Tipo de Falla" HorizontalAlignment="Left" Margin="236,5,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
                 <TextBox x:Name="AnguloFriccion" HorizontalAlignment="Left" Height="23" Margin="128,27,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" PreviewTextInput="NumericOnly" TextAlignment="Center"/>
@@ -44,7 +44,7 @@
                 <RadioButton x:Name="Cohesivo" Content="Suelo Cohesivo" HorizontalAlignment="Left" Margin="342,53,0,0" VerticalAlignment="Top" GroupName="TipoDeSuelo" Checked="Cohesivo_Checked"/>
                 <TextBox x:Name="NroEstratos" HorizontalAlignment="Left" Height="23" Margin="405,76,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" PreviewTextInput="NumericOnly"/>
                 <Button Content="Introducir Estratos" HorizontalAlignment="Left" Margin="298,103,0,0" VerticalAlignment="Top" Width="144" Click="IntroducirEstratos"/>
-                <DataGrid x:Name="DataGridEstratos" Height="130" Margin="243,128,0,0" VerticalAlignment="Top" ItemsSource="{Binding}" CanUserAddRows="false" HorizontalAlignment="Left" Width="250"/>
+                <DataGrid x:Name="DataGridEstratos" Height="130" Margin="243,128,13,0" VerticalAlignment="Top" ItemsSource="{Binding}" CanUserAddRows="false"/>
                 <Button x:Name="AceptarValoresEstratos" Content="Aceptar Estratos" HorizontalAlignment="Left" Margin="387,286,0,0" VerticalAlignment="Top" Width="107" Click="IntroducirDatosEstratos" IsEnabled="False" RenderTransformOrigin="0.458,-0.15"/>
                 <Label Content="Tipo de Suelo (en Punta):" FontWeight="Bold" HorizontalAlignment="Left" Margin="342,5,0,0" VerticalAlignment="Top"/>
                 <Label Content="NSPT desfavorable:" HorizontalAlignment="Left" Margin="9,165,0,0" VerticalAlignment="Top"/>
