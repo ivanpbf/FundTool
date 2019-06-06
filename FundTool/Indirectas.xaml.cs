@@ -481,7 +481,7 @@ namespace FundTool
                 DataGridEstratos.Columns[1].Header = "Espesor (m)";
                 DataGridEstratos.Columns[2].Header = "Angulo de Friccion";
                 DataGridEstratos.Columns[3].Header = "Cohesion (Ton/m²)";
-                DataGridEstratos.Columns[4].Header = "Peso Unitario (Ton/m²)";
+                DataGridEstratos.Columns[4].Header = "Peso Unitario (Ton/m³)";
                 DataGridEstratos.Columns[5].Header = "Cota Inicio (m)";
                 DataGridEstratos.Columns[6].Header = "Cota Final (m)";
                 AceptarValoresEstratos.IsEnabled = true;

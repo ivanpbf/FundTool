@@ -243,10 +243,14 @@ namespace FundTool
                 DataGridEstratos.DataContext = obsCollection;
                 DataGridEstratos.Columns[0].IsReadOnly = true;
                 DataGridEstratos.Columns[1].Header = "Espesor (m)";
-                DataGridEstratos.Columns[2].Header = "Descripcion";
+                DataGridComboBoxColumn descripcion = new DataGridComboBoxColumn();
+                descripcion.ItemsSource = new List<String> { "Granular", "Cohesivo"};
+                descripcion.Header = "Descripcion";
+                descripcion.TextBinding = new Binding("Descripcion");
+                DataGridEstratos.Columns[2] = descripcion;
                 DataGridEstratos.Columns[3].Header = "Angulo de Friccion";
                 DataGridEstratos.Columns[4].Header = "Cohesion (Ton/m²)";
-                DataGridEstratos.Columns[5].Header = "Peso Unitario (Ton/m²)";
+                DataGridEstratos.Columns[5].Header = "Peso Unitario (Ton/m³)";
                 DataGridEstratos.Columns[6].Header = "Cota Inicio (m)";
                 DataGridEstratos.Columns[7].Header = "Cota Final (m)";
                 AceptarValoresEstratos.IsEnabled = true;
@@ -269,7 +273,8 @@ namespace FundTool
             for (int i = 0; i < this.estratos.Count; i++)
             {
                 TextBlock espesor = DataGridEstratos.Columns[1].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
-                TextBlock descripcion = DataGridEstratos.Columns[2].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
+                //TextBlock descripcion = DataGridEstratos.Columns[2].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
+                //String descripcion = DataGridEstratos.Columns[2].;
                 TextBlock angulo = DataGridEstratos.Columns[3].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
                 TextBlock cohesion = DataGridEstratos.Columns[4].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
                 TextBlock peso = DataGridEstratos.Columns[5].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
@@ -281,6 +286,8 @@ namespace FundTool
                 this.estratos[i].Peso = Convert.ToDouble(peso.Text);
                 this.estratos[i].CotaInicio = Convert.ToDouble(cotai.Text);
                 this.estratos[i].CotaFinal = Convert.ToDouble(cotaf.Text);
+                //this.estratos[i].Descripcion = descripcion;
+                //MessageBox.Show(this.estratos[i].Descripcion);
                 this.SiguienteDatosSuelo.IsEnabled = true;
             }
         }
@@ -496,7 +503,9 @@ namespace FundTool
             if (this.falla == "local")
             {
                 this.cohesion = (0.666666666667) * (double)this.cohesion;
-                this.anguloFriccion = (0.666666666667) * this.anguloFriccion;
+                this.anguloFriccion = Math.Atan((0.666666666667) * Math.Tan(this.anguloFriccion * Math.PI/180));
+                this.anguloFriccion = this.anguloFriccion * 180 / Math.PI;
+                this.anguloFriccion = Math.Floor(this.anguloFriccion);
             }
             for (int i = 0; i < this.apoyos.Count(); i++)
             {
@@ -583,6 +592,7 @@ namespace FundTool
                     }
                 }
                 this.apoyos[i].Qultima = ((double)this.cohesion * this.NC[(int)this.anguloFriccion] * this.apoyos[i].Fcs * this.apoyos[i].Fcd) + (q * this.NQ[(int)this.anguloFriccion] * this.apoyos[i].Fqs * this.apoyos[i].Fqd) + ((0.5) * pesoMenor * this.apoyos[i].B * this.NF[(int)this.anguloFriccion] * this.apoyos[i].Fps * this.apoyos[i].Fpd);
+                this.apoyos[i].Qultima = Math.Round(this.apoyos[i].Qultima, 3);
                 MessageBox.Show("[Apoyo] " + this.apoyos[i].Numero + " ([cohesion] " + (double)this.cohesion + " [NC] " + this.NC[(int)this.anguloFriccion] + " [FCS] " + this.apoyos[i].Fcs + " [FCD] " + this.apoyos[i].Fcd + " multiplicacion de esto es "
                     + (this.cohesion * this.NC[(int)this.anguloFriccion] * this.apoyos[i].Fcs * this.apoyos[i].Fcd) + ") + ([q] " + q + " [NQ] " + this.NQ[(int)this.anguloFriccion] + " [FQS] " + this.apoyos[i].Fqs + " [FQD] " + this.apoyos[i].Fqd + " multiplicacion de esto" +
                     (q * this.NQ[(int)this.anguloFriccion] * this.apoyos[i].Fqs * this.apoyos[i].Fqd) + ") + (1/2 * [pesoMenor] " + pesoMenor + " [B] " + this.apoyos[i].B + " [NF] " + this.NF[(int)this.anguloFriccion] + " [FPS] " + this.apoyos[i].Fps + " [FPD] " + this.apoyos[i].Fpd +
@@ -591,6 +601,7 @@ namespace FundTool
                 //area de la zapata para cada apoyo
                 this.apoyos[i].AreaZapata = (this.apoyos[i].Carga * 3) / this.apoyos[i].Qultima;
                 this.apoyos[i].B = Math.Sqrt(this.apoyos[i].AreaZapata);
+                this.apoyos[i].B = Math.Round(this.apoyos[i].B, 1);
                 MessageBox.Show("Area zapata "+ this.apoyos[i].AreaZapata+" B "+ this.apoyos[i].B);
                 MessageBox.Show("Q ultima apoyo " + this.apoyos[i].Qultima);
                 this.apoyos[i].SumatoriaMomentosX = this.apoyos[i].MtoEnEjeY + this.empotramientoDF * this.apoyos[i].FBasalX;
@@ -784,30 +795,32 @@ namespace FundTool
                     double p = 0;
                     if (this.apoyos[i].ZapataConjuntaX || this.apoyos[i].ZapataConjuntaY)
                     {
-                        p = this.apoyos[i].Carga / (this.apoyos[i].B * this.apoyos[i].Ltotal);
+                        p = this.apoyos[i].Carga / ((this.apoyos[i].B * 3.28) * (this.apoyos[i].Ltotal * 3.28));
+                        MessageBox.Show("Para P, zapatas conjuntas Carga " + this.apoyos[i].Carga + " / [(B" + this.apoyos[i].B + "*3.28) =" + (this.apoyos[i].B * 3.28) + " * (L " + this.apoyos[i].Ltotal + " * 3.28 =" + (this.apoyos[i].Ltotal * 3.28) + ")]");
                     }
                     else
                     {
-                        p = this.apoyos[i].Carga / (Math.Pow(this.apoyos[i].B, 2));
+                        p = this.apoyos[i].Carga / (Math.Pow(this.apoyos[i].B * 3.28, 2));
+                        MessageBox.Show("Para P, no conjunta " + this.apoyos[i].Carga + " / B  "+this.apoyos[i].B+"*3.28"+ this.apoyos[i].B * 3.28 + "^2 = "+ Math.Pow(this.apoyos[i].B * 3.28, 2));
                     }
                     double Cb = 0;
-                    if (this.apoyos[i].B <= 121.92) //estas comparaciones son en centimetros
+                    if (this.apoyos[i].B <= 1.22) //estas comparaciones son en centimetros
                     {
                         Cb = 1;
                     }
-                    if (this.apoyos[i].B < 182.88)
+                    else if (this.apoyos[i].B < 1.83)
                     {
                         Cb = 0.95;
                     }
-                    if (this.apoyos[i].B < 243.84)
+                    else if (this.apoyos[i].B < 2.44)
                     {
                         Cb = 0.90;
                     }
-                    if (this.apoyos[i].B < 304.8)
+                    else if (this.apoyos[i].B < 3.05)
                     {
                         Cb = 0.85;
                     }
-                    if (this.apoyos[i].B >= 121.92)
+                    else if (this.apoyos[i].B >= 3.66)
                     {
                         Cb = 0.80;
                     }
