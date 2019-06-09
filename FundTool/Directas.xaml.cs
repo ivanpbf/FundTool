@@ -273,8 +273,8 @@ namespace FundTool
             for (int i = 0; i < this.estratos.Count; i++)
             {
                 TextBlock espesor = DataGridEstratos.Columns[1].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
-                //TextBlock descripcion = DataGridEstratos.Columns[2].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
-                //String descripcion = DataGridEstratos.Columns[2].;
+                ComboBox ele = DataGridEstratos.Columns[2].GetCellContent(DataGridEstratos.Items[i]) as ComboBox;
+                String descripcion = ele.Text;
                 TextBlock angulo = DataGridEstratos.Columns[3].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
                 TextBlock cohesion = DataGridEstratos.Columns[4].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
                 TextBlock peso = DataGridEstratos.Columns[5].GetCellContent(DataGridEstratos.Items[i]) as TextBlock;
@@ -286,8 +286,7 @@ namespace FundTool
                 this.estratos[i].Peso = Convert.ToDouble(peso.Text);
                 this.estratos[i].CotaInicio = Convert.ToDouble(cotai.Text);
                 this.estratos[i].CotaFinal = Convert.ToDouble(cotaf.Text);
-                //this.estratos[i].Descripcion = descripcion;
-                //MessageBox.Show(this.estratos[i].Descripcion);
+                this.estratos[i].Descripcion = descripcion;
                 this.SiguienteDatosSuelo.IsEnabled = true;
             }
         }
@@ -804,7 +803,7 @@ namespace FundTool
                         MessageBox.Show("Para P, no conjunta " + this.apoyos[i].Carga + " / B  "+this.apoyos[i].B+"*3.28"+ this.apoyos[i].B * 3.28 + "^2 = "+ Math.Pow(this.apoyos[i].B * 3.28, 2));
                     }
                     double Cb = 0;
-                    if (this.apoyos[i].B <= 1.22) //estas comparaciones son en centimetros
+                    if (this.apoyos[i].B <= 1.22) //estas comparaciones son en metros, de pies a metros
                     {
                         Cb = 1;
                     }
@@ -825,7 +824,8 @@ namespace FundTool
                         Cb = 0.80;
                     }
                     double maximoApoyo = (5 * p) / ((Nac - 1.5) * Cb);
-                    if (maximoApoyo > this.asentamiento)
+                    maximoApoyo = maximoApoyo * 30.48;
+                    if (maximoApoyo > (this.asentamiento/10))
                     {
                         this.apoyos[i].B = this.apoyos[i].B + 0.1;
                     }
