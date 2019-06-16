@@ -39,7 +39,7 @@ namespace FundTool
             {
                 Directas instance = (Directas)win;
                 List<Directas.Apoyo> apoyos;
-                if (instance.apoyos != null)
+                if (instance.finalizo)
                 {
                     apoyos = instance.apoyos;
 
@@ -108,7 +108,7 @@ namespace FundTool
             {
                 Indirectas instance = (Indirectas)win;
                 List<Indirectas.Apoyo> apoyos;
-                if (instance.apoyos != null)
+                if (instance.finalizo)
                 {
                     apoyos = instance.apoyos;
 

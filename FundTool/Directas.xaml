@@ -36,8 +36,8 @@
                 <RadioButton x:Name="Granular" Content="Suelo Granular" HorizontalAlignment="Right" Margin="0,48,65,0" VerticalAlignment="Top" GroupName="TipoDeSuelo" Checked="Granular_Checked"/>
                 <RadioButton x:Name="Cohesivo" Content="Suelo Cohesivo" HorizontalAlignment="Right" Margin="0,68,62,0" VerticalAlignment="Top" GroupName="TipoDeSuelo" Checked="Cohesivo_Checked"/>
                 <TextBox x:Name="NroEstratos" HorizontalAlignment="Right" Height="23" Margin="0,18,255,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" PreviewTextInput="NumericOnly" Grid.Row="1"/>
-                <Button Content="Introducir Estratos" HorizontalAlignment="Right" Margin="0,18,55,0" VerticalAlignment="Top" Width="144" Click="IntroducirEstratos" Grid.Row="1"/>
-                <DataGrid x:Name="DataGridEstratos" Height="131" Margin="10,46,0,0" VerticalAlignment="Top" ItemsSource="{Binding}" CanUserAddRows="false" HorizontalAlignment="Left" Width="744" Grid.Row="1"/>
+                <Button x:Name="IntroducirEstratosBot" Content="Introducir Estratos" HorizontalAlignment="Right" Margin="0,21,106,0" VerticalAlignment="Top" Width="144" Click="IntroducirEstratos" Grid.Row="1"/>
+                <DataGrid x:Name="DataGridEstratos" Height="131" Margin="10,46,0,0" VerticalAlignment="Top" ItemsSource="{Binding}" CanUserAddRows="false" HorizontalAlignment="Left" Width="744" Grid.Row="1" PreviewTextInput="DataGrid_PreviewTextInput" ColumnWidth="*"/>
                 <Button x:Name="AceptarValoresEstratos" Content="Aceptar Estratos" HorizontalAlignment="Right" Margin="0,185,39,0" VerticalAlignment="Top" Width="107" Click="IntroducirDatosEstratos" IsEnabled="False" RenderTransformOrigin="0.458,-0.15" Grid.Row="1"/>
                 <Label Content="Tipo de Suelo (en Punta):" FontWeight="Bold" HorizontalAlignment="Right" Margin="0,20,10,0" VerticalAlignment="Top"/>
                 <Label Content="NSPT desfavorable:" HorizontalAlignment="Right" Margin="0,91,146,0" VerticalAlignment="Top"/>
@@ -45,7 +45,6 @@
                 <Label Content="Golpes" HorizontalAlignment="Right" Margin="0,94,38,0" VerticalAlignment="Top"/>
                 <Label Content="%" HorizontalAlignment="Right" Margin="0,126,65,0" VerticalAlignment="Top"/>
                 <Label Content="Relacion de Vacios:" HorizontalAlignment="Right" Margin="0,149,146,0" VerticalAlignment="Top"/>
-                <Label Content="* En descripción, escribir Cohesivo o Granular." HorizontalAlignment="Right" Margin="0,182,552,0" VerticalAlignment="Top" FontSize="10" Grid.Row="1"/>
                 <Label Content="Asentamiento Permisible:" HorizontalAlignment="Right" Margin="0,149,360,0" VerticalAlignment="Top"/>
                 <TextBox x:Name="Asentamiento" HorizontalAlignment="Right" Height="23" Margin="0,154,327,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" PreviewTextInput="NumericOnly" TextAlignment="Center" RenderTransformOrigin="0.533,1"/>
                 <Label Content="mm" Margin="0,151,287,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="35" RenderTransformOrigin="0.8,0.615"/>

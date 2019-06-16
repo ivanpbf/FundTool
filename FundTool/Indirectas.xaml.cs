@@ -121,7 +121,7 @@ namespace FundTool
         public Boolean calculosCorrectos;
         public List<Apoyo> apoyos;
         public List<Estrato> estratos;
-
+        public Boolean finalizo;
         /// <summary>
         /// Inicializacion de la ventana de Indirectas
         /// 
@@ -135,7 +135,7 @@ namespace FundTool
             this.SolicitacionesGrid.Visibility = Visibility.Collapsed;
             this.GridFinal.Visibility = Visibility.Collapsed;
             this.golpesSuelo = new List<MetroGolpe>();
-
+            finalizo = false;
         }
 
         /// <summary>
@@ -161,6 +161,16 @@ namespace FundTool
         {
             Regex regex = new Regex("^[.][0-9]+$|^[0-9]*[.]{0,1}[0-9]*$");
             e.Handled = !regex.IsMatch((sender as TextBox).Text.Insert((sender as TextBox).SelectionStart, e.Text));
+        }
+        /// <summary>
+        /// Permite que los datos ingresados sean solo numeros y decimales para datagrids
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
+        private void DataGrid_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("^[.][0-9]+$|^[0-9]*[.]{0,1}[0-9]*$");
+            e.Handled = !regex.IsMatch(e.Text);
         }
 
         /// <summary>
@@ -566,7 +576,15 @@ namespace FundTool
                 MessageBoxResult result = MessageBox.Show("Continuar con los parametros especificados?", "Finaliza", MessageBoxButton.OKCancel);
                 if (result == MessageBoxResult.OK)
                 {
+                    finalizo = true;
                     this.Close();
+                }
+                else
+                {
+                    this.TipoDeSuelo.Visibility = Visibility.Collapsed;
+                    this.GranularGrid.Visibility = Visibility.Collapsed;
+                    this.SolicitacionesGrid.Visibility = Visibility.Collapsed;
+                    this.GridFinal.Visibility = Visibility.Collapsed;
                 }
             }
 
@@ -1564,6 +1582,8 @@ namespace FundTool
                 this.apoyos[i].Pilotes[j].CargaPilote = (double)a + b + c;
             }
         }
+
+        
     }
 }
 

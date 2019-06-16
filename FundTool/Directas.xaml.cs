@@ -115,7 +115,7 @@ namespace FundTool
         11.85, 13.20, 14.72, 16.44, 18.40, 20.63, 23.18, 26.09, 29.44, 33.3, 37.75, 42.92, 48.93, 55.96, 64.20, 73.90, 85.38, 99.02, 115.31, 134.88, 158.51, 187.21, 222.31, 265.51, 319.07};
         public List<double> NF = new List<double> {0.00, 0.077, 0.15, 0.24, 0.34, 0.45, 0.57, 0.71, 0.86, 1.03, 1.22, 1.44, 1.69, 1.97, 2.29, 2.65, 3.06, 3.53, 4.07, 4.68, 5.39, 6.20, 7.13, 8.20, 9.44, 10.88,
         12.54, 14.47, 16.72, 19.34, 22.40, 25.99, 30.22, 35.19, 41.06, 48.03, 56.31, 66.19, 78.03, 92.25, 109.41, 130.22, 155.55, 186.54, 224.64, 271.76, 330.35, 403.67, 496.01, 613.16, 762.89};
-
+        public Boolean finalizo;
 
 
         /// <summary>
@@ -130,6 +130,7 @@ namespace FundTool
             this.DatosDelEnsayoSPTGranulares.Visibility = Visibility.Collapsed;
             this.SolicitacionesGrid.Visibility = Visibility.Collapsed;
             this.GridFinal.Visibility = Visibility.Collapsed;
+            finalizo = false;
         }
 
         /// <summary>
@@ -141,6 +142,16 @@ namespace FundTool
         {
             Regex regex = new Regex("^[.][0-9]+$|^[0-9]*[.]{0,1}[0-9]*$");
             e.Handled = !regex.IsMatch((sender as TextBox).Text.Insert((sender as TextBox).SelectionStart, e.Text));
+        }
+        /// <summary>
+        /// Permite que los datos ingresados sean solo numeros y decimales para datagrids
+        /// </summary>
+        /// <param name="sender"> Instancia del control que lanza el evento</param>
+        /// <param name="e">Argumentos enviados por el evento</param>
+        private void DataGrid_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("^[.][0-9]+$|^[0-9]*[.]{0,1}[0-9]*$");
+            e.Handled = !regex.IsMatch(e.Text);
         }
 
         /// <summary>
@@ -226,6 +237,10 @@ namespace FundTool
         /// <param name="e">Argumentos enviados por el evento</param>
         private void IntroducirEstratos(object sender, RoutedEventArgs e)
         {
+            if (AceptarValoresEstratos.IsEnabled)
+            {
+                DataGridEstratos.Columns.Remove(DataGridEstratos.Columns[2]);
+            }
             if (!String.IsNullOrEmpty(this.NroEstratos.Text) && !this.NroEstratos.Text.Equals("0"))
             {
                 int numero = Int32.Parse(this.NroEstratos.Text);
@@ -254,10 +269,11 @@ namespace FundTool
                 DataGridEstratos.Columns[6].Header = "Cota Inicio (m)";
                 DataGridEstratos.Columns[7].Header = "Cota Final (m)";
                 AceptarValoresEstratos.IsEnabled = true;
+
             }
             else
             {
-                MessageBox.Show("Introduzca un numero de Apoyos mayor a 0");
+                MessageBox.Show("Introduzca un numero de Estratos mayor a 0");
                 return;
             }
 
@@ -572,19 +588,6 @@ namespace FundTool
                 double pesoMenor = 999999999999;
                 for (int j = 0; j < this.estratos.Count; j++)
                 {
-                    /*double pesoPrima;
-                    if (this.estratos[j].Espesor > this.empotramientoDF)
-                    {
-                        pesoPrima = this.estratos[j].Peso - (2.4 * 907.185);
-                    }
-                    else
-                    {
-                        pesoPrima = this.estratos[j].Peso;
-                    }
-                    if (pesoPrima < pesoMenor)
-                    {
-                        pesoMenor = pesoPrima;
-                    }*/
                     if(this.estratos[j].Peso < pesoMenor)
                     {
                         pesoMenor = this.estratos[j].Peso;
@@ -630,15 +633,23 @@ namespace FundTool
                     this.apoyos[i].Qmax = (this.apoyos[i].Carga / Math.Pow(this.apoyos[i].B, 2)) * (1 + (6 * (this.apoyos[i].FactorEY) / this.apoyos[i].B));
                     this.apoyos[i].Qmin = (this.apoyos[i].Carga / Math.Pow(this.apoyos[i].B, 2)) * (1 - (6 * (this.apoyos[i].FactorEY) / this.apoyos[i].B));
                 }
-                VerificacionAsentamiento(i);
-                this.apoyos[i].ColumnaV1X = this.apoyos[i].CoordEjeX - this.apoyos[i].DimensionColumnaX / 200;
-                this.apoyos[i].ColumnaV1Y = this.apoyos[i].CoordEjeY + this.apoyos[i].DimensionColumnaY / 200;
-                this.apoyos[i].ColumnaV2X = this.apoyos[i].CoordEjeX + this.apoyos[i].DimensionColumnaX / 200;
-                this.apoyos[i].ColumnaV2Y = this.apoyos[i].CoordEjeY + this.apoyos[i].DimensionColumnaY / 200;
-                this.apoyos[i].ColumnaV3X = this.apoyos[i].CoordEjeX - this.apoyos[i].DimensionColumnaX / 200;
-                this.apoyos[i].ColumnaV3Y = this.apoyos[i].CoordEjeY - this.apoyos[i].DimensionColumnaY / 200;
-                this.apoyos[i].ColumnaV4X = this.apoyos[i].CoordEjeX + this.apoyos[i].DimensionColumnaX / 200;
-                this.apoyos[i].ColumnaV4Y = this.apoyos[i].CoordEjeY - this.apoyos[i].DimensionColumnaY / 200;
+                Boolean verificacionCierta = false;
+                verificacionCierta = VerificacionAsentamiento(i);
+                if (!verificacionCierta)
+                {
+                    return;
+                }
+                else
+                {
+                    this.apoyos[i].ColumnaV1X = this.apoyos[i].CoordEjeX - this.apoyos[i].DimensionColumnaX / 200;
+                    this.apoyos[i].ColumnaV1Y = this.apoyos[i].CoordEjeY + this.apoyos[i].DimensionColumnaY / 200;
+                    this.apoyos[i].ColumnaV2X = this.apoyos[i].CoordEjeX + this.apoyos[i].DimensionColumnaX / 200;
+                    this.apoyos[i].ColumnaV2Y = this.apoyos[i].CoordEjeY + this.apoyos[i].DimensionColumnaY / 200;
+                    this.apoyos[i].ColumnaV3X = this.apoyos[i].CoordEjeX - this.apoyos[i].DimensionColumnaX / 200;
+                    this.apoyos[i].ColumnaV3Y = this.apoyos[i].CoordEjeY - this.apoyos[i].DimensionColumnaY / 200;
+                    this.apoyos[i].ColumnaV4X = this.apoyos[i].CoordEjeX + this.apoyos[i].DimensionColumnaX / 200;
+                    this.apoyos[i].ColumnaV4Y = this.apoyos[i].CoordEjeY - this.apoyos[i].DimensionColumnaY / 200;
+                }    
             }
             VerificacionConjuntas();
             FinalizarDirectas();
@@ -667,7 +678,15 @@ namespace FundTool
             MessageBoxResult result = MessageBox.Show("Continuar con los parametros especificados?", "Finaliza", MessageBoxButton.OKCancel);
             if (result == MessageBoxResult.OK)
             {
+                finalizo = true;
                 this.Close();
+            }
+            else
+            {
+                this.datosdelsuelo.Visibility = Visibility.Collapsed;
+                this.DatosDelEnsayoSPTGranulares.Visibility = Visibility.Collapsed;
+                this.SolicitacionesGrid.Visibility = Visibility.Collapsed;
+                this.GridFinal.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -783,7 +802,7 @@ namespace FundTool
         /// Verifica que el asentamiento de un apoyo este correcto
         /// </summary>
         /// <param name="i">Apoyo I en la lista de apoyos</param>
-        private void VerificacionAsentamiento(int i)
+        private Boolean VerificacionAsentamiento(int i)
         {
             Boolean seCumple = false;
             while (!seCumple)
@@ -795,13 +814,12 @@ namespace FundTool
                     if (this.apoyos[i].ZapataConjuntaX || this.apoyos[i].ZapataConjuntaY)
                     {
                         p = this.apoyos[i].Carga / ((this.apoyos[i].B * 3.28) * (this.apoyos[i].Ltotal * 3.28));
-                        MessageBox.Show("Para P, zapatas conjuntas Carga " + this.apoyos[i].Carga + " / [(B" + this.apoyos[i].B + "*3.28) =" + (this.apoyos[i].B * 3.28) + " * (L " + this.apoyos[i].Ltotal + " * 3.28 =" + (this.apoyos[i].Ltotal * 3.28) + ")]");
                     }
                     else
                     {
                         p = this.apoyos[i].Carga / (Math.Pow(this.apoyos[i].B * 3.28, 2));
-                        MessageBox.Show("Para P, no conjunta " + this.apoyos[i].Carga + " / B  "+this.apoyos[i].B+"*3.28"+ this.apoyos[i].B * 3.28 + "^2 = "+ Math.Pow(this.apoyos[i].B * 3.28, 2));
                     }
+                    MessageBox.Show("P es " + p + " carga es " + this.apoyos[i].Carga+" B es "+this.apoyos[i].B);
                     double Cb = 0;
                     if (this.apoyos[i].B <= 1.22) //estas comparaciones son en metros, de pies a metros
                     {
@@ -824,38 +842,46 @@ namespace FundTool
                         Cb = 0.80;
                     }
                     double maximoApoyo = (5 * p) / ((Nac - 1.5) * Cb);
-                    maximoApoyo = maximoApoyo * 30.48;
-                    if (maximoApoyo > (this.asentamiento/10))
+                    maximoApoyo = maximoApoyo * 25.4;
+                    MessageBox.Show("maximo apoyo " + maximoApoyo + " Nac " + Nac + " P " + p + " Cb " + Cb + " B al momento" + this.apoyos[i].B);
+                    if (maximoApoyo > (this.asentamiento))
                     {
                         this.apoyos[i].B = this.apoyos[i].B + 0.1;
                     }
                     else
                     {
                         this.apoyos[i].MaximoApoyo = maximoApoyo;
-                        MessageBox.Show("maximo apoyo " + this.apoyos[i].MaximoApoyo + " Nac " + Nac + " P " + p + " Cb " + Cb + " B final " + this.apoyos[i].B);
                         seCumple = true;
                     }
                 }
                 else
-                {
+                { //cohesivo
                     double CC = 0.009 * (limiteliquido - 10);
                     double empezar = this.empotramientoDF;
                     double terminar = this.empotramientoDF + this.apoyos[i].B;
                     double h=0;
-                    for(int j = 0; j < this.estratos.Count; j++)
+                    double p0 =0;
+                    for (int j = 0; j < this.estratos.Count; j++)
                     {
                         if(this.estratos[j].CotaInicio >= empezar && this.estratos[j].CotaFinal <= terminar)
                         {
                             if(this.estratos[j].Descripcion == "Cohesivo")
                             {
-                                h = this.estratos[j].Espesor;
+                                h = h+this.estratos[j].Espesor;
+                                p0 = p0+this.estratos[j].Peso;
                             }
                         }
                     }
+                    h = h / 2;
                     double desde = this.empotramientoDF + this.apoyos[i].B;
-                    double p0 = this.apoyos[i].Carga;
-                    double gamapav = this.apoyos[i].Qmax;
+                    double gamapav = this.apoyos[i].Carga / (Math.Pow(this.apoyos[i].B,2));
                     double maximoApoyo = ((CC * h) / (1 + this.relaciondeVacios)) * (Math.Log((p0 * gamapav) / p0));
+                    MessageBox.Show("maximo apoyo " + maximoApoyo + " gamaPav " + gamapav + " h " + h + " CC " + CC + " B al momento " + this.apoyos[i].B);
+                    if(h == 0)
+                    {
+                        MessageBox.Show("No se encontro un estrato de descripcion Cohesivo entre 0 y DF. Revisar datos");
+                        return false;
+                    }
                     if (maximoApoyo > this.asentamiento)
                     {
                         this.apoyos[i].B = this.apoyos[i].B + 0.1;
@@ -863,12 +889,11 @@ namespace FundTool
                     else
                     {
                         this.apoyos[i].MaximoApoyo = maximoApoyo;
-                        MessageBox.Show("maximo apoyo " + this.apoyos[i].MaximoApoyo + " gamaPav " + gamapav + " h " + h + " CC " + CC + " B final " + this.apoyos[i].B);
                         seCumple = true;
                     }
                 }
             }
-            
+            return seCumple;
         }
 
         /// <summary>
@@ -904,6 +929,13 @@ namespace FundTool
             {
                 this.apoyos[i].ZapataConjuntaX = true;
                 this.apoyos[j].ZapataConjuntaX = true;
+                double Ltotal = Math.Abs(L) + 2;
+                this.apoyos[i].L = Math.Abs(L);
+                this.apoyos[j].L = Math.Abs(L);
+                this.apoyos[i].Ltotal = Ltotal;
+                this.apoyos[j].Ltotal = Ltotal;
+                this.apoyos[i].B = (this.apoyos[i].Carga) / (this.apoyos[i].Qadmisible * Ltotal); //907.185 es ton a kg
+                this.apoyos[j].B = (this.apoyos[j].Carga) / (this.apoyos[j].Qadmisible * Ltotal);
                 MessageBox.Show("Se combinan las zapatas " + this.apoyos[i].Numero + " y " + this.apoyos[j].Numero + " Se combinan por superposicion geometrica");
                 return;
             }
@@ -913,6 +945,13 @@ namespace FundTool
             {
                 this.apoyos[i].ZapataConjuntaX = true;
                 this.apoyos[j].ZapataConjuntaX = true;
+                double Ltotal = Math.Abs(L) + 2;
+                this.apoyos[i].L = Math.Abs(L);
+                this.apoyos[j].L = Math.Abs(L);
+                this.apoyos[i].Ltotal = Ltotal;
+                this.apoyos[j].Ltotal = Ltotal;
+                this.apoyos[i].B = (this.apoyos[i].Carga) / (this.apoyos[i].Qadmisible * Ltotal); //907.185 es ton a kg
+                this.apoyos[j].B = (this.apoyos[j].Carga) / (this.apoyos[j].Qadmisible * Ltotal);
                 MessageBox.Show("Se combinan las zapatas " + this.apoyos[i].Numero + " y " + this.apoyos[j].Numero + " Se combinan por superposicion bulbos");
                 return;
             }
@@ -975,8 +1014,8 @@ namespace FundTool
                 this.apoyos[j].L = Math.Abs(L);
                 this.apoyos[i].Ltotal = Ltotal;
                 this.apoyos[j].Ltotal = Ltotal;
-                this.apoyos[i].B = (this.apoyos[i].Carga * 907.185) / (this.apoyos[i].Qadmisible * 907.185 * Ltotal); //907.185 es ton a kg
-                this.apoyos[j].B = (this.apoyos[j].Carga * 907.185) / (this.apoyos[j].Qadmisible * 907.185 * Ltotal);
+                this.apoyos[i].B = (this.apoyos[i].Carga) / (this.apoyos[i].Qadmisible * Ltotal); //907.185 es ton a kg
+                this.apoyos[j].B = (this.apoyos[j].Carga) / (this.apoyos[j].Qadmisible * Ltotal);
                 this.apoyos[i].Qmax = qmax1;
                 this.apoyos[i].Qmin = qmin1;
                 this.apoyos[i].FactorEX = factorE1;
@@ -1033,8 +1072,8 @@ namespace FundTool
                 this.apoyos[j].L = Math.Abs(L);
                 this.apoyos[i].Ltotal = Ltotal;
                 this.apoyos[j].Ltotal = Ltotal;
-                this.apoyos[i].B = (this.apoyos[i].Carga * 907.185) / (this.apoyos[i].Qadmisible * 907.185 * Ltotal); //907.185 es ton a kg
-                this.apoyos[j].B = (this.apoyos[j].Carga * 907.185) / (this.apoyos[j].Qadmisible * 907.185 * Ltotal);
+                this.apoyos[i].B = (this.apoyos[i].Carga) / (this.apoyos[i].Qadmisible * Ltotal); //907.185 es ton a kg
+                this.apoyos[j].B = (this.apoyos[j].Carga) / (this.apoyos[j].Qadmisible * Ltotal);
                 MessageBox.Show("Se combinan las zapatas " + this.apoyos[i].Numero + " y " + this.apoyos[j].Numero + " Se combinan por superposicion geometrica");
                 return;
             }
@@ -1049,8 +1088,8 @@ namespace FundTool
                 this.apoyos[j].L = Math.Abs(L);
                 this.apoyos[i].Ltotal = Ltotal;
                 this.apoyos[j].Ltotal = Ltotal;
-                this.apoyos[i].B = (this.apoyos[i].Carga * 907.185) / (this.apoyos[i].Qadmisible * 907.185 * Ltotal); //907.185 es ton a kg
-                this.apoyos[j].B = (this.apoyos[j].Carga * 907.185) / (this.apoyos[j].Qadmisible * 907.185 * Ltotal);
+                this.apoyos[i].B = (this.apoyos[i].Carga) / (this.apoyos[i].Qadmisible * Ltotal); //907.185 es ton a kg
+                this.apoyos[j].B = (this.apoyos[j].Carga) / (this.apoyos[j].Qadmisible * Ltotal);
                 MessageBox.Show("Se combinan las zapatas " + this.apoyos[i].Numero + " y " + this.apoyos[j].Numero + " Se combinan por superposicion bulbos");
                 return;
             }
@@ -1113,8 +1152,8 @@ namespace FundTool
                 this.apoyos[j].L = Math.Abs(L);
                 this.apoyos[i].Ltotal = Ltotal;
                 this.apoyos[j].Ltotal = Ltotal;
-                this.apoyos[i].B = (this.apoyos[i].Carga * 907.185) / (this.apoyos[i].Qadmisible * 907.185 * Ltotal); //907.185 es ton a kg
-                this.apoyos[j].B = (this.apoyos[j].Carga * 907.185) / (this.apoyos[j].Qadmisible * 907.185 * Ltotal);
+                this.apoyos[i].B = (this.apoyos[i].Carga) / (this.apoyos[i].Qadmisible * Ltotal); //907.185 es ton a kg
+                this.apoyos[j].B = (this.apoyos[j].Carga) / (this.apoyos[j].Qadmisible * Ltotal);
                 this.apoyos[i].Qmax = qmax1;
                 this.apoyos[i].Qmin = qmin1;
                 this.apoyos[i].FactorEY = factorE1;
@@ -1144,6 +1183,7 @@ namespace FundTool
         /// <returns>Nuevos valores que se calcularon se retornaran</returns>
         private double[] RepeticionPaso3(int i, double factorE1, double qmin1, double qmax1, double qadm1, double b) //revisando que qmax no sea mayor a qadm
         {
+            MessageBox.Show("Se repite el paso 3");
             b = b + 0.1;
             if (factorE1 > b / 6)
             {
