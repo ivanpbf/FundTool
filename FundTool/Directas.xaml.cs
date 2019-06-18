@@ -703,75 +703,72 @@ namespace FundTool
                 {
                     for (int k = i + 1; k <= this.apoyos.Count-1; k++)
                     {
-                        int j = 0;
-                        //todo esto para X
                         if (this.apoyos[i].CoordEjeX == this.apoyos[k].CoordEjeX && !this.apoyos[i].ZapataConjuntaY && !this.apoyos[i].ZapataConjuntaY)
                         {
-                            j = k;
-                            CombinandoZapatasX(i, j);
-                            if (VerificacionDistorcionAngular(i, j))
-                            {
-                                this.apoyos[i].Vertice1X = this.apoyos[i].CoordEjeX - (this.apoyos[i].B / 2);
-                                this.apoyos[i].Vertice1Y = this.apoyos[i].CoordEjeY + (1);
-                                this.apoyos[i].Vertice2X = this.apoyos[i].CoordEjeX + (this.apoyos[i].B / 2);
-                                this.apoyos[i].Vertice2Y = this.apoyos[i].CoordEjeY + (1);
-                                this.apoyos[i].Vertice3X = this.apoyos[i].CoordEjeX - (this.apoyos[i].B / 2);
-                                this.apoyos[i].Vertice3Y = this.apoyos[i].CoordEjeY - (this.apoyos[i].L + 1);
-                                this.apoyos[i].Vertice4X = this.apoyos[i].CoordEjeX + (this.apoyos[i].B / 2);
-                                this.apoyos[i].Vertice4Y = this.apoyos[i].CoordEjeY - (this.apoyos[i].L + 1);
-                                this.apoyos[j].Vertice1X = this.apoyos[j].CoordEjeX - (this.apoyos[j].B / 2);
-                                this.apoyos[j].Vertice1Y = this.apoyos[j].CoordEjeY + (this.apoyos[j].L + 1);
-                                this.apoyos[j].Vertice2X = this.apoyos[j].CoordEjeX + (this.apoyos[j].B / 2);
-                                this.apoyos[j].Vertice2Y = this.apoyos[j].CoordEjeY + (this.apoyos[j].L + 1);
-                                this.apoyos[j].Vertice3X = this.apoyos[j].CoordEjeX - (this.apoyos[j].B / 2);
-                                this.apoyos[j].Vertice3Y = this.apoyos[j].CoordEjeY - (1);
-                                this.apoyos[j].Vertice4X = this.apoyos[j].CoordEjeX + (this.apoyos[j].B / 2);
-                                this.apoyos[j].Vertice4Y = this.apoyos[j].CoordEjeY - (1);
-                                this.apoyos[i].Dimensionada = true;
-                                this.apoyos[j].Dimensionada = true;
-                                break;
-                            }
-                            /*else
-                            {
-                                VerificacionConjuntas();
-                            }*/
+                            CombinandoZapatasX(i, k);
                         }
                         else if (this.apoyos[i].CoordEjeY == this.apoyos[k].CoordEjeY && !this.apoyos[i].ZapataConjuntaX && !this.apoyos[i].ZapataConjuntaX)
                         {
-                            j = k;
-                            CombinandoZapatasY(i, j);
-                            if (VerificacionDistorcionAngular(i, j))
-                            {
-                                //dimensionamos
-                                this.apoyos[i].Vertice1X = this.apoyos[i].CoordEjeX - (1);
-                                this.apoyos[i].Vertice1Y = this.apoyos[i].CoordEjeY + (this.apoyos[i].B/2);
-                                this.apoyos[i].Vertice2X = this.apoyos[i].CoordEjeX + (this.apoyos[i].L + 1);
-                                this.apoyos[i].Vertice2Y = this.apoyos[i].CoordEjeY + (this.apoyos[i].B / 2);
-                                this.apoyos[i].Vertice3X = this.apoyos[i].CoordEjeX - (1);
-                                this.apoyos[i].Vertice3Y = this.apoyos[i].CoordEjeY - (this.apoyos[i].B / 2);
-                                this.apoyos[i].Vertice4X = this.apoyos[i].CoordEjeX + (this.apoyos[i].L + 1);
-                                this.apoyos[i].Vertice4Y = this.apoyos[i].CoordEjeY - (this.apoyos[i].B / 2);
-                                this.apoyos[j].Vertice1X = this.apoyos[j].CoordEjeX - (this.apoyos[j].L + 1);
-                                this.apoyos[j].Vertice1Y = this.apoyos[j].CoordEjeY + (this.apoyos[j].B / 2);
-                                this.apoyos[j].Vertice2X = this.apoyos[j].CoordEjeX + (1);
-                                this.apoyos[j].Vertice2Y = this.apoyos[j].CoordEjeY + (this.apoyos[j].B / 2);
-                                this.apoyos[j].Vertice3X = this.apoyos[j].CoordEjeX - (this.apoyos[j].L + 1);
-                                this.apoyos[j].Vertice3Y = this.apoyos[j].CoordEjeY - (this.apoyos[j].B / 2);
-                                this.apoyos[j].Vertice4X = this.apoyos[j].CoordEjeX + (1);
-                                this.apoyos[j].Vertice4Y = this.apoyos[j].CoordEjeY - (this.apoyos[j].B / 2);
-                                this.apoyos[i].Dimensionada = true;
-                                this.apoyos[j].Dimensionada = true;
-                                break;
-                            }
-                            /*else
-                            {
-                                VerificacionConjuntas();
-                            }*/
+                            CombinandoZapatasY(i, k);
                         }
                     }
 
                 }
             }
+        }
+
+        /// <summary>
+        /// Al tener verificacion cierta, se pasan a combinar (horizontal)
+        /// </summary>
+        /// /// <param name="i">Apoyo I</param>
+        /// <param name="j">Apoyo J</param>
+        private void CombinacionMismaY(int i, int j)
+        {
+            this.apoyos[i].Vertice1X = this.apoyos[i].CoordEjeX - (1);
+            this.apoyos[i].Vertice1Y = this.apoyos[i].CoordEjeY + (this.apoyos[i].B / 2);
+            this.apoyos[i].Vertice2X = this.apoyos[i].CoordEjeX + (this.apoyos[i].L + 1);
+            this.apoyos[i].Vertice2Y = this.apoyos[i].CoordEjeY + (this.apoyos[i].B / 2);
+            this.apoyos[i].Vertice3X = this.apoyos[i].CoordEjeX - (1);
+            this.apoyos[i].Vertice3Y = this.apoyos[i].CoordEjeY - (this.apoyos[i].B / 2);
+            this.apoyos[i].Vertice4X = this.apoyos[i].CoordEjeX + (this.apoyos[i].L + 1);
+            this.apoyos[i].Vertice4Y = this.apoyos[i].CoordEjeY - (this.apoyos[i].B / 2);
+            this.apoyos[j].Vertice1X = this.apoyos[j].CoordEjeX - (this.apoyos[j].L + 1);
+            this.apoyos[j].Vertice1Y = this.apoyos[j].CoordEjeY + (this.apoyos[j].B / 2);
+            this.apoyos[j].Vertice2X = this.apoyos[j].CoordEjeX + (1);
+            this.apoyos[j].Vertice2Y = this.apoyos[j].CoordEjeY + (this.apoyos[j].B / 2);
+            this.apoyos[j].Vertice3X = this.apoyos[j].CoordEjeX - (this.apoyos[j].L + 1);
+            this.apoyos[j].Vertice3Y = this.apoyos[j].CoordEjeY - (this.apoyos[j].B / 2);
+            this.apoyos[j].Vertice4X = this.apoyos[j].CoordEjeX + (1);
+            this.apoyos[j].Vertice4Y = this.apoyos[j].CoordEjeY - (this.apoyos[j].B / 2);
+            this.apoyos[i].Dimensionada = true;
+            this.apoyos[j].Dimensionada = true;
+        }
+
+        /// <summary>
+        /// Al tener verificacion cierta, se pasan a combinar cuando las X son iguales (vertical)
+        /// </summary>
+        /// /// <param name="i">Apoyo I</param>
+        /// <param name="j">Apoyo J</param>
+        private void CombinacionMismaX(int i, int j)
+        {
+            this.apoyos[i].Vertice1X = this.apoyos[i].CoordEjeX - (this.apoyos[i].B / 2);
+            this.apoyos[i].Vertice1Y = this.apoyos[i].CoordEjeY + (1);
+            this.apoyos[i].Vertice2X = this.apoyos[i].CoordEjeX + (this.apoyos[i].B / 2);
+            this.apoyos[i].Vertice2Y = this.apoyos[i].CoordEjeY + (1);
+            this.apoyos[i].Vertice3X = this.apoyos[i].CoordEjeX - (this.apoyos[i].B / 2);
+            this.apoyos[i].Vertice3Y = this.apoyos[i].CoordEjeY - (this.apoyos[i].L + 1);
+            this.apoyos[i].Vertice4X = this.apoyos[i].CoordEjeX + (this.apoyos[i].B / 2);
+            this.apoyos[i].Vertice4Y = this.apoyos[i].CoordEjeY - (this.apoyos[i].L + 1);
+            this.apoyos[j].Vertice1X = this.apoyos[j].CoordEjeX - (this.apoyos[j].B / 2);
+            this.apoyos[j].Vertice1Y = this.apoyos[j].CoordEjeY + (this.apoyos[j].L + 1);
+            this.apoyos[j].Vertice2X = this.apoyos[j].CoordEjeX + (this.apoyos[j].B / 2);
+            this.apoyos[j].Vertice2Y = this.apoyos[j].CoordEjeY + (this.apoyos[j].L + 1);
+            this.apoyos[j].Vertice3X = this.apoyos[j].CoordEjeX - (this.apoyos[j].B / 2);
+            this.apoyos[j].Vertice3Y = this.apoyos[j].CoordEjeY - (1);
+            this.apoyos[j].Vertice4X = this.apoyos[j].CoordEjeX + (this.apoyos[j].B / 2);
+            this.apoyos[j].Vertice4Y = this.apoyos[j].CoordEjeY - (1);
+            this.apoyos[i].Dimensionada = true;
+            this.apoyos[j].Dimensionada = true;
         }
 
         /// <summary>
@@ -952,6 +949,10 @@ namespace FundTool
                 VerificacionAsentamiento(i);
                 MessageBox.Show("Verificacion de asentamiento de " + this.apoyos[j].Numero);
                 VerificacionAsentamiento(j);
+                if (VerificacionDistorcionAngular(i, j))
+                {
+                    CombinacionMismaX(i, j);
+                }
                 return;
             }
             MessageBox.Show("Entra " + (i + 1) + " y " + (j + 1) + " a verificar superposicion de bulbos");
@@ -974,6 +975,10 @@ namespace FundTool
                 VerificacionAsentamiento(i);
                 MessageBox.Show("Verificacion de asentamiento de " + this.apoyos[j].Numero);
                 VerificacionAsentamiento(j);
+                if (VerificacionDistorcionAngular(i, j))
+                {
+                    CombinacionMismaX(i, j);
+                }
                 return;
             }
             //esto para X     
@@ -1050,6 +1055,10 @@ namespace FundTool
                 VerificacionAsentamiento(i);
                 MessageBox.Show("Verificacion de asentamiento de " + this.apoyos[j].Numero);
                 VerificacionAsentamiento(j);
+                if (VerificacionDistorcionAngular(i, j))
+                {
+                    CombinacionMismaX(i, j);
+                }
                 return;
             }
             else
@@ -1105,6 +1114,10 @@ namespace FundTool
                 VerificacionAsentamiento(i);
                 MessageBox.Show("Verificacion de asentamiento de " + this.apoyos[j].Numero);
                 VerificacionAsentamiento(j);
+                if (VerificacionDistorcionAngular(i, j))
+                {
+                    CombinacionMismaY(i, j);
+                }
                 return;
             }
             MessageBox.Show("Entra " + (i + 1) + " y " + (j + 1) + " a verificar superposicion de bulbos");
@@ -1127,6 +1140,10 @@ namespace FundTool
                 VerificacionAsentamiento(i);
                 MessageBox.Show("Verificacion de asentamiento de " + this.apoyos[j].Numero);
                 VerificacionAsentamiento(j);
+                if (VerificacionDistorcionAngular(i, j))
+                {
+                    CombinacionMismaY(i, j);
+                }
                 return;
             }
             //esto para y
@@ -1203,6 +1220,10 @@ namespace FundTool
                 VerificacionAsentamiento(i);
                 MessageBox.Show("Verificacion de asentamiento de " + this.apoyos[j].Numero);
                 VerificacionAsentamiento(j);
+                if (VerificacionDistorcionAngular(i, j))
+                {
+                    CombinacionMismaY(i, j);
+                }
                 return;
             }
             else
