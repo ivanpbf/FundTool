@@ -918,9 +918,7 @@ namespace FundTool
             double r = Math.Abs(this.apoyos[i].CoordEjeY - this.apoyos[j].CoordEjeY);
             double bmediosambos = (this.apoyos[i].B / 2) + (this.apoyos[j].B / 2);
             double factorE1 = this.apoyos[i].FactorEX;
-            double sumatoriaMomentos1 = this.apoyos[i].SumatoriaMomentosX;
             double factorE2 = this.apoyos[j].FactorEX;
-            double sumatoriaMomentos2 = this.apoyos[j].SumatoriaMomentosX;
             double qmax1 = this.apoyos[i].Qmax;
             double qmin1 = this.apoyos[i].Qmin;
             double qmax2 = this.apoyos[j].Qmax;
@@ -1026,8 +1024,37 @@ namespace FundTool
 
             }
             //verificamos si se combinan 
-            MessageBox.Show("Verificamos si se combinan por qmax1 + qmin2 > qadm1");
-            if ((qmax1 + qmin2)> qadm1)
+            MessageBox.Show("Verificamos si se combinan por momentos");
+            Boolean cumple = false;
+            if(this.apoyos[i].SumatoriaMomentosY > 0 && this.apoyos[j].SumatoriaMomentosY > 0) 
+            {
+                if((qmax1+qmin2) > qadm1)
+                {
+                    cumple = true;
+                }
+            }
+            else if (this.apoyos[i].SumatoriaMomentosY > 0 && this.apoyos[j].SumatoriaMomentosY < 0)
+            {
+                if ((qmax1 + qmax2) > qadm1)
+                {
+                    cumple = true;
+                }
+            }
+            else if (this.apoyos[i].SumatoriaMomentosY < 0 && this.apoyos[j].SumatoriaMomentosY > 0)
+            {
+                if ((qmin1 + qmin2) > qadm1)
+                {
+                    cumple = true;
+                }
+            }
+            else
+            {
+                if((qmin1 + qmax2)> qadm1)
+                {
+                    cumple = true;
+                }
+            }
+            if (cumple)
             {
                 MessageBox.Show("Entro en qmax1+qmin2 > qadm1");
                 this.apoyos[i].Qadmisible = qadm1;
@@ -1045,11 +1072,9 @@ namespace FundTool
                 this.apoyos[i].Qmax = qmax1;
                 this.apoyos[i].Qmin = qmin1;
                 this.apoyos[i].FactorEX = factorE1;
-                this.apoyos[i].SumatoriaMomentosX = sumatoriaMomentos1;
                 this.apoyos[j].Qmax = qmax2;
                 this.apoyos[j].Qmin = qmin2;
                 this.apoyos[j].FactorEX = factorE2;
-                this.apoyos[j].SumatoriaMomentosX = sumatoriaMomentos2;
                 MessageBox.Show("Se combinan las zapatas " + this.apoyos[i].Numero + " y " + this.apoyos[j].Numero + " nueva B"+this.apoyos[i].B+" y "+this.apoyos[j].B);
                 MessageBox.Show("Verificacion de asentamiento de " + this.apoyos[i].Numero);
                 VerificacionAsentamiento(i);
@@ -1192,7 +1217,36 @@ namespace FundTool
             }
             //verificamos si se combinan 
             MessageBox.Show("Verificamos si se combinan por qmax1 + qmin2 > qadm1");
-            if ((qmax1 + qmin2) > qadm1)
+            Boolean cumple = false;
+            if (this.apoyos[i].SumatoriaMomentosX > 0 && this.apoyos[j].SumatoriaMomentosX > 0)
+            {
+                if ((qmax1 + qmin2) > qadm1)
+                {
+                    cumple = true;
+                }
+            }
+            else if (this.apoyos[i].SumatoriaMomentosX > 0 && this.apoyos[j].SumatoriaMomentosX < 0)
+            {
+                if ((qmax1 + qmax2) > qadm1)
+                {
+                    cumple = true;
+                }
+            }
+            else if (this.apoyos[i].SumatoriaMomentosX < 0 && this.apoyos[j].SumatoriaMomentosX > 0)
+            {
+                if ((qmin1 + qmin2) > qadm1)
+                {
+                    cumple = true;
+                }
+            }
+            else
+            {
+                if ((qmin1 + qmax2) > qadm1)
+                {
+                    cumple = true;
+                }
+            }
+            if (cumple)
             {
                 MessageBox.Show("Entro en qmax1+qmin2 > qadm1");
                 this.apoyos[i].Qadmisible = qadm1;
