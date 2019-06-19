@@ -49,6 +49,7 @@
                 <TextBox x:Name="Asentamiento" HorizontalAlignment="Right" Height="23" Margin="0,154,327,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" PreviewTextInput="NumericOnly" TextAlignment="Center" RenderTransformOrigin="0.533,1"/>
                 <Label Content="mm" Margin="0,151,287,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="35" RenderTransformOrigin="0.8,0.615"/>
                 <Label Content="Numero de Estratos:" HorizontalAlignment="Left" Margin="365,15,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+                <Label Content="*De existir nivel freatico, insertar peso unitario saturado de los estratos.&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,177,0,0" Grid.Row="1" VerticalAlignment="Top" FontSize="10"/>
 
             </Grid>
             <Grid x:Name="GridFinal" HorizontalAlignment="Left" Height="43" Margin="10,761,0,0" VerticalAlignment="Top" Width="764" Background="AntiqueWhite">
@@ -58,12 +59,9 @@
                 <Label Content="Existe Nivel Freatico:" HorizontalAlignment="Left" Margin="13,4,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
                 <RadioButton x:Name="SiNF" Content="Si" HorizontalAlignment="Left" Margin="145,10,0,0" VerticalAlignment="Top" GroupName="ExisteNF"/>
                 <RadioButton x:Name="NoNF" Content="No" HorizontalAlignment="Left" Margin="196,10,0,0" VerticalAlignment="Top" GroupName="ExisteNF" IsChecked="True"/>
-                <Label Content="Cota del Nivel Freatico:" HorizontalAlignment="Left" Margin="8,30,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="CotaNF" HorizontalAlignment="Left" Height="23" Margin="145,33,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="37" IsEnabled="{Binding IsChecked, ElementName=SiNF}" PreviewTextInput="NumericOnly" TextAlignment="Center"/>
-                <Label Content="m" HorizontalAlignment="Left" Margin="196,30,0,0" VerticalAlignment="Top"/>
-                <Label Content="Peso Especifico Saturado:" HorizontalAlignment="Left" Margin="-4,56,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="PesoEspecificoSaturado" HorizontalAlignment="Left" Height="23" Margin="145,61,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" IsEnabled="{Binding IsChecked, ElementName=SiNF}" PreviewTextInput="NumericOnly" TextAlignment="Center"/>
-                <Label Content="kg/m³" HorizontalAlignment="Left" Margin="199,56,0,0" VerticalAlignment="Top"/>
+                <Label Content="Cota del Nivel Freatico:" HorizontalAlignment="Left" Margin="8,48,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="CotaNF" HorizontalAlignment="Left" Height="23" Margin="145,51,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="37" IsEnabled="{Binding IsChecked, ElementName=SiNF}" PreviewTextInput="NumericOnly" TextAlignment="Center"/>
+                <Label Content="m" HorizontalAlignment="Left" Margin="196,48,0,0" VerticalAlignment="Top"/>
             </Grid>
             <Grid x:Name="SolicitacionesGrid" Height="322" Margin="6,434,0,0" VerticalAlignment="Top" Background="AntiqueWhite" HorizontalAlignment="Left" Width="766">
 

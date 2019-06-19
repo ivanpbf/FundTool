@@ -101,7 +101,6 @@ namespace FundTool
         public Boolean datosEnsayoSPT;
         public double profundidadEstudioSuelos;
         public double asentamiento;
-        public double pesoEspecificoSaturado;
         public int nsptdesfavorable;
         public Boolean introdujoGolpes;
         public List<Apoyo> apoyos;
@@ -336,10 +335,9 @@ namespace FundTool
                 }
                 if ((Boolean)this.SiNF.IsChecked)
                 {
-                    if (!String.IsNullOrEmpty(this.CotaNF.Text) && !String.IsNullOrEmpty(this.PesoEspecificoSaturado.Text))
+                    if (!String.IsNullOrEmpty(this.CotaNF.Text))
                     {
                         this.cotaNivelFreatico = Convert.ToDouble(this.CotaNF.Text);
-                        this.pesoEspecificoSaturado = (double)Convert.ToDouble(this.PesoEspecificoSaturado.Text);
                     }
                     else
                     {
@@ -525,47 +523,75 @@ namespace FundTool
             }
             for (int i = 0; i < this.apoyos.Count(); i++)
             {
+                double pesoMenor = 999999999999;
                 this.apoyos[i].B = 1;
                 if (this.nivelFreatico)
                 {
+                    MessageBox.Show("Existe nivel freatico");
                     //caso a
                     if (this.cotaNivelFreatico >= 0 && this.cotaNivelFreatico <= this.empotramientoDF)
                     {
-                        List<double> d = new List<double>();
-                        d.Add(this.estratos[0].Espesor);
+                        MessageBox.Show("Caso A nivel freatico >= 0 y <= DF");
+                        double esp = 0;
                         for (int j = 0; j < this.estratos.Count(); j++)
                         {
-                            if (j != 0)
+                            if(this.estratos[j].CotaInicio < this.empotramientoDF)
                             {
-                                if (this.empotramientoDF < this.estratos[j].Espesor)
+                                if (this.estratos[j].CotaInicio <= this.cotaNivelFreatico && this.estratos[j].CotaFinal > this.cotaNivelFreatico)
                                 {
-                                    d.Add(this.estratos[j].Espesor);
+                                    double pesoDeEse = this.estratos[j].Peso - 1;
+                                    esp = esp + (this.estratos[j].Espesor * pesoDeEse);
                                 }
+                                else if (this.estratos[j].CotaFinal > this.empotramientoDF)
+                                {
+                                    double espesorese = this.empotramientoDF - this.estratos[j].CotaInicio;
+                                    esp = esp + (espesorese * this.estratos[j].Peso);
+                                }
+                                else
+                                {
+                                    esp = esp + (this.estratos[j].Espesor * this.estratos[j].Peso);
+                                }
+                                MessageBox.Show("Acumulado " + esp);
                             }
                         }
-                        this.apoyos[i].Esfuerzoefectivo = (this.cotaNivelFreatico * this.pesoEspecifico);
-                        for (int j = 0; j < d.Count(); j++)
-                        {
-                            this.apoyos[i].Esfuerzoefectivo = d[j] * (this.pesoEspecificoSaturado - (2.4 * 907.185));
-                        }
+                        this.apoyos[i].Esfuerzoefectivo = esp;
                         MessageBox.Show("Esfuerzo efectivo Caso A " + this.apoyos[i].Esfuerzoefectivo);
                     }
                     //caso b
                     else if (this.cotaNivelFreatico > this.empotramientoDF && this.cotaNivelFreatico < (this.empotramientoDF + 1))
                     {
-                        double pesoespaux = this.pesoEspecificoSaturado - (2.4 * 907.185) + (1 / this.apoyos[i].B) * (this.pesoEspecifico - (this.pesoEspecificoSaturado - (2.4 * 907.185)));
-                        this.apoyos[i].Esfuerzoefectivo = this.empotramientoDF * pesoespaux;
-
+                        for (int j = 0; j < this.estratos.Count; j++)
+                        {
+                            if(((this.estratos[j].CotaFinal - this.cotaNivelFreatico) > 0) && (((this.empotramientoDF+1)-this.estratos[j].CotaInicio) > 0))
+                            {
+                                MessageBox.Show("Para el Caso B entra estrato " + (j + 1) + " a verificar si su peso es menor");
+                                if (this.estratos[j].Peso < pesoMenor)
+                                {
+                                    pesoMenor = this.estratos[j].Peso;
+                                }
+                            }    
+                        }
+                        pesoMenor = pesoMenor + ((this.cotaNivelFreatico - this.empotramientoDF) / 1) * (pesoMenor - 1);
+                        this.apoyos[i].Esfuerzoefectivo = this.empotramientoDF * this.pesoEspecifico;
+                        MessageBox.Show("Nuevo peso menor en el Caso B es " + pesoMenor);
                     }
                     //caso c
                     else
                     {
                         this.apoyos[i].Esfuerzoefectivo = this.empotramientoDF * this.pesoEspecifico;
+                        MessageBox.Show("Esfuerzo efectivo Caso C " + this.apoyos[i].Esfuerzoefectivo);
                     }
                 }
                 else
                 {
                     this.apoyos[i].Esfuerzoefectivo = this.empotramientoDF * this.pesoEspecifico;
+                    for (int j = 0; j < this.estratos.Count; j++)
+                    {
+                        if (this.estratos[j].Peso < pesoMenor)
+                        {
+                            pesoMenor = this.estratos[j].Peso;
+                        }
+                    }
                 }
                 //factores de forma
                 this.apoyos[i].Fcs = 1 + (this.apoyos[i].B * this.NQ[(int)this.anguloFriccion]) / (this.NC[(int)this.anguloFriccion]);
@@ -585,15 +611,8 @@ namespace FundTool
                     this.apoyos[i].Fqd = 1 + (2 * Math.Tan(this.anguloFriccion * Math.PI / 180)) * Math.Pow((1 - Math.Sin(this.anguloFriccion * Math.PI / 180)), 2) * Math.Atan(this.empotramientoDF / this.apoyos[i].B);
                 }
                 //carga ultima
-                double q = this.pesoEspecifico * this.empotramientoDF;
-                double pesoMenor = 999999999999;
-                for (int j = 0; j < this.estratos.Count; j++)
-                {
-                    if(this.estratos[j].Peso < pesoMenor)
-                    {
-                        pesoMenor = this.estratos[j].Peso;
-                    }
-                }
+                //double q = this.pesoEspecifico * this.empotramientoDF;
+                double q = this.apoyos[i].Esfuerzoefectivo;
                 this.apoyos[i].Qultima = ((double)this.cohesion * this.NC[(int)this.anguloFriccion] * this.apoyos[i].Fcs * this.apoyos[i].Fcd) + (q * this.NQ[(int)this.anguloFriccion] * this.apoyos[i].Fqs * this.apoyos[i].Fqd) + ((0.5) * pesoMenor * this.apoyos[i].B * this.NF[(int)this.anguloFriccion] * this.apoyos[i].Fps * this.apoyos[i].Fpd);
                 this.apoyos[i].Qultima = Math.Round(this.apoyos[i].Qultima, 3);
                 MessageBox.Show("[Apoyo] " + this.apoyos[i].Numero + " ([cohesion] " + (double)this.cohesion + " [NC] " + this.NC[(int)this.anguloFriccion] + " [FCS] " + this.apoyos[i].Fcs + " [FCD] " + this.apoyos[i].Fcd + " multiplicacion de esto es "
@@ -604,7 +623,7 @@ namespace FundTool
                 //area de la zapata para cada apoyo
                 this.apoyos[i].AreaZapata = (this.apoyos[i].Carga * 3) / this.apoyos[i].Qultima;
                 this.apoyos[i].B = Math.Sqrt(this.apoyos[i].AreaZapata);
-                this.apoyos[i].B = Math.Round(this.apoyos[i].B, 1);
+                this.apoyos[i].B = Math.Ceiling(this.apoyos[i].B); //redondeada
                 MessageBox.Show("Area zapata "+ this.apoyos[i].AreaZapata+" B "+ this.apoyos[i].B);
                 MessageBox.Show("Q ultima apoyo " + this.apoyos[i].Qultima);
                 this.apoyos[i].SumatoriaMomentosX = this.apoyos[i].MtoEnEjeY + this.empotramientoDF * this.apoyos[i].FBasalX;
@@ -873,11 +892,11 @@ namespace FundTool
                         if(this.estratos[j].Descripcion == "Cohesivo")
                         {
                             MessageBox.Show("El estrato " + (j + 1) + " es cohesivo");
-                            if (this.estratos[j].CotaInicio < empezar && this.estratos[j].CotaFinal <= terminar)
+                            if (this.estratos[j].CotaInicio < empezar && this.estratos[j].CotaFinal <= terminar && this.estratos[j].CotaFinal >= empezar)
                             {
                                 MessageBox.Show("Cota inicial < DF y Cota Final <= DF+B");
                                 h = h + (this.estratos[j].CotaFinal - empezar);
-                                if(this.estratos[j].Peso < paux)
+                                if (this.estratos[j].Peso < paux)
                                 {
                                     paux = this.estratos[j].Peso;
                                     MessageBox.Show("Nuevo peso menor " + paux);
@@ -904,7 +923,7 @@ namespace FundTool
 
                                 }
                             }
-                            else if (this.estratos[j].CotaInicio >= empezar && this.estratos[j].CotaFinal >= terminar)
+                            else if (this.estratos[j].CotaInicio >= empezar && this.estratos[j].CotaFinal >= terminar && this.estratos[j].CotaInicio <= terminar)
                             {
                                 MessageBox.Show("Cota inicial >= DF y Cota Final >= DF+B");
                                 h = h + (terminar - this.estratos[j].CotaInicio);
@@ -912,7 +931,6 @@ namespace FundTool
                                 {
                                     paux = this.estratos[j].Peso;
                                     MessageBox.Show("Nuevo peso menor " + paux);
-
                                 }
                             }
                         }
@@ -923,6 +941,7 @@ namespace FundTool
                     double desde = this.empotramientoDF + this.apoyos[i].B;
                     double gamapav = this.apoyos[i].Carga / (Math.Pow(this.apoyos[i].B,2));
                     double maximoApoyo = (((double)CC * h) / (1 + this.relaciondeVacios)) * (Math.Log10((p0 + gamapav) / p0));
+                    maximoApoyo = maximoApoyo * 1000; //a mts
                     MessageBox.Show("maximo apoyo " + maximoApoyo + " gamaPav " + gamapav + " h " + h + " CC " + CC + " B al momento " + this.apoyos[i].B);
                     if(h == 0)
                     {
