@@ -866,22 +866,63 @@ namespace FundTool
                     double empezar = this.empotramientoDF;
                     double terminar = this.empotramientoDF + this.apoyos[i].B;
                     double h=0;
-                    double p0 =0;
-                    for (int j = 0; j < this.estratos.Count; j++)
+                    double paux =99999999;
+                    double p0 = 0;
+                    for (int j = 0; j < this.estratos.Count; j++) //h
                     {
-                        if(this.estratos[j].CotaInicio >= empezar && this.estratos[j].CotaFinal <= terminar)
+                        if(this.estratos[j].Descripcion == "Cohesivo")
                         {
-                            if(this.estratos[j].Descripcion == "Cohesivo")
+                            MessageBox.Show("El estrato " + (j + 1) + " es cohesivo");
+                            if (this.estratos[j].CotaInicio < empezar && this.estratos[j].CotaFinal <= terminar)
                             {
-                                h = h+this.estratos[j].Espesor;
-                                p0 = p0+this.estratos[j].Peso;
+                                MessageBox.Show("Cota inicial < DF y Cota Final <= DF+B");
+                                h = h + (this.estratos[j].CotaFinal - empezar);
+                                if(this.estratos[j].Peso < paux)
+                                {
+                                    paux = this.estratos[j].Peso;
+                                    MessageBox.Show("Nuevo peso menor " + paux);
+                                }
+                            }
+                            else if (this.estratos[j].CotaInicio >= empezar && this.estratos[j].CotaFinal <= terminar)
+                            {
+                                MessageBox.Show("Cota inicial >= DF y Cota Final <= DF+B");
+                                h = h + this.estratos[j].Espesor;
+                                if (this.estratos[j].Peso < paux)
+                                {
+                                    paux = this.estratos[j].Peso;
+                                    MessageBox.Show("Nuevo peso menor " + paux);
+                                }
+                            }
+                            else if (this.estratos[j].CotaInicio < empezar && this.estratos[j].CotaFinal >= terminar)
+                            {
+                                MessageBox.Show("Cota inicial < DF y Cota Final >= DF+B");
+                                h = h + this.apoyos[i].B;
+                                if (this.estratos[j].Peso < paux)
+                                {
+                                    paux = this.estratos[j].Peso;
+                                    MessageBox.Show("Nuevo peso menor " + paux);
+
+                                }
+                            }
+                            else if (this.estratos[j].CotaInicio >= empezar && this.estratos[j].CotaFinal >= terminar)
+                            {
+                                MessageBox.Show("Cota inicial >= DF y Cota Final >= DF+B");
+                                h = h + (terminar - this.estratos[j].CotaInicio);
+                                if (this.estratos[j].Peso < paux)
+                                {
+                                    paux = this.estratos[j].Peso;
+                                    MessageBox.Show("Nuevo peso menor " + paux);
+
+                                }
                             }
                         }
                     }
                     h = h / 2;
+                    p0 = paux * h;
+                    MessageBox.Show("p0 " + p0 + " p menor " + paux + " h " + h);
                     double desde = this.empotramientoDF + this.apoyos[i].B;
                     double gamapav = this.apoyos[i].Carga / (Math.Pow(this.apoyos[i].B,2));
-                    double maximoApoyo = (((double)CC * h) / (1 + this.relaciondeVacios)) * (Math.Log((p0 * gamapav) / p0));
+                    double maximoApoyo = (((double)CC * h) / (1 + this.relaciondeVacios)) * (Math.Log10((p0 + gamapav) / p0));
                     MessageBox.Show("maximo apoyo " + maximoApoyo + " gamaPav " + gamapav + " h " + h + " CC " + CC + " B al momento " + this.apoyos[i].B);
                     if(h == 0)
                     {
