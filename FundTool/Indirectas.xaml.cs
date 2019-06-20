@@ -432,6 +432,17 @@ namespace FundTool
         /// <param name="e">Argumentos enviados por el evento</param>
         private void IntroducirDatosSolicitaciones(object sender, RoutedEventArgs e)
         {
+            for (int i = 0; i < this.apoyos.Count(); i++)
+            {
+                if (this.apoyos[i].Carga == 0)
+                {
+                    this.apoyos.RemoveAt(i);
+                }
+            }
+            for (int i = 0; i < this.apoyos.Count(); i++)
+            {
+                this.apoyos[i].Numero = i + 1;
+            }
             this.GridFinal.Visibility = Visibility.Visible;
         }
 
