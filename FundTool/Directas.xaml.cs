@@ -665,7 +665,7 @@ namespace FundTool
                 //area de la zapata para cada apoyo
                 this.apoyos[i].AreaZapata = (this.apoyos[i].Carga * 3) / this.apoyos[i].Qultima;
                 this.apoyos[i].B = Math.Sqrt(this.apoyos[i].AreaZapata);
-                this.apoyos[i].B = Math.Ceiling(this.apoyos[i].B); //redondeada
+                this.apoyos[i].B = Math.Round(this.apoyos[i].B,1); //redondeada
                 MessageBox.Show("Area zapata "+ this.apoyos[i].AreaZapata+" B "+ this.apoyos[i].B);
                 MessageBox.Show("Q ultima apoyo " + this.apoyos[i].Qultima);
                 this.apoyos[i].SumatoriaMomentosX = this.apoyos[i].MtoEnEjeY + this.empotramientoDF * this.apoyos[i].FBasalX;
@@ -1035,13 +1035,35 @@ namespace FundTool
             //distanciaEntreEllos = distancia1 - distancia2;
             if (bmediosambos >= r) //superposicion geometrica
             {
+                L = Math.Abs(L);
+                double Ltotal = Math.Abs(L) + 2;
+                if (this.apoyos[i].ZapataConjuntaX)
+                {
+                    this.apoyos[i].L = this.apoyos[i].L + L;
+                    this.apoyos[i].Ltotal = this.apoyos[i].Ltotal + L;
+                    Ltotal = this.apoyos[i].Ltotal;
+                    this.apoyos[j].L = this.apoyos[i].L;
+                    this.apoyos[j].Ltotal = Ltotal;
+                    MessageBox.Show("apoyo " + this.apoyos[i].Numero + " es combinado, cambia L a " + this.apoyos[i].L + " y L total " + Ltotal);
+                }
+                else if (this.apoyos[j].ZapataConjuntaX)
+                {
+                    this.apoyos[j].L = this.apoyos[j].L + L;
+                    this.apoyos[j].Ltotal = this.apoyos[j].Ltotal + L;
+                    Ltotal = this.apoyos[i].Ltotal;
+                    this.apoyos[i].L = this.apoyos[j].L;
+                    this.apoyos[i].Ltotal = Ltotal;
+                    MessageBox.Show("apoyo " + this.apoyos[j].Numero + " es combinado, cambia L a " + this.apoyos[j].L + " y L total " + Ltotal);
+                }
+                else
+                {
+                    this.apoyos[i].L = Math.Abs(L);
+                    this.apoyos[j].L = Math.Abs(L);
+                    this.apoyos[i].Ltotal = Ltotal;
+                    this.apoyos[j].Ltotal = Ltotal;
+                }
                 this.apoyos[i].ZapataConjuntaX = true;
                 this.apoyos[j].ZapataConjuntaX = true;
-                double Ltotal = Math.Abs(L) + 2;
-                this.apoyos[i].L = Math.Abs(L);
-                this.apoyos[j].L = Math.Abs(L);
-                this.apoyos[i].Ltotal = Ltotal;
-                this.apoyos[j].Ltotal = Ltotal;
                 this.apoyos[i].B = (this.apoyos[i].Carga) / (this.apoyos[i].Qadmisible * Ltotal); 
                 this.apoyos[j].B = (this.apoyos[j].Carga) / (this.apoyos[j].Qadmisible * Ltotal);
                 MessageBox.Show("Se combinan las zapatas " + this.apoyos[i].Numero + " y " + this.apoyos[j].Numero + " Se combinan por superposicion geometrica");
@@ -1151,13 +1173,35 @@ namespace FundTool
                 if (cumple)
                 {
                     // se combinaran
+                    L = Math.Abs(L);
+                    double Ltotal = Math.Abs(L) + 2;
+                    if (this.apoyos[i].ZapataConjuntaX)
+                    {
+                        this.apoyos[i].L = this.apoyos[i].L + L;
+                        this.apoyos[i].Ltotal = this.apoyos[i].Ltotal + L;
+                        Ltotal = this.apoyos[i].Ltotal;
+                        this.apoyos[j].L = this.apoyos[i].L;
+                        this.apoyos[j].Ltotal = Ltotal;
+                        MessageBox.Show("apoyo " + this.apoyos[i].Numero + " es combinado, cambia L a " + this.apoyos[i].L + " y L total " + Ltotal);
+                    }
+                    else if (this.apoyos[j].ZapataConjuntaX)
+                    {
+                        this.apoyos[j].L = this.apoyos[j].L + L;
+                        this.apoyos[j].Ltotal = this.apoyos[j].Ltotal + L;
+                        Ltotal = this.apoyos[i].Ltotal;
+                        this.apoyos[i].L = this.apoyos[j].L;
+                        this.apoyos[i].Ltotal = Ltotal;
+                        MessageBox.Show("apoyo " + this.apoyos[j].Numero + " es combinado, cambia L a " + this.apoyos[j].L + " y L total " + Ltotal);
+                    }
+                    else
+                    {
+                        this.apoyos[i].L = Math.Abs(L);
+                        this.apoyos[j].L = Math.Abs(L);
+                        this.apoyos[i].Ltotal = Ltotal;
+                        this.apoyos[j].Ltotal = Ltotal;
+                    }
                     this.apoyos[i].ZapataConjuntaX = true;
                     this.apoyos[j].ZapataConjuntaX = true;
-                    double Ltotal = Math.Abs(L) + 2;
-                    this.apoyos[i].L = Math.Abs(L);
-                    this.apoyos[j].L = Math.Abs(L);
-                    this.apoyos[i].Ltotal = Ltotal;
-                    this.apoyos[j].Ltotal = Ltotal;
                     this.apoyos[i].B = (this.apoyos[i].Carga) / (this.apoyos[i].Qadmisible * Ltotal); 
                     this.apoyos[j].B = (this.apoyos[j].Carga) / (this.apoyos[j].Qadmisible * Ltotal);
                     this.apoyos[i].Qmax = qmax1;
@@ -1217,13 +1261,35 @@ namespace FundTool
             //distanciaEntreEllos = distancia1 - distancia2;
             if (bmediosambos >= r) //superposicion geometrica
             {
+                L = Math.Abs(L);
+                double Ltotal = Math.Abs(L) + 2;
+                if (this.apoyos[i].ZapataConjuntaY)
+                {
+                    this.apoyos[i].L = this.apoyos[i].L + L;
+                    this.apoyos[i].Ltotal = this.apoyos[i].Ltotal + L;
+                    Ltotal = this.apoyos[i].Ltotal;
+                    this.apoyos[j].L = this.apoyos[i].L;
+                    this.apoyos[j].Ltotal = Ltotal;
+                    MessageBox.Show("apoyo " + this.apoyos[i].Numero + " es combinado, cambia L a " + this.apoyos[i].L + " y L total " + Ltotal);
+                }
+                else if (this.apoyos[j].ZapataConjuntaY)
+                {
+                    this.apoyos[j].L = this.apoyos[j].L + L;
+                    this.apoyos[j].Ltotal = this.apoyos[j].Ltotal + L;
+                    Ltotal = this.apoyos[i].Ltotal;
+                    this.apoyos[i].L = this.apoyos[j].L;
+                    this.apoyos[i].Ltotal = Ltotal;
+                    MessageBox.Show("apoyo " + this.apoyos[j].Numero + " es combinado, cambia L a " + this.apoyos[j].L + " y L total " + Ltotal);
+                }
+                else
+                {
+                    this.apoyos[i].L = Math.Abs(L);
+                    this.apoyos[j].L = Math.Abs(L);
+                    this.apoyos[i].Ltotal = Ltotal;
+                    this.apoyos[j].Ltotal = Ltotal;
+                }
                 this.apoyos[i].ZapataConjuntaY = true;
                 this.apoyos[j].ZapataConjuntaY = true;
-                double Ltotal = Math.Abs(L) + 2;
-                this.apoyos[i].L = Math.Abs(L);
-                this.apoyos[j].L = Math.Abs(L);
-                this.apoyos[i].Ltotal = Ltotal;
-                this.apoyos[j].Ltotal = Ltotal;
                 this.apoyos[i].B = (this.apoyos[i].Carga) / (this.apoyos[i].Qadmisible * Ltotal); //907.185 es ton a kg
                 this.apoyos[j].B = (this.apoyos[j].Carga) / (this.apoyos[j].Qadmisible * Ltotal);
                 MessageBox.Show("Se combinan las zapatas " + this.apoyos[i].Numero + " y " + this.apoyos[j].Numero + " Se combinan por superposicion geometrica");
@@ -1335,13 +1401,35 @@ namespace FundTool
                     this.apoyos[i].Qadmisible = qadm1;
                     this.apoyos[j].Qadmisible = qadm2;
                     // se combinaran
+                    L = Math.Abs(L);
+                    double Ltotal = Math.Abs(L) + 2;
+                    if (this.apoyos[i].ZapataConjuntaY)
+                    {
+                        this.apoyos[i].L = this.apoyos[i].L + L;
+                        this.apoyos[i].Ltotal = this.apoyos[i].Ltotal + L;
+                        Ltotal = this.apoyos[i].Ltotal;
+                        this.apoyos[j].L = this.apoyos[i].L;
+                        this.apoyos[j].Ltotal = Ltotal;
+                        MessageBox.Show("apoyo " + this.apoyos[i].Numero + " es combinado, cambia L a " + this.apoyos[i].L + " y L total " + Ltotal);
+                    }
+                    else if (this.apoyos[j].ZapataConjuntaY)
+                    {
+                        this.apoyos[j].L = this.apoyos[j].L + L;
+                        this.apoyos[j].Ltotal = this.apoyos[j].Ltotal + L;
+                        Ltotal = this.apoyos[i].Ltotal;
+                        this.apoyos[i].L = this.apoyos[j].L;
+                        this.apoyos[i].Ltotal = Ltotal;
+                        MessageBox.Show("apoyo " + this.apoyos[j].Numero + " es combinado, cambia L a " + this.apoyos[j].L + " y L total " + Ltotal);
+                    }
+                    else
+                    {
+                        this.apoyos[i].L = Math.Abs(L);
+                        this.apoyos[j].L = Math.Abs(L);
+                        this.apoyos[i].Ltotal = Ltotal;
+                        this.apoyos[j].Ltotal = Ltotal;
+                    }
                     this.apoyos[i].ZapataConjuntaY = true;
                     this.apoyos[j].ZapataConjuntaY = true;
-                    double Ltotal = Math.Abs(L) + 2;
-                    this.apoyos[i].L = Math.Abs(L);
-                    this.apoyos[j].L = Math.Abs(L);
-                    this.apoyos[i].Ltotal = Ltotal;
-                    this.apoyos[j].Ltotal = Ltotal;
                     this.apoyos[i].B = (this.apoyos[i].Carga) / (this.apoyos[i].Qadmisible * Ltotal); //907.185 es ton a kg
                     this.apoyos[j].B = (this.apoyos[j].Carga) / (this.apoyos[j].Qadmisible * Ltotal);
                     this.apoyos[i].Qmax = qmax1;
