@@ -60,53 +60,63 @@ namespace FundTool
                         for (int i = 0; i < apoyos.Count; i++)
                         {
                             // Create a polyline with two segments (3 points)
-                            using (acPoly[i] = new Polyline())
+                            if (apoyos[i].Dimensionar)
                             {
-                                acPoly[i].AddVertexAt(0, new Point2d(apoyos[i].Vertice1X, apoyos[i].Vertice1Y), 0, 0, 0);
-                                Point3d punto1 = new Point3d(apoyos[i].Vertice1X, apoyos[i].Vertice1Y, 0);
-                                acPoly[i].AddVertexAt(1, new Point2d(apoyos[i].Vertice2X, apoyos[i].Vertice2Y), 0, 0, 0);
-                                Point3d punto2 = new Point3d(apoyos[i].Vertice2X, apoyos[i].Vertice2Y, 0);
-                                acPoly[i].AddVertexAt(2, new Point2d(apoyos[i].Vertice4X, apoyos[i].Vertice4Y), 0, 0, 0);
-                                acPoly[i].AddVertexAt(3, new Point2d(apoyos[i].Vertice3X, apoyos[i].Vertice3Y), 0, 0, 0);
-                                Point3d punto3 = new Point3d(apoyos[i].Vertice3X, apoyos[i].Vertice3Y, 0);
-                                acPoly[i].AddVertexAt(4, new Point2d(apoyos[i].Vertice1X, apoyos[i].Vertice1Y), 0, 0, 0);
-                                Point3d punto4 = new Point3d(apoyos[i].Vertice1X, apoyos[i].Vertice1Y, 0);
-                                // Add the new object to the block table record and the transaction
-                                acBlkTblRec.AppendEntity(acPoly[i]);
-                                acTrans.AddNewlyCreatedDBObject(acPoly[i], true);
-                                using (RotatedDimension dimv1 = new RotatedDimension())
+                                using (acPoly[i] = new Polyline())
                                 {
-                                    dimv1.XLine1Point = punto1;
-                                    dimv1.XLine2Point = punto2;
-                                    dimv1.DimLinePoint = new Point3d(0, apoyos[i].Vertice1Y + 0.5, 0);
-                                    dimv1.DimensionStyle = acCurDb.Dimstyle;
-                                    acBlkTblRec.AppendEntity(dimv1);
-                                    acTrans.AddNewlyCreatedDBObject(dimv1, true);
-                                }
-                                using (RotatedDimension dimv2 = new RotatedDimension())
-                                {
-                                    dimv2.XLine1Point = punto3;
-                                    dimv2.XLine2Point = punto4;
-                                    dimv2.DimLinePoint = new Point3d(apoyos[i].Vertice1X - 0.5, 0, 0);
-                                    dimv2.Rotation = Math.PI / 2.0;
-                                    dimv2.DimensionStyle = acCurDb.Dimstyle;
-                                    acBlkTblRec.AppendEntity(dimv2);
-                                    acTrans.AddNewlyCreatedDBObject(dimv2, true);
+                                    acPoly[i].AddVertexAt(0, new Point2d(apoyos[i].Vertice1X, apoyos[i].Vertice1Y), 0, 0, 0);
+                                    Point3d punto1 = new Point3d(apoyos[i].Vertice1X, apoyos[i].Vertice1Y, 0);
+                                    acPoly[i].AddVertexAt(1, new Point2d(apoyos[i].Vertice2X, apoyos[i].Vertice2Y), 0, 0, 0);
+                                    Point3d punto2 = new Point3d(apoyos[i].Vertice2X, apoyos[i].Vertice2Y, 0);
+                                    acPoly[i].AddVertexAt(2, new Point2d(apoyos[i].Vertice4X, apoyos[i].Vertice4Y), 0, 0, 0);
+                                    acPoly[i].AddVertexAt(3, new Point2d(apoyos[i].Vertice3X, apoyos[i].Vertice3Y), 0, 0, 0);
+                                    Point3d punto3 = new Point3d(apoyos[i].Vertice3X, apoyos[i].Vertice3Y, 0);
+                                    acPoly[i].AddVertexAt(4, new Point2d(apoyos[i].Vertice1X, apoyos[i].Vertice1Y), 0, 0, 0);
+                                    Point3d punto4 = new Point3d(apoyos[i].Vertice1X, apoyos[i].Vertice1Y, 0);
+                                    // Add the new object to the block table record and the transaction
+                                    acBlkTblRec.AppendEntity(acPoly[i]);
+                                    acTrans.AddNewlyCreatedDBObject(acPoly[i], true);
+                                    using (RotatedDimension dimv1 = new RotatedDimension())
+                                    {
+                                        dimv1.XLine1Point = punto1;
+                                        dimv1.XLine2Point = punto2;
+                                        dimv1.DimLinePoint = new Point3d(0, apoyos[i].Vertice1Y + 0.5, 0);
+                                        dimv1.DimensionStyle = acCurDb.Dimstyle;
+                                        acBlkTblRec.AppendEntity(dimv1);
+                                        acTrans.AddNewlyCreatedDBObject(dimv1, true);
+                                    }
+                                    using (RotatedDimension dimv2 = new RotatedDimension())
+                                    {
+                                        dimv2.XLine1Point = punto3;
+                                        dimv2.XLine2Point = punto4;
+                                        dimv2.DimLinePoint = new Point3d(apoyos[i].Vertice1X - 0.5, 0, 0);
+                                        dimv2.Rotation = Math.PI / 2.0;
+                                        dimv2.DimensionStyle = acCurDb.Dimstyle;
+                                        acBlkTblRec.AppendEntity(dimv2);
+                                        acTrans.AddNewlyCreatedDBObject(dimv2, true);
+                                    }
                                 }
                             }
                             using (MText acMText = new MText())
                             {
-                                acMText.Location = new Point3d(apoyos[i].Vertice3X, apoyos[i].Vertice3Y - 0.2, 0);
-                                acMText.Width = apoyos[i].Vertice2X - apoyos[i].Vertice1X;
-                                if(apoyos[i].ZapataConjuntaX || apoyos[i].ZapataConjuntaY)
+                                if(apoyos[i].ZapataConjuntaX)//vertical
                                 {
+                                    acMText.Location = new Point3d(((apoyos[i].CoordEjeX-apoyos[i].B/2)-0.2), apoyos[i].CoordEjeY, 0);
+                                    acMText.Width = apoyos[i].Vertice2X - apoyos[i].Vertice1X;
+                                    acMText.Contents = ("Qultima " + apoyos[i].Qultima + " Qadmisible " + apoyos[i].Qadmisible + " B " + apoyos[i].B + " L " + apoyos[i].L);
+                                }
+                                else if (apoyos[i].ZapataConjuntaY) //horizontal
+                                {
+                                    acMText.Location = new Point3d(apoyos[i].CoordEjeX, ((apoyos[i].CoordEjeY - apoyos[i].B / 2) - 0.2), 0);
+                                    acMText.Width = apoyos[i].Vertice2X - apoyos[i].Vertice1X;
                                     acMText.Contents = ("Qultima " + apoyos[i].Qultima + " Qadmisible " + apoyos[i].Qadmisible + " B " + apoyos[i].B + " L " + apoyos[i].L);
                                 }
                                 else
                                 {
+                                    acMText.Location = new Point3d(apoyos[i].Vertice3X, apoyos[i].Vertice3Y - 0.2, 0);
+                                    acMText.Width = apoyos[i].Vertice2X - apoyos[i].Vertice1X;
                                     acMText.Contents = ("Qultima " + apoyos[i].Qultima + " Qadmisible " + apoyos[i].Qadmisible + " B " + apoyos[i].B );
                                 }
-
                                 acBlkTblRec.AppendEntity(acMText);
                                 acTrans.AddNewlyCreatedDBObject(acMText, true);
                             }
