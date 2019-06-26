@@ -103,19 +103,19 @@ namespace FundTool
                                 {
                                     acMText.Location = new Point3d(((apoyos[i].CoordEjeX-apoyos[i].B/2)-0.2), apoyos[i].CoordEjeY, 0);
                                     acMText.Width = apoyos[i].Vertice2X - apoyos[i].Vertice1X;
-                                    acMText.Contents = ("Qultima " + apoyos[i].Qultima + " Qadmisible " + apoyos[i].Qadmisible + " B " + apoyos[i].B + " L " + apoyos[i].L);
+                                    acMText.Contents = ("Carga Actuante " + apoyos[i].Carga + "Ton Qadmisible "+(apoyos[i].Qadmisible * 0.1) + "kg/cm² \nB " + apoyos[i].B + "mts L " + apoyos[i].L + "mts");
                                 }
                                 else if (apoyos[i].ZapataConjuntaY) //horizontal
                                 {
                                     acMText.Location = new Point3d(apoyos[i].CoordEjeX, ((apoyos[i].CoordEjeY - apoyos[i].B / 2) - 0.2), 0);
                                     acMText.Width = apoyos[i].Vertice2X - apoyos[i].Vertice1X;
-                                    acMText.Contents = ("Qultima " + apoyos[i].Qultima + " Qadmisible " + apoyos[i].Qadmisible + " B " + apoyos[i].B + " L " + apoyos[i].L);
+                                    acMText.Contents = ("Carga Actuante " + apoyos[i].Carga + "Ton Qadmisible " + (apoyos[i].Qadmisible * 0.1) + "kg/cm² \nB " + apoyos[i].B + "mts L " + apoyos[i].L + "mts");
                                 }
                                 else
                                 {
                                     acMText.Location = new Point3d(apoyos[i].Vertice3X, apoyos[i].Vertice3Y - 0.2, 0);
                                     acMText.Width = apoyos[i].Vertice2X - apoyos[i].Vertice1X;
-                                    acMText.Contents = ("Qultima " + apoyos[i].Qultima + " Qadmisible " + apoyos[i].Qadmisible + " B " + apoyos[i].B );
+                                    acMText.Contents = ("Carga Actuante " + apoyos[i].Carga + "Ton Qadmisible " + (apoyos[i].Qadmisible*0.1) + "kg/cm² B " + apoyos[i].B+"mts" );
                                 }
                                 acBlkTblRec.AppendEntity(acMText);
                                 acTrans.AddNewlyCreatedDBObject(acMText, true);
@@ -215,8 +215,8 @@ namespace FundTool
                             {
                                 acMText.Location = new Point3d(apoyos[i].Vertice3X, apoyos[i].Vertice3Y-0.2, 0);
                                 acMText.Width = apoyos[i].Vertice2X- apoyos[i].Vertice1X;
-                                acMText.Contents = "Pilotes "+apoyos[i].Pilotes.Count+ " ∅ " + apoyos[i].Pilotes[0].Diametro+" Altura del Cabezal "+apoyos[i].GrosorCabezal+" Acero Longitudinal "+apoyos[i].NumeroCabillas+ " ∅ " + 
-                                    apoyos[i].DiametroTeoricoPulgadas+ " QADM de Grupo " + Math.Round(apoyos[i].QadmisibleGrupo, 3) + " QEST " + Math.Round(apoyos[i].Qestructural, 3);
+                                acMText.Contents = "Carga actuante "+apoyos[i].Carga+"Ton Pilotes "+apoyos[i].Pilotes.Count+ " ∅ " + (apoyos[i].Pilotes[0].Diametro/100)+"mts Altura del Cabezal "+apoyos[i].GrosorCabezal+"mts Acero Longitudinal "+apoyos[i].NumeroCabillas+ " ∅ " + 
+                                    apoyos[i].DiametroTeoricoPulgadas+ "” QADM de Grupo " + Math.Round(apoyos[i].QadmisibleGrupo, 2) + "Ton QEST " + Math.Round(apoyos[i].Qestructural, 2)+"Ton Momento en X "+apoyos[i].MtoEnEjeX+"Ton.m Momento en Y "+apoyos[i].MtoEnEjeY+"Ton.m Mayor Carga de Pilote "+ apoyos[i].MayorCargaPilote + "Ton";
 
                                 acBlkTblRec.AppendEntity(acMText);
                                 acTrans.AddNewlyCreatedDBObject(acMText, true);
@@ -264,7 +264,7 @@ namespace FundTool
                                     circle[j].Radius = apoyos[i].DiametroPilotes/200;
                                     acBlkTblRec.AppendEntity(circle[j]);
                                     acTrans.AddNewlyCreatedDBObject(circle[j], true);
-                                    using (RadialDimension acRadDim = new RadialDimension())
+                                    /*using (RadialDimension acRadDim = new RadialDimension())
                                     {
                                         acRadDim.Center = circle[j].Center;
                                         acRadDim.ChordPoint = new Point3d(apoyos[i].Pilotes[j].PosicionX + circle[j].Radius, apoyos[i].Pilotes[j].PosicionY, 0);
@@ -272,7 +272,7 @@ namespace FundTool
                                         acBlkTblRec.AppendEntity(acRadDim);
                                         acTrans.AddNewlyCreatedDBObject(acRadDim, true);
 
-                                    }
+                                    }este codigo es para mostrar el diametro del circulo, no hace falta ya que se imprime*/
                                 }
                             }
 
@@ -295,7 +295,8 @@ namespace FundTool
                             var dim = new RotatedDimension();
                             dim.XLine1Point = new Point3d(xCoords[i], yCoords[0], 0.0);
                             dim.XLine2Point = new Point3d(xCoords[i + 1], yCoords[0], 0.0);
-                            dim.DimLinePoint = new Point3d(0.0, yCoords[0]+1.5, 0.0);
+                            dim.DimLinePoint = new Point3d(0.0, yCoords[0]-1.5, 0.0);
+                            //ojo, -1.5 porque usualmente esta cota va la ultima fila
                             dim.Rotation = 0.0;
                             acBlkTblRec.AppendEntity(dim);
                             acTrans.AddNewlyCreatedDBObject(dim, true);
