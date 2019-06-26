@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2018 by  
+﻿// (C) Copyright 2018 
 //
 using System;
 using Autodesk.AutoCAD.Runtime;
@@ -11,16 +11,15 @@ using static FundTool.Directas;
 using System.Collections.Generic;
 using System.Linq;
 
-// This line is not mandatory, but improves loading performances
 [assembly: CommandClass(typeof(FundTool.MyCommands))]
 
 namespace FundTool
 {
 
-    // This class is instantiated by AutoCAD for each document when
-    // a command is called by the user the first time in the context
-    // of a given document. In other words, non static data in this class
-    // is implicitly per-document!
+    /*Creado por
+     * Raquel Sandoval
+     * Ivan Loscher
+     */
     public class MyCommands
     {
         [CommandMethod("FundToolDirecta")]
@@ -28,8 +27,7 @@ namespace FundTool
             bool? oked = false;
             Document acDoc = Application.DocumentManager.MdiActiveDocument;
             Database acCurDb = acDoc.Database;
-            /*object input1 = null;
-            object input2 = null;*/
+
 
             System.Windows.Window win = new Directas();
 
@@ -45,12 +43,10 @@ namespace FundTool
 
                     using (Transaction acTrans = acCurDb.TransactionManager.StartTransaction())
                     {
-                        // Open the Block table for read
                         BlockTable acBlkTbl;
                         acBlkTbl = acTrans.GetObject(acCurDb.BlockTableId,
                                                         OpenMode.ForRead) as BlockTable;
 
-                        // Open the Block table record Model space for write
                         BlockTableRecord acBlkTblRec;
                         acBlkTblRec = acTrans.GetObject(acBlkTbl[BlockTableRecord.ModelSpace],
                                                         OpenMode.ForWrite) as BlockTableRecord;
@@ -59,7 +55,6 @@ namespace FundTool
                         Point3d[] points = new Point3d[apoyos.Count];
                         for (int i = 0; i < apoyos.Count; i++)
                         {
-                            // Create a polyline with two segments (3 points)
                             if (apoyos[i].Dimensionar)
                             {
                                 using (acPoly[i] = new Polyline())
@@ -169,8 +164,7 @@ namespace FundTool
             Document acDoc = Application.DocumentManager.MdiActiveDocument;
             Database acCurDb = acDoc.Database;
             bool? oked = false;
-            /*object input1 = null;
-            object input2 = null;*/
+
 
             System.Windows.Window win = new Indirectas();
 
@@ -186,12 +180,10 @@ namespace FundTool
 
                     using (Transaction acTrans = acCurDb.TransactionManager.StartTransaction())
                     {
-                        // Open the Block table for read
                         BlockTable acBlkTbl;
                         acBlkTbl = acTrans.GetObject(acCurDb.BlockTableId,
                                                         OpenMode.ForRead) as BlockTable;
 
-                        // Open the Block table record Model space for write
                         BlockTableRecord acBlkTblRec;
                         acBlkTblRec = acTrans.GetObject(acBlkTbl[BlockTableRecord.ModelSpace],
                                                         OpenMode.ForWrite) as BlockTableRecord;
