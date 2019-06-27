@@ -1781,21 +1781,20 @@ namespace FundTool
             double a = cargaActuante / cantidadPilotes; //una constante
             for (int j = 0; j < cantidadPilotes; j++)
             {
-                SumatoriaY = (double)SumatoriaY + ((this.apoyos[i].Pilotes[j].PosicionY / 100) * (this.apoyos[i].Pilotes[j].PosicionY / 100));
-                SumatoriaX = (double)SumatoriaX + ((this.apoyos[i].Pilotes[j].PosicionX / 100) * (this.apoyos[i].Pilotes[j].PosicionX / 100));
+                SumatoriaY = (double)SumatoriaY + Math.Pow(this.apoyos[i].Pilotes[j].PosicionY, 2);
+                SumatoriaX = (double)SumatoriaX + Math.Pow(this.apoyos[i].Pilotes[j].PosicionX, 2); ;
             }
-            //MessageBox.Show("Sumatoria Y " + SumatoriaY + " Sumatoria X " + SumatoriaX);
             for (int j = 0; j < cantidadPilotes; j++)
             {
                 double b = 0;
                 if (SumatoriaY != 0)
                 {
-                    b = (double)(mx * ((this.apoyos[i].Pilotes[j].PosicionY - this.apoyos[i].CoordEjeY) / 100)) / (SumatoriaY);
+                    b = (double)(mx * ((this.apoyos[i].Pilotes[j].PosicionY - this.apoyos[i].CoordEjeY))) / (SumatoriaY);
                 }
                 double c = 0;
                 if (SumatoriaX != 0)
                 {
-                    c = (double)(my * ((this.apoyos[i].Pilotes[j].PosicionX - this.apoyos[i].CoordEjeX) / 100)) / (SumatoriaX);
+                    c = (double)(my * ((this.apoyos[i].Pilotes[j].PosicionX - this.apoyos[i].CoordEjeX))) / (SumatoriaX);
                 }
                 this.apoyos[i].Pilotes[j].CargaPilote = (double)a + b + c;
             }
