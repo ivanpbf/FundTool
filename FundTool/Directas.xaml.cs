@@ -869,13 +869,14 @@ namespace FundTool
             }
             for (int i = 0; i < this.apoyos.Count(); i++)
             {
-                if (this.apoyos[i].combinados.Count > 2 && this.apoyos[i].Dimensionar)
+                if (this.apoyos[i].combinados.Count >= 2 && this.apoyos[i].Dimensionar)
                 {
                     DimensionandoComb(i);
                     for (int j = 0; j < this.apoyos[i].combinados.Count(); j++)
                     {
                         double num = this.apoyos[i].combinados[j];
                         this.apoyos[(int)num].Dimensionar = false;
+                        this.apoyos[(int)num].Dimensionada = true;
                         this.apoyos[(int)num].B = this.apoyos[i].B;
                         this.apoyos[(int)num].L = this.apoyos[i].L;
                         this.apoyos[(int)num].Vertice1X = this.apoyos[i].Vertice1X;
@@ -886,6 +887,24 @@ namespace FundTool
                         this.apoyos[(int)num].Vertice3Y = this.apoyos[i].Vertice3Y;
                         this.apoyos[(int)num].Vertice4X = this.apoyos[i].Vertice4X;
                         this.apoyos[(int)num].Vertice4Y = this.apoyos[i].Vertice4Y;
+                    }
+                }
+                else
+                {
+                    if (this.apoyos[i].ZapataConjuntaY && this.apoyos[i].Dimensionar && !this.apoyos[i].Dimensionada)
+                    {
+                        CombinandoMismaY(i, this.apoyos[i].combinados[0]);
+                        this.apoyos[this.apoyos[i].combinados[0]].Dimensionar = false;
+                        this.apoyos[i].Dimensionada = true;
+                        this.apoyos[this.apoyos[i].combinados[0]].Dimensionada = true;
+                    }
+                    else if(this.apoyos[i].ZapataConjuntaX && this.apoyos[i].Dimensionar && !this.apoyos[i].Dimensionada)
+                    {
+                        CombinandoMismaX(i, this.apoyos[i].combinados[0]);
+                        this.apoyos[this.apoyos[i].combinados[0]].Dimensionar = false;
+                        this.apoyos[i].Dimensionada = true;
+                        this.apoyos[this.apoyos[i].combinados[0]].Dimensionada = true;
+
                     }
                 }
             }
@@ -984,21 +1003,21 @@ namespace FundTool
         /// <param name="j">Apoyo J</param>
         /// <returns>Al verificar si el asentamiento esta correcto, retorna true
         /// de lo contrario retorna false</returns>
-        private Boolean VerificacionDistorcionAngular(int i, int j)
+        private void VerificacionDistorcionAngular(int i, int j)
         {
             double conjunto = this.apoyos[i].MaximoApoyo - this.apoyos[j].MaximoApoyo;
             conjunto = Math.Abs(conjunto);
             //messagebox.show("En verificacion de distorcion angular conjunto, de los apoyos "+this.apoyos[i].Numero+" asentamiento "+this.apoyos[i].MaximoApoyo+" - "+this.apoyos[j].Numero+" asentamiento"+this.apoyos[j].MaximoApoyo+", el asentamiento es " + conjunto);
             if (conjunto < (this.apoyos[i].L / 100))
             {
-                return true;
+                return;
             }
             else
             {
                 this.apoyos[i].B = this.apoyos[i].B + 0.1;
                 this.apoyos[j].B = this.apoyos[j].B + 0.1;
                 //messagebox.show("Incrementa B porque no se cumple verificacion de asentamiento conjunto");
-                return false;
+                return;
             }
 
         }
@@ -1209,10 +1228,7 @@ namespace FundTool
                 VerificacionAsentamiento(j);
                 this.apoyos[i].combinados.Add(j);
                 this.apoyos[j].combinados.Add(i);
-                if (VerificacionDistorcionAngular(i, j))
-                {
-                    CombinandoMismaX(i, j);
-                }
+                VerificacionDistorcionAngular(i, j);
                 return;
             }
             //messagebox.show("Entra " + (i + 1) + " y " + (j + 1) + " a verificar superposicion de bulbos");
@@ -1338,10 +1354,7 @@ namespace FundTool
                     VerificacionAsentamiento(j);
                     this.apoyos[i].combinados.Add(j);
                     this.apoyos[j].combinados.Add(i);
-                    if (VerificacionDistorcionAngular(i, j))
-                    {
-                        CombinandoMismaX(i, j);
-                    }
+                    VerificacionDistorcionAngular(i, j);
                     return;
                 }
                 else
@@ -1411,10 +1424,7 @@ namespace FundTool
                 VerificacionAsentamiento(j);
                 this.apoyos[i].combinados.Add(j);
                 this.apoyos[j].combinados.Add(i);
-                if (VerificacionDistorcionAngular(i, j))
-                {
-                    CombinandoMismaY(i, j);
-                }
+                VerificacionDistorcionAngular(i, j);
                 return;
             }
             //messagebox.show("Entra " + (i + 1) + " y " + (j + 1) + " a verificar superposicion de bulbos");
@@ -1542,10 +1552,7 @@ namespace FundTool
                     VerificacionAsentamiento(j);
                     this.apoyos[i].combinados.Add(j);
                     this.apoyos[j].combinados.Add(i);
-                    if (VerificacionDistorcionAngular(i, j))
-                    {
-                        CombinandoMismaY(i, j);
-                    }
+                    VerificacionDistorcionAngular(i, j);
                     return;
                 }
                 else
