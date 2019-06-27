@@ -525,9 +525,9 @@ namespace FundTool
                 this.estratos[i].Peso = Convert.ToDouble(peso.Text);
                 this.estratos[i].CotaInicio = Convert.ToDouble(cotai.Text);
                 this.estratos[i].CotaFinal = Convert.ToDouble(cotaf.Text);
-                MessageBox.Show("Se introdujeron los datos de estratos correctamente.");
-                this.SiguienteDatosSueloGC.IsEnabled = true;
             }
+            MessageBox.Show("Se introdujeron los datos de estratos correctamente.");
+            this.SiguienteDatosSueloGC.IsEnabled = true;
         }
 
         /// <summary>

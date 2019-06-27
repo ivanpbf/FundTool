@@ -96,7 +96,7 @@ namespace FundTool
                             {
                                 if(apoyos[i].ZapataConjuntaX)//vertical
                                 {
-                                    acMText.Location = new Point3d(((apoyos[i].CoordEjeX-apoyos[i].B/2)-0.2), apoyos[i].CoordEjeY, 0);
+                                    acMText.Location = new Point3d(((apoyos[i].CoordEjeX-apoyos[i].B/2)-0.3), apoyos[i].CoordEjeY, 0);
                                     acMText.Width = apoyos[i].Vertice2X - apoyos[i].Vertice1X;
                                     acMText.Contents = ("Carga Actuante " + apoyos[i].Carga + "Ton Qadmisible "+(apoyos[i].Qadmisible * 0.1) + "kg/cm² \nB " + apoyos[i].B + "mts  L " + apoyos[i].Ltotal + "mts");
                                 }
@@ -108,7 +108,7 @@ namespace FundTool
                                 }
                                 else
                                 {
-                                    acMText.Location = new Point3d(apoyos[i].Vertice3X, apoyos[i].Vertice3Y - 0.2, 0);
+                                    acMText.Location = new Point3d(apoyos[i].Vertice3X, apoyos[i].Vertice3Y - 0.3, 0);
                                     acMText.Width = apoyos[i].Vertice2X - apoyos[i].Vertice1X;
                                     acMText.Contents = ("Carga Actuante " + apoyos[i].Carga + "Ton Qadmisible " + (apoyos[i].Qadmisible*0.1) + "kg/cm² B " + apoyos[i].B+"mts" );
                                 }

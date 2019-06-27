@@ -304,9 +304,9 @@ namespace FundTool
                 this.estratos[i].CotaInicio = Convert.ToDouble(cotai.Text);
                 this.estratos[i].CotaFinal = Convert.ToDouble(cotaf.Text);
                 this.estratos[i].Descripcion = descripcion;
-                MessageBox.Show("Se introdujeron los datos de estratos correctamente.");
-                this.SiguienteDatosSuelo.IsEnabled = true;
             }
+            MessageBox.Show("Se introdujeron los datos de estratos correctamente.");
+            this.SiguienteDatosSuelo.IsEnabled = true;
         }
 
         /// <summary>
