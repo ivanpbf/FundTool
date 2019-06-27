@@ -98,13 +98,13 @@ namespace FundTool
                                 {
                                     acMText.Location = new Point3d(((apoyos[i].CoordEjeX-apoyos[i].B/2)-0.2), apoyos[i].CoordEjeY, 0);
                                     acMText.Width = apoyos[i].Vertice2X - apoyos[i].Vertice1X;
-                                    acMText.Contents = ("Carga Actuante " + apoyos[i].Carga + "Ton Qadmisible "+(apoyos[i].Qadmisible * 0.1) + "kg/cm² \nB " + apoyos[i].B + "mts L " + apoyos[i].L + "mts");
+                                    acMText.Contents = ("Carga Actuante " + apoyos[i].Carga + "Ton Qadmisible "+(apoyos[i].Qadmisible * 0.1) + "kg/cm² \nB " + apoyos[i].B + "mts  L " + apoyos[i].Ltotal + "mts");
                                 }
                                 else if (apoyos[i].ZapataConjuntaY) //horizontal
                                 {
                                     acMText.Location = new Point3d(apoyos[i].CoordEjeX, ((apoyos[i].CoordEjeY - apoyos[i].B / 2) - 0.2), 0);
                                     acMText.Width = apoyos[i].Vertice2X - apoyos[i].Vertice1X;
-                                    acMText.Contents = ("Carga Actuante " + apoyos[i].Carga + "Ton Qadmisible " + (apoyos[i].Qadmisible * 0.1) + "kg/cm² \nB " + apoyos[i].B + "mts L " + apoyos[i].L + "mts");
+                                    acMText.Contents = ("Carga Actuante " + apoyos[i].Carga + "Ton Qadmisible " + (apoyos[i].Qadmisible * 0.1) + "kg/cm² \nB " + apoyos[i].B + "mts  L " + apoyos[i].Ltotal + "mts");
                                 }
                                 else
                                 {
@@ -149,6 +149,29 @@ namespace FundTool
                                 }
                             }
  
+                        }
+                        double[] xCoords = points.Select(p => p.X).Distinct().OrderBy(x => x).ToArray();
+                        double[] yCoords = points.Select(p => p.Y).Distinct().OrderBy(y => y).ToArray();
+                        for (int i = 0; i < yCoords.Length - 1; i++)
+                        {
+                            var dim = new RotatedDimension();
+                            dim.XLine1Point = new Point3d(xCoords[0], yCoords[i], 0.0);
+                            dim.XLine2Point = new Point3d(xCoords[0], yCoords[i + 1], 0.0);
+                            dim.DimLinePoint = new Point3d(xCoords[0] - 1.5, 0.0, 0.0);
+                            dim.Rotation = Math.PI / 2.0;
+                            acBlkTblRec.AppendEntity(dim);
+                            acTrans.AddNewlyCreatedDBObject(dim, true);
+                        }
+                        for (int i = 0; i < xCoords.Length - 1; i++)
+                        {
+                            var dim = new RotatedDimension();
+                            dim.XLine1Point = new Point3d(xCoords[i], yCoords[0], 0.0);
+                            dim.XLine2Point = new Point3d(xCoords[i + 1], yCoords[0], 0.0);
+                            dim.DimLinePoint = new Point3d(0.0, yCoords[0] - 1.5, 0.0);
+                            //ojo, -1.5 porque usualmente esta cota va la ultima fila
+                            dim.Rotation = 0.0;
+                            acBlkTblRec.AppendEntity(dim);
+                            acTrans.AddNewlyCreatedDBObject(dim, true);
                         }
                         acTrans.Commit();
                     }
@@ -206,9 +229,9 @@ namespace FundTool
                             using (MText acMText = new MText())
                             {
                                 acMText.Location = new Point3d(apoyos[i].Vertice3X, apoyos[i].Vertice3Y-0.2, 0);
-                                acMText.Width = apoyos[i].Vertice2X- apoyos[i].Vertice1X;
-                                acMText.Contents = "Carga actuante "+apoyos[i].Carga+"Ton Pilotes "+apoyos[i].Pilotes.Count+ " ∅ " + (apoyos[i].Pilotes[0].Diametro/100)+"mts Altura del Cabezal "+apoyos[i].GrosorCabezal+"mts Acero Longitudinal "+apoyos[i].NumeroCabillas+ " ∅ " + 
-                                    apoyos[i].DiametroTeoricoPulgadas+ "” QADM de Grupo " + Math.Round(apoyos[i].QadmisibleGrupo, 2) + "Ton QEST " + Math.Round(apoyos[i].Qestructural, 2)+"Ton Momento en X "+apoyos[i].MtoEnEjeX+"Ton.m Momento en Y "+apoyos[i].MtoEnEjeY+"Ton.m Mayor Carga de Pilote "+ apoyos[i].MayorCargaPilote + "Ton";
+                                acMText.Width = apoyos[i].Vertice2X- apoyos[i].Vertice1X + apoyos[i].DistanciaMinimaEntrePilotes;
+                                acMText.Contents = "Carga actuante "+apoyos[i].Carga+"Ton Pilotes "+apoyos[i].Pilotes.Count+ " ∅" + (apoyos[i].Pilotes[0].Diametro/100)+"mts Altura del Cabezal "+apoyos[i].GrosorCabezal+"mts \n Acero Longitudinal "+apoyos[i].NumeroCabillas+ " ∅" + 
+                                    apoyos[i].DiametroTeoricoPulgadas+ "” QADM de Grupo " + Math.Round(apoyos[i].QadmisibleGrupo, 2) + "Ton QEST " + Math.Round(apoyos[i].Qestructural, 2)+"Ton \n Momento en X "+apoyos[i].MtoEnEjeX+"Ton.m  Momento en Y "+apoyos[i].MtoEnEjeY+"Ton.m  Mayor Carga de Pilote "+ Math.Round(apoyos[i].MayorCargaPilote,2) + "Ton";
 
                                 acBlkTblRec.AppendEntity(acMText);
                                 acTrans.AddNewlyCreatedDBObject(acMText, true);

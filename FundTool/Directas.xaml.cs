@@ -304,6 +304,7 @@ namespace FundTool
                 this.estratos[i].CotaInicio = Convert.ToDouble(cotai.Text);
                 this.estratos[i].CotaFinal = Convert.ToDouble(cotaf.Text);
                 this.estratos[i].Descripcion = descripcion;
+                MessageBox.Show("Se introdujeron los datos de estratos correctamente.");
                 this.SiguienteDatosSuelo.IsEnabled = true;
             }
         }
@@ -828,7 +829,7 @@ namespace FundTool
             //luego de tener todas las combinaciones, se pasa a sumar sus Ls SI se combina con mas de 1 porque ya hicimos antes la de 1 y 1
             for (int i = 0; i < this.apoyos.Count(); i++)
             {
-                if (this.apoyos[i].combinados.Count > 1)
+                if (this.apoyos[i].combinados.Count > 2)
                 {
                     double L = 0;
                     double qacumulada = this.apoyos[i].Carga;
