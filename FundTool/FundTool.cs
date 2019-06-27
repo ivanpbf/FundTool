@@ -98,19 +98,19 @@ namespace FundTool
                                 {
                                     acMText.Location = new Point3d(((apoyos[i].CoordEjeX-apoyos[i].B/2)-0.3), apoyos[i].CoordEjeY, 0);
                                     acMText.Width = apoyos[i].Vertice2X - apoyos[i].Vertice1X;
-                                    acMText.Contents = ("Carga Actuante " + apoyos[i].Carga + "Ton Qadmisible "+(apoyos[i].Qadmisible * 0.1) + "kg/cm² \nB " + apoyos[i].B + "mts  L " + apoyos[i].Ltotal + "mts");
+                                    acMText.Contents = ("-Carga Actuante " + apoyos[i].Carga + "Ton \n-Qadmisible "+(apoyos[i].Qadmisible * 0.1) + "kg/cm² \n-B " + apoyos[i].B + "mts \n-L " + apoyos[i].Ltotal + "mts");
                                 }
                                 else if (apoyos[i].ZapataConjuntaY) //horizontal
                                 {
                                     acMText.Location = new Point3d(apoyos[i].CoordEjeX, ((apoyos[i].CoordEjeY - apoyos[i].B / 2) - 0.2), 0);
                                     acMText.Width = apoyos[i].Vertice2X - apoyos[i].Vertice1X;
-                                    acMText.Contents = ("Carga Actuante " + apoyos[i].Carga + "Ton Qadmisible " + (apoyos[i].Qadmisible * 0.1) + "kg/cm² \nB " + apoyos[i].B + "mts  L " + apoyos[i].Ltotal + "mts");
+                                    acMText.Contents = ("-Carga Actuante " + apoyos[i].Carga + "Ton \n-Qadmisible " + (apoyos[i].Qadmisible * 0.1) + "kg/cm² \n-B " + apoyos[i].B + "mts \n-L " + apoyos[i].Ltotal + "mts");
                                 }
                                 else
                                 {
                                     acMText.Location = new Point3d(apoyos[i].Vertice3X, apoyos[i].Vertice3Y - 0.3, 0);
                                     acMText.Width = apoyos[i].Vertice2X - apoyos[i].Vertice1X;
-                                    acMText.Contents = ("Carga Actuante " + apoyos[i].Carga + "Ton Qadmisible " + (apoyos[i].Qadmisible*0.1) + "kg/cm² B " + apoyos[i].B+"mts" );
+                                    acMText.Contents = ("-Carga Actuante " + apoyos[i].Carga + "Ton \n-Qadmisible " + (apoyos[i].Qadmisible * 0.1) + "kg/cm² \n-B " + apoyos[i].B + "mts");
                                 }
                                 acBlkTblRec.AppendEntity(acMText);
                                 acTrans.AddNewlyCreatedDBObject(acMText, true);
@@ -230,8 +230,8 @@ namespace FundTool
                             {
                                 acMText.Location = new Point3d(apoyos[i].Vertice3X, apoyos[i].Vertice3Y-0.2, 0);
                                 acMText.Width = apoyos[i].Vertice2X- apoyos[i].Vertice1X + apoyos[i].DistanciaMinimaEntrePilotes;
-                                acMText.Contents = "Carga actuante "+apoyos[i].Carga+"Ton Pilotes "+apoyos[i].Pilotes.Count+ " ∅" + (apoyos[i].Pilotes[0].Diametro/100)+"mts Altura del Cabezal "+apoyos[i].GrosorCabezal+"mts \n Acero Longitudinal "+apoyos[i].NumeroCabillas+ " ∅" + 
-                                    apoyos[i].DiametroTeoricoPulgadas+ "” QADM de Grupo " + Math.Round(apoyos[i].QadmisibleGrupo, 2) + "Ton QEST " + Math.Round(apoyos[i].Qestructural, 2)+"Ton \n Momento en X "+apoyos[i].MtoEnEjeX+"Ton.m  Momento en Y "+apoyos[i].MtoEnEjeY+"Ton.m  Mayor Carga de Pilote "+ Math.Round(apoyos[i].MayorCargaPilote,2) + "Ton";
+                                acMText.Contents = "-Carga actuante "+apoyos[i].Carga+"Ton \n-Pilotes "+apoyos[i].Pilotes.Count+ " ∅" + (apoyos[i].Pilotes[0].Diametro/100)+"mts \n-Altura del Cabezal "+apoyos[i].GrosorCabezal+"mts \n-Acero Longitudinal "+apoyos[i].NumeroCabillas+ " ∅" + 
+                                    apoyos[i].DiametroTeoricoPulgadas+ "” \n-QADM de Grupo " + Math.Round(apoyos[i].QadmisibleGrupo, 2) + "Ton \n-QEST " + Math.Round(apoyos[i].Qestructural, 2)+"Ton \n-Momento en X "+apoyos[i].MtoEnEjeX+"Ton.m  \n-Momento en Y "+apoyos[i].MtoEnEjeY+"Ton.m  \n-Mayor Carga de Pilote "+ Math.Round(apoyos[i].MayorCargaPilote,2) + "Ton";
 
                                 acBlkTblRec.AppendEntity(acMText);
                                 acTrans.AddNewlyCreatedDBObject(acMText, true);

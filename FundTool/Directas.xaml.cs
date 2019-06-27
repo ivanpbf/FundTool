@@ -829,7 +829,7 @@ namespace FundTool
             //luego de tener todas las combinaciones, se pasa a sumar sus Ls SI se combina con mas de 1 porque ya hicimos antes la de 1 y 1
             for (int i = 0; i < this.apoyos.Count(); i++)
             {
-                if (this.apoyos[i].combinados.Count > 2)
+                if (this.apoyos[i].combinados.Count > 1)
                 {
                     double L = 0;
                     double qacumulada = this.apoyos[i].Carga;
@@ -855,18 +855,21 @@ namespace FundTool
                             }
                         }
                     }
-                    double Ltotal = Math.Abs(L) + 2;
-                    this.apoyos[i].L = Math.Abs(L);
-                    this.apoyos[i].Ltotal = Ltotal;
-                    this.apoyos[i].B = (qacumulada) / (this.apoyos[i].Qadmisible * Ltotal);
-                    //messagebox.show("Apoyo " + this.apoyos[i].Numero + " L nueva " + this.apoyos[i].L + " Ltotal nueva " + this.apoyos[i].Ltotal + " B nueva " + this.apoyos[i].B);
-                    //messagebox.show("Verificacion de asentamiento nuevo?? de " + this.apoyos[i].Numero);
-                    VerificacionAsentamiento(i);
+                    if(L != 0)
+                    {
+                        double Ltotal = Math.Abs(L) + 2;
+                        this.apoyos[i].L = Math.Abs(L);
+                        this.apoyos[i].Ltotal = Ltotal;
+                        this.apoyos[i].B = (qacumulada) / (this.apoyos[i].Qadmisible * Ltotal);
+                        //messagebox.show("Apoyo " + this.apoyos[i].Numero + " L nueva " + this.apoyos[i].L + " Ltotal nueva " + this.apoyos[i].Ltotal + " B nueva " + this.apoyos[i].B);
+                        //messagebox.show("Verificacion de asentamiento nuevo?? de " + this.apoyos[i].Numero);
+                        VerificacionAsentamiento(i);
+                    }
                 }
             }
             for (int i = 0; i < this.apoyos.Count(); i++)
             {
-                if (this.apoyos[i].combinados.Count > 1 && this.apoyos[i].Dimensionar)
+                if (this.apoyos[i].combinados.Count > 2 && this.apoyos[i].Dimensionar)
                 {
                     DimensionandoComb(i);
                     for (int j = 0; j < this.apoyos[i].combinados.Count(); j++)

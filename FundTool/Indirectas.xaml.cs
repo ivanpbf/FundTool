@@ -1362,14 +1362,14 @@ namespace FundTool
                     {
                         this.apoyos[i].Pilotes[0].PosicionX = (this.apoyos[i].CoordEjeX);
                         this.apoyos[i].Pilotes[0].PosicionY = (this.apoyos[i].CoordEjeY) + (this.apoyos[i].DistanciaMinimaEntrePilotes);
-                        this.apoyos[i].Pilotes[1].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
-                        this.apoyos[i].Pilotes[1].PosicionY = (this.apoyos[i].CoordEjeY) + (this.apoyos[i].DistanciaMinimaEntrePilotes * (Math.Sqrt(3) / 2));
-                        this.apoyos[i].Pilotes[2].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
-                        this.apoyos[i].Pilotes[2].PosicionY = (this.apoyos[i].CoordEjeY) + (this.apoyos[i].DistanciaMinimaEntrePilotes * (Math.Sqrt(3) / 2));
-                        this.apoyos[i].Pilotes[3].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
-                        this.apoyos[i].Pilotes[3].PosicionY = (this.apoyos[i].CoordEjeY) - (this.apoyos[i].DistanciaMinimaEntrePilotes * (Math.Sqrt(3) / 2));
-                        this.apoyos[i].Pilotes[4].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
-                        this.apoyos[i].Pilotes[4].PosicionY = (this.apoyos[i].CoordEjeY) - (this.apoyos[i].DistanciaMinimaEntrePilotes * (Math.Sqrt(3) / 2));
+                        this.apoyos[i].Pilotes[1].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes * (Math.Sqrt(3) / 2));
+                        this.apoyos[i].Pilotes[1].PosicionY = (this.apoyos[i].CoordEjeY) + (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
+                        this.apoyos[i].Pilotes[2].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes * (Math.Sqrt(3) / 2));
+                        this.apoyos[i].Pilotes[2].PosicionY = (this.apoyos[i].CoordEjeY) + (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
+                        this.apoyos[i].Pilotes[3].PosicionX = (this.apoyos[i].CoordEjeX) - (this.apoyos[i].DistanciaMinimaEntrePilotes * (Math.Sqrt(3) / 2));
+                        this.apoyos[i].Pilotes[3].PosicionY = (this.apoyos[i].CoordEjeY) - (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
+                        this.apoyos[i].Pilotes[4].PosicionX = (this.apoyos[i].CoordEjeX) + (this.apoyos[i].DistanciaMinimaEntrePilotes * (Math.Sqrt(3) / 2));
+                        this.apoyos[i].Pilotes[4].PosicionY = (this.apoyos[i].CoordEjeY) - (this.apoyos[i].DistanciaMinimaEntrePilotes / 2);
                         this.apoyos[i].Pilotes[5].PosicionX = (this.apoyos[i].CoordEjeX);
                         this.apoyos[i].Pilotes[5].PosicionY = (this.apoyos[i].CoordEjeY) - (this.apoyos[i].DistanciaMinimaEntrePilotes);
                         this.apoyos[i].Vertice1Y = this.apoyos[i].Pilotes[0].PosicionY + k;
