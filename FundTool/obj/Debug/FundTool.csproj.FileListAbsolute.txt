@@ -1,0 +1,16 @@
+C:\Users\Ivan\Desktop\tesis\FundTool\FundTool\bin\Debug\FundTool.dll
+C:\Users\Ivan\Desktop\tesis\FundTool\FundTool\bin\Debug\FundTool.pdb
+C:\Users\Ivan\Desktop\tesis\FundTool\FundTool\obj\Debug\Cabillas.g.cs
+C:\Users\Ivan\Desktop\tesis\FundTool\FundTool\obj\Debug\Directas.g.cs
+C:\Users\Ivan\Desktop\tesis\FundTool\FundTool\obj\Debug\Indirectas.g.cs
+C:\Users\Ivan\Desktop\tesis\FundTool\FundTool\obj\Debug\FundTool_MarkupCompile.cache
+C:\Users\Ivan\Desktop\tesis\FundTool\FundTool\obj\Debug\FundTool_MarkupCompile.lref
+C:\Users\Ivan\Desktop\tesis\FundTool\FundTool\obj\Debug\Cabillas.baml
+C:\Users\Ivan\Desktop\tesis\FundTool\FundTool\obj\Debug\Directas.baml
+C:\Users\Ivan\Desktop\tesis\FundTool\FundTool\obj\Debug\Indirectas.baml
+C:\Users\Ivan\Desktop\tesis\FundTool\FundTool\obj\Debug\FundTool.g.resources
+C:\Users\Ivan\Desktop\tesis\FundTool\FundTool\obj\Debug\FundTool.MyCommands.resources
+C:\Users\Ivan\Desktop\tesis\FundTool\FundTool\obj\Debug\FundTool.csproj.GenerateResource.cache
+C:\Users\Ivan\Desktop\tesis\FundTool\FundTool\obj\Debug\FundTool.csproj.CoreCompileInputs.cache
+C:\Users\Ivan\Desktop\tesis\FundTool\FundTool\obj\Debug\FundTool.dll
+C:\Users\Ivan\Desktop\tesis\FundTool\FundTool\obj\Debug\FundTool.pdb
