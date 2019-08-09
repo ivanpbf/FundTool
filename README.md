@@ -1,5 +1,7 @@
 ![alt text](https://raw.githubusercontent.com/ivanpbf/FundTool/master/FundTool/logofundtool.jpg)
 
+<!-- Good job Ivan! -->
+
 Taller de trabajo de grado de la Universidad Metropolitana
 
 hecho por
